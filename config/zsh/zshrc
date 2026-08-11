@@ -1,0 +1,45 @@
+mkdir -p "$XDG_CACHE_HOME/zsh" "$XDG_STATE_HOME/zsh"
+
+HISTFILE="$XDG_STATE_HOME/zsh/history"
+HISTSIZE=50000
+SAVEHIST=50000
+
+setopt APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE AUTO_CD INTERACTIVE_COMMENTS NO_BEEP
+
+autoload -Uz compinit
+if [[ ! -s "$XDG_CACHE_HOME/zsh/zcompdump" ]] ||
+  [[ -n "$(find "$XDG_CACHE_HOME/zsh/zcompdump" -mtime +1 -print -quit 2>/dev/null)" ]]; then
+  compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
+else
+  compinit -C -d "$XDG_CACHE_HOME/zsh/zcompdump"
+fi
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+alias c='clear'
+alias l='eza -lah --group-directories-first --icons=auto'
+alias ll='eza -lah --group-directories-first --icons=auto'
+alias la='eza -a --group-directories-first --icons=auto'
+alias cat='bat'
+alias grep='rg --color=auto'
+
+for fzf_script in \
+  /usr/share/fzf/shell/key-bindings.zsh \
+  /usr/share/fzf/key-bindings.zsh; do
+  [[ -r "$fzf_script" ]] && source "$fzf_script" && break
+done
+for fzf_script in \
+  /usr/share/fzf/shell/completion.zsh \
+  /usr/share/fzf/completion.zsh; do
+  [[ -r "$fzf_script" ]] && source "$fzf_script" && break
+done
+unset fzf_script
+
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+command -v starship >/dev/null && eval "$(starship init zsh)"
+
+if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi

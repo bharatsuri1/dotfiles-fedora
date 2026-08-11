@@ -1,0 +1,390 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+readonly STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles-fedora"
+readonly BACKUP_ROOT="$STATE_DIR/backups"
+readonly FONT_DEST="${XDG_DATA_HOME:-$HOME/.local/share}/fonts/JetBrainsMonoNerd"
+readonly NERD_FONTS_VERSION="3.5.0"
+readonly NERD_FONTS_SHA256="0227b220360a6f819b9ead92343e8112b34733054782561af50cfba1e8afab63"
+readonly NERD_FONTS_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/JetBrainsMono.tar.xz"
+
+DRY_RUN=false
+ASSUME_YES=false
+BACKUP_DIR=""
+
+readonly DNF_PACKAGES=(
+  alacritty
+  bat
+  btop
+  curl
+  eza
+  fastfetch
+  fd-find
+  flatpak
+  fontconfig
+  fzf
+  git
+  ripgrep
+  starship
+  xz
+  zoxide
+  zsh
+)
+
+readonly FLATPAK_APPS=(
+  app.zen_browser.zen
+  org.localsend.localsend_app
+)
+
+readonly BREW_FORMULAE=(
+  dashlane/tap/dashlane-cli
+  jless
+  fx
+)
+
+log() {
+  printf '==> %s\n' "$*"
+}
+
+die() {
+  printf 'error: %s\n' "$*" >&2
+  exit 1
+}
+
+run() {
+  if $DRY_RUN; then
+    printf '+ '
+    printf '%q ' "$@"
+    printf '\n'
+  else
+    "$@"
+  fi
+}
+
+confirm() {
+  local prompt="$1"
+  $ASSUME_YES && return 0
+  read -r -p "$prompt [y/N] " answer
+  [[ "$answer" == [yY] || "$answer" == [yY][eE][sS] ]]
+}
+
+require_fedora() {
+  [[ -r /etc/os-release ]] || die 'cannot identify this operating system'
+  # shellcheck disable=SC1091
+  source /etc/os-release
+  [[ "${ID:-}" == fedora ]] || die 'this CLI currently supports Fedora only'
+}
+
+package_installed() {
+  rpm -q "$1" >/dev/null 2>&1
+}
+
+install_packages() {
+  local -a missing=()
+  local package
+
+  for package in "${DNF_PACKAGES[@]}"; do
+    package_installed "$package" || missing+=("$package")
+  done
+
+  if ((${#missing[@]} == 0)); then
+    log 'DNF packages already installed'
+    return
+  fi
+
+  log "installing missing DNF packages: ${missing[*]}"
+  local -a command=(sudo dnf install)
+  $ASSUME_YES && command+=(--assumeyes)
+  run "${command[@]}" "${missing[@]}"
+}
+
+font_source_dir() {
+  local sibling="$REPO_ROOT/../dotfiles-omarchy/assets/fonts/JetBrainsMono"
+  [[ -f "$sibling/JetBrainsMonoNerdFont-Regular.ttf" ]] && printf '%s\n' "$sibling"
+}
+
+install_font_files() {
+  local source_dir="${1:-}"
+  local font
+
+  if $DRY_RUN; then
+    local font_count
+    font_count="$(find "$source_dir" -maxdepth 1 -type f -name '*.ttf' | wc -l)"
+    printf '+ install %s TTF files from %q into %q\n' "$font_count" "$source_dir" "$FONT_DEST"
+    printf '+ fc-cache -f\n'
+    return
+  fi
+
+  run install -d "$FONT_DEST"
+  while IFS= read -r -d '' font; do
+    run install -m 0644 "$font" "$FONT_DEST/"
+  done < <(find "$source_dir" -maxdepth 1 -type f -name '*.ttf' -print0 | sort -z)
+  run fc-cache -f
+}
+
+install_font() {
+  local source_dir
+  source_dir="$(font_source_dir || true)"
+
+  if [[ -n "$source_dir" ]]; then
+    log "installing JetBrains Mono Nerd Font v${NERD_FONTS_VERSION} from sibling asset repository"
+    install_font_files "$source_dir"
+    return
+  fi
+
+  if $DRY_RUN; then
+    log "would download and verify JetBrains Mono Nerd Font v${NERD_FONTS_VERSION}"
+    printf '+ curl -fL --retry 3 -o <temporary-archive> %q\n' "$NERD_FONTS_URL"
+    printf '+ verify SHA-256 %s\n' "$NERD_FONTS_SHA256"
+    printf '+ install TTF files into %q\n' "$FONT_DEST"
+    return
+  fi
+
+  local temp_dir archive
+  temp_dir="$(mktemp -d)"
+  archive="$temp_dir/JetBrainsMono.tar.xz"
+  trap 'rm -rf -- "$temp_dir"' RETURN
+
+  log "downloading JetBrains Mono Nerd Font v${NERD_FONTS_VERSION}"
+  curl -fL --retry 3 -o "$archive" "$NERD_FONTS_URL"
+  printf '%s  %s\n' "$NERD_FONTS_SHA256" "$archive" | sha256sum --check
+  tar -xJf "$archive" -C "$temp_dir"
+  install_font_files "$temp_dir"
+}
+
+install_flatpaks() {
+  command -v flatpak >/dev/null 2>&1 || die 'Flatpak is missing; run the packages phase first'
+
+  if ! flatpak remotes --columns=name 2>/dev/null | grep -Fxq flathub; then
+    run flatpak remote-add --if-not-exists flathub \
+      https://flathub.org/repo/flathub.flatpakrepo
+  fi
+
+  local app
+  for app in "${FLATPAK_APPS[@]}"; do
+    if flatpak info "$app" >/dev/null 2>&1; then
+      log "$app already installed"
+    else
+      local -a command=(flatpak install flathub)
+      $ASSUME_YES && command+=(--assumeyes)
+      run "${command[@]}" "$app"
+    fi
+  done
+
+  if flatpak info app.zen_browser.zen >/dev/null 2>&1 || $DRY_RUN; then
+    run xdg-settings set default-web-browser app.zen_browser.zen.desktop
+  fi
+}
+
+brew_path() {
+  if command -v brew >/dev/null 2>&1; then
+    command -v brew
+  elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    printf '%s\n' /home/linuxbrew/.linuxbrew/bin/brew
+  fi
+}
+
+install_homebrew() {
+  local brew
+  brew="$(brew_path || true)"
+
+  if [[ -z "$brew" ]]; then
+    if $DRY_RUN; then
+      log 'would download, inspect, and run the official Homebrew installer'
+      brew=/home/linuxbrew/.linuxbrew/bin/brew
+    else
+      local installer
+      installer="$(mktemp)"
+      curl -fsSLo "$installer" \
+        https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+      log "Homebrew installer downloaded to $installer"
+      if ! confirm 'Run the official Homebrew installer now?'; then
+        die "Homebrew installation declined; inspect $installer and rerun this phase"
+      fi
+      if $ASSUME_YES; then
+        NONINTERACTIVE=1 /bin/bash "$installer"
+      else
+        /bin/bash "$installer"
+      fi
+      brew="$(brew_path || true)"
+      [[ -n "$brew" ]] || die 'Homebrew installation did not produce a brew executable'
+    fi
+  else
+    log "Homebrew already installed at $brew"
+  fi
+
+  local formula
+  for formula in "${BREW_FORMULAE[@]}"; do
+    if [[ -x "$brew" ]] && "$brew" list --formula "$formula" >/dev/null 2>&1; then
+      log "$formula already installed"
+    else
+      run "$brew" install "$formula"
+    fi
+  done
+}
+
+ensure_backup_dir() {
+  if [[ -z "$BACKUP_DIR" ]]; then
+    BACKUP_DIR="$BACKUP_ROOT/$(date +%Y%m%d-%H%M%S)"
+    run mkdir -p "$BACKUP_DIR"
+  fi
+}
+
+link_config() {
+  local source="$1"
+  local target="$2"
+
+  if [[ -L "$target" && "$(readlink -f -- "$target")" == "$(readlink -f -- "$source")" ]]; then
+    log "$target already linked"
+    return
+  fi
+
+  run mkdir -p "$(dirname -- "$target")"
+  if [[ -e "$target" || -L "$target" ]]; then
+    ensure_backup_dir
+    local backup="$BACKUP_DIR/${target#"$HOME"/}"
+    run mkdir -p "$(dirname -- "$backup")"
+    run mv -- "$target" "$backup"
+    log "backed up $target to $backup"
+  fi
+  run ln -s "$source" "$target"
+}
+
+install_config() {
+  link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
+  link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
+  link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"
+  link_config "$REPO_ROOT/config/zsh/zshrc" "$HOME/.config/zsh/.zshrc"
+  link_config "$REPO_ROOT/config/starship.toml" "$HOME/.config/starship.toml"
+  link_config "$REPO_ROOT/config/bat/config" "$HOME/.config/bat/config"
+  link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+}
+
+set_shell() {
+  local zsh_path
+  zsh_path="$(command -v zsh || true)"
+  if [[ -z "$zsh_path" ]]; then
+    if $DRY_RUN; then
+      log 'would change the login shell to the Zsh installed by the packages phase'
+      return
+    fi
+    die 'Zsh is missing; run the packages phase first'
+  fi
+
+  if [[ "$(getent passwd "$USER" | cut -d: -f7)" == "$zsh_path" ]]; then
+    log 'Zsh is already the login shell'
+    return
+  fi
+
+  if confirm "Change the login shell to $zsh_path?"; then
+    run chsh -s "$zsh_path"
+    log 'log out and back in to enter the new login shell'
+  else
+    log 'login-shell change skipped'
+  fi
+}
+
+show_status() {
+  printf 'Fedora packages:\n'
+  local item
+  for item in "${DNF_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+
+  printf 'Flatpak applications:\n'
+  for item in "${FLATPAK_APPS[@]}"; do
+    if command -v flatpak >/dev/null 2>&1 && flatpak info "$item" >/dev/null 2>&1; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+
+  printf 'Homebrew formulae:\n'
+  local brew
+  brew="$(brew_path || true)"
+  for item in "${BREW_FORMULAE[@]}"; do
+    if [[ -n "$brew" ]] && "$brew" list --formula "$item" >/dev/null 2>&1; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+
+  printf 'Configuration:\n'
+  local target
+  for target in \
+    "$HOME/.config/alacritty/alacritty.toml" \
+    "$HOME/.zshenv" \
+    "$HOME/.config/zsh/.zshrc" \
+    "$HOME/.config/starship.toml" \
+    "$HOME/.config/bat/config" \
+    "$HOME/.config/fastfetch/config.jsonc"; do
+    if [[ -L "$target" && "$(readlink -f -- "$target")" == "$REPO_ROOT"/* ]]; then
+      printf '  [linked]  %s\n' "$target"
+    else
+      printf '  [local]   %s\n' "$target"
+    fi
+  done
+}
+
+usage() {
+  cat <<'EOF'
+Usage: laptop-setup [--dry-run] [--yes] COMMAND
+
+Commands:
+  status      Report installed and managed state
+  apply       Run packages, font, Flatpaks, Homebrew, config, and shell phases
+  packages    Install missing Fedora-native packages
+  font        Install pinned JetBrains Mono Nerd Font
+  flatpaks    Configure Flathub and install Zen Browser and LocalSend
+  homebrew    Install Homebrew if needed, then Dashlane CLI, jless, and fx
+  config      Back up conflicts and link the managed configuration
+  shell       Change the login shell to Zsh after confirmation
+EOF
+}
+
+main() {
+  while (($#)); do
+    case "$1" in
+      --dry-run) DRY_RUN=true; shift ;;
+      --yes|-y) ASSUME_YES=true; shift ;;
+      --help|-h) usage; return ;;
+      --) shift; break ;;
+      -*) die "unknown option: $1" ;;
+      *) break ;;
+    esac
+  done
+
+  local command="${1:-status}"
+  (($# <= 1)) || die 'only one command may be supplied'
+  require_fedora
+
+  case "$command" in
+    status) show_status ;;
+    apply)
+      install_packages
+      install_font
+      install_flatpaks
+      install_homebrew
+      install_config
+      set_shell
+      ;;
+    packages) install_packages ;;
+    font) install_font ;;
+    flatpaks) install_flatpaks ;;
+    homebrew) install_homebrew ;;
+    config) install_config ;;
+    shell) set_shell ;;
+    *) usage >&2; die "unknown command: $command" ;;
+  esac
+}
+
+main "$@"
