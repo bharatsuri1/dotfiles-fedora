@@ -47,6 +47,14 @@ readonly DESKTOP_GRAPHICS_PACKAGES=(
   libva-utils
 )
 
+readonly DESKTOP_AUDIO_PACKAGES=(
+  pipewire
+  pipewire-alsa
+  pipewire-pulseaudio
+  wireplumber
+  alsa-utils
+)
+
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
 )
