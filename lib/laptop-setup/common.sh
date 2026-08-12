@@ -137,3 +137,18 @@ require_fedora() {
   source /etc/os-release
   [[ "${ID:-}" == fedora ]] || die 'this CLI currently supports Fedora only'
 }
+
+copr_enabled() {
+  dnf copr list 2>/dev/null | grep -Fxq "$1"
+}
+
+enable_copr() {
+  local repository="$1"
+  if copr_enabled "$repository"; then
+    log "COPR $repository already enabled"
+  else
+    local -a command=(sudo dnf copr enable)
+    $ASSUME_YES && command+=(--assumeyes)
+    run "${command[@]}" "$repository"
+  fi
+}

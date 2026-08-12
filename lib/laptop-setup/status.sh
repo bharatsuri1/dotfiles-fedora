@@ -9,6 +9,15 @@ show_status() {
     fi
   done
 
+  printf 'Development runtime tools:\n'
+  for item in "${DEVELOPMENT_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+
   printf 'Desktop graphics and media:\n'
   for item in "${DESKTOP_GRAPHICS_PACKAGES[@]}"; do
     if package_installed "$item"; then
