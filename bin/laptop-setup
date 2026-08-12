@@ -10,7 +10,7 @@ for module in \
   common \
   packages \
   desktop-foundation \
-  font \
+  fonts \
   flatpaks \
   homebrew \
   shell-tools \
@@ -32,7 +32,8 @@ Commands:
   packages    Install missing Fedora-native packages
   desktop-foundation
               Install desktop graphics and media foundations
-  font        Install pinned JetBrains Mono Nerd Font
+  fonts       Install terminal and desktop fallback fonts
+  font        Alias for fonts (deprecated)
   flatpaks    Configure Flathub and install LocalSend
   homebrew    Install Homebrew if needed, then Dashlane CLI and managed formulae
   shell-tools Install pinned Zsh plugins directly without a plugin manager
@@ -62,7 +63,7 @@ main() {
     apply)
       install_packages
       install_desktop_foundation
-      install_font
+      install_fonts
       install_flatpaks
       install_homebrew
       install_shell_tools
@@ -71,7 +72,7 @@ main() {
       ;;
     packages) install_packages ;;
     desktop-foundation) install_desktop_foundation ;;
-    font) install_font ;;
+    fonts|font) install_fonts ;;
     flatpaks) install_flatpaks ;;
     homebrew) install_homebrew ;;
     shell-tools) install_shell_tools ;;

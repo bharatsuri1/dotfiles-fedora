@@ -58,7 +58,7 @@ phase can also run independently:
 
 ```bash
 ./bin/laptop-setup packages
-./bin/laptop-setup font
+./bin/laptop-setup fonts
 ./bin/laptop-setup flatpaks
 ./bin/laptop-setup homebrew
 ./bin/laptop-setup shell-tools

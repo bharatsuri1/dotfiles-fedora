@@ -1,3 +1,8 @@
+readonly FONT_DEST="${XDG_DATA_HOME:-$HOME/.local/share}/fonts/JetBrainsMonoNerd"
+readonly NERD_FONTS_VERSION="3.5.0"
+readonly NERD_FONTS_SHA256="0227b220360a6f819b9ead92343e8112b34733054782561af50cfba1e8afab63"
+readonly NERD_FONTS_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/JetBrainsMono.tar.xz"
+
 font_source_dir() {
   local sibling="$REPO_ROOT/../dotfiles-omarchy/assets/fonts/JetBrainsMono"
   [[ -f "$sibling/JetBrainsMonoNerdFont-Regular.ttf" ]] && printf '%s\n' "$sibling"
@@ -22,7 +27,7 @@ install_font_files() {
   run fc-cache -f
 }
 
-install_font() {
+install_jetbrains_mono_nerd_font() {
   local source_dir
   source_dir="$(font_source_dir || true)"
 
