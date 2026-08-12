@@ -54,7 +54,7 @@ main() {
     esac
   done
 
-  local command="${1:-status}"
+  local command="${1:-apply}"
   (($# <= 1)) || die 'only one command may be supplied'
   require_fedora
 

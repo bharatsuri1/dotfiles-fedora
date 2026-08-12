@@ -35,11 +35,13 @@ curl -fsSL https://raw.githubusercontent.com/bharatsuri1/dotfiles-fedora/main/bo
 
 ## CLI
 
-Inspect what is already complete:
+After bootstrapping, run or rerun the complete setup with:
 
 ```bash
-./bin/laptop-setup status
+laptop-setup
 ```
+
+Inspect what is already complete with `laptop-setup status`.
 
 Preview all missing work without changing the machine:
 
