@@ -10,6 +10,7 @@ for module in \
   common \
   packages \
   development \
+  herdr \
   docker \
   desktop-foundation \
   desktop-defaults \
@@ -37,6 +38,7 @@ Commands:
   apply       Run every setup phase in dependency order
   packages    Install missing Fedora-native packages
   development Install Mise and uv runtime tooling
+  herdr      Install Herdr using its official verified installer
   docker      Install Docker Engine, Buildx, and Compose
   desktop-foundation
               Install compositor-independent desktop foundations
@@ -76,6 +78,7 @@ main() {
     apply)
       install_packages
       install_development_tools
+      install_herdr
       install_docker
       install_desktop_foundation
       install_niri
@@ -91,6 +94,7 @@ main() {
       ;;
     packages) install_packages ;;
     development) install_development_tools ;;
+    herdr) install_herdr ;;
     docker) install_docker ;;
     desktop-foundation) install_desktop_foundation ;;
     desktop-defaults) install_desktop_defaults ;;

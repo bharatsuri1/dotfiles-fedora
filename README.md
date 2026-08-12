@@ -63,6 +63,7 @@ phase can also run independently:
 ./bin/laptop-setup fonts
 ./bin/laptop-setup flatpaks
 ./bin/laptop-setup homebrew
+./bin/laptop-setup herdr
 ./bin/laptop-setup shell-tools
 ./bin/laptop-setup config
 ./bin/laptop-setup shell
@@ -82,7 +83,8 @@ target is moved first to a timestamped directory under
 - Chromium from Fedora for browser app-mode launchers using
   `chromium-browser --app=URL`;
 - LocalSend from Flathub;
-- Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, and `xh`; and
+- Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, and `xh`;
+- Herdr from its official verified installer; and
 - small Zsh, Starship, bat, and fastfetch defaults.
 
 Authentication, browser profiles, Dashlane sessions, shell history, SSH keys,

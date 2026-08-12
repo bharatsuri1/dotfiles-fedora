@@ -18,6 +18,13 @@ show_status() {
     fi
   done
 
+  printf 'Herdr:\n'
+  if [[ -x "$HERDR_BINARY" ]]; then
+    printf '  [ok]      %s\n' "$HERDR_BINARY"
+  else
+    printf '  [missing] %s\n' "$HERDR_BINARY"
+  fi
+
   printf 'Docker:\n'
   for item in "${DOCKER_PACKAGES[@]}"; do
     if package_installed "$item"; then
@@ -180,6 +187,7 @@ EOF
     "$HOME/.config/starship.toml" \
     "$HOME/.config/bat/config" \
     "$HOME/.config/fastfetch/config.jsonc" \
+    "$HOME/.config/herdr/config.toml" \
     "$HOME/.config/niri/config.kdl"; do
     if [[ -L "$target" && "$(readlink -f -- "$target")" == "$REPO_ROOT"/* ]]; then
       printf '  [linked]  %s\n' "$target"
