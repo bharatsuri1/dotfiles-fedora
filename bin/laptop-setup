@@ -9,6 +9,7 @@ readonly LIB_DIR="$REPO_ROOT/lib/laptop-setup"
 for module in \
   common \
   packages \
+  desktop-foundation \
   font \
   flatpaks \
   homebrew \
@@ -29,6 +30,8 @@ Commands:
   status      Report installed and managed state
   apply       Run every setup phase in dependency order
   packages    Install missing Fedora-native packages
+  desktop-foundation
+              Install desktop graphics and media foundations
   font        Install pinned JetBrains Mono Nerd Font
   flatpaks    Configure Flathub and install LocalSend
   homebrew    Install Homebrew if needed, then Dashlane CLI and managed formulae
@@ -58,6 +61,7 @@ main() {
     status) show_status ;;
     apply)
       install_packages
+      install_desktop_foundation
       install_font
       install_flatpaks
       install_homebrew
@@ -66,6 +70,7 @@ main() {
       set_shell
       ;;
     packages) install_packages ;;
+    desktop-foundation) install_desktop_foundation ;;
     font) install_font ;;
     flatpaks) install_flatpaks ;;
     homebrew) install_homebrew ;;

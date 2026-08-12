@@ -39,6 +39,14 @@ readonly DNF_PACKAGES=(
   zsh
 )
 
+readonly DESKTOP_GRAPHICS_PACKAGES=(
+  mesa-dri-drivers
+  mesa-vulkan-drivers
+  intel-vpl-gpu-rt
+  libva-intel-media-driver
+  libva-utils
+)
+
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
 )
