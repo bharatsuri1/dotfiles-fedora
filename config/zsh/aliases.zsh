@@ -38,6 +38,6 @@ if command -v git >/dev/null; then
   alias gs='git status --short --branch'
 fi
 
-take() {
+mkcd() {
   mkdir -p -- "$1" && cd -- "$1"
 }
