@@ -59,6 +59,12 @@ readonly DESKTOP_BLUETOOTH_PACKAGES=(
   bluez
 )
 
+readonly DESKTOP_SECURITY_PACKAGES=(
+  polkit
+  gnome-keyring
+  libsecret
+)
+
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
 )
