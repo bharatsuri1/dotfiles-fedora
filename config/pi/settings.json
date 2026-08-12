@@ -1,0 +1,17 @@
+{
+  "editorPaddingX": 1,
+  "autocompleteMaxVisible": 3,
+  "terminal": {
+    "clearOnShrink": true
+  },
+  "collapseChangelog": true,
+  "quietStartup": true,
+  "enableInstallTelemetry": false,
+  "defaultProjectTrust": "always",
+  "tuiMode": "fullscreen",
+  "fullscreenScrollbar": "always",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-sol",
+  "defaultThinkingLevel": "low",
+  "npmCommand": ["mise", "exec", "node@latest", "--", "npm"]
+}

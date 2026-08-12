@@ -20,4 +20,10 @@ install_development_tools() {
     $ASSUME_YES && command+=(--assumeyes)
     run "${command[@]}" "${missing[@]}"
   fi
+
+  if $DRY_RUN || command -v mise >/dev/null 2>&1; then
+    run mise install node@latest
+  else
+    die 'Mise installation did not produce a mise executable'
+  fi
 }

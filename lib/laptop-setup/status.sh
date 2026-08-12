@@ -175,6 +175,8 @@ EOF
     "$HOME/.config/zsh/options.zsh" \
     "$HOME/.config/zsh/plugins.zsh" \
     "$HOME/.config/atuin/config.toml" \
+    "$HOME/.config/mise/config.toml" \
+    "$HOME/.pi/agent/settings.json" \
     "$HOME/.config/starship.toml" \
     "$HOME/.config/bat/config" \
     "$HOME/.config/fastfetch/config.jsonc"; do
