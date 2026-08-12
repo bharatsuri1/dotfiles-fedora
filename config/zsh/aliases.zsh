@@ -1,0 +1,7 @@
+alias c='clear'
+alias l='eza -lah --group-directories-first --icons=auto'
+alias ll='eza -lah --group-directories-first --icons=auto'
+alias la='eza -a --group-directories-first --icons=auto'
+alias cat='bat'
+alias grep='rg --color=auto'
+alias g='git'
