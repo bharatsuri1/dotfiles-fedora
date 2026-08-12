@@ -34,7 +34,32 @@ install_desktop_audio() {
   fi
 }
 
+install_desktop_bluetooth() {
+  local -a missing=()
+  local package
+
+  for package in "${DESKTOP_BLUETOOTH_PACKAGES[@]}"; do
+    package_installed "$package" || missing+=("$package")
+  done
+
+  if ((${#missing[@]} == 0)); then
+    log 'desktop Bluetooth packages already installed'
+  else
+    log "installing desktop Bluetooth packages: ${missing[*]}"
+    local -a command=(sudo dnf install)
+    $ASSUME_YES && command+=(--assumeyes)
+    run "${command[@]}" "${missing[@]}"
+  fi
+
+  if systemctl is-enabled bluetooth.service >/dev/null 2>&1; then
+    log 'Bluetooth service already enabled'
+  else
+    run sudo systemctl enable bluetooth.service
+  fi
+}
+
 install_desktop_foundation() {
   install_desktop_graphics
   install_desktop_audio
+  install_desktop_bluetooth
 }

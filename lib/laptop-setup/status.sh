@@ -27,6 +27,20 @@ show_status() {
     fi
   done
 
+  printf 'Desktop Bluetooth:\n'
+  for item in "${DESKTOP_BLUETOOTH_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+  if systemctl is-enabled bluetooth.service >/dev/null 2>&1; then
+    printf '  [enabled] bluetooth.service\n'
+  else
+    printf '  [disabled] bluetooth.service\n'
+  fi
+
   printf 'Flatpak applications:\n'
   for item in "${FLATPAK_APPS[@]}"; do
     if command -v flatpak >/dev/null 2>&1 && flatpak info "$item" >/dev/null 2>&1; then

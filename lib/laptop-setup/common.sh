@@ -55,6 +55,10 @@ readonly DESKTOP_AUDIO_PACKAGES=(
   alsa-utils
 )
 
+readonly DESKTOP_BLUETOOTH_PACKAGES=(
+  bluez
+)
+
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
 )
