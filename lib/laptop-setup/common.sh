@@ -65,6 +65,12 @@ readonly DESKTOP_SECURITY_PACKAGES=(
   libsecret
 )
 
+readonly DESKTOP_PORTAL_PACKAGES=(
+  xdg-desktop-portal
+  xdg-desktop-portal-gnome
+  xdg-desktop-portal-gtk
+)
+
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
 )

@@ -50,6 +50,15 @@ show_status() {
     fi
   done
 
+  printf 'Desktop portals:\n'
+  for item in "${DESKTOP_PORTAL_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+
   printf 'Flatpak applications:\n'
   for item in "${FLATPAK_APPS[@]}"; do
     if command -v flatpak >/dev/null 2>&1 && flatpak info "$item" >/dev/null 2>&1; then
