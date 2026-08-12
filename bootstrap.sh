@@ -7,6 +7,9 @@ readonly INSTALL_ROOT="${DOTFILES_FEDORA_INSTALL_ROOT:-$HOME/.local/share/dotfil
 readonly BOOTSTRAP_URL="https://raw.githubusercontent.com/bharatsuri1/dotfiles-fedora/main/bootstrap.sh"
 readonly LOCAL_BIN="$HOME/.local/bin"
 
+readonly GIT_NAME="${DOTFILES_GIT_NAME:-Bharat Suri}"
+readonly GIT_EMAIL="${DOTFILES_GIT_EMAIL:-bharatsuri.us@gmail.com}"
+
 log() {
   printf '==> %s\n' "$*"
 }
@@ -55,6 +58,15 @@ curl -fsSL "$BOOTSTRAP_URL" | bash -s -- "\$@"
 EOF
 
 chmod +x "$LOCAL_BIN/laptop-setup"
+
+log 'configuring Git defaults'
+
+git config --global user.name "$GIT_NAME"
+git config --global user.email "$GIT_EMAIL"
+git config --global init.defaultBranch main
+git config --global pull.rebase false
+git config --global push.autoSetupRemote true
+git config --global core.editor nvim
 
 
 log 'starting the guided Fedora laptop setup'
