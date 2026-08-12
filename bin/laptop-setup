@@ -36,7 +36,7 @@ readonly DNF_PACKAGES=(
   git
   gh
   neovim
-  node
+  nodejs
   ripgrep
   tmux
   xdg-utils
@@ -100,7 +100,7 @@ require_fedora() {
 }
 
 package_installed() {
-  rpm -q "$1" >/dev/null 2>&1
+  rpm -q --whatprovides "$1" >/dev/null 2>&1
 }
 
 install_packages() {
