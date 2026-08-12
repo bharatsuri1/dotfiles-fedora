@@ -343,7 +343,7 @@ set_shell() {
   fi
 
   if confirm "Change the login shell to $zsh_path?"; then
-    run chsh -s "$zsh_path"
+    run sudo usermod --shell "$zsh_path" "$USER"
     log 'log out and back in to enter the new login shell'
   else
     log 'login-shell change skipped'
