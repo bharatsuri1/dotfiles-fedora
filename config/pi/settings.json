@@ -13,5 +13,12 @@
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-sol",
   "defaultThinkingLevel": "low",
-  "npmCommand": ["mise", "exec", "node@latest", "--", "npm"]
+  "npmCommand": [
+    "mise",
+    "exec",
+    "node@latest",
+    "--",
+    "npm"
+  ],
+  "lastChangelogVersion": "0.84.1"
 }
