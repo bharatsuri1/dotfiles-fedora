@@ -54,6 +54,7 @@ readonly BREW_FORMULAE=(
   starship
   jless
   fx
+  lazygit
 )
 
 readonly BREW_TRUST_TAPS=(
@@ -447,7 +448,7 @@ Commands:
   packages    Install missing Fedora-native packages
   font        Install pinned JetBrains Mono Nerd Font
   flatpaks    Configure Flathub and install LocalSend
-  homebrew    Install Homebrew if needed, then Dashlane CLI, Starship, jless, and fx
+  homebrew    Install Homebrew if needed, then Dashlane CLI and managed formulae
   shell-tools Install pinned Zsh plugins directly without a plugin manager
   config      Back up conflicts and link the managed configuration
   shell       Change the login shell to Zsh after confirmation
