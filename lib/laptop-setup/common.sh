@@ -77,6 +77,13 @@ readonly DESKTOP_UTILITY_PACKAGES=(
   wl-clipboard
 )
 
+readonly DESKTOP_APPLICATION_PACKAGES=(
+  nautilus
+  mpv
+  imv
+  evince
+)
+
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
 )

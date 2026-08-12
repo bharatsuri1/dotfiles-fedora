@@ -112,6 +112,24 @@ install_desktop_utilities() {
   fi
 }
 
+install_desktop_applications() {
+  local -a missing=()
+  local package
+
+  for package in "${DESKTOP_APPLICATION_PACKAGES[@]}"; do
+    package_installed "$package" || missing+=("$package")
+  done
+
+  if ((${#missing[@]} == 0)); then
+    log 'desktop application packages already installed'
+  else
+    log "installing desktop application packages: ${missing[*]}"
+    local -a command=(sudo dnf install)
+    $ASSUME_YES && command+=(--assumeyes)
+    run "${command[@]}" "${missing[@]}"
+  fi
+}
+
 install_desktop_foundation() {
   install_desktop_graphics
   install_desktop_audio
@@ -119,4 +137,5 @@ install_desktop_foundation() {
   install_desktop_security
   install_desktop_portals
   install_desktop_utilities
+  install_desktop_applications
 }
