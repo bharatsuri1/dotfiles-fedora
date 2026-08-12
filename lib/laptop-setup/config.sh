@@ -40,4 +40,5 @@ install_config() {
   link_config "$REPO_ROOT/config/starship.toml" "$HOME/.config/starship.toml"
   link_config "$REPO_ROOT/config/bat/config" "$HOME/.config/bat/config"
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+  link_config "$REPO_ROOT/config/niri/config.kdl" "$HOME/.config/niri/config.kdl"
 }

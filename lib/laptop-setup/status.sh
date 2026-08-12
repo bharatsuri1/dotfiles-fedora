@@ -179,7 +179,8 @@ EOF
     "$HOME/.pi/agent/settings.json" \
     "$HOME/.config/starship.toml" \
     "$HOME/.config/bat/config" \
-    "$HOME/.config/fastfetch/config.jsonc"; do
+    "$HOME/.config/fastfetch/config.jsonc" \
+    "$HOME/.config/niri/config.kdl"; do
     if [[ -L "$target" && "$(readlink -f -- "$target")" == "$REPO_ROOT"/* ]]; then
       printf '  [linked]  %s\n' "$target"
     else
