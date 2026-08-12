@@ -194,6 +194,8 @@ install_flatpaks() {
     fi
   done
 
+  run mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}"
+  
   if command -v chromium-browser >/dev/null 2>&1 || $DRY_RUN; then
     run xdg-settings set default-web-browser chromium-browser.desktop
   fi
