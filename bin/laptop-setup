@@ -10,6 +10,7 @@ for module in \
   common \
   packages \
   development \
+  docker \
   desktop-foundation \
   fonts \
   flatpaks \
@@ -32,6 +33,7 @@ Commands:
   apply       Run every setup phase in dependency order
   packages    Install missing Fedora-native packages
   development Install Mise and uv runtime tooling
+  docker      Install Docker Engine, Buildx, and Compose
   desktop-foundation
               Install desktop graphics and media foundations
   fonts       Install terminal and desktop fallback fonts
@@ -65,6 +67,7 @@ main() {
     apply)
       install_packages
       install_development_tools
+      install_docker
       install_desktop_foundation
       install_fonts
       install_flatpaks
@@ -75,6 +78,7 @@ main() {
       ;;
     packages) install_packages ;;
     development) install_development_tools ;;
+    docker) install_docker ;;
     desktop-foundation) install_desktop_foundation ;;
     fonts|font) install_fonts ;;
     flatpaks) install_flatpaks ;;
