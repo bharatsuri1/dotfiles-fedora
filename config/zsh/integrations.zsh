@@ -14,6 +14,6 @@ if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
-command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+command -v zoxide >/dev/null && eval "$(zoxide init zsh --cmd cd)"
 command -v atuin >/dev/null && eval "$(atuin init zsh --disable-up-arrow)"
 command -v starship >/dev/null && eval "$(starship init zsh)"
