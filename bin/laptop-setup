@@ -55,6 +55,10 @@ readonly BREW_FORMULAE=(
   fx
 )
 
+readonly BREW_TRUST_TAPS=(
+  dashlane/tap/dashlane-cli
+)
+
 log() {
   printf '==> %s\n' "$*"
 }
@@ -241,6 +245,11 @@ install_homebrew() {
     log "Homebrew already installed at $brew"
   fi
 
+  local extra_tap
+  for extra_tap in "${BREW_TRUST_TAPS[@]}"; do
+    run "$brew" trust --formula "$extra_tap"
+  done
+
   local formula
   for formula in "${BREW_FORMULAE[@]}"; do
     if [[ -x "$brew" ]] && "$brew" list --formula "$formula" >/dev/null 2>&1; then
@@ -376,6 +385,7 @@ show_status() {
   printf 'Homebrew formulae:\n'
   local brew
   brew="$(brew_path || true)"
+
   for item in "${BREW_FORMULAE[@]}"; do
     if [[ -n "$brew" ]] && "$brew" list --formula "$item" >/dev/null 2>&1; then
       printf '  [ok]      %s\n' "$item"
