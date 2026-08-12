@@ -20,6 +20,12 @@ if command -v bat >/dev/null; then
   alias catp='bat --plain --paging=never'
 fi
 
+command -v df >/dev/null && alias df='df -h'
+command -v du >/dev/null && alias du='du -h'
+command -v free >/dev/null && alias free='free -h'
+command -v ss >/dev/null && alias ports='ss -tulpn'
+command -v ip >/dev/null && alias ip='ip --color=auto'
+command -v diff >/dev/null && alias diff='diff --color=auto'
 command -v rg >/dev/null && alias grep='rg --color=auto'
 command -v nvim >/dev/null && alias vim='nvim'
 command -v lazygit >/dev/null && alias lg='lazygit'
@@ -32,6 +38,6 @@ if command -v git >/dev/null; then
   alias gs='git status --short --branch'
 fi
 
-mkcd() {
+take() {
   mkdir -p -- "$1" && cd -- "$1"
 }
