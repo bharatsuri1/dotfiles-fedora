@@ -9,7 +9,7 @@
   "enableInstallTelemetry": false,
   "defaultProjectTrust": "always",
   "tuiMode": "fullscreen",
-  "fullscreenScrollbar": "always",
+  "fullscreenScrollbar": "hidden",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-sol",
   "defaultThinkingLevel": "low",
