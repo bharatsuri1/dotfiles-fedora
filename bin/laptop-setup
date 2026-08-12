@@ -12,6 +12,7 @@ for module in \
   development \
   docker \
   desktop-foundation \
+  desktop-defaults \
   niri \
   dms \
   keyd \
@@ -39,6 +40,8 @@ Commands:
   docker      Install Docker Engine, Buildx, and Compose
   desktop-foundation
               Install compositor-independent desktop foundations
+  desktop-defaults
+              Configure browser, file, media, image, and PDF handlers
   niri        Install niri from the DMS COPR
   dms         Install DMS and attach it to niri
   keyd        Install keyd and configure Caps as Escape/Hyper
@@ -83,12 +86,14 @@ main() {
       install_homebrew
       install_shell_tools
       install_config
+      install_desktop_defaults
       set_shell
       ;;
     packages) install_packages ;;
     development) install_development_tools ;;
     docker) install_docker ;;
     desktop-foundation) install_desktop_foundation ;;
+    desktop-defaults) install_desktop_defaults ;;
     niri) install_niri ;;
     dms) install_dms ;;
     keyd) install_keyd ;;
