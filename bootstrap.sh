@@ -19,10 +19,17 @@ die() {
 source /etc/os-release
 [[ "${ID:-}" == fedora ]] || die 'this bootstrap currently supports Fedora only'
 
-if ! command -v git >/dev/null 2>&1; then
-  log 'installing Git as the bootstrap prerequisite'
-  sudo dnf install --assumeyes git
-fi
+bootstrap_packages=(
+  git
+  curl
+  tar
+  gzip
+  xz
+  unzip
+)
+
+log 'ensuring bootstrap prerequisites are installed'
+sudo dnf install --assumeyes "${bootstrap_packages[@]}"
 
 if [[ -d "$INSTALL_ROOT/.git" ]]; then
   log "updating existing checkout at $INSTALL_ROOT"
