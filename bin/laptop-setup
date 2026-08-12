@@ -54,6 +54,7 @@ readonly BREW_FORMULAE=(
   starship
   jless
   fx
+  lazygit
 )
 
 readonly BREW_TRUST_TAPS=(
@@ -333,6 +334,10 @@ install_config() {
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
   link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"
   link_config "$REPO_ROOT/config/zsh/zshrc" "$HOME/.config/zsh/.zshrc"
+  local module
+  for module in aliases completion integrations options plugins; do
+    link_config "$REPO_ROOT/config/zsh/$module.zsh" "$HOME/.config/zsh/$module.zsh"
+  done
   link_config "$REPO_ROOT/config/atuin/config.toml" "$HOME/.config/atuin/config.toml"
   link_config "$REPO_ROOT/config/starship.toml" "$HOME/.config/starship.toml"
   link_config "$REPO_ROOT/config/bat/config" "$HOME/.config/bat/config"
@@ -416,6 +421,11 @@ EOF
     "$HOME/.config/alacritty/alacritty.toml" \
     "$HOME/.zshenv" \
     "$HOME/.config/zsh/.zshrc" \
+    "$HOME/.config/zsh/aliases.zsh" \
+    "$HOME/.config/zsh/completion.zsh" \
+    "$HOME/.config/zsh/integrations.zsh" \
+    "$HOME/.config/zsh/options.zsh" \
+    "$HOME/.config/zsh/plugins.zsh" \
     "$HOME/.config/atuin/config.toml" \
     "$HOME/.config/starship.toml" \
     "$HOME/.config/bat/config" \
@@ -438,7 +448,7 @@ Commands:
   packages    Install missing Fedora-native packages
   font        Install pinned JetBrains Mono Nerd Font
   flatpaks    Configure Flathub and install LocalSend
-  homebrew    Install Homebrew if needed, then Dashlane CLI, Starship, jless, and fx
+  homebrew    Install Homebrew if needed, then Dashlane CLI and managed formulae
   shell-tools Install pinned Zsh plugins directly without a plugin manager
   config      Back up conflicts and link the managed configuration
   shell       Change the login shell to Zsh after confirmation
