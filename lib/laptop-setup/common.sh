@@ -71,6 +71,12 @@ readonly DESKTOP_PORTAL_PACKAGES=(
   xdg-desktop-portal-gtk
 )
 
+readonly DESKTOP_UTILITY_PACKAGES=(
+  brightnessctl
+  playerctl
+  wl-clipboard
+)
+
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
 )

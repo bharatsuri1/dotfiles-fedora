@@ -94,10 +94,29 @@ install_desktop_portals() {
   fi
 }
 
+install_desktop_utilities() {
+  local -a missing=()
+  local package
+
+  for package in "${DESKTOP_UTILITY_PACKAGES[@]}"; do
+    package_installed "$package" || missing+=("$package")
+  done
+
+  if ((${#missing[@]} == 0)); then
+    log 'desktop utility packages already installed'
+  else
+    log "installing desktop utility packages: ${missing[*]}"
+    local -a command=(sudo dnf install)
+    $ASSUME_YES && command+=(--assumeyes)
+    run "${command[@]}" "${missing[@]}"
+  fi
+}
+
 install_desktop_foundation() {
   install_desktop_graphics
   install_desktop_audio
   install_desktop_bluetooth
   install_desktop_security
   install_desktop_portals
+  install_desktop_utilities
 }
