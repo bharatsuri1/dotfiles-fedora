@@ -166,13 +166,13 @@ install_font() {
   local temp_dir archive
   temp_dir="$(mktemp -d)"
   archive="$temp_dir/JetBrainsMono.tar.xz"
-  trap 'rm -rf -- "$temp_dir"' RETURN
 
   log "downloading JetBrains Mono Nerd Font v${NERD_FONTS_VERSION}"
   curl -fL --retry 3 -o "$archive" "$NERD_FONTS_URL"
   printf '%s  %s\n' "$NERD_FONTS_SHA256" "$archive" | sha256sum --check
   tar -xJf "$archive" -C "$temp_dir"
   install_font_files "$temp_dir"
+  rm -rf -- "$temp_dir"
 }
 
 install_flatpaks() {
