@@ -36,6 +36,7 @@ readonly DNF_PACKAGES=(
   git
   gh
   neovim
+  node
   ripgrep
   tmux
   xdg-utils
