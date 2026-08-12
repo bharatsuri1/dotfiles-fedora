@@ -1,0 +1,7 @@
+auto_sync = false
+update_check = false
+search_mode = "fuzzy"
+enter_accept = true
+
+[daemon]
+enabled = false

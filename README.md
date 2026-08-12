@@ -61,6 +61,7 @@ phase can also run independently:
 ./bin/laptop-setup font
 ./bin/laptop-setup flatpaks
 ./bin/laptop-setup homebrew
+./bin/laptop-setup shell-tools
 ./bin/laptop-setup config
 ./bin/laptop-setup shell
 ```
@@ -73,6 +74,9 @@ target is moved first to a timestamped directory under
 
 - Alacritty with JetBrainsMono Nerd Font and the Vesper palette;
 - `fd`, ripgrep, FZF, eza, Zoxide, Zsh, Starship, bat, btop, and fastfetch;
+- local-only Atuin history with automatic sync, update checks, and its daemon disabled;
+- pinned, directly sourced `zsh-autosuggestions` and
+  `fast-syntax-highlighting` checkouts with no shell framework or plugin manager;
 - Chromium from Fedora for browser app-mode launchers using
   `chromium-browser --app=URL`;
 - LocalSend from Flathub;

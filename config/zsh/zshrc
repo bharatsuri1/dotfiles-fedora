@@ -37,9 +37,13 @@ for fzf_script in \
 done
 unset fzf_script
 
-command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
-command -v starship >/dev/null && eval "$(starship init zsh)"
+source "$ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$ZDOTDIR/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
 if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
+
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+command -v atuin >/dev/null && eval "$(atuin init zsh --disable-up-arrow)"
+command -v starship >/dev/null && eval "$(starship init zsh)"

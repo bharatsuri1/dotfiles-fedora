@@ -10,6 +10,11 @@ readonly FONT_DEST="${XDG_DATA_HOME:-$HOME/.local/share}/fonts/JetBrainsMonoNerd
 readonly NERD_FONTS_VERSION="3.5.0"
 readonly NERD_FONTS_SHA256="0227b220360a6f819b9ead92343e8112b34733054782561af50cfba1e8afab63"
 readonly NERD_FONTS_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/JetBrainsMono.tar.xz"
+readonly ZSH_PLUGIN_ROOT="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins"
+readonly AUTOSUGGESTIONS_REPOSITORY="https://github.com/zsh-users/zsh-autosuggestions.git"
+readonly AUTOSUGGESTIONS_REVISION="85919cd1ffa7d2d5412f6d3fe437ebdbeeec4fc5"
+readonly SYNTAX_HIGHLIGHTING_REPOSITORY="https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
+readonly SYNTAX_HIGHLIGHTING_REVISION="3d574ccf48804b10dca52625df13da5edae7f553"
 
 DRY_RUN=false
 ASSUME_YES=false
@@ -17,6 +22,7 @@ BACKUP_DIR=""
 
 readonly DNF_PACKAGES=(
   alacritty
+  atuin
   bat
   btop
   chromium
@@ -240,6 +246,46 @@ install_homebrew() {
   done
 }
 
+install_zsh_plugin() {
+  local name="$1"
+  local repository="$2"
+  local revision="$3"
+  local destination="$ZSH_PLUGIN_ROOT/$name"
+
+  if [[ -d "$destination/.git" ]] &&
+    [[ "$(git -C "$destination" rev-parse HEAD 2>/dev/null || true)" == "$revision" ]]; then
+    log "$name already pinned at $revision"
+    return
+  fi
+
+  if $DRY_RUN; then
+    if [[ -d "$destination/.git" ]]; then
+      printf '+ git -C %q fetch --quiet origin %q\n' "$destination" "$revision"
+    else
+      printf '+ git clone %q %q\n' "$repository" "$destination"
+    fi
+    printf '+ git -C %q checkout --detach %q\n' "$destination" "$revision"
+    return
+  fi
+
+  install -d "$ZSH_PLUGIN_ROOT"
+  if [[ -d "$destination/.git" ]]; then
+    git -C "$destination" fetch --quiet origin "$revision"
+  elif [[ -e "$destination" ]]; then
+    die "$destination exists but is not a Git checkout; move it aside and rerun the shell-tools phase"
+  else
+    git clone "$repository" "$destination"
+  fi
+  git -C "$destination" checkout --detach "$revision"
+}
+
+install_shell_tools() {
+  command -v git >/dev/null 2>&1 || die 'Git is missing; run the packages phase first'
+  log 'installing directly sourced Zsh plugins without a plugin manager'
+  install_zsh_plugin zsh-autosuggestions "$AUTOSUGGESTIONS_REPOSITORY" "$AUTOSUGGESTIONS_REVISION"
+  install_zsh_plugin fast-syntax-highlighting "$SYNTAX_HIGHLIGHTING_REPOSITORY" "$SYNTAX_HIGHLIGHTING_REVISION"
+}
+
 ensure_backup_dir() {
   if [[ -z "$BACKUP_DIR" ]]; then
     BACKUP_DIR="$BACKUP_ROOT/$(date +%Y%m%d-%H%M%S)"
@@ -272,6 +318,7 @@ install_config() {
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
   link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"
   link_config "$REPO_ROOT/config/zsh/zshrc" "$HOME/.config/zsh/.zshrc"
+  link_config "$REPO_ROOT/config/atuin/config.toml" "$HOME/.config/atuin/config.toml"
   link_config "$REPO_ROOT/config/starship.toml" "$HOME/.config/starship.toml"
   link_config "$REPO_ROOT/config/bat/config" "$HOME/.config/bat/config"
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
@@ -332,12 +379,28 @@ show_status() {
     fi
   done
 
+  printf 'Zsh plugins:\n'
+  local plugin revision destination
+  while read -r plugin revision; do
+    destination="$ZSH_PLUGIN_ROOT/$plugin"
+    if [[ -d "$destination/.git" ]] &&
+      [[ "$(git -C "$destination" rev-parse HEAD 2>/dev/null || true)" == "$revision" ]]; then
+      printf '  [pinned]  %s @ %s\n' "$plugin" "${revision:0:7}"
+    else
+      printf '  [missing] %s @ %s\n' "$plugin" "${revision:0:7}"
+    fi
+  done <<EOF
+zsh-autosuggestions $AUTOSUGGESTIONS_REVISION
+fast-syntax-highlighting $SYNTAX_HIGHLIGHTING_REVISION
+EOF
+
   printf 'Configuration:\n'
   local target
   for target in \
     "$HOME/.config/alacritty/alacritty.toml" \
     "$HOME/.zshenv" \
     "$HOME/.config/zsh/.zshrc" \
+    "$HOME/.config/atuin/config.toml" \
     "$HOME/.config/starship.toml" \
     "$HOME/.config/bat/config" \
     "$HOME/.config/fastfetch/config.jsonc"; do
@@ -355,11 +418,12 @@ Usage: laptop-setup [--dry-run] [--yes] COMMAND
 
 Commands:
   status      Report installed and managed state
-  apply       Run packages, font, Flatpaks, Homebrew, config, and shell phases
+  apply       Run every setup phase in dependency order
   packages    Install missing Fedora-native packages
   font        Install pinned JetBrains Mono Nerd Font
   flatpaks    Configure Flathub and install LocalSend
   homebrew    Install Homebrew if needed, then Dashlane CLI, Starship, jless, and fx
+  shell-tools Install pinned Zsh plugins directly without a plugin manager
   config      Back up conflicts and link the managed configuration
   shell       Change the login shell to Zsh after confirmation
 EOF
@@ -388,6 +452,7 @@ main() {
       install_font
       install_flatpaks
       install_homebrew
+      install_shell_tools
       install_config
       set_shell
       ;;
@@ -395,6 +460,7 @@ main() {
     font) install_font ;;
     flatpaks) install_flatpaks ;;
     homebrew) install_homebrew ;;
+    shell-tools) install_shell_tools ;;
     config) install_config ;;
     shell) set_shell ;;
     *) usage >&2; die "unknown command: $command" ;;
