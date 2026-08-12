@@ -4,7 +4,6 @@ set -Eeuo pipefail
 
 readonly REPOSITORY_URL="${DOTFILES_FEDORA_REPOSITORY_URL:-https://github.com/bharatsuri1/dotfiles-fedora.git}"
 readonly INSTALL_ROOT="${DOTFILES_FEDORA_INSTALL_ROOT:-$HOME/.local/share/dotfiles-fedora}"
-readonly BOOTSTRAP_URL="https://raw.githubusercontent.com/bharatsuri1/dotfiles-fedora/main/bootstrap.sh"
 readonly LOCAL_BIN="$HOME/.local/bin"
 
 readonly GIT_NAME="${DOTFILES_GIT_NAME:-Bharat Suri}"
@@ -54,7 +53,7 @@ cat > "$LOCAL_BIN/laptop-setup" <<EOF
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-curl -fsSL "$BOOTSTRAP_URL" | bash -s -- "\$@"
+exec "$INSTALL_ROOT/bin/laptop-setup" "\$@"
 EOF
 
 chmod +x "$LOCAL_BIN/laptop-setup"
