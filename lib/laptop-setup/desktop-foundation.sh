@@ -130,6 +130,24 @@ install_desktop_applications() {
   fi
 }
 
+install_desktop_compatibility() {
+  local -a missing=()
+  local package
+
+  for package in "${DESKTOP_COMPATIBILITY_PACKAGES[@]}"; do
+    package_installed "$package" || missing+=("$package")
+  done
+
+  if ((${#missing[@]} == 0)); then
+    log 'desktop compatibility packages already installed'
+  else
+    log "installing desktop compatibility packages: ${missing[*]}"
+    local -a command=(sudo dnf install)
+    $ASSUME_YES && command+=(--assumeyes)
+    run "${command[@]}" "${missing[@]}"
+  fi
+}
+
 install_desktop_foundation() {
   install_desktop_graphics
   install_desktop_audio
@@ -138,4 +156,5 @@ install_desktop_foundation() {
   install_desktop_portals
   install_desktop_utilities
   install_desktop_applications
+  install_desktop_compatibility
 }

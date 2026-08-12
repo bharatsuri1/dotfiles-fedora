@@ -80,6 +80,10 @@ readonly DESKTOP_APPLICATION_PACKAGES=(
   evince
 )
 
+readonly DESKTOP_COMPATIBILITY_PACKAGES=(
+  xwayland-satellite
+)
+
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
 )

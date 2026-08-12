@@ -77,6 +77,15 @@ show_status() {
     fi
   done
 
+  printf 'Desktop compatibility:\n'
+  for item in "${DESKTOP_COMPATIBILITY_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+
   show_font_status
 
   printf 'Flatpak applications:\n'
