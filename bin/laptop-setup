@@ -34,7 +34,10 @@ readonly DNF_PACKAGES=(
   fontconfig
   fzf
   git
+  gh
+  neovim
   ripgrep
+  tmux
   xdg-utils
   xz
   zoxide
