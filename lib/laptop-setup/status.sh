@@ -104,6 +104,15 @@ show_status() {
     fi
   done
 
+  printf 'Desktop shell:\n'
+  for item in niri dms; do
+    if package_installed "$item"; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+
   show_font_status
 
   printf 'Flatpak applications:\n'

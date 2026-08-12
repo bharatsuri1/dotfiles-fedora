@@ -12,6 +12,8 @@ for module in \
   development \
   docker \
   desktop-foundation \
+  niri \
+  dms \
   fonts \
   flatpaks \
   homebrew \
@@ -35,7 +37,9 @@ Commands:
   development Install Mise and uv runtime tooling
   docker      Install Docker Engine, Buildx, and Compose
   desktop-foundation
-              Install desktop graphics and media foundations
+              Install compositor-independent desktop foundations
+  niri        Install niri from the DMS COPR
+  dms         Install DMS and attach it to niri
   fonts       Install terminal and desktop fallback fonts
   font        Alias for fonts (deprecated)
   flatpaks    Configure Flathub and install LocalSend
@@ -69,6 +73,8 @@ main() {
       install_development_tools
       install_docker
       install_desktop_foundation
+      install_niri
+      install_dms
       install_fonts
       install_flatpaks
       install_homebrew
@@ -80,6 +86,8 @@ main() {
     development) install_development_tools ;;
     docker) install_docker ;;
     desktop-foundation) install_desktop_foundation ;;
+    niri) install_niri ;;
+    dms) install_dms ;;
     fonts|font) install_fonts ;;
     flatpaks) install_flatpaks ;;
     homebrew) install_homebrew ;;
