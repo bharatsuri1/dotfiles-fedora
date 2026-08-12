@@ -113,6 +113,18 @@ show_status() {
     fi
   done
 
+  printf 'Keyboard remapping:\n'
+  if package_installed keyd; then
+    printf '  [ok]      keyd\n'
+  else
+    printf '  [missing] keyd\n'
+  fi
+  if [[ -r "$KEYD_CONFIG_TARGET" ]] && cmp -s "$KEYD_CONFIG_SOURCE" "$KEYD_CONFIG_TARGET"; then
+    printf '  [managed] %s\n' "$KEYD_CONFIG_TARGET"
+  else
+    printf '  [local]   %s\n' "$KEYD_CONFIG_TARGET"
+  fi
+
   show_font_status
 
   printf 'Flatpak applications:\n'
