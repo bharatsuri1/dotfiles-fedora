@@ -37,9 +37,17 @@ install_docker() {
     run "${command[@]}" "${missing[@]}"
   fi
 
-  if systemctl is-enabled docker.service >/dev/null 2>&1; then
-    log 'Docker service already enabled'
+  if systemctl is-enabled docker.service >/dev/null 2>&1 &&
+    systemctl is-active docker.service >/dev/null 2>&1; then
+    log 'Docker service already enabled and active'
   else
-    run sudo systemctl enable docker.service
+    run sudo systemctl enable --now docker.service
+  fi
+
+  if id -nG "$USER" | tr ' ' '\n' | grep -Fxq docker; then
+    log "$USER already belongs to the docker group"
+  else
+    run sudo usermod --append --groups docker "$USER"
+    log 'log out and back in before using Docker without sudo'
   fi
 }
