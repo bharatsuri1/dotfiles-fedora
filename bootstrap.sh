@@ -4,6 +4,8 @@ set -Eeuo pipefail
 
 readonly REPOSITORY_URL="${DOTFILES_FEDORA_REPOSITORY_URL:-https://github.com/bharatsuri1/dotfiles-fedora.git}"
 readonly INSTALL_ROOT="${DOTFILES_FEDORA_INSTALL_ROOT:-$HOME/.local/share/dotfiles-fedora}"
+readonly BOOTSTRAP_URL="https://raw.githubusercontent.com/bharatsuri1/dotfiles-fedora/main/bootstrap.sh"
+readonly LOCAL_BIN="$HOME/.local/bin"
 
 log() {
   printf '==> %s\n' "$*"
@@ -41,6 +43,19 @@ else
   mkdir -p "$(dirname -- "$INSTALL_ROOT")"
   git clone "$REPOSITORY_URL" "$INSTALL_ROOT"
 fi
+
+log 'installing laptop-setup command'
+mkdir -p "$LOCAL_BIN"
+
+cat > "$LOCAL_BIN/laptop-setup" <<EOF
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+curl -fsSL "$BOOTSTRAP_URL" | bash -s -- "\$@"
+EOF
+
+chmod +x "$LOCAL_BIN/laptop-setup"
+
 
 log 'starting the guided Fedora laptop setup'
 if (($#)); then
