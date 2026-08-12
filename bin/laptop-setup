@@ -19,6 +19,7 @@ readonly DNF_PACKAGES=(
   alacritty
   bat
   btop
+  chromium
   curl
   eza
   fastfetch
@@ -28,19 +29,19 @@ readonly DNF_PACKAGES=(
   fzf
   git
   ripgrep
-  starship
+  xdg-utils
   xz
   zoxide
   zsh
 )
 
 readonly FLATPAK_APPS=(
-  app.zen_browser.zen
   org.localsend.localsend_app
 )
 
 readonly BREW_FORMULAE=(
   dashlane/tap/dashlane-cli
+  starship
   jless
   fx
 )
@@ -67,7 +68,12 @@ run() {
 confirm() {
   local prompt="$1"
   $ASSUME_YES && return 0
-  read -r -p "$prompt [y/N] " answer
+  local answer
+  if [[ -r /dev/tty ]]; then
+    read -r -p "$prompt [y/N] " answer </dev/tty
+  else
+    die 'interactive confirmation requires a terminal; rerun with --yes for non-interactive use'
+  fi
   [[ "$answer" == [yY] || "$answer" == [yY][eE][sS] ]]
 }
 
@@ -92,13 +98,21 @@ install_packages() {
 
   if ((${#missing[@]} == 0)); then
     log 'DNF packages already installed'
-    return
+  else
+    log "installing missing DNF packages: ${missing[*]}"
+    local -a command=(sudo dnf install)
+    $ASSUME_YES && command+=(--assumeyes)
+    run "${command[@]}" "${missing[@]}"
   fi
 
-  log "installing missing DNF packages: ${missing[*]}"
-  local -a command=(sudo dnf install)
-  $ASSUME_YES && command+=(--assumeyes)
-  run "${command[@]}" "${missing[@]}"
+  if dnf group list --installed 2>/dev/null | grep -Fqi 'Development Tools'; then
+    log 'DNF Development Tools group already installed'
+  else
+    log 'installing the native build toolchain required by Homebrew'
+    local -a group_command=(sudo dnf group install development-tools)
+    $ASSUME_YES && group_command+=(--assumeyes)
+    run "${group_command[@]}"
+  fi
 }
 
 font_source_dir() {
@@ -174,8 +188,8 @@ install_flatpaks() {
     fi
   done
 
-  if flatpak info app.zen_browser.zen >/dev/null 2>&1 || $DRY_RUN; then
-    run xdg-settings set default-web-browser app.zen_browser.zen.desktop
+  if command -v chromium-browser >/dev/null 2>&1 || $DRY_RUN; then
+    run xdg-settings set default-web-browser chromium-browser.desktop
   fi
 }
 
@@ -344,8 +358,8 @@ Commands:
   apply       Run packages, font, Flatpaks, Homebrew, config, and shell phases
   packages    Install missing Fedora-native packages
   font        Install pinned JetBrains Mono Nerd Font
-  flatpaks    Configure Flathub and install Zen Browser and LocalSend
-  homebrew    Install Homebrew if needed, then Dashlane CLI, jless, and fx
+  flatpaks    Configure Flathub and install LocalSend
+  homebrew    Install Homebrew if needed, then Dashlane CLI, Starship, jless, and fx
   config      Back up conflicts and link the managed configuration
   shell       Change the login shell to Zsh after confirmation
 EOF
