@@ -9,7 +9,7 @@
 - [ ] Review niri touchpad gestures without adding a conflicting gesture daemon.
 - [ ] Configure niri keyboard repeat delay and rate.
 - [ ] Make new niri windows open full-width by default.
-- [ ] Add Nerd Font icons to the Starship prompt.
+- [x] Add Nerd Font icons to the Starship prompt.
 - [ ] Add a niri keybinding for the default Herdr session.
 - [ ] Select a graphical login manager compatible with niri.
 - [ ] Install and configure the selected graphical login manager.
