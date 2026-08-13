@@ -73,6 +73,28 @@ Configuration deployment uses symlinks back into this checkout. An existing
 target is moved first to a timestamped directory under
 `~/.local/state/dotfiles-fedora/backups/`; it is never silently overwritten.
 
+## Tmux and Sesh
+
+Tmux uses `Ctrl+Space` as its prefix and a modular Vesper status bar. Press the
+prefix twice to cancel it. The managed configuration preserves the active
+directory in new windows and panes, enables the mouse and vi copy mode, and
+copies selections to the Wayland clipboard with `wl-copy`.
+
+Common bindings:
+
+| Binding | Action |
+| --- | --- |
+| `Prefix h/j/k/l` | Navigate panes |
+| `Prefix H/J/K/L` | Resize panes |
+| `Prefix K` | Open the Sesh picker |
+| `Prefix Tab` | Switch to the previous Sesh session |
+| `Prefix r` | Reload the tmux configuration |
+| `Prefix x` | Kill the active pane without confirmation |
+
+The `t` shell function creates or attaches to the `home` session by default;
+pass a name such as `t work` to create or attach another home-rooted session.
+Use `tl` to open the Sesh picker and `tk` to stop the entire tmux server.
+
 ## First-draft scope
 
 - Alacritty with JetBrainsMono Nerd Font and the Vesper palette;
@@ -86,7 +108,7 @@ target is moved first to a timestamped directory under
 - LocalSend from Flathub;
 - Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, Sesh, and `xh`;
 - Herdr from its official verified installer; and
-- small Zsh, Starship, bat, and fastfetch defaults.
+- managed Zsh, Starship, tmux, Sesh, bat, and fastfetch defaults.
 
 Authentication, browser profiles, Dashlane sessions, shell history, SSH keys,
 GNOME dconf state, caches, and generated runtime files must stay outside Git.
