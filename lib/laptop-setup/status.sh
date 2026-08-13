@@ -18,6 +18,15 @@ show_status() {
     fi
   done
 
+  printf 'Mise-managed npm tools:\n'
+  for item in "${NPM_GLOBAL_PACKAGES[@]}"; do
+    if npm_global_package_installed "$item"; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+
   printf 'Herdr:\n'
   if [[ -x "$HERDR_BINARY" ]]; then
     printf '  [ok]      %s\n' "$HERDR_BINARY"
@@ -184,6 +193,7 @@ EOF
     "$HOME/.config/atuin/config.toml" \
     "$HOME/.config/mise/config.toml" \
     "$HOME/.pi/agent/settings.json" \
+    "$HOME/.pi/agent/extensions/statusline.ts" \
     "$HOME/.config/starship.toml" \
     "$HOME/.config/bat/config" \
     "$HOME/.config/fastfetch/config.jsonc" \
