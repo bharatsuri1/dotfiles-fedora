@@ -210,6 +210,8 @@ EOF
     "$HOME/.config/zsh/plugins.zsh" \
     "$HOME/.config/atuin/config.toml" \
     "$HOME/.config/mise/config.toml" \
+    "$HOME/.config/tmux/tmux.conf" \
+    "$HOME/.config/sesh/sesh.toml" \
     "$HOME/.pi/agent/settings.json" \
     "$HOME/.pi/agent/extensions/statusline.ts" \
     "$HOME/.config/starship.toml" \

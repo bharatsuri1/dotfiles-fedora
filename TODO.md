@@ -37,7 +37,8 @@
 - [x] Link the managed tmux configuration during the `config` setup phase.
 - [x] Reload the managed tmux configuration during setup when a tmux server is running.
 - [x] Install Sesh and bind its built-in session picker to tmux `K`.
-- [ ] Report the managed tmux configuration link in `status`.
+- [x] Add managed Sesh defaults, shell aliases, and last-session navigation.
+- [x] Report the managed tmux configuration link in `status`.
 - [ ] Document tmux in the README managed scope.
 - [ ] Validate the managed tmux configuration and setup scripts.
 - [ ] Review `agavra/tuicr` installation, dependencies, and package ownership.

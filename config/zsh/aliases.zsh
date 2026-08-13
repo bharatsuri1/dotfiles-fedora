@@ -8,6 +8,20 @@ alias which='type -a'
 alias path='print -l $path'
 alias reload='exec zsh'
 alias cx='codex --dangerously-bypass-approvals-and-sandbox --dangerously-bypass-hook-trust'
+alias tl='sesh picker'
+alias tk='tmux kill-server'
+
+t() {
+  local session_name="${1:-home}"
+
+  if [[ -n "$TMUX" ]]; then
+    tmux has-session -t "=$session_name" 2>/dev/null ||
+      tmux new-session -d -s "$session_name" -c "$HOME"
+    tmux switch-client -t "=$session_name"
+  else
+    tmux new-session -A -s "$session_name" -c "$HOME"
+  fi
+}
 
 if command -v eza >/dev/null; then
   alias l='eza -lah --group-directories-first --icons=auto'

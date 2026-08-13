@@ -62,6 +62,7 @@ install_config() {
   link_config "$REPO_ROOT/config/mise/config.toml" "$HOME/.config/mise/config.toml"
   link_config "$REPO_ROOT/config/tmux/tmux.conf" "$HOME/.config/tmux/tmux.conf"
   reload_tmux_config
+  link_config "$REPO_ROOT/config/sesh/sesh.toml" "$HOME/.config/sesh/sesh.toml"
   link_config "$REPO_ROOT/config/pi/settings.json" "$HOME/.pi/agent/settings.json"
   link_config "$REPO_ROOT/config/pi/extensions/statusline.ts" "$HOME/.pi/agent/extensions/statusline.ts"
   link_config "$REPO_ROOT/config/starship.toml" "$HOME/.config/starship.toml"
