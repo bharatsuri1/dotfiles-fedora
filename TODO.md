@@ -36,6 +36,7 @@
 - [x] Copy tmux copy-mode selections with `wl-copy` on Wayland.
 - [x] Link the managed tmux configuration during the `config` setup phase.
 - [x] Reload the managed tmux configuration during setup when a tmux server is running.
+- [x] Install Sesh and bind its built-in session picker to tmux `K`.
 - [ ] Report the managed tmux configuration link in `status`.
 - [ ] Document tmux in the README managed scope.
 - [ ] Validate the managed tmux configuration and setup scripts.

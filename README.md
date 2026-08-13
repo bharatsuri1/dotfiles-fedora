@@ -84,7 +84,7 @@ target is moved first to a timestamped directory under
 - Chromium from Fedora for browser app-mode launchers using
   `chromium-browser --app=URL`;
 - LocalSend from Flathub;
-- Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, and `xh`;
+- Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, Sesh, and `xh`;
 - Herdr from its official verified installer; and
 - small Zsh, Starship, bat, and fastfetch defaults.
 

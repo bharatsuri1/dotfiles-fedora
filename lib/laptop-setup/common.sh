@@ -93,6 +93,7 @@ readonly BREW_FORMULAE=(
   jless
   fx
   lazygit
+  sesh
   xh
 )
 
