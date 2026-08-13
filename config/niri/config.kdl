@@ -114,3 +114,6 @@ binds {
     Ctrl+Alt+Delete { quit; }
     Mod+Shift+P { power-off-monitors; }
 }
+
+// DMS Include Configs
+include "dms/outputs.kdl"
