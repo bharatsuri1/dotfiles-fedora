@@ -47,6 +47,8 @@
 - [ ] Add each approved optional application in a separate commit.
 - [ ] Add Restic after defining repository and credential inputs.
 
+- [ ] Apply the Vesper palette consistently across DMS shell surfaces and appearance settings.
+
 ## Priority 5: Setup observability
 
 - [ ] Report Nerd Font availability in `status`.
