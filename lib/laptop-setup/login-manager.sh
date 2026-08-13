@@ -12,6 +12,9 @@ install_login_manager() {
   verify_niri_login_session
   enable_copr avengemedia/danklinux
 
+  local original_boot_target
+  original_boot_target="$(systemctl get-default 2>/dev/null || true)"
+
   local -a command=(sudo dnf install)
   $ASSUME_YES && command+=(--assumeyes)
   run "${command[@]}" greetd dms-greeter
@@ -21,10 +24,24 @@ install_login_manager() {
   else
     command -v dms >/dev/null 2>&1 || die 'DMS is missing; run the dms phase first'
     dms greeter sync --yes
+
+    local current_boot_target
+    current_boot_target="$(systemctl get-default 2>/dev/null || true)"
+    if [[ -n "$original_boot_target" && "$current_boot_target" != "$original_boot_target" ]]; then
+      log "restoring boot target changed by DMS Greeter sync to $original_boot_target"
+      sudo systemctl set-default "$original_boot_target"
+    fi
+
+    if [[ " $(id -nG) " != *" greeter "* ]]; then
+      log 'greeter group membership was added but is not active in this login session'
+      log 'log out and back in, then rerun laptop-setup login-manager to finish synchronization'
+      return
+    fi
+
     dms greeter status
   fi
 
-  log 'greeter installed but not enabled; validate it, then run login-manager-enable'
+  log 'greetd service remains disabled; validate it, then run login-manager-enable'
 }
 
 enabled_display_manager() {

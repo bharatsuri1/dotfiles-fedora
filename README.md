@@ -111,6 +111,9 @@ laptop-setup login-manager-enable
 The first command installs and synchronizes the greeter without changing the
 boot target. The second checks for conflicting display managers, asks for
 confirmation, enables greetd, and changes the default to `graphical.target`.
+The first synchronization may add your account to the `greeter` group; if so,
+log out and back in, then rerun `laptop-setup login-manager` to finish syncing
+the protected greeter cache.
 
 Before rebooting, keep a terminal open and confirm `dms greeter status` is
 healthy. For recovery, switch to a TTY with `Ctrl+Alt+F3`, log in, and run:
