@@ -21,9 +21,24 @@
 - [ ] Install VS Code through DNF.
 - [ ] Track minimal VS Code settings and keybindings.
 - [ ] Define a small reviewed VS Code extension list.
-- [ ] Add a minimal tmux configuration.
-- [ ] Add tmux session and pane keybindings.
-- [ ] Add tmux clipboard integration for Wayland.
+- [x] Create a managed `config/tmux/tmux.conf` with a `Ctrl-Space` prefix.
+- [x] Enable tmux mouse support, true color, extended keys, and increased scrollback history.
+- [x] Start tmux window and pane numbering at 1 and renumber windows after removal.
+- [x] Open new tmux windows and panes in the current working directory.
+- [x] Set tmux escape time to 10 milliseconds for responsive Vim input.
+- [ ] Add tmux keybindings to create, rename, and switch sessions and windows.
+- [ ] Add tmux keybindings to split panes.
+- [x] Add repeatable tmux `h`, `j`, `k`, and `l` keybindings to navigate panes.
+- [x] Add repeatable tmux `H`, `J`, `K`, and `L` keybindings to resize panes.
+- [x] Bind tmux `x` to kill the active pane without confirmation.
+- [ ] Add a tmux keybinding to reload the managed configuration.
+- [x] Enable vi-style tmux copy mode.
+- [ ] Copy tmux copy-mode selections with `wl-copy` on Wayland.
+- [x] Link the managed tmux configuration during the `config` setup phase.
+- [x] Reload the managed tmux configuration during setup when a tmux server is running.
+- [ ] Report the managed tmux configuration link in `status`.
+- [ ] Document tmux in the README managed scope.
+- [ ] Validate the managed tmux configuration and setup scripts.
 - [ ] Review `agavra/tuicr` installation, dependencies, and package ownership.
 - [ ] Install and configure `tuicr` through the selected package source.
 
