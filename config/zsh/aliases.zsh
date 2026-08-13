@@ -7,6 +7,7 @@ alias mkdir='mkdir -p'
 alias which='type -a'
 alias path='print -l $path'
 alias reload='exec zsh'
+alias cx='codex --dangerously-bypass-approvals-and-sandbox --dangerously-bypass-hook-trust'
 
 if command -v eza >/dev/null; then
   alias l='eza -lah --group-directories-first --icons=auto'

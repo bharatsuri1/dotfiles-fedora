@@ -55,7 +55,7 @@
 
 - [ ] Report Nerd Font availability in `status`.
 - [ ] Report the default browser in `status`.
-- [ ] Report the login shell in `status`.
+- [x] Report the login shell in `status`.
 - [ ] Report the graphical login manager in `status`.
 - [ ] Report all managed configuration links in `status`.
 - [ ] Add a `doctor` command dispatcher.

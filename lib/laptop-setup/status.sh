@@ -1,4 +1,13 @@
 show_status() {
+  printf 'Login shell:\n'
+  local login_shell
+  login_shell="$(getent passwd "$(id -un)" | cut -d: -f7)"
+  if [[ -n "$login_shell" ]]; then
+    printf '  [configured] %s\n' "$login_shell"
+  else
+    printf '  [unknown] unable to read the login shell\n'
+  fi
+
   printf 'Fedora packages:\n'
   local item
   for item in "${DNF_PACKAGES[@]}"; do
