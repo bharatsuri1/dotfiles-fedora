@@ -25,6 +25,30 @@ link_config() {
   run ln -s "$source" "$target"
 }
 
+reload_tmux_config() {
+  local config="$HOME/.config/tmux/tmux.conf"
+
+  if ! command -v tmux >/dev/null 2>&1; then
+    log 'tmux is unavailable; skipping configuration reload'
+    return
+  fi
+
+  if ! tmux list-sessions >/dev/null 2>&1; then
+    log 'tmux server is not running; configuration will load on next start'
+    return
+  fi
+
+  if $DRY_RUN; then
+    run tmux source-file "$config"
+  elif tmux source-file "$config"; then
+    log 'reloaded tmux configuration'
+  elif ! tmux list-sessions >/dev/null 2>&1; then
+    log 'tmux server stopped before configuration could be reloaded'
+  else
+    die "failed to reload tmux configuration from $config"
+  fi
+}
+
 install_config() {
   link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
@@ -36,6 +60,8 @@ install_config() {
   done
   link_config "$REPO_ROOT/config/atuin/config.toml" "$HOME/.config/atuin/config.toml"
   link_config "$REPO_ROOT/config/mise/config.toml" "$HOME/.config/mise/config.toml"
+  link_config "$REPO_ROOT/config/tmux/tmux.conf" "$HOME/.config/tmux/tmux.conf"
+  reload_tmux_config
   link_config "$REPO_ROOT/config/pi/settings.json" "$HOME/.pi/agent/settings.json"
   link_config "$REPO_ROOT/config/pi/extensions/statusline.ts" "$HOME/.pi/agent/extensions/statusline.ts"
   link_config "$REPO_ROOT/config/starship.toml" "$HOME/.config/starship.toml"
