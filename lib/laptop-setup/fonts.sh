@@ -7,7 +7,7 @@ done
 unset font_module
 
 font_family_installed() {
-  fc-list : family 2>/dev/null | grep -Fqi -- "$1"
+  fc-list : family 2>/dev/null | grep -Fi -- "$1" >/dev/null
 }
 
 install_fonts() {
