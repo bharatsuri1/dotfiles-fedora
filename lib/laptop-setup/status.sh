@@ -27,6 +27,33 @@ show_status() {
     printf '  [missing] %s\n' "$CHROMIUM_POLICY_TARGET"
   fi
 
+  printf 'Graphical login:\n'
+  local boot_target display_manager display_manager_fragment display_manager_state
+  boot_target="$(systemctl get-default 2>/dev/null || true)"
+  display_manager_state="$(systemctl show display-manager.service -p LoadState --value 2>/dev/null || true)"
+  if [[ "$display_manager_state" == loaded ]]; then
+    display_manager_fragment="$(systemctl show display-manager.service -p FragmentPath --value 2>/dev/null || true)"
+    display_manager="$(basename -- "$display_manager_fragment")"
+  else
+    display_manager=""
+  fi
+  printf '  [target]   %s\n' "${boot_target:-unknown}"
+  if [[ -n "$display_manager" ]]; then
+    printf '  [enabled]  %s\n' "$display_manager"
+  else
+    printf '  [missing]  display-manager.service\n'
+  fi
+  if package_installed dms-greeter; then
+    printf '  [ok]       dms-greeter\n'
+  else
+    printf '  [missing]  dms-greeter\n'
+  fi
+  if [[ -r "$NIRI_SESSION_FILE" ]] && grep -Eq '^Exec=niri-session$' "$NIRI_SESSION_FILE"; then
+    printf '  [ok]       niri-session\n'
+  else
+    printf '  [invalid]  %s\n' "$NIRI_SESSION_FILE"
+  fi
+
   printf 'Fedora packages:\n'
   local item
   for item in "${DNF_PACKAGES[@]}"; do

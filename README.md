@@ -95,6 +95,39 @@ The `t` shell function creates or attaches to the `home` session by default;
 pass a name such as `t work` to create or attach another home-rooted session.
 Use `tl` to open the Sesh picker and `tk` to stop the entire tmux server.
 
+## Graphical login
+
+The selected graphical login stack is Fedora's `greetd` with DMS Dank Greeter.
+It launches the packaged niri session through `niri-session`, preserving niri's
+systemd user-session and portal integration. Installation and activation are
+deliberately separate:
+
+```bash
+laptop-setup login-manager
+dms greeter status
+laptop-setup login-manager-enable
+```
+
+The first command installs and synchronizes the greeter without changing the
+boot target. The second checks for conflicting display managers, asks for
+confirmation, enables greetd, and changes the default to `graphical.target`.
+
+Before rebooting, keep a terminal open and confirm `dms greeter status` is
+healthy. For recovery, switch to a TTY with `Ctrl+Alt+F3`, log in, and run:
+
+```bash
+sudo systemctl stop greetd.service
+sudo systemctl disable greetd.service
+sudo systemctl set-default multi-user.target
+```
+
+You can then start `niri-session` manually. To remove DMS Greeter configuration
+and restore the display-manager state saved by DMS, run:
+
+```bash
+dms greeter uninstall --yes
+```
+
 ## First-draft scope
 
 - Alacritty with JetBrainsMono Nerd Font and the Vesper palette;

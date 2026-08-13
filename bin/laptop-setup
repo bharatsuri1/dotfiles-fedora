@@ -16,6 +16,7 @@ for module in \
   desktop-defaults \
   niri \
   dms \
+  login-manager \
   keyd \
   fonts \
   flatpaks \
@@ -46,6 +47,10 @@ Commands:
               Configure browser, file, media, image, and PDF handlers
   niri        Install niri from the DMS COPR
   dms         Install DMS and attach it to niri
+  login-manager
+              Install and configure greetd with DMS Greeter without enabling boot
+  login-manager-enable
+              Explicitly enable DMS Greeter and graphical boot
   keyd        Install keyd and configure Caps as Escape/Hyper
   fonts       Install terminal and desktop fallback fonts
   font        Alias for fonts (deprecated)
@@ -100,6 +105,8 @@ main() {
     desktop-defaults) install_desktop_defaults ;;
     niri) install_niri ;;
     dms) install_dms ;;
+    login-manager) install_login_manager ;;
+    login-manager-enable) enable_login_manager ;;
     keyd) install_keyd ;;
     fonts|font) install_fonts ;;
     flatpaks) install_flatpaks ;;

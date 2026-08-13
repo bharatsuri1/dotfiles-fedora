@@ -32,13 +32,14 @@
 - [ ] Make new niri windows open full-width by default.
 - [x] Add Nerd Font icons to the Starship prompt.
 - [ ] Add a niri keybinding for the default Herdr session.
-- [ ] Select a graphical login manager compatible with niri.
+- [x] Select greetd with DMS Dank Greeter as the graphical login manager.
+- [x] Add separate install and enable setup phases for DMS Greeter.
 - [ ] Install the selected graphical login manager from a reviewed Fedora package source.
 - [ ] Configure the login manager to offer and launch the managed niri session.
 - [ ] Apply a minimal Vesper-themed graphical greeter with matching fonts, colors, and branding.
 - [ ] Enable `graphical.target` and start the graphical login manager automatically at boot.
 - [ ] Disable or remove conflicting display managers before enabling the selected service.
-- [ ] Preserve a TTY recovery path and document how to bypass or stop the graphical login manager.
+- [x] Preserve a TTY recovery path and document how to bypass or stop the graphical login manager.
 - [ ] Validate login, logout, failed-login recovery, reboot, and fallback-to-TTY behavior.
 - [ ] Review Fedora's current Plymouth setup, theme ownership, and initramfs integration.
 - [ ] Select or create a minimal Vesper-themed Plymouth boot splash.
@@ -109,7 +110,7 @@
 - [x] Report Nerd Font availability in `status`.
 - [x] Report the default browser in `status`.
 - [x] Report the login shell in `status`.
-- [ ] Report the graphical login manager in `status`.
+- [x] Report the graphical login manager in `status`.
 - [ ] Report all managed configuration links in `status`.
 - [ ] Add a `doctor` command dispatcher.
 - [ ] Add graphics and VA-API checks to `doctor`.
