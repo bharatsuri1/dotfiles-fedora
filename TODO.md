@@ -12,8 +12,21 @@
 - [x] Add Nerd Font icons to the Starship prompt.
 - [ ] Add a niri keybinding for the default Herdr session.
 - [ ] Select a graphical login manager compatible with niri.
-- [ ] Install and configure the selected graphical login manager.
-- [ ] Preserve a TTY recovery path when enabling graphical login.
+- [ ] Install the selected graphical login manager from a reviewed Fedora package source.
+- [ ] Configure the login manager to offer and launch the managed niri session.
+- [ ] Apply a minimal Vesper-themed graphical greeter with matching fonts, colors, and branding.
+- [ ] Enable `graphical.target` and start the graphical login manager automatically at boot.
+- [ ] Disable or remove conflicting display managers before enabling the selected service.
+- [ ] Preserve a TTY recovery path and document how to bypass or stop the graphical login manager.
+- [ ] Validate login, logout, failed-login recovery, reboot, and fallback-to-TTY behavior.
+- [ ] Review Fedora's current Plymouth setup, theme ownership, and initramfs integration.
+- [ ] Select or create a minimal Vesper-themed Plymouth boot splash.
+- [ ] Track the Plymouth theme and installation logic without modifying generated runtime state.
+- [ ] Configure quiet boot while preserving access to detailed boot diagnostics.
+- [ ] Rebuild the initramfs safely after installing or changing the Plymouth theme.
+- [ ] Validate the splash during startup, shutdown, reboot, and boot failure recovery.
+- [ ] Validate the splash with disk-unlock prompts if full-disk encryption is enabled.
+- [ ] Document how to disable the custom splash and restore Fedora's default Plymouth theme.
 
 ## Priority 2: Development tools
 
@@ -71,7 +84,7 @@
 
 ## Priority 5: Setup observability
 
-- [ ] Report Nerd Font availability in `status`.
+- [x] Report Nerd Font availability in `status`.
 - [x] Report the default browser in `status`.
 - [x] Report the login shell in `status`.
 - [ ] Report the graphical login manager in `status`.
