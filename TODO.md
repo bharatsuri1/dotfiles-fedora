@@ -26,8 +26,8 @@
 - [x] Start tmux window and pane numbering at 1 and renumber windows after removal.
 - [x] Open new tmux windows and panes in the current working directory.
 - [x] Set tmux escape time to 10 milliseconds for responsive Vim input.
-- [ ] Add tmux keybindings to create, rename, and switch sessions and windows.
-- [ ] Add tmux keybindings to split panes.
+- [x] Use tmux defaults to create, rename, and switch sessions and windows.
+- [x] Use tmux defaults to split panes.
 - [x] Add repeatable tmux `h`, `j`, `k`, and `l` keybindings to navigate panes.
 - [x] Add repeatable tmux `H`, `J`, `K`, and `L` keybindings to resize panes.
 - [x] Bind tmux `x` to kill the active pane without confirmation.
@@ -39,6 +39,7 @@
 - [x] Install Sesh and bind its built-in session picker to tmux `K`.
 - [x] Add managed Sesh defaults, shell aliases, and last-session navigation.
 - [x] Report the managed tmux configuration link in `status`.
+- [x] Add a modular Vesper-themed tmux status bar and tune it interactively.
 - [ ] Document tmux in the README managed scope.
 - [ ] Validate the managed tmux configuration and setup scripts.
 - [ ] Review `agavra/tuicr` installation, dependencies, and package ownership.
