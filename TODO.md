@@ -31,9 +31,9 @@
 - [x] Add repeatable tmux `h`, `j`, `k`, and `l` keybindings to navigate panes.
 - [x] Add repeatable tmux `H`, `J`, `K`, and `L` keybindings to resize panes.
 - [x] Bind tmux `x` to kill the active pane without confirmation.
-- [ ] Add a tmux keybinding to reload the managed configuration.
+- [x] Add a tmux keybinding to reload the managed configuration.
 - [x] Enable vi-style tmux copy mode.
-- [ ] Copy tmux copy-mode selections with `wl-copy` on Wayland.
+- [x] Copy tmux copy-mode selections with `wl-copy` on Wayland.
 - [x] Link the managed tmux configuration during the `config` setup phase.
 - [x] Reload the managed tmux configuration during setup when a tmux server is running.
 - [ ] Report the managed tmux configuration link in `status`.
