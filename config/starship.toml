@@ -16,6 +16,7 @@ vimcmd_symbol = "[](bold love)"
 
 [directory]
 format = "[ ]($style)[$path]($style)[$read_only]($read_only_style)  "
+style = "bold peach"
 truncation_length = 2
 truncation_symbol = ""
 read_only = " "
