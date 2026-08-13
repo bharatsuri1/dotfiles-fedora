@@ -1,33 +1,92 @@
 # TODO
 
-## Priority 1: Immediate setup
+## Priority 1: Desktop experience
 
-- [ ] Configure minimal DMS defaults and application preferences.
-- [ ] Tune niri touchpad scrolling, acceleration, gestures, and click behavior.
-- [ ] Configure keyboard repeat delay and rate for the niri session.
+- [ ] Review generated DMS settings and identify portable defaults.
+- [ ] Track minimal DMS application preferences.
+- [ ] Tune niri touchpad scroll direction and speed.
+- [ ] Tune niri touchpad acceleration and click behavior.
+- [ ] Review niri touchpad gestures without adding a conflicting gesture daemon.
+- [ ] Configure niri keyboard repeat delay and rate.
 - [ ] Make new niri windows open full-width by default.
-- [ ] Enhance Starship with Nerd Font icons.
-- [ ] Add a niri keybinding to launch the default Herdr session.
-- [ ] Add a modern graphical login manager that starts niri directly.
-- [ ] Add Microsoft VS Code from its official Fedora repository.
-- [ ] Add tmux configuration.
-- [ ] Add firewall defaults.
-- [ ] Add power, idle, lock, and suspend policy.
-- [ ] Select and add optional desktop applications.
-- [ ] Complete deferred validation, `status`, `doctor`, and CI work.
+- [ ] Add Nerd Font icons to the Starship prompt.
+- [ ] Add a niri keybinding for the default Herdr session.
+- [ ] Select a graphical login manager compatible with niri.
+- [ ] Install and configure the selected graphical login manager.
+- [ ] Preserve a TTY recovery path when enabling graphical login.
 
-## Priority 2: Validation and health tooling
+## Priority 2: Development tools
 
-- [ ] Validate graphics acceleration and VA-API.
-- [ ] Validate PipeWire, WirePlumber, audio devices, and media controls.
+- [ ] Add Microsoft’s official VS Code RPM repository.
+- [ ] Install VS Code through DNF.
+- [ ] Track minimal VS Code settings and keybindings.
+- [ ] Define a small reviewed VS Code extension list.
+- [ ] Add a minimal tmux configuration.
+- [ ] Add tmux session and pane keybindings.
+- [ ] Add tmux clipboard integration for Wayland.
+- [ ] Review `agavra/tuicr` installation, dependencies, and package ownership.
+- [ ] Install and configure `tuicr` through the selected package source.
+
+## Priority 3: Security and laptop policy
+
+- [ ] Install and enable Fedora’s firewall service.
+- [ ] Define a minimal inbound firewall policy.
+- [ ] Document how Docker-published ports interact with the firewall.
+- [ ] Choose the owner of idle detection and screen locking.
+- [ ] Configure idle screen locking.
+- [ ] Configure display power-off timeout.
+- [ ] Configure suspend timeout and lid-close behavior.
+- [ ] Configure lock-before-suspend behavior.
+- [ ] Review AC versus battery power behavior.
+
+## Priority 4: Optional applications
+
+- [ ] Audit desired communication applications and choose package sources.
+- [ ] Audit desired media applications and choose package sources.
+- [ ] Audit desired productivity applications and choose package sources.
+- [ ] Add each approved optional application in a separate commit.
+- [ ] Add Restic after defining repository and credential inputs.
+
+## Priority 5: Setup observability
+
+- [ ] Report Nerd Font availability in `status`.
+- [ ] Report the default browser in `status`.
+- [ ] Report the login shell in `status`.
+- [ ] Report the graphical login manager in `status`.
+- [ ] Report all managed configuration links in `status`.
+- [ ] Add a `doctor` command dispatcher.
+- [ ] Add graphics and VA-API checks to `doctor`.
+- [ ] Add audio and media-control checks to `doctor`.
+- [ ] Add Bluetooth service and adapter checks to `doctor`.
+- [ ] Add keyring, Secret Service, and Polkit checks to `doctor`.
+- [ ] Add portal backend checks to `doctor`.
+- [ ] Add niri, DMS, and Xwayland checks to `doctor`.
+- [ ] Add keyd configuration and service checks to `doctor`.
+- [ ] Add Docker, Mise, Node, Pi, Codex, and Herdr checks to `doctor`.
+
+## Priority 6: Manual validation
+
+- [ ] Validate graphics acceleration and VA-API decoding.
+- [ ] Validate speakers, microphone, headphones, and media keys.
 - [ ] Validate Bluetooth discovery, pairing, reconnect, and audio profiles.
-- [ ] Validate GNOME Keyring, Secret Service, and Polkit integration.
-- [ ] Validate portals, screen sharing, file dialogs, and Flatpak integration.
+- [ ] Validate keyring unlock and Secret Service persistence after login.
+- [ ] Validate a graphical Polkit authentication prompt.
+- [ ] Validate screen sharing and file dialogs through portals.
 - [ ] Validate brightness control and Wayland clipboard behavior.
-- [ ] Validate desktop applications, MIME handlers, and fallback fonts.
-- [ ] Validate native Wayland applications and Xwayland Satellite fallback.
-- [ ] Validate niri and DMS lifecycle with no overlapping shell services.
-- [ ] Validate keyd mapping and preserve a TTY recovery path.
-- [ ] Expand `status` coverage for fonts, browser, login shell, and all managed links.
-- [ ] Add a `doctor` command for runtime health checks.
-- [ ] Add Bash/Zsh syntax, ShellCheck, and whitespace CI.
+- [ ] Validate browser, file, media, image, and PDF MIME handlers.
+- [ ] Validate Noto UI, emoji, and CJK font fallback.
+- [ ] Validate a native Wayland application.
+- [ ] Validate an X11 application through Xwayland Satellite.
+- [ ] Validate niri logout and recovery to a TTY.
+- [ ] Validate one DMS process and no overlapping shell services.
+- [ ] Validate keyd tap/hold behavior and TTY recovery.
+
+## Priority 7: Automation and maintenance
+
+- [ ] Add Bash syntax checks to CI.
+- [ ] Add Zsh syntax checks to CI.
+- [ ] Add ShellCheck to CI.
+- [ ] Add whitespace and JSON/TOML validation to CI.
+- [ ] Add niri configuration validation to CI where available.
+- [ ] Document update commands for DNF, Flatpak, Homebrew, Mise, and Herdr.
+- [ ] Document removal and rollback steps for external repositories.
