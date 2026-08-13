@@ -4,6 +4,27 @@
 
 - [ ] Review generated DMS settings and identify portable defaults.
 - [ ] Track minimal DMS application preferences.
+- [ ] Review DMS top-bar extension points and confirm DMS owns the desktop bar.
+- [ ] Inventory available DMS widgets, state providers, animations, and popup APIs.
+- [ ] Define a centered floating-island layout with clear left, center, and right content ownership.
+- [ ] Create a compact idle state that shows workspace, focused application, and essential system status.
+- [ ] Create expanded island states for notifications, media, audio, network, Bluetooth, battery, and power.
+- [ ] Define priority and timeout rules when multiple island states compete for attention.
+- [ ] Apply the Vesper palette, rounded geometry, spacing, typography, borders, and shadows consistently.
+- [ ] Add smooth state transitions and size animations with reduced-motion support.
+- [ ] Add click, scroll, hover, and keyboard interactions without conflicting with niri gestures.
+- [ ] Add media controls and track metadata with graceful handling when no player is active.
+- [ ] Add volume, microphone, brightness, network, Bluetooth, battery, and charging indicators.
+- [ ] Add notification previews with privacy-aware redaction and do-not-disturb behavior.
+- [ ] Add workspace and focused-window context without duplicating niri's overview.
+- [ ] Make the island responsive across laptop, external, narrow, scaled, and multi-monitor displays.
+- [ ] Define per-monitor behavior and choose whether expanded state follows focus or pointer location.
+- [ ] Prevent the island from covering fullscreen content, overlays, screen sharing, or critical dialogs.
+- [ ] Keep state-provider polling event-driven where possible and define a performance budget.
+- [ ] Provide a minimal fallback bar when optional services or state providers are unavailable.
+- [ ] Validate accessibility, contrast, keyboard navigation, long text, Unicode, and localization behavior.
+- [ ] Validate idle, notification, media, connectivity, power, fullscreen, lock, and multi-monitor transitions.
+- [ ] Document the island architecture, managed settings, dependencies, customization, and rollback path.
 - [ ] Tune niri touchpad scroll direction and speed.
 - [ ] Tune niri touchpad acceleration and click behavior.
 - [ ] Review niri touchpad gestures without adding a conflicting gesture daemon.
