@@ -48,6 +48,8 @@
 - [ ] Add Restic after defining repository and credential inputs.
 
 - [ ] Apply the Vesper palette consistently across DMS shell surfaces and appearance settings.
+- [ ] Document the initial Fedora custom online installation, including switching to a terminal with `Ctrl+Alt+Fn+F1` and manually installing the Wi-Fi firmware required after boot.
+- [ ] Review and add managed Codex configuration while excluding credentials and runtime state.
 
 ## Priority 5: Setup observability
 
