@@ -8,6 +8,15 @@ show_status() {
     printf '  [unknown] unable to read the login shell\n'
   fi
 
+  printf 'Default browser:\n'
+  local default_browser
+  default_browser="$(xdg-settings get default-web-browser 2>/dev/null || true)"
+  if [[ -n "$default_browser" ]]; then
+    printf '  [configured] %s\n' "$default_browser"
+  else
+    printf '  [unknown] no default browser configured\n'
+  fi
+
   printf 'Fedora packages:\n'
   local item
   for item in "${DNF_PACKAGES[@]}"; do

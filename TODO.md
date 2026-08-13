@@ -54,7 +54,7 @@
 ## Priority 5: Setup observability
 
 - [ ] Report Nerd Font availability in `status`.
-- [ ] Report the default browser in `status`.
+- [x] Report the default browser in `status`.
 - [x] Report the login shell in `status`.
 - [ ] Report the graphical login manager in `status`.
 - [ ] Report all managed configuration links in `status`.
