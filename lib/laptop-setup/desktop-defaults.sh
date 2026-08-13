@@ -1,3 +1,6 @@
+readonly CHROMIUM_POLICY_SOURCE="$REPO_ROOT/config/chromium/policies.json"
+readonly CHROMIUM_POLICY_TARGET="/etc/chromium/policies/managed/dotfiles-fedora.json"
+
 set_mime_default() {
   local desktop_file="$1"
   shift
@@ -6,6 +9,12 @@ set_mime_default() {
   for mime_type in "$@"; do
     run xdg-mime default "$desktop_file" "$mime_type"
   done
+}
+
+install_chromium_policy() {
+  log 'installing managed Chromium defaults'
+  run sudo install -d -m 0755 "$(dirname -- "$CHROMIUM_POLICY_TARGET")"
+  run sudo install -m 0644 "$CHROMIUM_POLICY_SOURCE" "$CHROMIUM_POLICY_TARGET"
 }
 
 install_desktop_defaults() {
@@ -38,4 +47,6 @@ install_desktop_defaults() {
   if command -v xdg-settings >/dev/null 2>&1; then
     run xdg-settings set default-web-browser chromium-browser.desktop
   fi
+
+  install_chromium_policy
 }

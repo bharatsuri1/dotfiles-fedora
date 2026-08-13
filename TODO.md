@@ -93,6 +93,7 @@
 
 ## Priority 4: Optional applications
 
+- [x] Add setup support for a minimal managed Chromium policy that disables password saving, site notifications, and default-browser prompts.
 - [ ] Audit desired communication applications and choose package sources.
 - [ ] Audit desired media applications and choose package sources.
 - [ ] Audit desired productivity applications and choose package sources.

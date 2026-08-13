@@ -17,6 +17,16 @@ show_status() {
     printf '  [unknown] no default browser configured\n'
   fi
 
+  printf 'Chromium policy:\n'
+  if [[ -r "$CHROMIUM_POLICY_TARGET" ]] &&
+    cmp -s "$CHROMIUM_POLICY_SOURCE" "$CHROMIUM_POLICY_TARGET"; then
+    printf '  [managed] %s\n' "$CHROMIUM_POLICY_TARGET"
+  elif [[ -e "$CHROMIUM_POLICY_TARGET" ]]; then
+    printf '  [local]   %s\n' "$CHROMIUM_POLICY_TARGET"
+  else
+    printf '  [missing] %s\n' "$CHROMIUM_POLICY_TARGET"
+  fi
+
   printf 'Fedora packages:\n'
   local item
   for item in "${DNF_PACKAGES[@]}"; do

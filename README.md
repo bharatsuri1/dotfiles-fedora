@@ -104,7 +104,8 @@ Use `tl` to open the Sesh picker and `tk` to stop the entire tmux server.
 - pinned, directly sourced `zsh-autosuggestions` and
   `fast-syntax-highlighting` checkouts with no shell framework or plugin manager;
 - Chromium from Fedora for browser app-mode launchers using
-  `chromium-browser --app=URL`;
+  `chromium-browser --app=URL`, plus a managed local policy that disables
+  Chromium password saving, site notifications, and default-browser prompts;
 - LocalSend from Flathub;
 - Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, Sesh, and `xh`;
 - Herdr from its official verified installer; and
@@ -112,3 +113,5 @@ Use `tl` to open the Sesh picker and `tk` to stop the entire tmux server.
 
 Authentication, browser profiles, Dashlane sessions, shell history, SSH keys,
 GNOME dconf state, caches, and generated runtime files must stay outside Git.
+Chromium displays “Managed by your organization” because the setup installs
+these local policies under `/etc/chromium/policies/managed/`.
