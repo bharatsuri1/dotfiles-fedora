@@ -1,8 +1,6 @@
 input {
     keyboard {
-        xkb {
-            layout "us"
-        }
+        xkb {}
     }
 
     touchpad {
@@ -10,6 +8,8 @@ input {
         natural-scroll
         click-method "clickfinger"
     }
+
+    focus-follows-mouse
 }
 
 output "eDP-1" {
@@ -19,13 +19,14 @@ output "eDP-1" {
 }
 
 layout {
-    gaps 10
+    gaps 12
     background-color "#101010"
     center-focused-column "on-overflow"
+    always-center-single-column
     preset-column-widths {
+        proportion 0.33333
         proportion 0.5
         proportion 0.66667
-        proportion 0.33333
         proportion 1.0
     }
     default-column-width { proportion 1.0; }
@@ -43,7 +44,20 @@ layout {
         softness 24
         spread 3
         offset x=0 y=4
+        draw-behind-window true
         color "#00000050"
+    }
+
+    tab-indicator {
+        hide-when-single-tab
+        place-within-column
+        gap 6
+        width 3
+        length total-proportion=0.35
+        position "top"
+        active-color "#ffc799"
+        inactive-color "#505050"
+        urgent-color "#f5a191"
     }
 }
 
@@ -52,6 +66,14 @@ prefer-no-csd
 window-rule {
     geometry-corner-radius 10
     clip-to-geometry true
+}
+
+// Keep browser video useful without disrupting the scrolling layout.
+window-rule {
+    match app-id=r#"^(chromium-browser|firefox|org\.mozilla\.firefox)$"# title="^Picture-in-Picture$"
+    open-floating true
+    default-column-width { fixed 480; }
+    default-window-height { fixed 270; }
 }
 
 overview {
@@ -64,6 +86,10 @@ hotkey-overlay {
     skip-at-startup
 }
 
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
@@ -72,11 +98,12 @@ binds {
     Mod+B hotkey-overlay-title="Open Chromium" { spawn "chromium-browser"; }
     Mod+E hotkey-overlay-title="Open Files" { spawn "nautilus" "--new-window"; }
 
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
-    XF86AudioMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+" "-l" "1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
+    XF86AudioMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
     XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPause allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioStop allow-when-locked=true { spawn "playerctl" "stop"; }
     XF86AudioPrev allow-when-locked=true { spawn "playerctl" "previous"; }
     XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
@@ -85,25 +112,25 @@ binds {
 
     Mod+O repeat=false { toggle-overview; }
     Mod+Q repeat=false { close-window; }
-    Mod+Shift+L hotkey-overlay-title="Lock Screen" { spawn "lock-screen"; }
+    Mod+Shift+L allow-inhibiting=false hotkey-overlay-title="Lock Screen" { spawn "lock-screen"; }
 
-    Mod+Left { focus-column-left; }
+    Mod+Left { focus-column-or-monitor-left; }
     Mod+Down { focus-window-down; }
     Mod+Up { focus-window-up; }
-    Mod+Right { focus-column-right; }
-    Mod+H { focus-column-left; }
+    Mod+Right { focus-column-or-monitor-right; }
+    Mod+H { focus-column-or-monitor-left; }
     Mod+J { focus-window-down; }
     Mod+K { focus-window-up; }
-    Mod+L { focus-column-right; }
+    Mod+L { focus-column-or-monitor-right; }
 
-    Mod+Ctrl+Left { move-column-left; }
+    Mod+Ctrl+Left { move-column-left-or-to-monitor-left; }
     Mod+Ctrl+Down { move-window-down; }
     Mod+Ctrl+Up { move-window-up; }
-    Mod+Ctrl+Right { move-column-right; }
-    Mod+Ctrl+H { move-column-left; }
+    Mod+Ctrl+Right { move-column-right-or-to-monitor-right; }
+    Mod+Ctrl+H { move-column-left-or-to-monitor-left; }
     Mod+Ctrl+J { move-window-down; }
     Mod+Ctrl+K { move-window-up; }
-    Mod+Ctrl+L { move-column-right; }
+    Mod+Ctrl+L { move-column-right-or-to-monitor-right; }
 
     Mod+Page_Down { focus-workspace-down; }
     Mod+Page_Up { focus-workspace-up; }
@@ -136,13 +163,17 @@ binds {
 
     Mod+R { switch-preset-column-width; }
     Mod+Shift+R { switch-preset-column-width-back; }
+    Mod+Ctrl+R { reset-window-height; }
+    Mod+Ctrl+Shift+R { switch-preset-window-height; }
     Mod+BracketLeft { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
     Mod+C { center-column; }
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
+    Mod+M { maximize-window-to-edges; }
     Mod+V { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+W { toggle-column-tabbed-display; }
 
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
