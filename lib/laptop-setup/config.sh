@@ -116,7 +116,6 @@ install_config() {
   link_config "$REPO_ROOT/config/mako/config" "$HOME/.config/mako/config"
   link_config "$REPO_ROOT/config/gtklock/config.ini" "$HOME/.config/gtklock/config.ini"
   link_config "$REPO_ROOT/config/gtklock/style.css" "$HOME/.config/gtklock/style.css"
-  link_config "$REPO_ROOT/config/swaylock/config" "$HOME/.config/swaylock/config"
   validate_niri_config
   link_config "$REPO_ROOT/config/niri/config.kdl" "$HOME/.config/niri/config.kdl"
   configure_niri_services

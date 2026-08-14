@@ -12,7 +12,7 @@ manually through `niri-session`. The tested baseline is independent of DMS:
 | Compositor/session | niri through `niri-session` |
 | Launcher | Fuzzel (`Mod+Space`) |
 | Notifications | Mako |
-| Lock screen | gtklock (`Mod+Shift+L`); Swaylock retained temporarily for rollback |
+| Lock screen | gtklock (`Mod+Shift+L`) |
 | Idle and lock-before-sleep | Swayidle |
 | Polkit prompts | LXQt PolicyKit agent |
 | Portals | GNOME and GTK portal backends |

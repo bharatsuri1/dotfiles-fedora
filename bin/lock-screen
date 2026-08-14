@@ -5,16 +5,8 @@ set -Eeuo pipefail
 readonly SCRIPT_PATH="$(readlink -f -- "${BASH_SOURCE[0]}")"
 readonly REPO_ROOT="$(cd -- "$(dirname -- "$SCRIPT_PATH")/.." && pwd)"
 
-if command -v gtklock >/dev/null 2>&1; then
-  exec gtklock \
-    --daemonize \
-    --config "$REPO_ROOT/config/gtklock/config.ini" \
-    --style "$REPO_ROOT/config/gtklock/style.css" \
-    --background "$REPO_ROOT/assets/wallpapers/wallhaven-836yl2_2560x1600.png"
-fi
-
-exec swaylock \
+exec gtklock \
   --daemonize \
-  --config "$REPO_ROOT/config/swaylock/config" \
-  --image "$REPO_ROOT/assets/wallpapers/wallhaven-836yl2_2560x1600.png" \
-  --scaling fill
+  --config "$REPO_ROOT/config/gtklock/config.ini" \
+  --style "$REPO_ROOT/config/gtklock/style.css" \
+  --background "$REPO_ROOT/assets/wallpapers/wallhaven-836yl2_2560x1600.png"

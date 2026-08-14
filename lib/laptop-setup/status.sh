@@ -281,7 +281,6 @@ EOF
     "$HOME/.config/gtklock/config.ini" \
     "$HOME/.config/gtklock/style.css" \
     "$HOME/.config/niri/config.kdl" \
-    "$HOME/.config/swaylock/config" \
     "$HOME/.local/bin/lock-screen" \
     "$HOME/.config/systemd/user/swayidle.service" \
     "$HOME/.config/systemd/user/lxqt-policykit-agent.service"; do
