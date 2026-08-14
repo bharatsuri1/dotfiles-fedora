@@ -107,7 +107,7 @@ live in the graphical session.
 
 ## Priority 2: Desktop follow-up
 
-- [ ] Fix niri not focusing the browser when opening a URL from Alacritty.
+- [x] Fix niri not focusing the browser when opening a URL from Alacritty.
 - [ ] Tune niri touchpad scroll direction and speed.
 - [ ] Tune niri touchpad acceleration and click behavior.
 - [ ] Review niri touchpad gestures without adding a conflicting gesture daemon.

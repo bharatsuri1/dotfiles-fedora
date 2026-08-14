@@ -10,6 +10,8 @@ input {
         natural-scroll
         click-method "clickfinger"
     }
+
+    focus-follows-mouse
 }
 
 output "eDP-1" {
@@ -84,6 +86,13 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 hotkey-overlay {
     skip-at-startup
+}
+
+// Chromium can issue activation tokens with invalid input serials when an
+// existing window receives a URL from another application. Honor those tokens
+// so deliberate actions such as opening a terminal link can shift focus.
+debug {
+    honor-xdg-activation-with-invalid-serial
 }
 
 binds {
