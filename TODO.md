@@ -153,10 +153,10 @@ live in the graphical session.
 - [x] Validate the managed tmux configuration and setup scripts.
 - [ ] Review `agavra/tuicr` installation, dependencies, and package ownership.
 - [ ] Install and configure `tuicr` through the selected package source.
-- [ ] Evaluate OpenCode CLI and Linux desktop app installation without adding either to setup yet.
-  - [ ] Review the OpenCode CLI npm package, runtime requirements, update path, and package ownership.
-  - [ ] Review the OpenCode Linux desktop Flatpak, permissions, update path, and upstream ownership.
-  - [ ] Decide whether either OpenCode installation belongs in `laptop-setup` after manual evaluation.
+- [x] Add OpenCode to setup after evaluating the CLI and desktop app.
+  - [x] Install the OpenCode CLI (`opencode-ai`) through Mise-managed npm globals.
+  - [x] Install the OpenCode desktop app (`ai.opencode.opencode`) from Flathub.
+  - [x] Validate a full `apply` run and both OpenCode installations on Fedora.
 
 ## Priority 4: Security and laptop policy
 
