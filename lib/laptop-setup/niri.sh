@@ -1,6 +1,4 @@
 install_niri() {
-  enable_copr avengemedia/dms
-
   if package_installed niri; then
     log 'niri already installed'
   else

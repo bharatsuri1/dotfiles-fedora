@@ -43,11 +43,6 @@ show_status() {
   else
     printf '  [missing]  display-manager.service\n'
   fi
-  if package_installed dms-greeter; then
-    printf '  [ok]       dms-greeter\n'
-  else
-    printf '  [missing]  dms-greeter\n'
-  fi
   if [[ -r "$NIRI_SESSION_FILE" ]] && grep -Eq '^Exec=niri-session$' "$NIRI_SESSION_FILE"; then
     printf '  [ok]       niri-session\n'
   else
@@ -176,7 +171,7 @@ show_status() {
   done
 
   printf 'Desktop shell:\n'
-  for item in niri dms; do
+  for item in niri fuzzel; do
     if package_installed "$item"; then
       printf '  [ok]      %s\n' "$item"
     else

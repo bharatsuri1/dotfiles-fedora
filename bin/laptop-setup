@@ -15,8 +15,6 @@ for module in \
   desktop-foundation \
   desktop-defaults \
   niri \
-  dms \
-  login-manager \
   keyd \
   fonts \
   flatpaks \
@@ -45,12 +43,7 @@ Commands:
               Install compositor-independent desktop foundations
   desktop-defaults
               Configure browser, file, media, image, and PDF handlers
-  niri        Install niri from the DMS COPR
-  dms         Install DMS and attach it to niri
-  login-manager
-              Install and configure greetd with DMS Greeter without enabling boot
-  login-manager-enable
-              Explicitly enable DMS Greeter and graphical boot
+  niri        Install niri from Fedora repositories
   keyd        Install keyd and configure Caps as Escape/Hyper
   fonts       Install terminal and desktop fallback fonts
   font        Alias for fonts (deprecated)
@@ -87,7 +80,6 @@ main() {
       install_docker
       install_desktop_foundation
       install_niri
-      install_dms
       install_keyd
       install_fonts
       install_flatpaks
@@ -96,6 +88,7 @@ main() {
       install_config
       install_desktop_defaults
       set_shell
+      log 'To start the desktop manually, switch to a TTY and run: niri-session'
       ;;
     packages) install_packages ;;
     development) install_development_tools ;;
@@ -104,9 +97,6 @@ main() {
     desktop-foundation) install_desktop_foundation ;;
     desktop-defaults) install_desktop_defaults ;;
     niri) install_niri ;;
-    dms) install_dms ;;
-    login-manager) install_login_manager ;;
-    login-manager-enable) enable_login_manager ;;
     keyd) install_keyd ;;
     fonts|font) install_fonts ;;
     flatpaks) install_flatpaks ;;

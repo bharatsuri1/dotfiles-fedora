@@ -1,6 +1,13 @@
 # DMS removal and bare-niri transition plan
 
-Status: planning only. Nothing in this document has been executed.
+Status: repository migration complete; machine removal has not started.
+
+On 2026-08-13, DMS configuration, state, themes, notepad data, and generated
+niri fragments were exported outside Git to
+`~/.local/state/dotfiles-fedora/migrations/dms-20260813`. The source and exported
+copies of `settings.json` and `outputs.kdl` were checksum-verified. The only
+notepad document was empty. Cache data, clipboard history, notification history,
+and usage history were deliberately excluded from the portable migration set.
 
 ## Decision
 
@@ -110,6 +117,31 @@ This inventory was collected read-only from the current machine.
 | X11 compatibility | Xwayland Satellite | unchanged |
 | Display configuration | repository-owned niri KDL | unchanged |
 | Graphical login | explicit later decision | must not depend on desktop-shell DMS |
+
+## Retained migration requirements
+
+The one-time settings review retained these portable requirements without
+checking DMS application state into Git:
+
+- Preserve the internal display at `2560x1600@120.002`, scale `1.5`, position
+  `0,0`; this now lives directly in the managed niri configuration.
+- Keep a keyboard-first list launcher, with `Mod+Space` opening Fuzzel for the
+  baseline and closing niri's overview when the future shell launcher opens.
+- Preserve visible workspace index, focused-window context, clock, media,
+  system tray, battery percentage, notifications, and control-center access as
+  requirements for the future shell rather than copying DMS settings.
+- Use 12-hour time, 12-pixel rounded geometry, regular-weight UI typography,
+  and restrained animations as initial design defaults. The existing repository
+  Vesper palette remains authoritative; DMS's Catppuccin theme is reference
+  material only.
+- Notifications should appear for five seconds at low/normal urgency and remain
+  until dismissed at critical urgency. Privacy redaction was disabled.
+- DMS did not own an active idle-lock policy: AC and battery lock/monitor
+  timeouts were zero and lock-before-suspend was disabled. Ticket 3 must choose
+  those owners explicitly instead of inheriting these unsafe defaults.
+- The generated recent-window radius, four-pixel layout gap, window rounding,
+  and wallpaper-blur layer were not effective includes in the managed config
+  and were not migrated. They remain available only in the external export.
 
 ## Preconditions
 
@@ -292,4 +324,3 @@ The first custom milestone should be a small, disposable shell that proves:
 Only after that should the floating-island states, rich launcher providers,
 animations, clipboard history, file search, or an Elephant integration be added.
 The Elephant hybrid remains an investigation, not the default architecture.
-

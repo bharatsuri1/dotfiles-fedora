@@ -1,5 +1,6 @@
 readonly STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles-fedora"
 readonly BACKUP_ROOT="$STATE_DIR/backups"
+readonly NIRI_SESSION_FILE="/usr/share/wayland-sessions/niri.desktop"
 readonly ZSH_PLUGIN_ROOT="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins"
 readonly AUTOSUGGESTIONS_REPOSITORY="https://github.com/zsh-users/zsh-autosuggestions.git"
 readonly AUTOSUGGESTIONS_REVISION="85919cd1ffa7d2d5412f6d3fe437ebdbeeec4fc5"
@@ -68,6 +69,7 @@ readonly DESKTOP_PORTAL_PACKAGES=(
 
 readonly DESKTOP_UTILITY_PACKAGES=(
   brightnessctl
+  fuzzel
   playerctl
   wl-clipboard
 )

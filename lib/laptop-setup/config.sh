@@ -49,6 +49,18 @@ reload_tmux_config() {
   fi
 }
 
+validate_niri_config() {
+  local config="$REPO_ROOT/config/niri/config.kdl"
+
+  if ! command -v niri >/dev/null 2>&1; then
+    log 'niri is unavailable; skipping managed configuration validation'
+    return
+  fi
+
+  niri validate --config "$config"
+  log 'validated managed niri configuration'
+}
+
 install_config() {
   link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
@@ -70,9 +82,6 @@ install_config() {
   link_config "$REPO_ROOT/config/bat/config" "$HOME/.config/bat/config"
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
   link_config "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
-  if [[ ! -e "$HOME/.config/niri/dms/outputs.kdl" ]]; then
-    run mkdir -p "$HOME/.config/niri/dms"
-    run touch "$HOME/.config/niri/dms/outputs.kdl"
-  fi
+  validate_niri_config
   link_config "$REPO_ROOT/config/niri/config.kdl" "$HOME/.config/niri/config.kdl"
 }

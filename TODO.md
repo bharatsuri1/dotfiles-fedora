@@ -10,18 +10,18 @@ order so the machine always has a tested bare-niri recovery path.
 
 - [x] Audit the current DMS, DMS Greeter, niri, Quickshell, systemd, configuration, data, ACL, and COPR coupling.
 - [x] Document a staged, non-executing DMS removal and bare-niri recovery plan.
-- [ ] Export any wanted DMS notepad content, settings, theme data, and generated display configuration before cleanup.
-- [ ] Review generated DMS settings once and retain only portable niri and design defaults.
-- [ ] Record current DMS behavior as replacement requirements without tracking DMS application state.
+- [x] Export any wanted DMS notepad content, settings, theme data, and generated display configuration before cleanup.
+- [x] Review generated DMS settings once and retain only portable niri and design defaults.
+- [x] Record current DMS behavior as replacement requirements without tracking DMS application state.
 
 ### Ticket 2: Remove DMS ownership from the setup installer
 
-- [ ] Remove the DMS phase and DMS Greeter workflow from `laptop-setup apply`, command dispatch, status, and documentation.
-- [ ] Stop enabling the DMS and Dank Linux COPRs during niri installation; keep niri sourced independently.
-- [ ] Move the active `eDP-1` output configuration into repository-owned niri configuration.
-- [ ] Remove all DMS includes and IPC bindings from the managed niri configuration.
-- [ ] Ensure rerunning `laptop-setup apply` cannot reinstall, enable, or reattach DMS.
-- [ ] Add dry-run and validation coverage for the DMS-free installer path.
+- [x] Remove the DMS phase and DMS Greeter workflow from `laptop-setup apply`, command dispatch, status, and documentation.
+- [x] Stop enabling the DMS and Dank Linux COPRs during niri installation; keep niri sourced independently.
+- [x] Move the active `eDP-1` output configuration into repository-owned niri configuration.
+- [x] Remove all DMS includes and IPC bindings from the managed niri configuration.
+- [x] Ensure rerunning `laptop-setup apply` cannot reinstall, enable, or reattach DMS.
+- [x] Add dry-run and validation coverage for the DMS-free installer path.
 
 ### Ticket 3: Add and wire bare-niri desktop components
 
@@ -95,6 +95,7 @@ order so the machine always has a tested bare-niri recovery path.
 
 ## Priority 2: Desktop follow-up
 
+- [ ] Fix niri not focusing the browser when opening a URL from Alacritty.
 - [ ] Tune niri touchpad scroll direction and speed.
 - [ ] Tune niri touchpad acceleration and click behavior.
 - [ ] Review niri touchpad gestures without adding a conflicting gesture daemon.
@@ -163,7 +164,12 @@ order so the machine always has a tested bare-niri recovery path.
 - [ ] Add Restic after defining repository and credential inputs.
 
 - [ ] Document the initial Fedora custom online installation, including switching to a terminal with `Ctrl+Alt+Fn+F1` and manually installing the Wi-Fi firmware required after boot.
-- [ ] Review and add managed Codex configuration while excluding credentials and runtime state.
+- [ ] Manage Codex configuration through setup, following the existing Pi `config/pi/settings.json` pattern.
+  - [ ] Inventory `~/.codex` and identify portable settings for a repository-owned `config/codex/config.toml`.
+  - [ ] Exclude credentials, sessions, logs, caches, and other machine-specific runtime state.
+  - [ ] Link the managed configuration from the `config` setup phase without silently overwriting local configuration.
+  - [ ] Report the Codex configuration link in `status`.
+  - [ ] Validate CLI loading, shell syntax, and a focused `--dry-run config` run.
 
 ## Priority 6: Setup observability
 

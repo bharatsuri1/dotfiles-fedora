@@ -64,6 +64,7 @@ phase can also run independently:
 ./bin/laptop-setup flatpaks
 ./bin/laptop-setup homebrew
 ./bin/laptop-setup herdr
+./bin/laptop-setup niri
 ./bin/laptop-setup shell-tools
 ./bin/laptop-setup config
 ./bin/laptop-setup shell
@@ -95,41 +96,17 @@ The `t` shell function creates or attaches to the `home` session by default;
 pass a name such as `t work` to create or attach another home-rooted session.
 Use `tl` to open the Sesh picker and `tk` to stop the entire tmux server.
 
-## Graphical login
+## Desktop session
 
-The selected graphical login stack is Fedora's `greetd` with DMS Dank Greeter.
-It launches the packaged niri session through `niri-session`, preserving niri's
-systemd user-session and portal integration. Installation and activation are
-deliberately separate:
+The managed baseline installs niri from Fedora repositories and keeps it usable
+without a desktop shell. Start `niri-session` from a TTY; `Mod+Space` launches
+Fuzzel as the recovery-capable application launcher. The setup CLI does not
+install, enable, or configure a graphical login manager.
 
-```bash
-laptop-setup login-manager
-dms greeter status
-laptop-setup login-manager-enable
-```
-
-The first command installs and synchronizes the greeter without changing the
-boot target. The second checks for conflicting display managers, asks for
-confirmation, enables greetd, and changes the default to `graphical.target`.
-The first synchronization may add your account to the `greeter` group; if so,
-log out and back in, then rerun `laptop-setup login-manager` to finish syncing
-the protected greeter cache.
-
-Before rebooting, keep a terminal open and confirm `dms greeter status` is
-healthy. For recovery, switch to a TTY with `Ctrl+Alt+F3`, log in, and run:
-
-```bash
-sudo systemctl stop greetd.service
-sudo systemctl disable greetd.service
-sudo systemctl set-default multi-user.target
-```
-
-You can then start `niri-session` manually. To remove DMS Greeter configuration
-and restore the display-manager state saved by DMS, run:
-
-```bash
-dms greeter uninstall --yes
-```
+The staged transition from an existing DMS installation, including TTY recovery
+and greeter rollback instructions, is documented in
+[`docs/dms-removal-plan.md`](docs/dms-removal-plan.md). Do not remove an active
+greeter or DMS packages until the independent niri session has been tested.
 
 ## First-draft scope
 
@@ -144,7 +121,8 @@ dms greeter uninstall --yes
   Chromium password saving, site notifications, and default-browser prompts;
 - LocalSend from Flathub;
 - Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, Sesh, and `xh`;
-- Herdr from its official verified installer; and
+- Herdr from its official verified installer;
+- niri with Fuzzel as its independent baseline launcher; and
 - managed Zsh, Starship, tmux, Sesh, bat, and fastfetch defaults.
 
 Authentication, browser profiles, Dashlane sessions, shell history, SSH keys,
