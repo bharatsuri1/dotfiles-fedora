@@ -221,6 +221,13 @@ live in the graphical session.
 
 ## Priority 8: Automation and maintenance
 
+- [ ] Prepare niri configuration ownership for the Fedora ISO.
+  - [ ] Install distribution defaults at `/etc/niri/config.kdl` while preserving
+    `~/.config/niri/config.kdl` for user overrides.
+  - [ ] Compare each packaged niri release's embedded default configuration and
+    carry forward relevant upstream changes.
+  - [ ] Validate first login, user overrides, upgrades, and rollback to Fedora's
+    packaged defaults.
 - [ ] Add Bash syntax checks to CI.
 - [ ] Add Zsh syntax checks to CI.
 - [ ] Add ShellCheck to CI.
