@@ -213,10 +213,22 @@ show_status() {
       printf '  [missing] %s\n' "$item"
     fi
   done
-  if [[ -r "$HOME/.config/quickshell/shell.qml" ]]; then
-    printf '  [linked]  %s\n' "$HOME/.config/quickshell/shell.qml"
+  local quickshell_target="$HOME/.config/quickshell"
+  local quickshell_source="$REPO_ROOT/config/quickshell"
+  local quickshell_resolved=''
+  if [[ -L "$quickshell_target" ]]; then
+    quickshell_resolved="$(readlink -f -- "$quickshell_target" 2>/dev/null || true)"
+  fi
+  if [[ "$quickshell_resolved" == "$quickshell_source" && -r "$quickshell_target/shell.qml" ]]; then
+    printf '  [managed] %s\n' "$quickshell_target"
+  elif [[ -L "$quickshell_target" && -z "$quickshell_resolved" ]]; then
+    printf '  [broken]  %s\n' "$quickshell_target"
+  elif [[ -L "$quickshell_target" ]]; then
+    printf '  [wrong]   %s -> %s\n' "$quickshell_target" "$quickshell_resolved"
+  elif [[ -e "$quickshell_target" ]]; then
+    printf '  [local]   %s\n' "$quickshell_target"
   else
-    printf '  [missing] %s\n' "$HOME/.config/quickshell/shell.qml"
+    printf '  [missing] %s\n' "$quickshell_target"
   fi
   if [[ -L "$HOME/.config/systemd/user/niri.service.wants/quickshell.service" ]]; then
     printf '  [attached] quickshell.service\n'
@@ -306,7 +318,7 @@ EOF
     "$HOME/.config/gtklock/config.ini" \
     "$HOME/.config/gtklock/style.css" \
     "$HOME/.config/niri/config.kdl" \
-    "$HOME/.config/quickshell/shell.qml" \
+    "$HOME/.config/quickshell" \
     "$HOME/.local/bin/lock-screen" \
     "$HOME/.local/bin/session-wallpaper" \
     "$HOME/.config/systemd/user/swaybg.service" \

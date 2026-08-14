@@ -80,24 +80,30 @@ live in the graphical session.
 
 ### Ticket 7: Build the macOS-style alcove and Dynamic Island
 
-- [ ] Define a centered top-bar alcove with clear left, center, and right content ownership.
-- [ ] Create a compact idle island showing workspace, focused application, and essential system status.
+The static MVP is implemented and documented in
+[`docs/quickshell-island.md`](docs/quickshell-island.md): one top-edge alcove
+with a clock and event-driven UPower battery status on each screen. Geometry
+and live composition are intentionally being reviewed before motion or richer
+states are added.
+
+- [x] Define a centered top-bar alcove with clear left, center, and right content ownership. (The center island owns the strip; left and right are intentionally empty.)
+- [ ] Create a compact idle island showing workspace, focused application, and essential system status. (Clock and battery MVP done; workspace/focused app needs niri IPC.)
 - [ ] Create expanded island states for notifications, media, audio, network, Bluetooth, battery, and power.
 - [ ] Define priority, interruption, queueing, and timeout rules when island states compete for attention.
-- [ ] Apply the Vesper palette, rounded geometry, spacing, typography, borders, blur, and shadows consistently.
-- [ ] Add smooth geometry and state animations with reduced-motion support.
+- [x] Apply the Vesper palette, sculpted geometry, stable spacing, and typography to the static MVP.
+- [ ] Add smooth geometry and state animations with reduced-motion support. (One reduced-motion-safe entrance is complete; state motion awaits future states.)
 - [ ] Add click, scroll, hover, and keyboard interactions without conflicting with niri gestures.
 - [ ] Add media controls and track metadata with graceful handling when no player is active.
-- [ ] Add volume, microphone, brightness, connectivity, battery, and charging indicators.
+- [ ] Add volume, microphone, brightness, connectivity, battery, and charging indicators. (Battery and charging color are present in the MVP.)
 - [ ] Add notification previews with privacy-aware redaction and do-not-disturb behavior.
 - [ ] Add workspace and focused-window context without duplicating niri's overview.
 - [ ] Make the alcove and island responsive across laptop, external, narrow, scaled, and multi-monitor displays.
-- [ ] Define per-monitor behavior and whether expanded state follows focus or pointer location.
-- [ ] Prevent the island from covering fullscreen content, overlays, screen sharing, or critical dialogs.
-- [ ] Provide a minimal fallback bar when optional services or providers are unavailable.
+- [ ] Define per-monitor behavior for future interactive and transient states. (The static island currently appears on every screen.)
+- [ ] Prevent the island from covering fullscreen content, overlays, screen sharing, or critical dialogs. (Relies on niri hiding top-layer surfaces under fullscreen windows; live validation pending.)
+- [x] Provide a minimal fallback bar when optional services or providers are unavailable.
 - [ ] Validate accessibility, contrast, keyboard navigation, long text, Unicode, and localization behavior.
-- [ ] Validate idle, notification, media, connectivity, power, fullscreen, lock, and multi-monitor transitions.
-- [ ] Document the shell architecture, managed settings, dependencies, customization, and rollback path.
+- [ ] Validate idle, notification, media, connectivity, power, fullscreen, lock, and multi-monitor transitions. (Static idle validation is in progress.)
+- [x] Document the MVP shell architecture, managed settings, dependencies, customization, and rollback path.
 
 ### Completed DMS checkpoint work
 

@@ -1,27 +1,37 @@
 // Vesper Quickshell shell
 //
-// Repository-owned desktop shell for the bare-niri session. This entry point
-// is intentionally minimal: it renders one top bar per screen so the
-// Quickshell process, niri layer-shell integration, and systemd lifecycle can
-// be validated before the launcher and the macOS-style alcove land in Ticket 7.
+// THESIS: one calm, top-edge alcove carries only the information that earns a
+// permanent place: time and battery. It refuses the density of a conventional
+// status bar.
+// OWN-WORLD: opaque Vesper black, quiet white type, measured spacing, and a
+// top-flush silhouette with clean sidewalls and soft lower corners.
+// STORY: glance at the center edge, read time and remaining power, return to
+// the task without interacting with chrome.
+// FIRST VIEWPORT: a compact centered island begins flush with the top edge on
+// each output; the rest of the transparent strip is empty and click-through.
+// FORM: approved static alcove with one restrained top-edge entrance; no
+// looping, reactive, hover, or state motion is part of the MVP.
+// FINISH: unreviewed and undocumented is unfinished; this build ends with the
+// finish review, the verdict, and DESIGN.md.
 //
 // Run with: `quickshell` (loads ~/.config/quickshell/shell.qml by default) or
-// `quickshell -p <path>`. Quickshell hot-reloads this file on save.
+// `quickshell -p <path>`. Quickshell hot-reloads this tree on save.
 
-import QtQuick
 import Quickshell
+import "island"
+import "theme"
 
 ShellRoot {
   id: root
 
-  // One top bar per connected screen. Variants rebuilds the delegate whenever
-  // the screen set changes, so hotplugging and niri output changes are handled
-  // without a manual restart.
+  // One strip per connected screen. Variants rebuilds the delegate whenever
+  // the screen set changes, so hotplugging and niri output changes are
+  // handled without a manual restart.
   Variants {
     model: Quickshell.screens
 
     delegate: PanelWindow {
-      id: bar
+      id: strip
       property var modelData
       screen: modelData
 
@@ -30,51 +40,22 @@ ShellRoot {
         left: true
         right: true
       }
-      // Reserve space so tiling windows never render under the bar. Use
-      // implicitHeight (PanelWindow deprecates `height`) and bind the
-      // exclusiveZone to it so the reserved strip matches the bar height.
-      implicitHeight: 32
-      exclusiveZone: bar.implicitHeight
+
+      implicitHeight: Theme.islandHeight
+      exclusiveZone: Theme.islandHeight
       exclusionMode: ExclusionMode.Normal
       aboveWindows: true
 
       visible: true
-      color: "#101010"
+      color: "transparent"
 
-      // Zero-polling clock: SystemClock emits a fresh `date` per precision.
-      SystemClock {
-        id: clock
-        precision: SystemClock.Seconds
-        enabled: true
-      }
+      // The empty strip never steals pointer input from windows below it.
+      mask: Region { item: island }
 
-      Text {
-        anchors.left: parent.left
-        anchors.leftMargin: 12
-        anchors.verticalCenter: parent.verticalCenter
-        text: "niri"
-        color: "#ffc799"
-        font.family: "Noto Sans"
-        font.weight: Font.Bold
-        font.pixelSize: 13
-      }
-
-      Text {
-        anchors.centerIn: parent
-        color: "#ffffff"
-        font.family: "Noto Sans"
-        font.pixelSize: 13
-        text: Qt.formatDateTime(clock.date, "ddd  yyyy-MM-dd  HH:mm:ss")
-      }
-
-      Text {
-        anchors.right: parent.right
-        anchors.rightMargin: 12
-        anchors.verticalCenter: parent.verticalCenter
-        color: "#9a9a9a"
-        font.family: "Noto Sans"
-        font.pixelSize: 13
-        text: bar.screen ? bar.screen.name : ""
+      CenterIsland {
+        id: island
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
       }
     }
   }

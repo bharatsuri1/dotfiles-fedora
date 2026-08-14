@@ -132,7 +132,7 @@ install_config() {
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
   link_config "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
   link_config "$REPO_ROOT/config/mako/config" "$HOME/.config/mako/config"
-  link_config "$REPO_ROOT/config/quickshell/shell.qml" "$HOME/.config/quickshell/shell.qml"
+  link_config "$REPO_ROOT/config/quickshell" "$HOME/.config/quickshell"
   link_config "$REPO_ROOT/config/gtklock/config.ini" "$HOME/.config/gtklock/config.ini"
   link_config "$REPO_ROOT/config/gtklock/style.css" "$HOME/.config/gtklock/style.css"
   validate_niri_config
