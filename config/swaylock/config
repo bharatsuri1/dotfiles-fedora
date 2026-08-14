@@ -1,0 +1,26 @@
+color=101010
+font=Noto Sans
+font-size=24
+indicator-radius=64
+indicator-thickness=8
+inside-color=101010e6
+inside-clear-color=101010e6
+inside-ver-color=101010e6
+inside-wrong-color=101010e6
+ring-color=ffc799
+ring-clear-color=aca1cf
+ring-ver-color=90b99f
+ring-wrong-color=f5a191
+line-color=00000000
+line-clear-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+key-hl-color=99ffe4
+bs-hl-color=f5a191
+text-color=ffffff
+text-clear-color=ffffff
+text-ver-color=ffffff
+text-wrong-color=ffffff
+separator-color=00000000
+ignore-empty-password
+show-failed-attempts

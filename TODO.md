@@ -25,11 +25,11 @@ order so the machine always has a tested bare-niri recovery path.
 
 ### Ticket 3: Add and wire bare-niri desktop components
 
-- [ ] Keep Fuzzel as the emergency launcher and bind it independently of the custom shell.
+- [x] Keep Fuzzel as the emergency launcher and bind it independently of the custom shell.
 - [ ] Select, install, configure, and start a standalone notification daemon.
 - [ ] Configure Swaylock and select the owner of idle detection and lock-before-suspend behavior.
 - [ ] Select, install, configure, and start a standalone graphical Polkit agent.
-- [ ] Decide whether the temporary baseline needs Waybar; keep it minimal and removable if used.
+- [x] Decide whether the temporary baseline needs Waybar; keep it minimal and removable if used.
 - [ ] Preserve the existing portal, Xwayland Satellite, media-key, brightness, screenshot, and clipboard wiring.
 - [ ] Validate the complete bare-niri session from a TTY before removing DMS.
 
