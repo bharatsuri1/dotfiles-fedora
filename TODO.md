@@ -180,12 +180,12 @@ live in the graphical session.
 - [ ] Add Restic after defining repository and credential inputs.
 
 - [ ] Document the initial Fedora custom online installation, including switching to a terminal with `Ctrl+Alt+Fn+F1` and manually installing the Wi-Fi firmware required after boot.
-- [ ] Manage Codex configuration through setup, following the existing Pi `config/pi/settings.json` pattern.
-  - [ ] Inventory `~/.codex` and identify portable settings for a repository-owned `config/codex/config.toml`.
-  - [ ] Exclude credentials, sessions, logs, caches, and other machine-specific runtime state.
-  - [ ] Link the managed configuration from the `config` setup phase without silently overwriting local configuration.
-  - [ ] Report the Codex configuration link in `status`.
-  - [ ] Validate CLI loading, shell syntax, and a focused `--dry-run config` run.
+- [x] Manage Codex configuration through setup using a named profile so project trust remains local.
+  - [x] Inventory `~/.codex` and place portable settings in `config/codex/dotfiles.config.toml`.
+  - [x] Exclude credentials, sessions, logs, caches, project paths, and other machine-specific runtime state.
+  - [x] Link the managed profile from the `config` setup phase without replacing the mutable base configuration.
+  - [x] Select the managed profile from the `cx` alias and report its link in `status`.
+  - [x] Validate CLI loading, shell syntax, and a focused `--dry-run config` run.
 
 ## Priority 6: Setup observability
 

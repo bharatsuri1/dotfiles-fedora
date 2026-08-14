@@ -133,7 +133,8 @@ tested.
 - Alacritty with JetBrainsMono Nerd Font and the Vesper palette;
 - `fd`, ripgrep, FZF, eza, Zoxide, Zsh, Starship, bat, btop, and fastfetch;
 - local-only Atuin history with automatic sync, update checks, and its daemon disabled;
-- Mise-managed Node.js with Pi, Codex, and a managed Pi statusline extension;
+- Mise-managed Node.js with Pi and Codex, a managed Pi statusline extension,
+  and a portable Codex profile selected by the `cx` alias;
 - pinned, directly sourced `zsh-autosuggestions` and
   `fast-syntax-highlighting` checkouts with no shell framework or plugin manager;
 - Chromium from Fedora for browser app-mode launchers using
@@ -147,6 +148,7 @@ tested.
 - managed Zsh, Starship, tmux, Sesh, bat, and fastfetch defaults.
 
 Authentication, browser profiles, Dashlane sessions, shell history, SSH keys,
-GNOME dconf state, caches, and generated runtime files must stay outside Git.
+Codex project trust records, GNOME dconf state, caches, and generated runtime
+files must stay outside Git.
 Chromium displays “Managed by your organization” because the setup installs
 these local policies under `/etc/chromium/policies/managed/`.

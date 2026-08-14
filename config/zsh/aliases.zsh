@@ -7,7 +7,7 @@ alias mkdir='mkdir -p'
 alias which='type -a'
 alias path='print -l $path'
 alias reload='exec zsh'
-alias cx='codex --dangerously-bypass-approvals-and-sandbox --dangerously-bypass-hook-trust'
+alias cx='codex --profile dotfiles --dangerously-bypass-approvals-and-sandbox --dangerously-bypass-hook-trust'
 alias tl='sesh picker'
 alias tk='tmux kill-server'
 

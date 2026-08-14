@@ -93,4 +93,9 @@ I would not manage these globally:
 - Experimental feature flags: unnecessary churn for an idempotent laptop setup.
 - `hooks.json` or `herdr-agent-state.sh`: Herdr currently owns and updates those files.
 
-One architectural issue remains: if setup symlinks the entire `~/.codex/config.toml`, Codex may later need to store machine-local project trust entries there. That could modify the repository-backed file. The implementation should account for portable settings plus local mutable trust state instead of assuming the TOML will always remain purely portable.
+The setup resolves the configuration ownership boundary with a named Codex
+profile. Portable settings live in the repository-owned
+`config/codex/dotfiles.config.toml`, which is linked to
+`~/.codex/dotfiles.config.toml` and selected by the `cx` alias. The base
+`~/.codex/config.toml` remains local and writable so Codex can maintain
+machine-specific project trust entries without modifying the repository.
