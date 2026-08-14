@@ -2,10 +2,24 @@
 
 ## Priority 1: Desktop experience
 
-- [ ] Review generated DMS settings and identify portable defaults.
-- [ ] Track minimal DMS application preferences.
-- [ ] Review DMS top-bar extension points and confirm DMS owns the desktop bar.
-- [ ] Inventory available DMS widgets, state providers, animations, and popup APIs.
+- [x] Audit the current DMS, DMS Greeter, niri, Quickshell, systemd, configuration, data, ACL, and COPR coupling.
+- [x] Document a staged, non-executing DMS removal and bare-niri recovery plan.
+- [ ] Export any wanted DMS notepad content, settings, theme data, and generated display configuration before cleanup.
+- [ ] Make `laptop-setup apply` DMS-independent so it cannot reinstall or reattach DMS.
+- [ ] Move the active `eDP-1` output configuration into repository-owned niri configuration.
+- [ ] Replace the DMS Spotlight binding with Fuzzel as the bare-niri fallback launcher.
+- [ ] Select and configure standalone owners for notifications, locking, and graphical Polkit prompts.
+- [ ] Validate a DMS-free niri session from a TTY before uninstalling DMS or changing the greeter.
+- [ ] Decouple graphical login from DMS Greeter, initially restoring a tested TTY login path.
+- [ ] Remove DMS packages, user services, generated niri fragments, user data, greeter cache, and DMS COPRs in a supervised migration.
+- [ ] Reverse only the greeter group, ACL, and ownership changes introduced by DMS Greeter sync.
+- [ ] Verify after reboot that no DMS process, package, repository, configuration reference, or greeter artifact remains.
+- [ ] Build the custom Quickshell island and launcher as an optional layer over the proven bare-niri baseline.
+- [ ] Investigate a Quickshell-to-Elephant provider prototype without committing the desktop architecture to it.
+- [ ] Review generated DMS settings once and retain only portable niri and design defaults.
+- [ ] Record the current DMS behavior as migration requirements without tracking DMS application state.
+- [ ] Define the custom Quickshell process as the optional owner of the island and launcher.
+- [ ] Inventory Quickshell APIs and independent providers needed to replace selected DMS behavior.
 - [ ] Define a centered floating-island layout with clear left, center, and right content ownership.
 - [ ] Create a compact idle state that shows workspace, focused application, and essential system status.
 - [ ] Create expanded island states for notifications, media, audio, network, Bluetooth, battery, and power.
@@ -34,11 +48,11 @@
 - [ ] Add a niri keybinding for the default Herdr session.
 - [x] Select greetd with DMS Dank Greeter as the graphical login manager.
 - [x] Add separate install and enable setup phases for DMS Greeter.
-- [ ] Install the selected graphical login manager from a reviewed Fedora package source.
-- [ ] Configure the login manager to offer and launch the managed niri session.
-- [ ] Apply a minimal Vesper-themed graphical greeter with matching fonts, colors, and branding.
-- [ ] Enable `graphical.target` and start the graphical login manager automatically at boot.
-- [ ] Disable or remove conflicting display managers before enabling the selected service.
+- [ ] Reconsider the graphical login manager only after the DMS-free TTY and niri path is proven.
+- [ ] If selected, configure a non-DMS login manager to offer and launch the managed niri session.
+- [ ] If selected, apply a minimal Vesper-themed non-DMS greeter with matching fonts, colors, and branding.
+- [ ] Enable `graphical.target` only after the replacement login manager passes recovery validation.
+- [ ] Disable or remove conflicting display managers before enabling any replacement service.
 - [x] Preserve a TTY recovery path and document how to bypass or stop the graphical login manager.
 - [ ] Validate login, logout, failed-login recovery, reboot, and fallback-to-TTY behavior.
 - [ ] Review Fedora's current Plymouth setup, theme ownership, and initramfs integration.
@@ -101,7 +115,7 @@
 - [ ] Add each approved optional application in a separate commit.
 - [ ] Add Restic after defining repository and credential inputs.
 
-- [ ] Apply the Vesper palette consistently across DMS shell surfaces and appearance settings.
+- [ ] Apply the Vesper palette consistently across repository-owned Quickshell surfaces and appearance settings.
 - [ ] Document the initial Fedora custom online installation, including switching to a terminal with `Ctrl+Alt+Fn+F1` and manually installing the Wi-Fi firmware required after boot.
 - [ ] Review and add managed Codex configuration while excluding credentials and runtime state.
 
@@ -118,7 +132,7 @@
 - [ ] Add Bluetooth service and adapter checks to `doctor`.
 - [ ] Add keyring, Secret Service, and Polkit checks to `doctor`.
 - [ ] Add portal backend checks to `doctor`.
-- [ ] Add niri, DMS, and Xwayland checks to `doctor`.
+- [ ] Add niri, custom Quickshell, and Xwayland checks to `doctor`.
 - [ ] Add keyd configuration and service checks to `doctor`.
 - [ ] Add Docker, Mise, Node, Pi, Codex, and Herdr checks to `doctor`.
 
@@ -136,7 +150,7 @@
 - [ ] Validate a native Wayland application.
 - [ ] Validate an X11 application through Xwayland Satellite.
 - [ ] Validate niri logout and recovery to a TTY.
-- [ ] Validate one DMS process and no overlapping shell services.
+- [ ] Validate one custom Quickshell process, no DMS process, and no overlapping shell services.
 - [ ] Validate keyd tap/hold behavior and TTY recovery.
 
 ## Priority 7: Automation and maintenance
