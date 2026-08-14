@@ -6,5 +6,5 @@ Requisite=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/swayidle -w timeout 600 "pgrep -x swaylock >/dev/null || swaylock -f" timeout 601 "niri msg action power-off-monitors" before-sleep "pgrep -x swaylock >/dev/null || swaylock -f" lock "pgrep -x swaylock >/dev/null || swaylock -f"
+ExecStart=/usr/bin/swayidle -w timeout 600 "pgrep -x gtklock >/dev/null || pgrep -x swaylock >/dev/null || %h/.local/bin/lock-screen" timeout 601 "niri msg action power-off-monitors" before-sleep "pgrep -x gtklock >/dev/null || pgrep -x swaylock >/dev/null || %h/.local/bin/lock-screen" lock "pgrep -x gtklock >/dev/null || pgrep -x swaylock >/dev/null || %h/.local/bin/lock-screen"
 Restart=on-failure

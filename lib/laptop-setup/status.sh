@@ -278,8 +278,11 @@ EOF
     "$HOME/.config/fastfetch/config.jsonc" \
     "$HOME/.config/herdr/config.toml" \
     "$HOME/.config/mako/config" \
+    "$HOME/.config/gtklock/config.ini" \
+    "$HOME/.config/gtklock/style.css" \
     "$HOME/.config/niri/config.kdl" \
     "$HOME/.config/swaylock/config" \
+    "$HOME/.local/bin/lock-screen" \
     "$HOME/.config/systemd/user/swayidle.service" \
     "$HOME/.config/systemd/user/lxqt-policykit-agent.service"; do
     if [[ -L "$target" && "$(readlink -f -- "$target")" == "$REPO_ROOT"/* ]]; then

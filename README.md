@@ -102,7 +102,7 @@ The managed baseline installs niri from Fedora repositories and keeps it usable
 without a desktop shell. Start `niri-session` from a TTY; `Mod+Space` launches
 Fuzzel as the recovery-capable application launcher, and `Mod+Shift+L` locks the
 session. Mako owns notifications, Swayidle owns idle and lock-before-sleep
-behavior, Swaylock owns authentication, and LXQt PolicyKit supplies graphical
+behavior, gtklock owns authentication, and LXQt PolicyKit supplies graphical
 authorization prompts. These services are attached to `niri.service` and stop
 with the graphical session.
 

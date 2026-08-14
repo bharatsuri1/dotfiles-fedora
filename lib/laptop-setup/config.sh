@@ -88,9 +88,11 @@ configure_niri_services() {
     fi
     attach_niri_service "$service"
   done
+  run systemctl --user try-restart swayidle.service
 }
 
 install_config() {
+  link_config "$REPO_ROOT/bin/lock-screen" "$HOME/.local/bin/lock-screen"
   link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
   link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"
@@ -112,6 +114,8 @@ install_config() {
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
   link_config "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
   link_config "$REPO_ROOT/config/mako/config" "$HOME/.config/mako/config"
+  link_config "$REPO_ROOT/config/gtklock/config.ini" "$HOME/.config/gtklock/config.ini"
+  link_config "$REPO_ROOT/config/gtklock/style.css" "$HOME/.config/gtklock/style.css"
   link_config "$REPO_ROOT/config/swaylock/config" "$HOME/.config/swaylock/config"
   validate_niri_config
   link_config "$REPO_ROOT/config/niri/config.kdl" "$HOME/.config/niri/config.kdl"

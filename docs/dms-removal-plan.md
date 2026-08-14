@@ -12,7 +12,7 @@ manually through `niri-session`. The tested baseline is independent of DMS:
 | Compositor/session | niri through `niri-session` |
 | Launcher | Fuzzel (`Mod+Space`) |
 | Notifications | Mako |
-| Lock screen | Swaylock (`Mod+Shift+L`) |
+| Lock screen | gtklock (`Mod+Shift+L`); Swaylock retained temporarily for rollback |
 | Idle and lock-before-sleep | Swayidle |
 | Polkit prompts | LXQt PolicyKit agent |
 | Portals | GNOME and GTK portal backends |
@@ -28,7 +28,7 @@ The final reboot audit confirmed:
 - no DMS process, service, niri dependency, configuration reference, generated
   state, cache, greeter artifact, or obsolete backup remains;
 - DMS Greeter's named ACLs and user group membership were removed;
-- niri, Fuzzel, Mako, Swayidle, Swaylock, LXQt PolicyKit, portals, media keys,
+- niri, Fuzzel, Mako, Swayidle, gtklock, LXQt PolicyKit, portals, media keys,
   brightness controls, screenshots, clipboard integration, and Xwayland were
   validated from a TTY-started session before and after reboot; and
 - rerunning `laptop-setup apply` cannot reinstall or reattach DMS.

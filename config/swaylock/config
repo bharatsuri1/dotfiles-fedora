@@ -1,13 +1,13 @@
 color=101010
 font=Noto Sans
-font-size=24
-indicator-radius=64
-indicator-thickness=8
-inside-color=101010e6
-inside-clear-color=101010e6
-inside-ver-color=101010e6
-inside-wrong-color=101010e6
-ring-color=ffc799
+font-size=18
+indicator-radius=48
+indicator-thickness=4
+inside-color=101010b8
+inside-clear-color=101010b8
+inside-ver-color=101010b8
+inside-wrong-color=101010b8
+ring-color=ffffff80
 ring-clear-color=aca1cf
 ring-ver-color=90b99f
 ring-wrong-color=f5a191
@@ -24,3 +24,4 @@ text-wrong-color=ffffff
 separator-color=00000000
 ignore-empty-password
 show-failed-attempts
+indicator-caps-lock

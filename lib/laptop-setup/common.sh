@@ -75,6 +75,7 @@ readonly DESKTOP_UTILITY_PACKAGES=(
 )
 
 readonly DESKTOP_SESSION_PACKAGES=(
+  gtklock
   lxqt-policykit
   mako
   swayidle

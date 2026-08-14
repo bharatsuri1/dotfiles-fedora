@@ -27,7 +27,7 @@ tickets in order so the machine retains its tested bare-niri recovery path.
 
 - [x] Keep Fuzzel as the emergency launcher and bind it independently of the custom shell.
 - [x] Select, install, configure, and start a standalone notification daemon.
-- [x] Configure Swaylock and select the owner of idle detection and lock-before-suspend behavior.
+- [x] Configure gtklock and select the owner of idle detection and lock-before-suspend behavior; retain Swaylock temporarily as a rollback package.
 - [x] Select, install, configure, and start a standalone graphical Polkit agent.
 - [x] Decide whether the temporary baseline needs Waybar; keep it minimal and removable if used.
 - [x] Preserve the existing portal, Xwayland Satellite, media-key, brightness, screenshot, and clipboard wiring.

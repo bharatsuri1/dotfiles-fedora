@@ -62,7 +62,7 @@ binds {
 
     Mod+O repeat=false { toggle-overview; }
     Mod+Q repeat=false { close-window; }
-    Mod+Shift+L hotkey-overlay-title="Lock Screen" { spawn "swaylock" "-f"; }
+    Mod+Shift+L hotkey-overlay-title="Lock Screen" { spawn "lock-screen"; }
 
     Mod+Left { focus-column-left; }
     Mod+Down { focus-window-down; }
