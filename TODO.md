@@ -56,15 +56,27 @@ tickets in order so the machine retains its tested bare-niri recovery path.
 
 ### Ticket 6: Establish the custom Quickshell foundation
 
-- [ ] Define one repository-owned Quickshell process as the optional owner of the top bar and launcher.
-- [ ] Add the Quickshell package, configuration tree, systemd user service, startup ownership, logs, and restart behavior.
+The completed foundation research, package, service, and design record lives in
+[`docs/quickshell-foundation.md`](docs/quickshell-foundation.md). The polished
+launcher and the custom fixed-size icon Alt-Tab switcher build on top of this
+foundation as a separate slice. Implementation is complete and validated
+live in the graphical session.
+
+- [x] Research the current Fedora/Quickshell package and APIs; track the distro
+  `quickshell` package and the QML module inventory needed for the alcove.
+- [x] Add Quickshell to laptop-setup as an `install_quickshell` phase.
+- [x] Create a minimal repository-owned configuration at `config/quickshell/shell.qml`.
+- [x] Wire it as one systemd user service attached to Niri via `niri.service.wants`.
+- [x] Add restart, logging, status, and fallback safeguards to the service unit, `status`, and the foundation doc.
+- [x] Run the service live and confirm the minimal top bar renders as proof of life (niri wordmark, clock, screen name).
+- [x] Keep Fuzzel as the reliable fallback by leaving niri's `Mod+Space` fuzzel binding untouched and inhibiting any launcher key collision until the launcher slice.
+- [x] Validate one Quickshell process (pgrep count 1), no DMS process, and no overlapping shell services; journald reports a clean startup.
 - [ ] Inventory Quickshell APIs and independent providers needed for niri, notifications, media, audio, network, Bluetooth, battery, and power.
 - [ ] Use niri IPC and event-driven providers where possible; define polling and performance budgets.
 - [ ] Implement a polished keyboard-first launcher with applications and custom actions.
 - [ ] Retain a deterministic Fuzzel fallback when Quickshell or its launcher fails.
 - [ ] Investigate a Quickshell-to-Elephant provider prototype without committing the architecture to it.
 - [ ] Add niri, Quickshell, DMS-absence, and Xwayland checks to `laptop-setup doctor`.
-- [ ] Validate one Quickshell process, no DMS process, and no overlapping shell services.
 
 ### Ticket 7: Build the macOS-style alcove and Dynamic Island
 
@@ -141,6 +153,10 @@ tickets in order so the machine retains its tested bare-niri recovery path.
 - [x] Validate the managed tmux configuration and setup scripts.
 - [ ] Review `agavra/tuicr` installation, dependencies, and package ownership.
 - [ ] Install and configure `tuicr` through the selected package source.
+- [ ] Evaluate OpenCode CLI and Linux desktop app installation without adding either to setup yet.
+  - [ ] Review the OpenCode CLI npm package, runtime requirements, update path, and package ownership.
+  - [ ] Review the OpenCode Linux desktop Flatpak, permissions, update path, and upstream ownership.
+  - [ ] Decide whether either OpenCode installation belongs in `laptop-setup` after manual evaluation.
 
 ## Priority 4: Security and laptop policy
 
