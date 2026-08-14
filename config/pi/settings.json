@@ -11,8 +11,8 @@
   "tuiMode": "fullscreen",
   "fullscreenScrollbar": "hidden",
   "defaultProvider": "opencode-go",
-  "defaultModel": "glm-5.2",
-  "defaultThinkingLevel": "high",
+  "defaultModel": "kimi-k3",
+  "defaultThinkingLevel": "max",
   "npmCommand": [
     "mise",
     "exec",
