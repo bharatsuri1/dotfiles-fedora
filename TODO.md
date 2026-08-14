@@ -26,24 +26,24 @@ order so the machine always has a tested bare-niri recovery path.
 ### Ticket 3: Add and wire bare-niri desktop components
 
 - [x] Keep Fuzzel as the emergency launcher and bind it independently of the custom shell.
-- [ ] Select, install, configure, and start a standalone notification daemon.
-- [ ] Configure Swaylock and select the owner of idle detection and lock-before-suspend behavior.
-- [ ] Select, install, configure, and start a standalone graphical Polkit agent.
+- [x] Select, install, configure, and start a standalone notification daemon.
+- [x] Configure Swaylock and select the owner of idle detection and lock-before-suspend behavior.
+- [x] Select, install, configure, and start a standalone graphical Polkit agent.
 - [x] Decide whether the temporary baseline needs Waybar; keep it minimal and removable if used.
-- [ ] Preserve the existing portal, Xwayland Satellite, media-key, brightness, screenshot, and clipboard wiring.
-- [ ] Validate the complete bare-niri session from a TTY before removing DMS.
+- [x] Preserve the existing portal, Xwayland Satellite, media-key, brightness, screenshot, and clipboard wiring.
+- [x] Validate the complete bare-niri session from a TTY before removing DMS.
 
 ### Ticket 4: Remove DMS from the current machine
 
-- [ ] Export the data identified in Ticket 1 and take an exact pre-removal inventory.
-- [ ] Remove the `niri.service` want for `dms.service` without stopping the only working session prematurely.
-- [ ] Use the DMS Greeter uninstall path while its CLI is still present and restore a tested TTY login path.
-- [ ] Reboot and prove TTY login followed by `niri-session` before package removal.
-- [ ] Remove DMS, DMS CLI, DMS Greeter, and any now-unwanted Quickshell or greetd packages after reviewing the DNF transaction.
-- [ ] Disable the DMS and Dank Linux COPRs once no retained package depends on them.
-- [ ] Remove DMS-generated niri fragments, user configuration, state, caches, and greeter cache.
-- [ ] Reverse only the group membership, ACL, and ownership changes introduced by DMS Greeter sync.
-- [ ] Verify after reboot that no DMS process, package, repository, configuration reference, or greeter artifact remains.
+- [x] Export the data identified in Ticket 1 and take an exact pre-removal inventory.
+- [x] Remove the `niri.service` want for `dms.service` without stopping the only working session prematurely.
+- [x] Use the DMS Greeter uninstall path while its CLI is still present and restore a tested TTY login path.
+- [x] Reboot and prove TTY login followed by `niri-session` before package removal.
+- [x] Remove DMS, DMS CLI, DMS Greeter, and any now-unwanted Quickshell or greetd packages after reviewing the DNF transaction.
+- [x] Disable the DMS and Dank Linux COPRs once no retained package depends on them.
+- [x] Remove DMS-generated niri fragments, user configuration, state, caches, and greeter cache.
+- [x] Reverse only the group membership, ACL, and ownership changes introduced by DMS Greeter sync.
+- [x] Verify after reboot that no DMS process, package, repository, configuration reference, or greeter artifact remains.
 
 ### Ticket 5: Choose a DMS-independent graphical login path
 

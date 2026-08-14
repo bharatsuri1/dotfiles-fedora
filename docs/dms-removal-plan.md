@@ -1,9 +1,17 @@
 # DMS removal and bare-niri transition plan
 
-Status: repository migration complete; machine removal has not started.
+Status: completed on 2026-08-13.
 
 The supervised execution checklist is maintained separately in
 [`dms-uninstall-guide.md`](dms-uninstall-guide.md).
+
+The transition completed through the documented TTY and reboot gates. The
+final audit confirmed that DMS, DMS CLI, DMS Greeter, Quickshell, greetd, their
+COPRs, processes, services, configuration, generated state, caches, greeter
+artifacts, named ACLs, and greeter-group membership are absent. The machine now
+boots to `multi-user.target`; `niri-session` starts the tested bare session with
+Fuzzel, Mako, Swayidle, Swaylock, LXQt PolicyKit, portals, and Xwayland
+Satellite active independently of DMS.
 
 On 2026-08-13, DMS configuration, state, themes, notepad data, and generated
 niri fragments were exported outside Git to
