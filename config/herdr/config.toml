@@ -1,5 +1,9 @@
 onboarding = false
 
+[keys]
+open_worktree = "prefix+shift+o"
+remove_worktree = "prefix+shift+u"
+
 [theme]
 name = "vesper"
 auto_switch = false
