@@ -48,6 +48,16 @@ show_status() {
   else
     printf '  [invalid]  %s\n' "$NIRI_SESSION_FILE"
   fi
+  if package_installed sddm; then
+    printf '  [installed] sddm\n'
+  else
+    printf '  [missing]  sddm\n'
+  fi
+  if [[ -r "$SDDM_CONFIG_TARGET" && -r "$SDDM_THEME_TARGET/Main.qml" ]]; then
+    printf '  [managed]  %s theme\n' "$SDDM_THEME_NAME"
+  else
+    printf '  [missing]  managed SDDM theme\n'
+  fi
 
   printf 'Fedora packages:\n'
   local item

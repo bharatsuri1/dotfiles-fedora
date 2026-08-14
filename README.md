@@ -104,8 +104,16 @@ Fuzzel as the recovery-capable application launcher, and `Mod+Shift+L` locks the
 session. Mako owns notifications, Swayidle owns idle and lock-before-sleep
 behavior, Swaylock owns authentication, and LXQt PolicyKit supplies graphical
 authorization prompts. These services are attached to `niri.service` and stop
-with the graphical session. The setup CLI does not install, enable, or configure
-a graphical login manager or temporary bar.
+with the graphical session.
+
+`laptop-setup apply` installs and configures SDDM with the repository-owned
+Vesper theme, wallpaper, and user picture, but does not activate it. After
+testing the TTY recovery path, run `laptop-setup sddm-enable`; the guarded
+command validates the niri session and managed theme, refuses to replace a
+different enabled display manager, and switches the next boot to
+`graphical.target`. It does not stop the current session. From a recovery TTY,
+restore console boot with
+`sudo systemctl set-default multi-user.target`.
 
 The staged transition from an existing DMS installation, including TTY recovery
 and greeter rollback instructions, is documented in

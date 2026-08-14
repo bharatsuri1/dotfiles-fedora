@@ -15,6 +15,7 @@ for module in \
   desktop-foundation \
   desktop-defaults \
   niri \
+  sddm \
   keyd \
   fonts \
   flatpaks \
@@ -44,6 +45,8 @@ Commands:
   desktop-defaults
               Configure browser, file, media, image, and PDF handlers
   niri        Install niri from Fedora repositories
+  sddm        Install and configure the Vesper-themed SDDM login screen
+  sddm-enable Validate and enable SDDM for the next boot (explicit and guarded)
   keyd        Install keyd and configure Caps as Escape/Hyper
   fonts       Install terminal and desktop fallback fonts
   font        Alias for fonts (deprecated)
@@ -80,6 +83,7 @@ main() {
       install_docker
       install_desktop_foundation
       install_niri
+      install_sddm
       install_keyd
       install_fonts
       install_flatpaks
@@ -88,7 +92,8 @@ main() {
       install_config
       install_desktop_defaults
       set_shell
-      log 'To start the desktop manually, switch to a TTY and run: niri-session'
+      log 'SDDM is prepared but not implicitly enabled; run laptop-setup sddm-enable when ready'
+      log 'Recovery path: switch to a TTY, log in, and run: niri-session'
       ;;
     packages) install_packages ;;
     development) install_development_tools ;;
@@ -97,6 +102,8 @@ main() {
     desktop-foundation) install_desktop_foundation ;;
     desktop-defaults) install_desktop_defaults ;;
     niri) install_niri ;;
+    sddm) install_sddm ;;
+    sddm-enable) enable_sddm ;;
     keyd) install_keyd ;;
     fonts|font) install_fonts ;;
     flatpaks) install_flatpaks ;;
