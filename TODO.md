@@ -132,8 +132,8 @@ states are added.
 
 ## Priority 3: Development tools
 
-- [ ] Add Microsoft’s official VS Code RPM repository.
-- [ ] Install VS Code through DNF.
+- [x] Install Visual Studio Code (`com.visualstudio.code`) from Flathub.
+- [x] Install Zed (`dev.zed.Zed`) from Flathub.
 - [ ] Track minimal VS Code settings and keybindings.
 - [ ] Define a small reviewed VS Code extension list.
 - [x] Create a managed `config/tmux/tmux.conf` with a `Ctrl-Space` prefix.

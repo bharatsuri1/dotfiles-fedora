@@ -7,9 +7,10 @@ the machine. It does not depend on a particular preinstalled desktop and does
 not own OS installation, disk layout, secrets, or application state.
 
 The package and ownership choices are derived from the adjacent
-`dotfiles-omarchy` decision ledger. Fedora/DNF owns native tools and Chromium,
-Flatpak owns LocalSend, Homebrew owns Dashlane CLI, Starship, `jless`, and `fx`,
-and Nerd Fonts owns the pinned JetBrains Mono archive.
+`dotfiles-omarchy` decision ledger. Fedora/DNF owns native tools and Chromium;
+Flatpak owns LocalSend, OpenCode, Visual Studio Code, and Zed; Homebrew owns
+Dashlane CLI, Starship, `jless`, and `fx`; and Nerd Fonts owns the pinned
+JetBrains Mono archive.
 
 ## One-line bootstrap
 
@@ -140,7 +141,7 @@ tested.
 - Chromium from Fedora for browser app-mode launchers using
   `chromium-browser --app=URL`, plus a managed local policy that disables
   Chromium password saving, site notifications, and default-browser prompts;
-- LocalSend from Flathub;
+- LocalSend, OpenCode, Visual Studio Code, and Zed from Flathub;
 - Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, Sesh, and `xh`;
 - Herdr from its official verified installer;
 - niri with Fuzzel as its independent baseline launcher; and

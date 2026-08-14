@@ -52,7 +52,7 @@ Commands:
   keyd        Install keyd and configure Caps as Escape/Hyper
   fonts       Install terminal and desktop fallback fonts
   font        Alias for fonts (deprecated)
-  flatpaks    Configure Flathub and install LocalSend and OpenCode
+  flatpaks    Configure Flathub and install managed desktop applications
   homebrew    Install Homebrew if needed, then Dashlane CLI and managed formulae
   shell-tools Install pinned Zsh plugins directly without a plugin manager
   config      Back up conflicts and link the managed configuration
