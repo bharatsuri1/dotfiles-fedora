@@ -82,10 +82,13 @@ configure_niri_services() {
   link_config \
     "$REPO_ROOT/config/systemd/user/lxqt-policykit-agent.service" \
     "$HOME/.config/systemd/user/lxqt-policykit-agent.service"
+  link_config \
+    "$REPO_ROOT/config/systemd/user/quickshell.service" \
+    "$HOME/.config/systemd/user/quickshell.service"
   run systemctl --user daemon-reload
 
   local service
-  for service in mako.service swaybg.service swayidle.service lxqt-policykit-agent.service; do
+  for service in mako.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service; do
     if ! $DRY_RUN && ! systemctl --user cat "$service" >/dev/null 2>&1; then
       die "$service is unavailable; run the desktop-foundation phase first"
     fi
@@ -97,6 +100,11 @@ configure_niri_services() {
     log 'graphical session is inactive; swaybg will start with the next niri session'
   fi
   run systemctl --user try-restart swayidle.service
+  if $DRY_RUN || systemctl --user is-active graphical-session.target >/dev/null 2>&1; then
+    run systemctl --user restart quickshell.service
+  else
+    log 'graphical session is inactive; quickshell will start with the next niri session'
+  fi
 }
 
 install_config() {
@@ -123,6 +131,7 @@ install_config() {
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
   link_config "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
   link_config "$REPO_ROOT/config/mako/config" "$HOME/.config/mako/config"
+  link_config "$REPO_ROOT/config/quickshell/shell.qml" "$HOME/.config/quickshell/shell.qml"
   link_config "$REPO_ROOT/config/gtklock/config.ini" "$HOME/.config/gtklock/config.ini"
   link_config "$REPO_ROOT/config/gtklock/style.css" "$HOME/.config/gtklock/style.css"
   validate_niri_config

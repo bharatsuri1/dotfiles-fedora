@@ -99,13 +99,17 @@ Use `tl` to open the Sesh picker and `tk` to stop the entire tmux server.
 ## Desktop session
 
 The managed baseline installs niri from Fedora repositories and keeps it usable
-without a desktop shell. Start `niri-session` from a TTY; `Mod+Space` launches
+with a lightweight, repository-owned Quickshell top bar layered on the
+independent session. Start `niri-session` from a TTY; `Mod+Space` launches
 Fuzzel as the recovery-capable application launcher, and `Mod+Shift+L` locks the
 session. Mako owns notifications, Swayidle owns idle and lock-before-sleep
 behavior, gtklock owns authentication, and LXQt PolicyKit supplies graphical
-authorization prompts. These services are attached to `niri.service` and stop
-with the graphical session. Swaybg renders the repository-owned wallpaper used
-by SDDM and gtklock throughout the desktop session.
+authorization prompts. Quickshell runs as one systemd user service attached to
+`niri.service` and renders the minimal top bar via the Wayland layer-shell
+protocol; it is optional and can be stopped without disturbing the session.
+These services are attached to `niri.service` and stop with the graphical
+session. Swaybg renders the repository-owned wallpaper used by SDDM and gtklock
+throughout the desktop session.
 
 `laptop-setup apply` installs and configures SDDM with the repository-owned
 Vesper theme, wallpaper, and user picture, but does not activate it. After
@@ -118,8 +122,11 @@ restore console boot with
 
 The staged transition from an existing DMS installation, including TTY recovery
 and greeter rollback instructions, is documented in
-[`docs/dms-removal-plan.md`](docs/dms-removal-plan.md). Do not remove an active
-greeter or DMS packages until the independent niri session has been tested.
+[`docs/dms-removal-plan.md`](docs/dms-removal-plan.md). The Quickshell
+foundation, package source, lifecycle, and fallback model are documented in
+[`docs/quickshell-foundation.md`](docs/quickshell-foundation.md). Do not remove
+an active greeter or DMS packages until the independent niri session has been
+tested.
 
 ## First-draft scope
 
@@ -136,6 +143,7 @@ greeter or DMS packages until the independent niri session has been tested.
 - Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, Sesh, and `xh`;
 - Herdr from its official verified installer;
 - niri with Fuzzel as its independent baseline launcher; and
+- a minimal, repository-owned Quickshell top bar layered on the session.
 - managed Zsh, Starship, tmux, Sesh, bat, and fastfetch defaults.
 
 Authentication, browser profiles, Dashlane sessions, shell history, SSH keys,

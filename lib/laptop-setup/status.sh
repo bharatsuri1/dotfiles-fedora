@@ -170,7 +170,7 @@ show_status() {
       printf '  [missing] %s\n' "$item"
     fi
   done
-  for item in mako.service swaybg.service swayidle.service lxqt-policykit-agent.service; do
+  for item in mako.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service; do
     if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$item" ]]; then
       printf '  [attached] %s\n' "$item"
     else
@@ -204,6 +204,30 @@ show_status() {
       printf '  [missing] %s\n' "$item"
     fi
   done
+
+  printf 'Quickshell:\n'
+  for item in "${QUICKSHELL_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+  if [[ -r "$HOME/.config/quickshell/shell.qml" ]]; then
+    printf '  [linked]  %s\n' "$HOME/.config/quickshell/shell.qml"
+  else
+    printf '  [missing] %s\n' "$HOME/.config/quickshell/shell.qml"
+  fi
+  if [[ -L "$HOME/.config/systemd/user/niri.service.wants/quickshell.service" ]]; then
+    printf '  [attached] quickshell.service\n'
+  else
+    printf '  [detached] quickshell.service\n'
+  fi
+  if systemctl --user is-active quickshell.service >/dev/null 2>&1; then
+    printf '  [active]   quickshell.service\n'
+  else
+    printf '  [inactive] quickshell.service\n'
+  fi
 
   printf 'Keyboard remapping:\n'
   if package_installed keyd; then
@@ -281,11 +305,13 @@ EOF
     "$HOME/.config/gtklock/config.ini" \
     "$HOME/.config/gtklock/style.css" \
     "$HOME/.config/niri/config.kdl" \
+    "$HOME/.config/quickshell/shell.qml" \
     "$HOME/.local/bin/lock-screen" \
     "$HOME/.local/bin/session-wallpaper" \
     "$HOME/.config/systemd/user/swaybg.service" \
     "$HOME/.config/systemd/user/swayidle.service" \
-    "$HOME/.config/systemd/user/lxqt-policykit-agent.service"; do
+    "$HOME/.config/systemd/user/lxqt-policykit-agent.service" \
+    "$HOME/.config/systemd/user/quickshell.service"; do
     if [[ -L "$target" && "$(readlink -f -- "$target")" == "$REPO_ROOT"/* ]]; then
       printf '  [linked]  %s\n' "$target"
     else

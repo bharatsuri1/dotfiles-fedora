@@ -1,0 +1,22 @@
+[Unit]
+Description=Managed Quickshell shell for the niri session
+Documentation=https://quickshell.org/docs
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+StartLimitIntervalSec=30
+StartLimitBurst=5
+
+[Service]
+# Run the repository-owned shell at ~/.config/quickshell/shell.qml. The
+# Requisite=graphical-session.target guard keeps the unit from restarting in a
+# headless boot, and PartOf stops it with the session.
+Type=simple
+ExecStart=/usr/bin/quickshell
+# Fail loudly if the compositor or Wayland socket is unavailable instead of
+# looping through quick crashes.
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=5
+StandardOutput=journal
+StandardError=journal

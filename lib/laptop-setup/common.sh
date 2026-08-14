@@ -97,6 +97,10 @@ readonly FLATPAK_APPS=(
   org.localsend.localsend_app
 )
 
+readonly QUICKSHELL_PACKAGES=(
+  quickshell
+)
+
 readonly BREW_FORMULAE=(
   dashlane/tap/dashlane-cli
   starship

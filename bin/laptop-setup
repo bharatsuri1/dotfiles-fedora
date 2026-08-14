@@ -15,6 +15,7 @@ for module in \
   desktop-foundation \
   desktop-defaults \
   niri \
+  quickshell \
   sddm \
   keyd \
   fonts \
@@ -45,6 +46,7 @@ Commands:
   desktop-defaults
               Configure browser, file, media, image, and PDF handlers
   niri        Install niri from Fedora repositories
+  quickshell  Install Quickshell from Fedora repositories
   sddm        Install and configure the Vesper-themed SDDM login screen
   sddm-enable Validate and enable SDDM for the next boot (explicit and guarded)
   keyd        Install keyd and configure Caps as Escape/Hyper
@@ -83,6 +85,7 @@ main() {
       install_docker
       install_desktop_foundation
       install_niri
+      install_quickshell
       install_sddm
       install_keyd
       install_fonts
@@ -102,6 +105,7 @@ main() {
     desktop-foundation) install_desktop_foundation ;;
     desktop-defaults) install_desktop_defaults ;;
     niri) install_niri ;;
+    quickshell) install_quickshell ;;
     sddm) install_sddm ;;
     sddm-enable) enable_sddm ;;
     keyd) install_keyd ;;
