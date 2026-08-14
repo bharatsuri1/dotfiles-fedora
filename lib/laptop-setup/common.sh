@@ -95,6 +95,7 @@ readonly DESKTOP_COMPATIBILITY_PACKAGES=(
 
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
+  ai.opencode.opencode
 )
 
 readonly QUICKSHELL_PACKAGES=(
