@@ -1,5 +1,6 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick.Controls 2.15 as QQC2
+import QtQuick.Effects
 import SddmComponents 2.0
 
 Rectangle {
@@ -8,8 +9,17 @@ Rectangle {
   height: 1600
   color: "#101010"
 
-  property int selectedUser: userModel.lastIndex >= 0 ? userModel.lastIndex : 0
+  property date now: new Date()
   property int selectedSession: sessionModel.lastIndex >= 0 ? sessionModel.lastIndex : 0
+  property string loginUser: userModel.lastUser ||
+    (userModel.count > 0 ? userModel.data(userModel.index(0, 0), Qt.UserRole + 1) : "")
+
+  Timer {
+    interval: 1000
+    running: true
+    repeat: true
+    onTriggered: root.now = new Date()
+  }
 
   Image {
     anchors.fill: parent
@@ -20,116 +30,191 @@ Rectangle {
 
   Rectangle {
     anchors.fill: parent
-    color: "#990b0b0b"
-  }
-
-  Rectangle {
-    width: Math.min(500, parent.width - 40)
-    height: 610
-    anchors.centerIn: parent
-    radius: 24
-    color: "#e6101010"
-    border.width: 1
-    border.color: "#3fffffff"
+    color: "#30000000"
   }
 
   Column {
-    width: Math.min(420, parent.width - 64)
-    spacing: 18
-    anchors.centerIn: parent
+    width: Math.min(570, parent.width - 64)
+    spacing: 4
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.verticalCenterOffset: -70
 
-    Image {
-      width: 112
-      height: 112
-      anchors.horizontalCenter: parent.horizontalCenter
-      source: userModel.count > 0 ? userModel.data(userModel.index(root.selectedUser, 0), Qt.UserRole + 4) : ""
-      fillMode: Image.PreserveAspectCrop
-      sourceSize: Qt.size(width, height)
-      layer.enabled: true
-    }
-
-    Label {
+    Text {
       width: parent.width
       horizontalAlignment: Text.AlignHCenter
-      text: userModel.count > 0 ? userModel.data(userModel.index(root.selectedUser, 0), Qt.UserRole + 1) : "Welcome"
+      text: Qt.formatTime(root.now, "h:mm AP")
       color: "#ffffff"
       font.family: "JetBrains Mono"
-      font.pixelSize: 24
+      font.pixelSize: 104
+      font.weight: Font.Light
+      style: Text.Raised
+      styleColor: "#35000000"
     }
 
-    ComboBox {
-      id: userBox
+    Text {
       width: parent.width
-      model: userModel
-      textRole: "name"
-      currentIndex: root.selectedUser
-      onCurrentIndexChanged: root.selectedUser = currentIndex
-    }
-
-    TextField {
-      id: password
-      width: parent.width
-      placeholderText: "Password"
-      echoMode: TextInput.Password
-      focus: true
-      color: "#ffffff"
+      horizontalAlignment: Text.AlignHCenter
+      text: Qt.formatDate(root.now, "dddd, MMMM d")
+      color: "#e8ffffff"
       font.family: "JetBrains Mono"
-      font.pixelSize: 16
-      implicitHeight: 54
-      leftPadding: 18
-      rightPadding: 18
-      background: Rectangle {
-        radius: 12
-        color: "#e6191919"
-        border.width: 1
-        border.color: password.activeFocus ? "#ea83a5" : "#3fffffff"
+      font.pixelSize: 20
+    }
+
+    Item {
+      width: 1
+      height: 22
+    }
+
+    Row {
+      spacing: 14
+      anchors.horizontalCenter: parent.horizontalCenter
+
+      Rectangle {
+        id: avatarFrame
+        width: 60
+        height: 60
+        radius: 30
+        color: "#d9101010"
+        border.width: 2
+        border.color: "#bfffffff"
+
+        Image {
+          id: avatarSource
+          anchors.fill: parent
+          anchors.margins: 2
+          source: "avatar.jpg"
+          fillMode: Image.PreserveAspectCrop
+          sourceSize: Qt.size(112, 112)
+          visible: false
+        }
+
+        Item {
+          id: avatarMask
+          anchors.fill: avatarSource
+          visible: false
+          layer.enabled: true
+
+          Rectangle {
+            anchors.fill: parent
+            radius: width / 2
+            color: "white"
+          }
+        }
+
+        MultiEffect {
+          anchors.fill: avatarSource
+          source: avatarSource
+          maskEnabled: true
+          maskSource: avatarMask
+        }
       }
-      onAccepted: loginButton.clicked()
-      Keys.onEscapePressed: text = ""
+
+      Rectangle {
+        width: 370
+        height: 60
+        radius: 13
+        color: "#dc101010"
+        border.width: 1
+        border.color: password.activeFocus ? "#ea83a5" : "#80ffffff"
+
+        Text {
+          anchors.left: parent.left
+          anchors.leftMargin: 18
+          anchors.verticalCenter: parent.verticalCenter
+          text: "●"
+          color: password.activeFocus ? "#ea83a5" : "#b8ffffff"
+          font.pixelSize: 11
+        }
+
+        QQC2.TextField {
+          id: password
+          anchors.left: parent.left
+          anchors.leftMargin: 42
+          anchors.right: submitButton.left
+          anchors.rightMargin: 4
+          anchors.verticalCenter: parent.verticalCenter
+          height: parent.height
+          placeholderText: "Password"
+          placeholderTextColor: "#8fffffff"
+          echoMode: TextInput.Password
+          focus: true
+          color: "#ffffff"
+          selectionColor: "#ea83a5"
+          selectedTextColor: "#101010"
+          font.family: "JetBrains Mono"
+          font.pixelSize: 16
+          background: Item {}
+          onAccepted: submitButton.clicked()
+          Keys.onEscapePressed: text = ""
+        }
+
+        QQC2.Button {
+          id: submitButton
+          width: 52
+          height: parent.height
+          anchors.right: parent.right
+          anchors.verticalCenter: parent.verticalCenter
+          enabled: root.loginUser.length > 0
+          contentItem: Text {
+            text: "↵"
+            color: submitButton.down ? "#ea83a5" : "#ffffff"
+            font.family: "JetBrains Mono"
+            font.pixelSize: 22
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+          }
+          background: Item {}
+          onClicked: {
+            errorMessage.text = ""
+            sddm.login(root.loginUser, password.text, root.selectedSession)
+          }
+        }
+      }
     }
 
-    Label {
+    Text {
       id: errorMessage
       width: parent.width
-      visible: text.length > 0
+      height: 26
       horizontalAlignment: Text.AlignHCenter
+      verticalAlignment: Text.AlignVCenter
       color: "#f5a191"
       font.family: "JetBrains Mono"
+      font.pixelSize: 13
       text: ""
     }
+  }
 
-    Button {
-      id: loginButton
-      width: parent.width
-      text: "Sign in"
-      enabled: userModel.count > 0
-      implicitHeight: 54
-      contentItem: Text {
-        text: loginButton.text
-        color: "#101010"
-        font.family: "JetBrains Mono"
-        font.pixelSize: 16
-        font.weight: Font.DemiBold
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-      }
-      background: Rectangle {
-        radius: 12
-        color: loginButton.down ? "#e29eca" : "#ea83a5"
-      }
-      onClicked: {
-        errorMessage.text = ""
-        sddm.login(userBox.currentText, password.text, root.selectedSession)
-      }
-    }
+  Text {
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    anchors.margins: 28
+    text: "Niri"
+    color: "#b8ffffff"
+    font.family: "JetBrains Mono"
+    font.pixelSize: 14
+  }
 
-    ComboBox {
-      width: parent.width
-      model: sessionModel
-      textRole: "name"
-      currentIndex: root.selectedSession
-      onCurrentIndexChanged: root.selectedSession = currentIndex
+  QQC2.Button {
+    id: powerButton
+    width: 48
+    height: 48
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    anchors.margins: 22
+    contentItem: Text {
+      text: "⏻"
+      color: powerButton.down ? "#ea83a5" : "#d8ffffff"
+      font.pixelSize: 22
+      horizontalAlignment: Text.AlignHCenter
+      verticalAlignment: Text.AlignVCenter
     }
+    background: Rectangle {
+      radius: 24
+      color: powerButton.hovered ? "#70101010" : "transparent"
+    }
+    onClicked: sddm.powerOff()
   }
 
   Connections {
