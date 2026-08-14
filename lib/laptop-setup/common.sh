@@ -74,6 +74,13 @@ readonly DESKTOP_UTILITY_PACKAGES=(
   wl-clipboard
 )
 
+readonly DESKTOP_SESSION_PACKAGES=(
+  lxqt-policykit
+  mako
+  swayidle
+  swaylock
+)
+
 readonly DESKTOP_APPLICATION_PACKAGES=(
   nautilus
   mpv

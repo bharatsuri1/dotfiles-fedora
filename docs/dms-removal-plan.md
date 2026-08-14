@@ -2,6 +2,9 @@
 
 Status: repository migration complete; machine removal has not started.
 
+The supervised execution checklist is maintained separately in
+[`dms-uninstall-guide.md`](dms-uninstall-guide.md).
+
 On 2026-08-13, DMS configuration, state, themes, notepad data, and generated
 niri fragments were exported outside Git to
 `~/.local/state/dotfiles-fedora/migrations/dms-20260813`. The source and exported

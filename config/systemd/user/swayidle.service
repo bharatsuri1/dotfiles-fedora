@@ -1,0 +1,10 @@
+[Unit]
+Description=Idle and lock management for niri
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/swayidle -w timeout 600 "pgrep -x swaylock >/dev/null || swaylock -f" timeout 601 "niri msg action power-off-monitors" before-sleep "pgrep -x swaylock >/dev/null || swaylock -f" lock "pgrep -x swaylock >/dev/null || swaylock -f"
+Restart=on-failure

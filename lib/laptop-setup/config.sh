@@ -61,6 +61,35 @@ validate_niri_config() {
   log 'validated managed niri configuration'
 }
 
+attach_niri_service() {
+  local service="$1"
+  local wants="$HOME/.config/systemd/user/niri.service.wants/$service"
+
+  if [[ -L "$wants" ]]; then
+    log "$service already attached to the niri session"
+  else
+    run systemctl --user add-wants niri.service "$service"
+  fi
+}
+
+configure_niri_services() {
+  link_config \
+    "$REPO_ROOT/config/systemd/user/swayidle.service" \
+    "$HOME/.config/systemd/user/swayidle.service"
+  link_config \
+    "$REPO_ROOT/config/systemd/user/lxqt-policykit-agent.service" \
+    "$HOME/.config/systemd/user/lxqt-policykit-agent.service"
+  run systemctl --user daemon-reload
+
+  local service
+  for service in mako.service swayidle.service lxqt-policykit-agent.service; do
+    if ! $DRY_RUN && ! systemctl --user cat "$service" >/dev/null 2>&1; then
+      die "$service is unavailable; run the desktop-foundation phase first"
+    fi
+    attach_niri_service "$service"
+  done
+}
+
 install_config() {
   link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
@@ -82,6 +111,9 @@ install_config() {
   link_config "$REPO_ROOT/config/bat/config" "$HOME/.config/bat/config"
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
   link_config "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+  link_config "$REPO_ROOT/config/mako/config" "$HOME/.config/mako/config"
+  link_config "$REPO_ROOT/config/swaylock/config" "$HOME/.config/swaylock/config"
   validate_niri_config
   link_config "$REPO_ROOT/config/niri/config.kdl" "$HOME/.config/niri/config.kdl"
+  configure_niri_services
 }

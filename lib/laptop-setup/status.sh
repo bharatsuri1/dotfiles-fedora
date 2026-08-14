@@ -152,6 +152,22 @@ show_status() {
     fi
   done
 
+  printf 'Bare-niri session:\n'
+  for item in "${DESKTOP_SESSION_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+  for item in mako.service swayidle.service lxqt-policykit-agent.service; do
+    if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$item" ]]; then
+      printf '  [attached] %s\n' "$item"
+    else
+      printf '  [detached] %s\n' "$item"
+    fi
+  done
+
   printf 'Desktop applications:\n'
   for item in "${DESKTOP_APPLICATION_PACKAGES[@]}"; do
     if package_installed "$item"; then
@@ -251,7 +267,11 @@ EOF
     "$HOME/.config/bat/config" \
     "$HOME/.config/fastfetch/config.jsonc" \
     "$HOME/.config/herdr/config.toml" \
-    "$HOME/.config/niri/config.kdl"; do
+    "$HOME/.config/mako/config" \
+    "$HOME/.config/niri/config.kdl" \
+    "$HOME/.config/swaylock/config" \
+    "$HOME/.config/systemd/user/swayidle.service" \
+    "$HOME/.config/systemd/user/lxqt-policykit-agent.service"; do
     if [[ -L "$target" && "$(readlink -f -- "$target")" == "$REPO_ROOT"/* ]]; then
       printf '  [linked]  %s\n' "$target"
     else
