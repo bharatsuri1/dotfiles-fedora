@@ -28,8 +28,11 @@ if ! confirm 'Is a second TTY open and logged in as your recovery path'; then
   die 'DMS detachment cancelled'
 fi
 
-run systemctl --user remove-wants niri.service dms.service
 run systemctl --user disable dms.service
+readonly dms_want="$HOME/.config/systemd/user/niri.service.wants/dms.service"
+if [[ -L "$dms_want" ]]; then
+  run unlink "$dms_want"
+fi
 run systemctl --user daemon-reload
 
 log 'DMS is detached for the next session.'

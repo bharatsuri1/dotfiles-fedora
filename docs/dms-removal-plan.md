@@ -196,8 +196,8 @@ From the current session, remove the explicit niri-to-DMS dependency for the
 next login, without stopping the currently running shell mid-session:
 
 ```bash
-systemctl --user remove-wants niri.service dms.service
 systemctl --user disable dms.service
+rm -f ~/.config/systemd/user/niri.service.wants/dms.service
 systemctl --user daemon-reload
 ```
 
