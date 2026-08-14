@@ -1,9 +1,9 @@
 # Quickshell foundation
 
-Status: foundation in progress (Ticket 6). The repository now owns one
-Quickshell process that renders a minimal top bar per screen as proof of life.
-The polished launcher and the macOS-style alcove/island are separate follow-up
-work (Tickets 6 and 7).
+Status: foundation complete (Ticket 6). The repository owns one Quickshell
+process per session. A static clock-and-battery center alcove is implemented
+on top of it; see [`quickshell-island.md`](quickshell-island.md). Motion,
+richer island states, and the launcher remain follow-up work.
 
 ## Package source
 
@@ -37,15 +37,17 @@ options (from `src/launch/parsecommand.cpp`):
 - `-d, --daemonize` and `--no-duplicate` exist, but we run a plain foreground
   process so systemd manages the lifecycle.
 
-Quickshell hot-reloads the shell on file save. We keep that behavior for fast
-iteration; the managed symlink still points at the repo file, so a `git pull`
-reloads live, and `systemctl --user restart quickshell.service` forces a clean
-reload.
+Quickshell hot-reloads the shell when the entry file changes. The Fedora
+0.2.1 build watches only `shell.qml`, not the whole tree, so after editing
+any other file force a clean reload with `systemctl --user restart
+quickshell.service`. The managed symlink points at the repo, so a `git pull`
+plus a restart applies updates live.
 
 ## Repository-owned configuration
 
-- `config/quickshell/shell.qml` — the shell entry point, linked to
-  `~/.config/quickshell/shell.qml` by the `config` phase.
+- `config/quickshell/` — the shell tree (`shell.qml` entry point, `theme/`
+  design tokens, `island/` components), linked as a whole to
+  `~/.config/quickshell` by the `config` phase.
 - `config/systemd/user/quickshell.service` — the systemd user unit, linked to
   `~/.config/systemd/user/quickshell.service` and attached to the niri session.
 
@@ -111,11 +113,11 @@ the service attachment, and the active/inactive state.
 - To roll back: `systemctl --user disable --now quickshell.service`,
   `laptop-setup` re-link is idempotent; remove the symlink to revert to no bar.
 
-## Provider inventory (for follow-up)
+## Provider inventory
 
 Niri has no native Quickshell module (only `Quickshell.Hyprland`,
-`Quickshell.I3`, and generic `Quickshell.Wayland` exist). The alcove/island
-work (Ticket 7) will use:
+`Quickshell.I3`, and generic `Quickshell.Wayland` exist). The static MVP uses
+UPower; the rest remains follow-up:
 
 | Concern | Plan | Provider |
 | --- | --- | --- |
@@ -125,26 +127,26 @@ work (Ticket 7) will use:
 | Audio | PipeWire | `Quickshell.Services.Pipewire` |
 | Network | NetworkManager | `Quickshell.Networking` |
 | Bluetooth | BlueZ | `Quickshell.Bluetooth` |
-| Battery / power | UPower | `Quickshell.Services.UPower` |
+| Battery / power | UPower | `Quickshell.Services.UPower` (in use) |
 | System tray | StatusNotifier | `Quickshell.Services.SystemTray` |
 | Lock screen | gtklock already owns it | none needed in shell |
 
 ## Performance budget
 
-Goal: event-driven providers, zero steady-state polling. The foundation shell
-already satisfies this — SystemClock is the only timer and it updates per
-precision with no busy loop. Future providers should subscribe to niri IPC and
-DBus signals. Any unavoidable poll (e.g. a provider without signals) must stay
-at or below a 1 Hz cadence and be documented here.
+Goal: event-driven providers, zero steady-state polling. The shell satisfies
+this: `SystemClock` at minute precision is the only timer, while UPower updates
+through signals. Future providers should subscribe to niri IPC and DBus
+signals. Any unavoidable poll must stay at or below a 1 Hz cadence and be
+documented here.
 
 ## Validation
 
 From a TTY-started niri session, after `laptop-setup apply`:
 
 1. `systemctl --user status quickshell.service` shows active.
-2. The top bar renders on `eDP-1` with the niri wordmark, clock, and screen name.
-3. `laptop-setup status` reports `[ok] quickshell`, `[linked] shell.qml`, and
-   `[active] quickshell.service`.
+2. The alcove renders centered and flush with the top edge of `eDP-1`.
+3. `laptop-setup status` reports `[ok] quickshell`, `[managed]` for the exact
+   Quickshell directory link, and `[active] quickshell.service`.
 4. `pgrep -x quickshell` returns exactly one process.
 5. `journalctl --user -u quickshell.service` shows no Qt/Wayland errors.
 6. Fuzzel still launches on `Mod+Space` and survives a Quickshell restart.
