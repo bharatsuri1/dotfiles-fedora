@@ -1,0 +1,10 @@
+[Unit]
+Description=Managed niri session wallpaper
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/session-wallpaper
+Restart=on-failure

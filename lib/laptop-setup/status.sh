@@ -170,7 +170,7 @@ show_status() {
       printf '  [missing] %s\n' "$item"
     fi
   done
-  for item in mako.service swayidle.service lxqt-policykit-agent.service; do
+  for item in mako.service swaybg.service swayidle.service lxqt-policykit-agent.service; do
     if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$item" ]]; then
       printf '  [attached] %s\n' "$item"
     else
@@ -282,6 +282,8 @@ EOF
     "$HOME/.config/gtklock/style.css" \
     "$HOME/.config/niri/config.kdl" \
     "$HOME/.local/bin/lock-screen" \
+    "$HOME/.local/bin/session-wallpaper" \
+    "$HOME/.config/systemd/user/swaybg.service" \
     "$HOME/.config/systemd/user/swayidle.service" \
     "$HOME/.config/systemd/user/lxqt-policykit-agent.service"; do
     if [[ -L "$target" && "$(readlink -f -- "$target")" == "$REPO_ROOT"/* ]]; then

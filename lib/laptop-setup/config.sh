@@ -74,6 +74,9 @@ attach_niri_service() {
 
 configure_niri_services() {
   link_config \
+    "$REPO_ROOT/config/systemd/user/swaybg.service" \
+    "$HOME/.config/systemd/user/swaybg.service"
+  link_config \
     "$REPO_ROOT/config/systemd/user/swayidle.service" \
     "$HOME/.config/systemd/user/swayidle.service"
   link_config \
@@ -82,17 +85,23 @@ configure_niri_services() {
   run systemctl --user daemon-reload
 
   local service
-  for service in mako.service swayidle.service lxqt-policykit-agent.service; do
+  for service in mako.service swaybg.service swayidle.service lxqt-policykit-agent.service; do
     if ! $DRY_RUN && ! systemctl --user cat "$service" >/dev/null 2>&1; then
       die "$service is unavailable; run the desktop-foundation phase first"
     fi
     attach_niri_service "$service"
   done
+  if $DRY_RUN || systemctl --user is-active graphical-session.target >/dev/null 2>&1; then
+    run systemctl --user restart swaybg.service
+  else
+    log 'graphical session is inactive; swaybg will start with the next niri session'
+  fi
   run systemctl --user try-restart swayidle.service
 }
 
 install_config() {
   link_config "$REPO_ROOT/bin/lock-screen" "$HOME/.local/bin/lock-screen"
+  link_config "$REPO_ROOT/bin/session-wallpaper" "$HOME/.local/bin/session-wallpaper"
   link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
   link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"

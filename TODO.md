@@ -50,9 +50,9 @@ tickets in order so the machine retains its tested bare-niri recovery path.
 - [x] Reconsider the graphical login manager only after the DMS-free TTY and niri path is proven; select SDDM for its QML theming and user-picture support.
 - [x] If selected, install a non-DMS login manager and configure it to launch `niri-session`.
 - [x] If selected, apply a minimal Vesper-themed greeter with matching fonts, colors, user picture, and branding.
-- [ ] Enable `graphical.target` only after the replacement login manager passes recovery validation.
-- [ ] Disable or remove conflicting display managers before enabling any replacement service.
-- [ ] Validate login, logout, failed-login recovery, reboot, and fallback-to-TTY behavior.
+- [x] Enable `graphical.target` only after the replacement login manager passes recovery validation.
+- [x] Disable or remove conflicting display managers before enabling any replacement service.
+- [x] Validate login, logout, failed-login recovery, reboot, and fallback-to-TTY behavior.
 
 ### Ticket 6: Establish the custom Quickshell foundation
 
