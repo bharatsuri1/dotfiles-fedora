@@ -288,13 +288,14 @@ Confirm the prompt only after comparing it with the dry-run output. Verify the
 known paths are absent while the migration export remains:
 
 ```bash
-for path in \
+for target_path in \
   "$HOME/.config/DankMaterialShell" \
   "$HOME/.local/state/DankMaterialShell" \
   "$HOME/.cache/DankMaterialShell" \
   "$HOME/.config/niri/dms" \
   "$HOME/.config/systemd/user/niri.service.wants/dms.service"; do
-  [[ ! -e "$path" && ! -L "$path" ]] || printf 'still present: %s\n' "$path"
+  [[ ! -e "$target_path" && ! -L "$target_path" ]] ||
+    printf 'still present: %s\n' "$target_path"
 done
 test -d "$HOME/.local/state/dotfiles-fedora/migrations/dms-20260813"
 ```
@@ -334,21 +335,32 @@ getfacl -cp \
   "$HOME/.config" \
   "$HOME/.cache" \
   "$HOME/.local" \
-  "$HOME/.local/state" | rg '^(# file:|user:greeter:)'
+  "$HOME/.local/state" |
+  rg '^(# file:|(default:)?(user|group):greeter:)'
 ```
 
-For each exact directory that displayed `user:greeter:...`, remove only that
-named entry; the conditional loop skips directories without one:
+For each exact directory, remove only the named `greeter` access or default ACL
+that was actually found. `target_path` is used because `path` is a special Zsh
+array tied to command lookup:
 
 ```bash
-for path in \
+for target_path in \
   "$HOME" \
   "$HOME/.config" \
   "$HOME/.cache" \
   "$HOME/.local" \
   "$HOME/.local/state"; do
-  if getfacl -cp "$path" | rg -q '^user:greeter:'; then
-    setfacl -x u:greeter "$path"
+  if getfacl -cp "$target_path" | rg -q '^group:greeter:'; then
+    setfacl -x g:greeter "$target_path"
+  fi
+  if getfacl -cp "$target_path" | rg -q '^user:greeter:'; then
+    setfacl -x u:greeter "$target_path"
+  fi
+  if getfacl -cp "$target_path" | rg -q '^default:group:greeter:'; then
+    setfacl -x d:g:greeter "$target_path"
+  fi
+  if getfacl -cp "$target_path" | rg -q '^default:user:greeter:'; then
+    setfacl -x d:u:greeter "$target_path"
   fi
 done
 ```
@@ -356,13 +368,15 @@ done
 Inspect and remove the current user's greeter-group membership:
 
 ```bash
-id -nG | tr ' ' '\n' | rg '^greeter$' || true
+id -nG "$(id -un)" | tr ' ' '\n' | rg '^greeter$' || true
 sudo gpasswd -d "$(id -un)" greeter
-id -nG | tr ' ' '\n' | rg '^greeter$' || true
+id -nG "$(id -un)" | tr ' ' '\n' | rg '^greeter$' || true
 ```
 
-The last command must print nothing. Never recursively reset ownership or
-permissions across the home directory.
+The last command queries the account database and must print nothing. A plain
+`id -nG` can continue to show `greeter` in the current process until logout or
+reboot because supplementary groups are fixed when the login session starts.
+Never recursively reset ownership or permissions across the home directory.
 
 ## 16. Run final DMS absence checks
 

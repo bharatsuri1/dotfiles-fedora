@@ -74,6 +74,11 @@ else
   printf '  [clear]  user is not in greeter group\n'
 fi
 if command -v getfacl >/dev/null 2>&1; then
-  getfacl -cp "$HOME" "$HOME/.config" "$HOME/.cache" "$HOME/.local/state" 2>/dev/null |
-    rg '^(user:greeter:|# file:)' || true
+  getfacl -cp \
+    "$HOME" \
+    "$HOME/.config" \
+    "$HOME/.cache" \
+    "$HOME/.local" \
+    "$HOME/.local/state" 2>/dev/null |
+    rg '^((default:)?(user|group):greeter:|# file:)' || true
 fi
