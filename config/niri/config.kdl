@@ -1,7 +1,5 @@
 input {
     keyboard {
-        // Inherit the layout selected by the Fedora installer through
-        // systemd-localed instead of forcing one layout for every install.
         xkb {}
     }
 
@@ -88,9 +86,6 @@ hotkey-overlay {
     skip-at-startup
 }
 
-// Chromium can issue activation tokens with invalid input serials when an
-// existing window receives a URL from another application. Honor those tokens
-// so deliberate actions such as opening a terminal link can shift focus.
 debug {
     honor-xdg-activation-with-invalid-serial
 }
