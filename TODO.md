@@ -2,9 +2,9 @@
 
 ## Priority 1: DMS removal and custom Quickshell shell
 
-The execution and rollback details live in
-[`docs/dms-removal-plan.md`](docs/dms-removal-plan.md). Complete these tickets in
-order so the machine always has a tested bare-niri recovery path.
+The completed migration decisions and verification record live in
+[`docs/dms-removal-plan.md`](docs/dms-removal-plan.md). Continue the remaining
+tickets in order so the machine retains its tested bare-niri recovery path.
 
 ### Ticket 1: Capture DMS state and migration requirements
 
