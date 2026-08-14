@@ -1,344 +1,419 @@
 # Supervised DMS uninstall guide
 
-This guide completes the one-time transition from DMS to the repository-owned
-bare-niri baseline. It intentionally separates observable recovery boundaries
-from scripted checks. Do not skip a reboot or continue past a failed validation.
+This command-driven runbook completes the one-time transition from DMS to the
+repository-owned bare-niri baseline. Do not skip a reboot or continue past a
+failed check.
 
-The migration export must remain available at
+Keep the migration export at
 `~/.local/state/dotfiles-fedora/migrations/dms-20260813` until the final reboot
-and absence checks pass.
+passes. Run repository commands from the checkout:
 
-Run repository commands from `~/.local/share/dotfiles-fedora` unless stated
-otherwise.
+```bash
+cd ~/.local/share/dotfiles-fedora
+```
 
 ## 1. Confirm a clean, recoverable repository state
 
-Commit and push the repository before changing the live session. Then inspect
-the current migration state:
-
 ```bash
+git status --short
+git log -1 --oneline --decorate
 ./scripts/dms-transition/status.sh
-./scripts/dms-transition/detach.sh --dry-run
+./scripts/dms-transition/detach.sh --dry-run --yes
 ```
 
-Confirm that the migration export exists; niri, Fuzzel, Mako, Swayidle,
-Swaylock, LXQt PolicyKit, and Xwayland Satellite are installed; and the three
-replacement services are attached to `niri.service`.
+`git status --short` must print nothing. The status helper must report the
+export, replacement packages, and replacement service attachments as present.
 
-## 2. Establish a recovery TTY
+## 2. Establish a recovery login on TTY3
 
-1. Press `Ctrl+Alt+F3`, or `Ctrl+Alt+Fn+F3` on laptops that require the `Fn`
-   modifier.
-2. Log in with the normal user account.
-3. Confirm administrative access:
-
-   ```bash
-   sudo -v
-   ```
-
-4. Keep this TTY logged in.
-5. Return to the graphical session using the function key on which it is
-   running.
-
-Do not continue without an authenticated recovery TTY.
-
-## 3. Detach DMS from future sessions
-
-From a terminal in the current graphical session, run:
+From the graphical session on TTY1, press `Ctrl+Alt+F3` or
+`Ctrl+Alt+Fn+F3`. At the text prompt, enter the normal username and password,
+then run:
 
 ```bash
+tty
+sudo -v
+```
+
+`tty` must print `/dev/tty3`, and `sudo -v` must succeed. Leave that shell open
+and press `Ctrl+Alt+F1` or `Ctrl+Alt+Fn+F1` to return to the graphical session.
+
+Do not continue without the authenticated TTY3 shell.
+
+## 3. Detach DMS from future niri sessions
+
+In an Alacritty window on TTY1, run:
+
+```bash
+cd ~/.local/share/dotfiles-fedora
 ./scripts/dms-transition/detach.sh
 ./scripts/dms-transition/status.sh
 ```
 
-The helper removes the niri-to-DMS dependency and disables `dms.service`
-without stopping it. DMS may remain active until logout, but it must show as
-detached and disabled for the next session.
+Answer `y` only because TTY3 is already authenticated. The second command must
+show `dms.service` as disabled and detached; it may remain active until logout.
 
-## 4. Start the first bare-niri session
+## 4. End the DMS-backed session and start bare niri
 
-1. Log out of the graphical session.
-2. Return to the authenticated recovery TTY.
-3. Stop DMS Greeter so it does not reclaim the graphics seat:
+From Alacritty on TTY1, request a normal niri logout:
 
-   ```bash
-   sudo systemctl stop greetd.service
-   ```
+```bash
+niri msg action quit
+```
 
-4. Start the independent session:
+Press Enter when niri asks for confirmation. Switch to the existing recovery
+shell with `Ctrl+Alt+F3` or `Ctrl+Alt+Fn+F3`, then run:
 
-   ```bash
-   niri-session
-   ```
+```bash
+sudo systemctl stop greetd.service
+systemctl is-active greetd.service
+niri-session
+```
 
-## 5. Validate the bare session
+`systemctl is-active` must print `inactive`. `niri-session` occupies TTY3 until
+the graphical session exits; once niri appears, open Alacritty with `Mod+Return`
+for the next step.
 
-Inside the new niri session, run:
+## 5. Validate the first bare-niri session
+
+Run the service-level checks in Alacritty:
 
 ```bash
 cd ~/.local/share/dotfiles-fedora
 ./scripts/dms-transition/verify-baseline.sh
+systemctl --user --no-pager --full status \
+  niri.service \
+  mako.service \
+  swayidle.service \
+  lxqt-policykit-agent.service
 ```
 
-Then verify the visible behavior that a script cannot prove:
+All four services must be active and `dms.service` must be inactive. Perform the
+visible tests with these exact actions:
 
-1. `Mod+Space` opens Fuzzel.
-2. `Mod+Shift+L` locks and unlocks the session.
-3. Mako displays a notification:
+```bash
+notify-send "Bare niri test" "Mako is working"
+pkexec /usr/bin/id
+printf 'bare-niri-clipboard-test' | wl-copy
+wl-paste
+brightnessctl --class=backlight get
+wpctl status
+pgrep -a xwayland-satellite
+systemctl --user --no-pager --full status \
+  xdg-desktop-portal.service \
+  xdg-desktop-portal-gnome.service \
+  xdg-desktop-portal-gtk.service
+```
 
-   ```bash
-   notify-send "Bare niri test" "Mako is working"
-   ```
+Expected visible results:
 
-4. LXQt PolicyKit displays a graphical authentication prompt:
+- `Mod+Space` opens Fuzzel; press Escape to close it.
+- `notify-send` produces a Mako notification.
+- `pkexec` produces an LXQt PolicyKit prompt and prints root identity after
+  authentication.
+- `wl-paste` prints `bare-niri-clipboard-test`.
+- Brightness, PipeWire, Xwayland Satellite, and portal commands report healthy
+  state.
+- `Mod+Shift+L` opens Swaylock and the normal password unlocks it.
+- `Mod+B`, `Mod+E`, media keys, brightness keys, and Print each perform their
+  configured action.
 
-   ```bash
-   pkexec /usr/bin/id
-   ```
+To include suspend/resume in this checkpoint, save work and run:
 
-5. Test Alacritty, Chromium, Nautilus, audio and media keys, brightness keys,
-   screenshots, clipboard copy/paste, portal file dialogs, and an Xwayland
-   application.
-6. Test suspend and resume only when ready to include it in this checkpoint.
+```bash
+systemctl suspend
+```
 
-Do not remove packages unless the bare session is usable.
+The session must be locked after resume. Skip this command if suspend testing is
+being deferred; do not treat an untested suspend path as validated.
 
-## 6. Recover if the first test fails
+## 6. Recover if the first bare-session test fails
 
-Log out of niri with `Mod+Shift+E` to return to the TTY. If the baseline failed,
-restore the previous startup path before investigating:
+Exit bare niri from Alacritty:
+
+```bash
+niri msg action quit
+```
+
+Press Enter to confirm. Back at the TTY3 shell, restore DMS startup and greetd:
 
 ```bash
 systemctl --user add-wants niri.service dms.service
 systemctl --user enable dms.service
+systemctl --user daemon-reload
 sudo systemctl start greetd.service
 ```
 
-Stop here until the failure is resolved.
+Press `Ctrl+Alt+F1` or `Ctrl+Alt+Fn+F1` to return to the greeter. Stop the
+runbook here until the bare-session failure is fixed.
 
-## 7. Uninstall DMS Greeter integration
+## 7. Exit a successful test and uninstall DMS Greeter integration
 
-After a successful bare-session test, return to the TTY with `Mod+Shift+E`.
-While the DMS CLI still exists, inspect and invoke its supported uninstall path:
+After all Step 5 tests pass, exit bare niri from Alacritty:
+
+```bash
+niri msg action quit
+```
+
+Press Enter to confirm. At the returned TTY3 shell, run the vendor-supported
+greeter removal while the DMS CLI still exists:
 
 ```bash
 dms greeter status
 dms greeter uninstall --yes
-```
-
-Inspect the resulting login state:
-
-```bash
-systemctl is-enabled greetd.service
-systemctl is-active greetd.service
+systemctl is-enabled greetd.service || true
+systemctl is-active greetd.service || true
 systemctl get-default
-systemctl status display-manager.service --no-pager
+systemctl status display-manager.service --no-pager || true
 ```
 
-Establish the temporary text-login baseline explicitly:
+Then establish the temporary text-login boot explicitly:
 
 ```bash
 sudo systemctl disable greetd.service
 sudo systemctl set-default multi-user.target
+systemctl is-enabled greetd.service || true
+systemctl get-default
 ```
 
-Do not uninstall DMS packages before the reboot checkpoint.
+The final two commands must report `disabled` and `multi-user.target`. Do not
+remove DMS packages before the reboot checkpoint.
 
-## 8. Reboot and prove recovery
+## 8. Reboot and prove the TTY recovery path
 
 ```bash
 sudo reboot
 ```
 
-After reboot, confirm that the machine reaches a text login. Log in, run
-`niri-session`, and repeat:
+At the text login prompt, enter the normal username and password, then run:
+
+```bash
+tty
+systemctl get-default
+niri-session
+```
+
+`tty` must report a real virtual terminal and the boot target must be
+`multi-user.target`. Once niri appears, open Alacritty with `Mod+Return` and run:
 
 ```bash
 cd ~/.local/share/dotfiles-fedora
 ./scripts/dms-transition/verify-baseline.sh
+notify-send "Reboot test" "Bare niri survived reboot"
+pkexec /usr/bin/id
 ```
 
-Briefly retest Fuzzel, Mako, Swaylock, and the PolicyKit prompt. This reboot is
-the package-removal gate.
+Also open Fuzzel with `Mod+Space` and lock/unlock with `Mod+Shift+L`. This reboot
+and validation are the package-removal gate.
 
-## 9. Preview DMS package removal
+## 9. Preview the DMS package transaction
 
-Run:
+From Alacritty in the proven bare session, run:
 
 ```bash
+cd ~/.local/share/dotfiles-fedora
 ./scripts/dms-transition/preview-removal.sh
 ```
 
-The proposed transaction must retain:
+Read the DNF transaction and confirm it retains all of these packages:
 
-```text
-niri
-fuzzel
-mako
-swayidle
-swaylock
-lxqt-policykit
-xdg-desktop-portal
-xdg-desktop-portal-gnome
-xdg-desktop-portal-gtk
-xwayland-satellite
+```bash
+rpm -q \
+  niri \
+  fuzzel \
+  mako \
+  swayidle \
+  swaylock \
+  lxqt-policykit \
+  xdg-desktop-portal \
+  xdg-desktop-portal-gnome \
+  xdg-desktop-portal-gtk \
+  xwayland-satellite
 ```
 
-## 10. Remove DMS packages
+Every `rpm -q` line must show an installed version.
 
-After approving the preview, run:
+## 10. Remove the DMS packages
+
+Run the real transaction and answer `y` only if it matches the reviewed preview:
 
 ```bash
 sudo dnf remove dms dms-cli dms-greeter
+rpm -q dms dms-cli dms-greeter || true
 ```
 
-Review the transaction again before accepting it. Then verify that all three
-packages are absent:
+The second command must report that all three packages are not installed.
 
-```bash
-rpm -q dms dms-cli dms-greeter
-```
+## 11. Remove Quickshell and greetd from the clean baseline
 
-## 11. Remove temporary shell and login packages
-
-Preview Quickshell and greetd separately:
+Preview both transactions:
 
 ```bash
 sudo dnf remove --assumeno quickshell
 sudo dnf remove --assumeno greetd greetd-selinux
 ```
 
-For the cleanest baseline, remove Quickshell now and add it back through the
-repository in the custom-shell ticket. Remove greetd only after DMS Greeter
-uninstall succeeded and TTY boot was proven:
+Confirm each preview retains the protected packages listed in Step 9, then run:
 
 ```bash
 sudo dnf remove quickshell
 sudo dnf remove greetd greetd-selinux
+rpm -q quickshell greetd greetd-selinux || true
 ```
 
-Accept each transaction only if it retains the protected bare-niri packages.
+All three packages must report as not installed. Quickshell will be added back
+through the repository during the custom-shell ticket.
 
-## 12. Disable DMS repositories
-
-After no retained package needs them:
+## 12. Disable the DMS repositories
 
 ```bash
 sudo dnf copr disable avengemedia/dms
 sudo dnf copr disable avengemedia/danklinux
-dnf copr list
+dnf copr list | rg 'avengemedia/(dms|danklinux)' || true
 ```
 
-Neither AvengeMedia repository should remain enabled.
+The final command must print nothing.
 
-## 13. Clean exported DMS user state
+## 13. Remove exported DMS user state
 
-Preview the exact paths first:
-
-```bash
-./scripts/dms-transition/cleanup-user-state.sh --dry-run
-```
-
-Then remove them:
+Preview the exact paths and then run the guarded cleanup:
 
 ```bash
+cd ~/.local/share/dotfiles-fedora
+./scripts/dms-transition/cleanup-user-state.sh --dry-run --yes
 ./scripts/dms-transition/cleanup-user-state.sh
 ```
 
-The helper removes only:
-
-```text
-~/.config/DankMaterialShell
-~/.local/state/DankMaterialShell
-~/.cache/DankMaterialShell
-~/.config/niri/dms
-~/.config/systemd/user/niri.service.wants/dms.service
-```
-
-It does not remove the migration export.
-
-## 14. Review system-level greeter remnants
-
-Inspect exact paths before deleting anything:
+Confirm the prompt only after comparing it with the dry-run output. Verify the
+known paths are absent while the migration export remains:
 
 ```bash
-sudo ls -la /var/cache/dms-greeter
-sudo ls -la /etc/greetd
-sudo ls -la /etc/greetd/niri
+for path in \
+  "$HOME/.config/DankMaterialShell" \
+  "$HOME/.local/state/DankMaterialShell" \
+  "$HOME/.cache/DankMaterialShell" \
+  "$HOME/.config/niri/dms" \
+  "$HOME/.config/systemd/user/niri.service.wants/dms.service"; do
+  [[ ! -e "$path" && ! -L "$path" ]] || printf 'still present: %s\n' "$path"
+done
+test -d "$HOME/.local/state/dotfiles-fedora/migrations/dms-20260813"
 ```
 
-Only if the remaining paths are confirmed DMS-owned, remove them explicitly:
+The loop must print nothing and the final `test` must succeed.
+
+## 14. Remove confirmed system-level greeter remnants
+
+Inspect the exact paths:
+
+```bash
+sudo ls -la /var/cache/dms-greeter 2>/dev/null || true
+sudo ls -la /etc/greetd 2>/dev/null || true
+sudo ls -la /etc/greetd/niri 2>/dev/null || true
+```
+
+If the output confirms that these exact paths remain and are DMS-owned, remove
+only them:
 
 ```bash
 sudo rm -rf -- /var/cache/dms-greeter
 sudo rm -f -- /etc/greetd/niri/dms.kdl
+sudo test ! -e /var/cache/dms-greeter
+sudo test ! -e /etc/greetd/niri/dms.kdl
 ```
 
-Do not broadly remove `/etc/greetd` unless every remaining file has been
-reviewed and is obsolete.
+Do not remove `/etc/greetd` as a whole.
 
-## 15. Reverse DMS Greeter security changes
+## 15. Reverse DMS Greeter ACL and group changes
 
-Inspect named ACLs first:
+Ensure the ACL inspection tools exist and print only named greeter entries:
 
 ```bash
-getfacl -p \
+command -v getfacl >/dev/null || sudo dnf install acl
+getfacl -cp \
   "$HOME" \
   "$HOME/.config" \
   "$HOME/.cache" \
   "$HOME/.local" \
-  "$HOME/.local/state"
+  "$HOME/.local/state" | rg '^(# file:|user:greeter:)'
 ```
 
-If `getfacl` is unavailable, install Fedora's `acl` package before continuing.
-Remove only explicit `greeter` ACL entries that DMS added:
+For each exact directory that displayed `user:greeter:...`, remove only that
+named entry; the conditional loop skips directories without one:
 
 ```bash
-setfacl -x u:greeter "$HOME"
-setfacl -x u:greeter "$HOME/.config"
-setfacl -x u:greeter "$HOME/.cache"
-setfacl -x u:greeter "$HOME/.local"
-setfacl -x u:greeter "$HOME/.local/state"
+for path in \
+  "$HOME" \
+  "$HOME/.config" \
+  "$HOME/.cache" \
+  "$HOME/.local" \
+  "$HOME/.local/state"; do
+  if getfacl -cp "$path" | rg -q '^user:greeter:'; then
+    setfacl -x u:greeter "$path"
+  fi
+done
 ```
 
-If greetd and DMS Greeter are gone, remove the user's greeter-group membership:
+Inspect and remove the current user's greeter-group membership:
 
 ```bash
+id -nG | tr ' ' '\n' | rg '^greeter$' || true
 sudo gpasswd -d "$(id -un)" greeter
+id -nG | tr ' ' '\n' | rg '^greeter$' || true
 ```
 
-Never recursively reset ownership or permissions across the home directory.
+The last command must print nothing. Never recursively reset ownership or
+permissions across the home directory.
 
-## 16. Run final absence checks
+## 16. Run final DMS absence checks
 
 ```bash
+cd ~/.local/share/dotfiles-fedora
 ./scripts/dms-transition/status.sh
-rpm -q dms dms-cli dms-greeter
-pgrep -a -f 'dms|DankMaterialShell'
-systemctl --user status dms.service
-dnf copr list
+rpm -q dms dms-cli dms-greeter || true
+pgrep -a -f 'dms|DankMaterialShell' || true
+systemctl --user is-active dms.service || true
+systemctl --user is-enabled dms.service || true
+dnf copr list | rg 'avengemedia/(dms|danklinux)' || true
 rg -n -i 'dms|dms-greeter|DankMaterialShell' \
-  ~/.config/niri \
-  ~/.config/systemd/user \
-  /etc/greetd 2>/dev/null
+  "$HOME/.config/niri" \
+  "$HOME/.config/systemd/user" \
+  /etc/greetd 2>/dev/null || true
 ```
 
-The expected state is:
+Expected results are no DMS packages, process, active/enabled service, niri
+attachment, enabled DMS COPR, DMS-owned greetd configuration, or DMS user/cache
+directory. The transition status may still mention the preserved export and
+the names of absent components; those are informational rather than remnants.
 
-- no DMS package, process, user service, or niri attachment;
-- no DMS-owned greetd configuration or enabled DMS COPR;
-- no DMS user/cache directory or greeter cache;
-- the bare-niri services remain active and functional.
+## 17. Perform the final reboot and smoke test
 
-Some absence commands intentionally return a nonzero status when they find
-nothing.
+Exit niri from Alacritty:
 
-## 17. Perform the final reboot
+```bash
+niri msg action quit
+```
+
+Press Enter to confirm, then reboot from the returned TTY:
 
 ```bash
 sudo reboot
 ```
 
-Log in from the TTY, start `niri-session`, and perform one final launcher,
-notification, lock, PolicyKit, portal, and Xwayland test. After this succeeds,
-Ticket 4 is complete and `scripts/dms-transition/` can be removed.
+Log in at the text prompt and run:
+
+```bash
+niri-session
+```
+
+Open Alacritty with `Mod+Return`, then run the final checks:
+
+```bash
+cd ~/.local/share/dotfiles-fedora
+./scripts/dms-transition/verify-baseline.sh
+notify-send "Final test" "DMS-free niri is ready"
+pkexec /usr/bin/id
+```
+
+Open Fuzzel with `Mod+Space`, lock/unlock with `Mod+Shift+L`, and confirm the
+browser, file manager, portals, clipboard, media keys, brightness keys, and
+Xwayland still work. Ticket 4 is complete only after this smoke test passes.
