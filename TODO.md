@@ -251,3 +251,4 @@ states are added.
 - [ ] Document update commands for DNF, Flatpak, Homebrew, Mise, and Herdr.
 - [ ] Document removal and rollback steps for external repositories.
 - [ ] Document post-install next steps and print them when setup finishes, including `gh auth login` and `gh auth setup-git`.
+
