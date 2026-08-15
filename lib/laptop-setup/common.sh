@@ -6,6 +6,7 @@ readonly AUTOSUGGESTIONS_REPOSITORY="https://github.com/zsh-users/zsh-autosugges
 readonly AUTOSUGGESTIONS_REVISION="85919cd1ffa7d2d5412f6d3fe437ebdbeeec4fc5"
 readonly SYNTAX_HIGHLIGHTING_REPOSITORY="https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
 readonly SYNTAX_HIGHLIGHTING_REVISION="3d574ccf48804b10dca52625df13da5edae7f553"
+readonly UI_FONT_FAMILY="Inter"
 
 DRY_RUN=false
 ASSUME_YES=false

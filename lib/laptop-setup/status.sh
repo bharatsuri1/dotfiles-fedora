@@ -315,11 +315,14 @@ EOF
     "$HOME/.config/fastfetch/config.jsonc" \
     "$HOME/.config/herdr/config.toml" \
     "$HOME/.config/mako/config" \
+    "$HOME/.config/fontconfig/fonts.conf" \
     "$HOME/.config/gtklock/config.ini" \
+    "$HOME/.config/gtklock/layout.ui" \
     "$HOME/.config/gtklock/style.css" \
     "$HOME/.config/niri/config.kdl" \
     "$HOME/.config/quickshell" \
     "$HOME/.local/bin/lock-screen" \
+    "$HOME/.local/bin/preview-lock-screen" \
     "$HOME/.local/bin/session-wallpaper" \
     "$HOME/.config/systemd/user/swaybg.service" \
     "$HOME/.config/systemd/user/swayidle.service" \

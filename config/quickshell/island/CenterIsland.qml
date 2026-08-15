@@ -119,7 +119,7 @@ Item {
       horizontalAlignment: Text.AlignRight
       text: Qt.formatTime(clock.date, "h:mm AP")
       color: Theme.fg
-      font.family: Theme.fontData
+      font.family: Theme.fontUi
       font.pixelSize: 12
       font.weight: Font.Medium
     }
@@ -178,7 +178,7 @@ Item {
         horizontalAlignment: Text.AlignLeft
         text: root.batteryPercent + "%"
         color: root.charging ? Theme.green : Theme.fgDim
-        font.family: Theme.fontData
+        font.family: Theme.fontUi
         font.pixelSize: 11
       }
     }

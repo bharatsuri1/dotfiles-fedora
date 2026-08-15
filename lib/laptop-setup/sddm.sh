@@ -8,7 +8,7 @@ readonly SDDM_AVATAR_TARGET="/usr/share/sddm/faces/$(id -un).face.icon"
 readonly SDDM_THEME_AVATAR_TARGET="$SDDM_THEME_TARGET/avatar.jpg"
 readonly SDDM_BACKGROUND_SOURCE="$REPO_ROOT/assets/wallpapers/wallhaven-836yl2_2560x1600.png"
 readonly SDDM_BACKGROUND_TARGET="$SDDM_THEME_TARGET/background.png"
-readonly SDDM_PACKAGES=(sddm sddm-wayland-generic jetbrains-mono-fonts)
+readonly SDDM_PACKAGES=(sddm sddm-wayland-generic)
 
 install_sddm_file() {
   local mode="$1"
@@ -33,6 +33,10 @@ validate_sddm() {
 }
 
 install_sddm() {
+  if ! $DRY_RUN && ! font_family_installed "$UI_FONT_FAMILY"; then
+    die "$UI_FONT_FAMILY is missing; run the fonts phase before sddm"
+  fi
+
   local -a missing=()
   local package
   for package in "${SDDM_PACKAGES[@]}"; do

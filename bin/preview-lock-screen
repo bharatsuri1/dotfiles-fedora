@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+readonly SCRIPT_PATH="$(readlink -f -- "${BASH_SOURCE[0]}")"
+readonly REPO_ROOT="$(cd -- "$(dirname -- "$SCRIPT_PATH")/.." && pwd)"
+
+check_only=false
+if [[ "${1:-}" == --check ]]; then
+  check_only=true
+  shift
+elif [[ "${1:-}" == --help || "${1:-}" == -h ]]; then
+  printf 'Usage: %s [--check] [FONT_FAMILY]\n' "${0##*/}"
+  exit
+fi
+
+if (($# > 1)); then
+  printf 'Usage: %s [--check] [FONT_FAMILY]\n' "${0##*/}" >&2
+  exit 2
+fi
+
+readonly FONT_FAMILY="${1:-Inter}"
+
+if [[ ! "$FONT_FAMILY" =~ ^[[:alnum:]][[:alnum:]._[:space:]-]*$ ]]; then
+  printf 'error: invalid font family: %s\n' "$FONT_FAMILY" >&2
+  exit 2
+fi
+
+if ! fc-list : family 2>/dev/null | awk -v wanted="$FONT_FAMILY" '
+  BEGIN { found = 0 }
+  {
+    count = split($0, families, ",")
+    for (i = 1; i <= count; i++) {
+      gsub(/^[[:space:]]+|[[:space:]]+$/, "", families[i])
+      if (tolower(families[i]) == tolower(wanted)) found = 1
+    }
+  }
+  END { exit !found }
+'; then
+  printf 'error: font family is not installed: %s\n' "$FONT_FAMILY" >&2
+  printf 'Install a candidate first, for example: sudo dnf install rsms-inter-fonts vercel-geist-fonts\n' >&2
+  exit 1
+fi
+
+preview_dir="$(mktemp -d)"
+trap 'rm -rf -- "$preview_dir"' EXIT
+preview_style="$preview_dir/style.css"
+
+awk -v family="$FONT_FAMILY" '
+  !replaced && /font-family:/ {
+    sub(/"[^"]+"/, "\"" family "\"")
+    replaced = 1
+  }
+  { print }
+  END { if (!replaced) exit 1 }
+' "$REPO_ROOT/config/gtklock/style.css" >"$preview_style"
+
+if $check_only; then
+  printf 'gtklock preview is ready for %s.\n' "$FONT_FAMILY"
+  exit
+fi
+
+printf 'Previewing gtklock with %s. Unlock normally to return.\n' "$FONT_FAMILY"
+gtklock \
+  --config "$REPO_ROOT/config/gtklock/config.ini" \
+  --layout "$REPO_ROOT/config/gtklock/layout.ui" \
+  --style "$preview_style" \
+  --background "$REPO_ROOT/assets/wallpapers/wallhaven-836yl2_2560x1600.png"

@@ -113,6 +113,15 @@ states are added.
 
 ## Priority 2: Desktop follow-up
 
+- [x] Research Inter, Geist, Noto, and the Fedora UI baseline; select Inter for
+  proportional UI, retain Noto fallback, and document the role split in
+  [`docs/system-ui-fonts.md`](docs/system-ui-fonts.md).
+- [x] Add a foreground gtklock font preview command for quick, non-persistent
+  comparisons without logout or reboot.
+- [x] Live-review Inter against Geist and Noto Sans on the managed gtklock
+  composition; select Inter for the proportional system UI.
+- [x] Distill the gtklock authentication prompt around password entry and Enter
+  submission while preserving reveal, Caps Lock, failure, and PAM feedback.
 - [x] Fix niri not focusing the browser when opening a URL from Alacritty.
 - [ ] Tune niri touchpad scroll direction and speed.
 - [ ] Tune niri touchpad acceleration and click behavior.

@@ -48,5 +48,13 @@ install_desktop_defaults() {
     run xdg-settings set default-web-browser chromium-browser.desktop
   fi
 
+  if command -v gsettings >/dev/null 2>&1 &&
+    gsettings writable org.gnome.desktop.interface font-name 2>/dev/null | grep -Fxq true; then
+    log "configuring $UI_FONT_FAMILY as the GTK interface font"
+    run gsettings set org.gnome.desktop.interface font-name "$UI_FONT_FAMILY 11"
+  else
+    log 'GNOME interface font setting is unavailable; fontconfig fallback remains managed'
+  fi
+
   install_chromium_policy
 }

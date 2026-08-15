@@ -61,7 +61,7 @@ phase can also run independently:
 
 ```bash
 ./bin/laptop-setup packages
-./bin/laptop-setup fonts
+./bin/laptop-setup fonts        # terminal, system UI, and fallback families
 ./bin/laptop-setup flatpaks
 ./bin/laptop-setup homebrew
 ./bin/laptop-setup herdr
@@ -112,6 +112,11 @@ These services are attached to `niri.service` and stop with the graphical
 session. Swaybg renders the repository-owned wallpaper used by SDDM and gtklock
 throughout the desktop session.
 
+The proportional desktop UI uses Inter with Noto for multilingual, CJK, and
+emoji fallback; terminal and code surfaces retain JetBrains Mono. The research,
+role split, and foreground gtklock comparison command are documented in
+[`docs/system-ui-fonts.md`](docs/system-ui-fonts.md).
+
 `laptop-setup apply` installs and configures SDDM with the repository-owned
 Vesper theme, wallpaper, and user picture, but does not activate it. After
 testing the TTY recovery path, run `laptop-setup sddm-enable`; the guarded
@@ -131,7 +136,8 @@ tested.
 
 ## First-draft scope
 
-- Alacritty with JetBrainsMono Nerd Font and the Vesper palette;
+- Inter for system UI, Noto for broad fallback, and JetBrainsMono Nerd Font for
+  Alacritty and code/data roles, all within the Vesper palette;
 - `fd`, ripgrep, FZF, eza, Zoxide, Zsh, Starship, bat, btop, and fastfetch;
 - local-only Atuin history with automatic sync, update checks, and its daemon disabled;
 - Mise-managed Node.js with Pi and Codex, a managed Pi statusline extension,

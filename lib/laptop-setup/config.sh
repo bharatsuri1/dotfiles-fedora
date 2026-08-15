@@ -109,6 +109,7 @@ configure_niri_services() {
 
 install_config() {
   link_config "$REPO_ROOT/bin/lock-screen" "$HOME/.local/bin/lock-screen"
+  link_config "$REPO_ROOT/bin/preview-lock-screen" "$HOME/.local/bin/preview-lock-screen"
   link_config "$REPO_ROOT/bin/session-wallpaper" "$HOME/.local/bin/session-wallpaper"
   link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
@@ -132,8 +133,10 @@ install_config() {
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
   link_config "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
   link_config "$REPO_ROOT/config/mako/config" "$HOME/.config/mako/config"
+  link_config "$REPO_ROOT/config/fontconfig/fonts.conf" "$HOME/.config/fontconfig/fonts.conf"
   link_config "$REPO_ROOT/config/quickshell" "$HOME/.config/quickshell"
   link_config "$REPO_ROOT/config/gtklock/config.ini" "$HOME/.config/gtklock/config.ini"
+  link_config "$REPO_ROOT/config/gtklock/layout.ui" "$HOME/.config/gtklock/layout.ui"
   link_config "$REPO_ROOT/config/gtklock/style.css" "$HOME/.config/gtklock/style.css"
   validate_niri_config
   link_config "$REPO_ROOT/config/niri/config.kdl" "$HOME/.config/niri/config.kdl"
