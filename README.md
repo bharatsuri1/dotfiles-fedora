@@ -42,7 +42,12 @@ After bootstrapping, run or rerun the complete setup with:
 laptop-setup
 ```
 
-Inspect what is already complete with `laptop-setup status`.
+The installed command first fast-forwards the managed checkout from
+`origin/main`, then runs the requested setup command. Inspect what is already
+complete with `laptop-setup status`.
+
+To intentionally use the currently checked-out version without fetching or
+changing branches, invoke `./bin/laptop-setup` from the repository root.
 
 Preview all missing work without changing the machine:
 

@@ -37,7 +37,11 @@ sudo dnf install --assumeyes "${bootstrap_packages[@]}"
 
 if [[ -d "$INSTALL_ROOT/.git" ]]; then
   log "updating existing checkout at $INSTALL_ROOT"
-  git -C "$INSTALL_ROOT" pull --ff-only
+  current_branch="$(git -C "$INSTALL_ROOT" symbolic-ref --quiet --short HEAD)" ||
+    die "$INSTALL_ROOT has a detached HEAD; check out main before running the installed command"
+  [[ "$current_branch" == main ]] ||
+    die "$INSTALL_ROOT is on branch $current_branch; check out main or run ./bin/laptop-setup to use it unchanged"
+  git -C "$INSTALL_ROOT" pull --ff-only origin main
 elif [[ -e "$INSTALL_ROOT" ]]; then
   die "$INSTALL_ROOT exists but is not a Git checkout; move it aside or set DOTFILES_FEDORA_INSTALL_ROOT"
 else
@@ -53,7 +57,7 @@ cat > "$LOCAL_BIN/laptop-setup" <<EOF
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-exec "$INSTALL_ROOT/bin/laptop-setup" "\$@"
+exec "$INSTALL_ROOT/bootstrap.sh" "\$@"
 EOF
 
 chmod +x "$LOCAL_BIN/laptop-setup"
