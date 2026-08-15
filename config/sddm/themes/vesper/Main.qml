@@ -45,7 +45,7 @@ Rectangle {
       horizontalAlignment: Text.AlignHCenter
       text: Qt.formatTime(root.now, "h:mm AP")
       color: "#ffffff"
-      font.family: "JetBrains Mono"
+      font.family: "Inter"
       font.pixelSize: 104
       font.weight: Font.Light
       style: Text.Raised
@@ -57,7 +57,7 @@ Rectangle {
       horizontalAlignment: Text.AlignHCenter
       text: Qt.formatDate(root.now, "dddd, MMMM d")
       color: "#e8ffffff"
-      font.family: "JetBrains Mono"
+      font.family: "Inter"
       font.pixelSize: 20
     }
 
@@ -142,7 +142,7 @@ Rectangle {
           color: "#ffffff"
           selectionColor: "#ea83a5"
           selectedTextColor: "#101010"
-          font.family: "JetBrains Mono"
+          font.family: "Inter"
           font.pixelSize: 16
           background: Item {}
           onAccepted: submitButton.clicked()
@@ -159,7 +159,7 @@ Rectangle {
           contentItem: Text {
             text: "↵"
             color: submitButton.down ? "#ea83a5" : "#ffffff"
-            font.family: "JetBrains Mono"
+            font.family: "Inter"
             font.pixelSize: 22
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
@@ -180,7 +180,7 @@ Rectangle {
       horizontalAlignment: Text.AlignHCenter
       verticalAlignment: Text.AlignVCenter
       color: "#f5a191"
-      font.family: "JetBrains Mono"
+      font.family: "Inter"
       font.pixelSize: 13
       text: ""
     }
@@ -192,7 +192,7 @@ Rectangle {
     anchors.margins: 28
     text: "Niri"
     color: "#b8ffffff"
-    font.family: "JetBrains Mono"
+    font.family: "Inter"
     font.pixelSize: 14
   }
 

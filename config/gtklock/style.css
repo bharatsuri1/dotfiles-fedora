@@ -1,6 +1,6 @@
 window {
   color: #ffffff;
-  font-family: "JetBrains Mono";
+  font-family: "Inter", "Noto Sans", sans-serif;
   background-color: #101010;
   background-size: cover;
   background-position: center;
@@ -10,12 +10,13 @@ window {
 #window-box {
   padding: 28px 34px;
   border-radius: 20px;
-  background-color: rgba(16, 16, 16, 0.22);
+  background-color: rgba(34, 29, 24, 0.32);
 }
 
 #clock-label {
   font-size: 96px;
   font-weight: 300;
+  font-feature-settings: "tnum";
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
 }
 
@@ -26,46 +27,33 @@ window {
 }
 
 #body-revealer {
-  margin-top: 18px;
-}
-
-#input-label {
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 14px;
+  margin-top: 22px;
 }
 
 #input-field {
   min-height: 48px;
-  padding: 0 16px;
+  padding: 0 18px;
   color: #ffffff;
-  caret-color: #ea83a5;
-  background-color: rgba(16, 16, 16, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.48);
-  border-radius: 12px;
+  caret-color: #ffc799;
+  background-color: rgba(34, 29, 24, 0.94);
+  border: 1px solid rgba(255, 199, 153, 0.42);
+  border-radius: 14px;
   box-shadow: none;
 }
 
 #input-field:focus {
-  border-color: #ea83a5;
+  border-color: #ffc799;
 }
 
-#unlock-button {
-  min-height: 48px;
-  padding: 0 18px;
-  color: #101010;
-  background: #ea83a5;
-  border: 0;
-  border-radius: 12px;
-  box-shadow: none;
-  text-shadow: none;
+#status-box {
+  margin-top: 2px;
+  font-size: 13px;
 }
 
-#unlock-button:hover,
-#unlock-button:focus {
-  background: #e29eca;
+#warning-label {
+  color: #ffc799;
 }
 
-#warning-label,
 #error-label {
   color: #f5a191;
 }

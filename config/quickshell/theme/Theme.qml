@@ -15,7 +15,7 @@ QtObject {
   readonly property color batteryTrack: "#30ffffff"
 
   // --- typography ---
-  readonly property string fontUi: "Noto Sans"
+  readonly property string fontUi: "Inter"
   readonly property string fontData: "JetBrainsMono Nerd Font"
 
   // --- island geometry ---

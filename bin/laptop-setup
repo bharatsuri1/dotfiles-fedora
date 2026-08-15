@@ -50,7 +50,7 @@ Commands:
   sddm        Install and configure the Vesper-themed SDDM login screen
   sddm-enable Validate and enable SDDM for the next boot (explicit and guarded)
   keyd        Install keyd and configure Caps as Escape/Hyper
-  fonts       Install terminal and desktop fallback fonts
+  fonts       Install terminal, system UI, and fallback fonts
   font        Alias for fonts (deprecated)
   flatpaks    Configure Flathub and install managed desktop applications
   homebrew    Install Homebrew if needed, then Dashlane CLI and managed formulae
@@ -86,9 +86,9 @@ main() {
       install_desktop_foundation
       install_niri
       install_quickshell
-      install_sddm
       install_keyd
       install_fonts
+      install_sddm
       install_flatpaks
       install_homebrew
       install_shell_tools
