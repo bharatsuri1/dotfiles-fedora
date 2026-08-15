@@ -16,7 +16,6 @@ QtObject {
 
   // --- typography ---
   readonly property string fontUi: "Inter"
-  readonly property string fontData: "JetBrainsMono Nerd Font"
 
   // --- island geometry ---
   readonly property int islandWidth: 250

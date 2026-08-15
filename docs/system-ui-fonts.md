@@ -32,8 +32,9 @@ material advantage for these surfaces and has more toolkit-dependent behavior.
 - GNOME/GTK's interface-font setting is set to `Inter 11` during the
   `desktop-defaults` phase.
 - gtklock, Mako, SDDM, and the Quickshell UI token name Inter explicitly.
-- Alacritty and Quickshell's compact clock/battery data retain JetBrains Mono
-  Nerd Font. Noto Sans, Noto Sans CJK, and Noto Color Emoji remain installed.
+- Alacritty retains JetBrains Mono Nerd Font; the current Quickshell island uses
+  Inter for its clock and battery percentage. Noto Sans, Noto Sans CJK, and
+  Noto Color Emoji remain installed.
 
 gtklock uses a repository-owned GTK Builder layout in addition to its CSS. The
 layout presents one centered password field and submits on Enter; password
