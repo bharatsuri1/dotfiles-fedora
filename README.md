@@ -139,6 +139,10 @@ foundation, package source, lifecycle, and fallback model are documented in
 an active greeter or DMS packages until the independent niri session has been
 tested.
 
+The managed keyboard repeat, touchpad profile, application shortcuts, repeat
+policy, validation, customization, and TTY rollback are documented in
+[`docs/niri-input-and-keybindings.md`](docs/niri-input-and-keybindings.md).
+
 ## First-draft scope
 
 - Inter for system UI, Noto for broad fallback, and JetBrainsMono Nerd Font for

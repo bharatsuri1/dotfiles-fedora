@@ -1,11 +1,16 @@
 input {
     keyboard {
         xkb {}
+        repeat-delay 200
+        repeat-rate 35
     }
 
     touchpad {
         tap
+        dwt
         natural-scroll
+        accel-speed 0.2
+        scroll-factor 0.3
         click-method "clickfinger"
     }
 
@@ -91,28 +96,37 @@ debug {
 }
 
 binds {
-    Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Shift+Slash repeat=false { show-hotkey-overlay; }
 
-    Mod+Return hotkey-overlay-title="Open Alacritty" { spawn "alacritty"; }
-    Mod+Space hotkey-overlay-title="Open Fuzzel" { spawn "fuzzel"; }
-    Mod+B hotkey-overlay-title="Open Chromium" { spawn "chromium-browser"; }
-    Mod+E hotkey-overlay-title="Open Files" { spawn "nautilus" "--new-window"; }
+    Mod+T repeat=false hotkey-overlay-title="Open Alacritty" { spawn "alacritty"; }
+    Mod+Ctrl+T repeat=false hotkey-overlay-title="Open Herdr" { spawn "alacritty" "--class" "Herdr" "--title" "Herdr" "-e" "herdr"; }
+    Mod+Space repeat=false hotkey-overlay-title="Open Fuzzel" { spawn "fuzzel"; }
+    Mod+B repeat=false hotkey-overlay-title="Open Chromium" { spawn "chromium-browser"; }
+    Mod+Ctrl+C repeat=false hotkey-overlay-title="Open ChatGPT" { spawn "chromium-browser" "--app=https://chatgpt.com/"; }
+    Mod+Ctrl+Y repeat=false hotkey-overlay-title="Open YouTube" { spawn "chromium-browser" "--app=https://youtube.com/"; }
+    Mod+Ctrl+G repeat=false hotkey-overlay-title="Open GitHub" { spawn "chromium-browser" "--app=https://github.com/"; }
+    Mod+E repeat=false hotkey-overlay-title="Open Files" { spawn "nautilus" "--new-window"; }
+    Mod+Ctrl+Z repeat=false hotkey-overlay-title="Open Zed" { spawn "flatpak" "run" "dev.zed.Zed"; }
+    Mod+Ctrl+V repeat=false hotkey-overlay-title="Open Visual Studio Code" { spawn "flatpak" "run" "com.visualstudio.code"; }
+    Mod+Ctrl+S repeat=false hotkey-overlay-title="Open LocalSend" { spawn "flatpak" "run" "org.localsend.localsend_app"; }
+
+    Mod+Ctrl+Comma repeat=false hotkey-overlay-title="Dismiss All Notifications" { spawn "makoctl" "dismiss" "--all"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+" "-l" "1.0"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
-    XF86AudioMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
-    XF86AudioMicMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
-    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
-    XF86AudioPause allow-when-locked=true { spawn "playerctl" "play-pause"; }
-    XF86AudioStop allow-when-locked=true { spawn "playerctl" "stop"; }
-    XF86AudioPrev allow-when-locked=true { spawn "playerctl" "previous"; }
-    XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioMute repeat=false allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute repeat=false allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86AudioPlay repeat=false allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPause repeat=false allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioStop repeat=false allow-when-locked=true { spawn "playerctl" "stop"; }
+    XF86AudioPrev repeat=false allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86AudioNext repeat=false allow-when-locked=true { spawn "playerctl" "next"; }
     XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
     Mod+O repeat=false { toggle-overview; }
     Mod+Q repeat=false { close-window; }
-    Mod+Shift+L allow-inhibiting=false hotkey-overlay-title="Lock Screen" { spawn "lock-screen"; }
+    Mod+Shift+L repeat=false allow-inhibiting=false hotkey-overlay-title="Lock Screen" { spawn "lock-screen"; }
 
     Mod+Left { focus-column-or-monitor-left; }
     Mod+Down { focus-window-down; }
@@ -161,27 +175,27 @@ binds {
     Mod+Shift+Minus { set-window-height "-10%"; }
     Mod+Shift+Equal { set-window-height "+10%"; }
 
-    Mod+R { switch-preset-column-width; }
-    Mod+Shift+R { switch-preset-column-width-back; }
-    Mod+Ctrl+R { reset-window-height; }
-    Mod+Ctrl+Shift+R { switch-preset-window-height; }
-    Mod+BracketLeft { consume-or-expel-window-left; }
-    Mod+BracketRight { consume-or-expel-window-right; }
-    Mod+C { center-column; }
-    Mod+F { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
-    Mod+M { maximize-window-to-edges; }
-    Mod+V { toggle-window-floating; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
-    Mod+W { toggle-column-tabbed-display; }
+    Mod+R repeat=false { switch-preset-column-width; }
+    Mod+Shift+R repeat=false { switch-preset-column-width-back; }
+    Mod+Ctrl+R repeat=false { reset-window-height; }
+    Mod+Ctrl+Shift+R repeat=false { switch-preset-window-height; }
+    Mod+BracketLeft repeat=false { consume-or-expel-window-left; }
+    Mod+BracketRight repeat=false { consume-or-expel-window-right; }
+    Mod+C repeat=false { center-column; }
+    Mod+F repeat=false { maximize-column; }
+    Mod+Shift+F repeat=false { fullscreen-window; }
+    Mod+M repeat=false { maximize-window-to-edges; }
+    Mod+V repeat=false { toggle-window-floating; }
+    Mod+Shift+V repeat=false { switch-focus-between-floating-and-tiling; }
+    Mod+W repeat=false { toggle-column-tabbed-display; }
 
-    Print { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
-    Mod+Shift+S hotkey-overlay-title="Take Screenshot" { screenshot; }
+    Print repeat=false { screenshot; }
+    Ctrl+Print repeat=false { screenshot-screen; }
+    Alt+Print repeat=false { screenshot-window; }
+    Mod+Shift+S repeat=false hotkey-overlay-title="Take Screenshot" { screenshot; }
 
-    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-    Mod+Shift+E { quit; }
-    Ctrl+Alt+Delete { quit; }
-    Mod+Shift+P { power-off-monitors; }
+    Mod+Escape repeat=false allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    Mod+Shift+E repeat=false { quit; }
+    Ctrl+Alt+Delete repeat=false { quit; }
+    Mod+Shift+P repeat=false { power-off-monitors; }
 }
