@@ -81,6 +81,11 @@ window-rule {
     default-window-height { fixed 270; }
 }
 
+window-rule {
+    match app-id="^dev\\.tensaku\\.Tensaku$"
+    open-floating true
+}
+
 overview {
     backdrop-color "#101010"
 }
@@ -189,10 +194,11 @@ binds {
     Mod+Shift+V repeat=false { switch-focus-between-floating-and-tiling; }
     Mod+W repeat=false { toggle-column-tabbed-display; }
 
-    Print repeat=false { screenshot; }
-    Ctrl+Print repeat=false { screenshot-screen; }
-    Alt+Print repeat=false { screenshot-window; }
-    Mod+Shift+S repeat=false hotkey-overlay-title="Take Screenshot" { screenshot; }
+    Print repeat=false hotkey-overlay-title="Capture Region" { spawn "take-screenshot" "region"; }
+    Ctrl+Print repeat=false hotkey-overlay-title="Capture Screen" { spawn "take-screenshot" "screen"; }
+    Alt+Print repeat=false hotkey-overlay-title="Capture Window" { spawn "take-screenshot" "window"; }
+    Mod+Shift+S repeat=false hotkey-overlay-title="Capture and Annotate" { spawn "take-screenshot" "region" "--edit"; }
+    Shift+Print repeat=false hotkey-overlay-title="Native Screenshot UI" { screenshot; }
 
     Mod+Escape repeat=false allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+E repeat=false { quit; }

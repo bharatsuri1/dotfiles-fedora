@@ -15,6 +15,7 @@ for module in \
   desktop-foundation \
   desktop-defaults \
   niri \
+  screenshots \
   quickshell \
   sddm \
   keyd \
@@ -46,6 +47,7 @@ Commands:
   desktop-defaults
               Configure browser, file, media, image, and PDF handlers
   niri        Install niri from Fedora repositories
+  screenshots Install screenshot capture tools and the managed Tensaku bundle
   quickshell  Install Quickshell from Fedora repositories
   sddm        Install and configure the Vesper-themed SDDM login screen
   sddm-enable Validate and enable SDDM for the next boot (explicit and guarded)
@@ -85,6 +87,7 @@ main() {
       install_docker
       install_desktop_foundation
       install_niri
+      install_screenshots
       install_quickshell
       install_keyd
       install_fonts
@@ -105,6 +108,7 @@ main() {
     desktop-foundation) install_desktop_foundation ;;
     desktop-defaults) install_desktop_defaults ;;
     niri) install_niri ;;
+    screenshots) install_screenshots ;;
     quickshell) install_quickshell ;;
     sddm) install_sddm ;;
     sddm-enable) enable_sddm ;;

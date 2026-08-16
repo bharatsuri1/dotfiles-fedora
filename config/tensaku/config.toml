@@ -1,0 +1,52 @@
+[general]
+fullscreen = false
+early-exit = false
+close-on-esc = true
+close-on-copy = true
+close-on-save = true
+resize-window-to-content-on-crop = true
+corner-roundness = 12
+initial-tool = "arrow"
+annotation-size-factor = 2
+save-after-copy = true
+default-hide-toolbars = false
+default-fill-shapes = false
+primary-highlighter = "block"
+disable-notifications = true
+actions-on-right-click = []
+actions-on-enter = ["save-to-clipboard"]
+actions-on-escape = []
+no-window-decoration = true
+brush-smooth-history-size = 10
+
+[keybinds]
+pointer = "v"
+crop = "x"
+brush = "z"
+line = "s"
+arrow = "a"
+rectangle = "r"
+ellipse = "e"
+text = "t"
+marker = "c"
+blur = "b"
+highlight = "w"
+spotlight = "g"
+
+[font]
+family = "Inter"
+style = "Regular"
+
+[color-palette]
+palette = [
+  "#ffc799",
+  "#f5a191",
+  "#ffcc66",
+  "#99cc99",
+  "#99cccc",
+  "#cc99cc",
+  "#ffffff",
+  "#101010",
+]
+
+custom = []

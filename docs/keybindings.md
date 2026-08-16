@@ -17,8 +17,9 @@ is the authoritative binding list.
   the lock screen.
 - Bindings marked **no-inhibit** use `allow-inhibiting=false`, so focused apps
   cannot grab them (used for lock and shortcut-inhibit).
-- Screenshots save to `~/Pictures/Screenshots/` as
-  `Screenshot from YYYY-MM-DD HH-MM-SS.png`.
+- Managed screenshots save to the XDG Pictures `Screenshots/` directory as
+  `screenshot-YYYY-MM-DD_HH-MM-SS-NNNNNNNNN.png` and are copied to the
+  clipboard. Set `DOTFILES_SCREENSHOT_DIR` to override the directory.
 
 ## Application & launcher bindings
 
@@ -112,13 +113,17 @@ All non-repeat.
 
 All non-repeat.
 
-| Binding | Scope |
+| Binding | Action |
 | --- | --- |
-| `Print` / `Super+Shift+S` | Interactive screenshot |
-| `Ctrl+Print` | Whole screen |
-| `Alt+Print` | Focused window |
+| `Print` | Select a region, then save and copy it |
+| `Ctrl+Print` | Capture the focused screen, then save and copy it |
+| `Alt+Print` | Capture the focused window, then save and copy it |
+| `Super+Shift+S` | Select a region and open it directly in Tensaku |
+| `Shift+Print` | Open niri's native screenshot UI |
 
-`Super+Shift+S` is the memorable alias for `Print`; both run `screenshot`.
+The managed capture commands show a thumbnail notification with an **Edit**
+action. See [screenshots.md](screenshots.md) for the full workflow and recovery
+instructions.
 
 ## Media & hardware keys
 
