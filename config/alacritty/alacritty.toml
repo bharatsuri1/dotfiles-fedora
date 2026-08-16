@@ -19,6 +19,9 @@ padding = { x = 14, y = 14 }
 decorations = "None"
 dynamic_padding = true
 
+[scrolling]
+multiplier = 20
+
 [keyboard]
 bindings = [
   { key = "Insert", mods = "Shift", action = "Paste" },
