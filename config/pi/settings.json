@@ -8,7 +8,7 @@
   "quietStartup": true,
   "enableInstallTelemetry": false,
   "defaultProjectTrust": "always",
-  "tuiMode": "fullscreen",
+  "tuiMode": "regular",
   "fullscreenScrollbar": "hidden",
   "defaultProvider": "opencode-go",
   "defaultModel": "kimi-k3",
