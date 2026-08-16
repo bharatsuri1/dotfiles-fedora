@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+mode="region"
+edit_after_capture=false
+
+for argument in "$@"; do
+  case "$argument" in
+    region|screen|window) mode="$argument" ;;
+    --edit) edit_after_capture=true ;;
+    --help|-h)
+      printf 'Usage: take-screenshot [region|screen|window] [--edit]\n'
+      exit 0
+      ;;
+    *)
+      printf 'error: unknown screenshot argument: %s\n' "$argument" >&2
+      exit 2
+      ;;
+  esac
+done
+
+if [[ -r "$HOME/.config/user-dirs.dirs" ]]; then
+  # shellcheck source=/dev/null
+  source "$HOME/.config/user-dirs.dirs"
+fi
+
+readonly TENSAKU_APP_ID="dev.tensaku.Tensaku"
+output_dir="${DOTFILES_SCREENSHOT_DIR:-${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots}"
+mkdir -p "$output_dir"
+
+readonly OUTPUT_DIR="$(readlink -f -- "$output_dir")"
+readonly FILENAME="screenshot-$(date +'%Y-%m-%d_%H-%M-%S-%N').png"
+readonly FILEPATH="$OUTPUT_DIR/$FILENAME"
+
+capture_region() {
+  local geometry
+
+  if pgrep -x slurp >/dev/null 2>&1; then
+    pkill -x slurp
+    return 1
+  fi
+
+  if ! geometry="$(
+    slurp \
+      -d \
+      -b '#10101099' \
+      -c '#ffc799ff' \
+      -s '#ffc79944' \
+      -w 2
+  )" || [[ -z "$geometry" ]]; then
+    return 1
+  fi
+
+  grim -g "$geometry" "$FILEPATH"
+}
+
+case "$mode" in
+  region)
+    capture_region || exit 0
+    ;;
+  screen)
+    niri msg action screenshot-screen \
+      --show-pointer=false \
+      --path "$FILEPATH"
+    ;;
+  window)
+    niri msg action screenshot-window \
+      --show-pointer=false \
+      --path "$FILEPATH"
+    ;;
+esac
+
+wait_for_capture() {
+  local attempt
+
+  for ((attempt = 0; attempt < 100; attempt++)); do
+    [[ -s "$FILEPATH" ]] && return 0
+    sleep 0.02
+  done
+
+  return 1
+}
+
+wait_for_capture || {
+  printf 'error: timed out waiting for screenshot: %s\n' "$FILEPATH" >&2
+  exit 1
+}
+
+copy_screenshot() {
+  # Keep the clipboard source outside the invoking terminal or compositor
+  # process group so it survives after this short-lived command exits.
+  setsid --fork wl-copy --foreground --type image/png <"$FILEPATH" >/dev/null 2>&1
+}
+
+copy_screenshot
+
+edit_screenshot() {
+  if [[ "$FILEPATH" != "$HOME/"* ]]; then
+    notify-send \
+      --app-name='Screenshot' \
+      --urgency=critical \
+      'Tensaku cannot access this screenshot' \
+      'DOTFILES_SCREENSHOT_DIR must resolve inside your home directory.'
+    return 1
+  fi
+
+  flatpak run "$TENSAKU_APP_ID" \
+    --filename "$FILEPATH" \
+    --output-filename "$FILEPATH"
+
+  # Tensaku's sandbox cannot execute the host wl-copy binary. It saves the
+  # edited image before exiting, then this host-side copy keeps the result
+  # available after the Flatpak's Wayland clipboard source disappears. Give
+  # the sandbox's clipboard teardown a moment to finish before replacing it.
+  sleep 0.1
+  copy_screenshot
+}
+
+if $edit_after_capture; then
+  edit_screenshot
+fi
+
+action="$(
+  notify-send \
+    --app-name='Screenshot' \
+    --icon="$FILEPATH" \
+    --action=edit=Edit \
+    'Screenshot copied and saved' \
+    "$FILEPATH" || true
+)"
+
+if [[ "$action" == edit ]]; then
+  edit_screenshot
+fi
+exit 0

@@ -205,6 +205,25 @@ show_status() {
     fi
   done
 
+  printf 'Screenshot tools:\n'
+  for item in "${SCREENSHOT_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      printf '  [ok]      %s\n' "$item"
+    else
+      printf '  [missing] %s\n' "$item"
+    fi
+  done
+  if tensaku_installed; then
+    printf '  [pinned]  Tensaku %s\n' "$TENSAKU_VERSION"
+  else
+    printf '  [missing] Tensaku %s\n' "$TENSAKU_VERSION"
+  fi
+  if tensaku_bundle_valid; then
+    printf '  [verified] %s\n' "$TENSAKU_BUNDLE"
+  else
+    printf '  [invalid]  %s\n' "$TENSAKU_BUNDLE"
+  fi
+
   printf 'Quickshell:\n'
   for item in "${QUICKSHELL_PACKAGES[@]}"; do
     if package_installed "$item"; then
@@ -315,6 +334,7 @@ EOF
     "$HOME/.config/fastfetch/config.jsonc" \
     "$HOME/.config/herdr/config.toml" \
     "$HOME/.config/mako/config" \
+    "$HOME/.config/tensaku/config.toml" \
     "$HOME/.config/fontconfig/fonts.conf" \
     "$HOME/.config/gtklock/config.ini" \
     "$HOME/.config/gtklock/layout.ui" \
@@ -324,6 +344,7 @@ EOF
     "$HOME/.local/bin/lock-screen" \
     "$HOME/.local/bin/preview-lock-screen" \
     "$HOME/.local/bin/session-wallpaper" \
+    "$HOME/.local/bin/take-screenshot" \
     "$HOME/.config/systemd/user/swaybg.service" \
     "$HOME/.config/systemd/user/swayidle.service" \
     "$HOME/.config/systemd/user/lxqt-policykit-agent.service" \
