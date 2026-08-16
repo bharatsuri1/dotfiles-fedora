@@ -20,7 +20,9 @@ Run a focused dry-run command, such as `./bin/laptop-setup --dry-run fonts`, for
 
 ## Work Tracking
 
-Use `TODO.md` as the repository tracker; do not leave deferred work only in code comments. Add tickets under the appropriate priority with an outcome-oriented title and actionable checkboxes. Record dependencies, validation, and rollback work when relevant. Put lengthy designs in `docs/` and link them from the ticket. Mark finished items `[x]`, preserving useful decision history.
+Use [GitHub Issues](https://github.com/bharatsuri1/dotfiles-fedora/issues) as the authoritative repository tracker; do not maintain a parallel backlog in repository files or leave deferred work only in code comments. Use the `gh issue` CLI to list, view, create, update, and close tickets. Before starting tracked work, review the relevant open issue and keep its scope and acceptance criteria current.
+
+Create issues with an outcome-oriented title and actionable checkboxes. Record dependencies, validation, and rollback work when relevant. Put lengthy designs in `docs/` and link them from the issue. Link implementation work to its issue, and close the issue only after recording the completed outcome and validation. `archive/TODO.md` is a deprecated historical snapshot and must not be updated or used for new work.
 
 ## Coding Style & Naming Conventions
 

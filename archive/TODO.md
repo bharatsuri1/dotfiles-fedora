@@ -1,9 +1,13 @@
-# TODO
+# Archived TODO
+
+> Deprecated on 2026-08-15. This file is retained as a historical snapshot
+> only. GitHub Issues is the authoritative tracker for active and completed
+> repository work; do not add or update tickets here.
 
 ## Priority 1: DMS removal and custom Quickshell shell
 
 The completed migration decisions and verification record live in
-[`docs/dms-removal-plan.md`](docs/dms-removal-plan.md). Continue the remaining
+[`docs/dms-removal-plan.md`](../docs/dms-removal-plan.md). Continue the remaining
 tickets in order so the machine retains its tested bare-niri recovery path.
 
 ### Ticket 1: Capture DMS state and migration requirements
@@ -57,7 +61,7 @@ tickets in order so the machine retains its tested bare-niri recovery path.
 ### Ticket 6: Establish the custom Quickshell foundation
 
 The completed foundation research, package, service, and design record lives in
-[`docs/quickshell-foundation.md`](docs/quickshell-foundation.md). The polished
+[`docs/quickshell-foundation.md`](../docs/quickshell-foundation.md). The polished
 launcher and the custom fixed-size icon Alt-Tab switcher build on top of this
 foundation as a separate slice. Implementation is complete and validated
 live in the graphical session.
@@ -81,7 +85,7 @@ live in the graphical session.
 ### Ticket 7: Build the macOS-style alcove and Dynamic Island
 
 The static MVP is implemented and documented in
-[`docs/quickshell-island.md`](docs/quickshell-island.md): one top-edge alcove
+[`docs/quickshell-island.md`](../docs/quickshell-island.md): one top-edge alcove
 with a clock and event-driven UPower battery status on each screen. Geometry
 and live composition are intentionally being reviewed before motion or richer
 states are added.
@@ -115,7 +119,7 @@ states are added.
 
 - [x] Research Inter, Geist, Noto, and the Fedora UI baseline; select Inter for
   proportional UI, retain Noto fallback, and document the role split in
-  [`docs/system-ui-fonts.md`](docs/system-ui-fonts.md).
+  [`docs/system-ui-fonts.md`](../docs/system-ui-fonts.md).
 - [x] Add a foreground gtklock font preview command for quick, non-persistent
   comparisons without logout or reboot.
 - [x] Live-review Inter against Geist and Noto Sans on the managed gtklock
@@ -251,4 +255,3 @@ states are added.
 - [ ] Document update commands for DNF, Flatpak, Homebrew, Mise, and Herdr.
 - [ ] Document removal and rollback steps for external repositories.
 - [ ] Document post-install next steps and print them when setup finishes, including `gh auth login` and `gh auth setup-git`.
-

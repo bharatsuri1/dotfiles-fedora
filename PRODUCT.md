@@ -48,7 +48,7 @@ The product owns the full path from an idempotent Fedora setup CLI to an integra
 - `config/niri/config.kdl` and `config/quickshell/shell.qml` are the current desktop surfaces.
 - `config/alacritty/themes/vesper.toml`, `config/sddm/themes/vesper/`, and the managed desktop configuration provide incumbent Vesper implementation evidence.
 - `docs/dms-removal-plan.md` and `docs/quickshell-foundation.md` record migration, architecture, lifecycle, fallback, and validation decisions.
-- `TODO.md` is the authoritative tracker for unfinished implementation and validation work.
+- [GitHub Issues](https://github.com/bharatsuri1/dotfiles-fedora/issues) is the authoritative tracker for implementation and validation work; `archive/TODO.md` is retained only as a deprecated historical snapshot.
 - No testimonials, external adoption evidence, performance benchmarks, or release claims are established and future work must not fabricate them.
 
 ## Product Principles
