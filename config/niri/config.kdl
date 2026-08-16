@@ -194,11 +194,11 @@ binds {
     Mod+Shift+V repeat=false { switch-focus-between-floating-and-tiling; }
     Mod+W repeat=false { toggle-column-tabbed-display; }
 
-    Print repeat=false hotkey-overlay-title="Capture Region" { spawn "take-screenshot" "region"; }
-    Ctrl+Print repeat=false hotkey-overlay-title="Capture Screen" { spawn "take-screenshot" "screen"; }
-    Alt+Print repeat=false hotkey-overlay-title="Capture Window" { spawn "take-screenshot" "window"; }
+    Mod+Shift+4 repeat=false hotkey-overlay-title="Capture Region" { spawn "take-screenshot" "region"; }
+    Mod+Shift+5 repeat=false hotkey-overlay-title="Native Screenshot UI" { screenshot; }
+    Mod+Shift+6 repeat=false hotkey-overlay-title="Capture Screen" { spawn "take-screenshot" "screen"; }
+    Mod+Shift+7 repeat=false hotkey-overlay-title="Capture Window" { spawn "take-screenshot" "window"; }
     Mod+Shift+S repeat=false hotkey-overlay-title="Capture and Annotate" { spawn "take-screenshot" "region" "--edit"; }
-    Shift+Print repeat=false hotkey-overlay-title="Native Screenshot UI" { screenshot; }
 
     Mod+Escape repeat=false allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+E repeat=false { quit; }

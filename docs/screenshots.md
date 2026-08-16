@@ -71,9 +71,9 @@ prevents a third-party frozen preview from becoming another capturable surface.
 
 ## Rollback
 
-Restore the native bindings in `config/niri/config.kdl` by binding `Print`,
-`Ctrl+Print`, and `Alt+Print` to `screenshot`, `screenshot-screen`, and
-`screenshot-window`. Tensaku can be removed without touching saved images:
+Restore native capture actions in `config/niri/config.kdl` by binding the
+preferred keys to `screenshot`, `screenshot-screen`, and `screenshot-window`.
+Tensaku can be removed without touching saved images:
 
 ```bash
 flatpak uninstall --user dev.tensaku.Tensaku

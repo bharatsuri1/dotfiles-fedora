@@ -115,11 +115,11 @@ All non-repeat.
 
 | Binding | Action |
 | --- | --- |
-| `Print` | Select a region, then save and copy it |
-| `Ctrl+Print` | Capture the focused screen, then save and copy it |
-| `Alt+Print` | Capture the focused window, then save and copy it |
+| `Super+Shift+4` | Select a region, then save and copy it |
+| `Super+Shift+5` | Open niri's native screenshot UI |
+| `Super+Shift+6` | Capture the focused screen, then save and copy it |
+| `Super+Shift+7` | Capture the focused window, then save and copy it |
 | `Super+Shift+S` | Select a region and open it directly in Tensaku |
-| `Shift+Print` | Open niri's native screenshot UI |
 
 The managed capture commands show a thumbnail notification with an **Edit**
 action. See [screenshots.md](screenshots.md) for the full workflow and recovery
