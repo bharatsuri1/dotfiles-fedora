@@ -133,19 +133,19 @@ binds {
     Mod+Q repeat=false { close-window; }
     Mod+Shift+L repeat=false allow-inhibiting=false hotkey-overlay-title="Lock Screen" { spawn "lock-screen"; }
 
-    Mod+Left { focus-column-or-monitor-left; }
+    Mod+Left { focus-column-left; }
     Mod+Down { focus-window-down; }
     Mod+Up { focus-window-up; }
-    Mod+Right { focus-column-or-monitor-right; }
+    Mod+Right { focus-column-right; }
     Mod+H { focus-column-or-monitor-left; }
     Mod+J { focus-window-down; }
     Mod+K { focus-window-up; }
     Mod+L { focus-column-or-monitor-right; }
 
-    Mod+Ctrl+Left { move-column-left-or-to-monitor-left; }
+    Mod+Ctrl+Left { move-column-left; }
     Mod+Ctrl+Down { move-window-down; }
     Mod+Ctrl+Up { move-window-up; }
-    Mod+Ctrl+Right { move-column-right-or-to-monitor-right; }
+    Mod+Ctrl+Right { move-column-right; }
     Mod+Ctrl+H { move-column-left-or-to-monitor-left; }
     Mod+Ctrl+J { move-window-down; }
     Mod+Ctrl+K { move-window-up; }
