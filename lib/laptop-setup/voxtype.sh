@@ -3,11 +3,15 @@ readonly VOXTYPE_REPOSITORY="https://github.com/peteonrails/voxtype"
 readonly VOXTYPE_BINARY="$HOME/.local/bin/voxtype"
 readonly VOXTYPE_MODEL="base.en"
 readonly VOXTYPE_MODEL_FILE="$HOME/.local/share/voxtype/models/ggml-${VOXTYPE_MODEL}.bin"
+readonly VOXTYPE_MODEL_REVISION="5359861c739e955e79d9a303bcbc70fb988958b1"
+readonly VOXTYPE_MODEL_SHA256="a03779c86df3323075f5e796cb2ce5029f00ec8869eee3fdfb897afe36c6d002"
+readonly VOXTYPE_MODEL_URL="https://huggingface.co/ggerganov/whisper.cpp/resolve/${VOXTYPE_MODEL_REVISION}/ggml-${VOXTYPE_MODEL}.bin"
 readonly VOXTYPE_CONFIG_SOURCE="$REPO_ROOT/config/voxtype/config.toml"
 readonly VOXTYPE_CONFIG_TARGET="$HOME/.config/voxtype/config.toml"
 readonly VOXTYPE_SERVICE_SOURCE="$REPO_ROOT/config/systemd/user/voxtype.service"
 readonly VOXTYPE_SERVICE_TARGET="$HOME/.config/systemd/user/voxtype.service"
 readonly VOXTYPE_SERVICE_NAME="voxtype.service"
+readonly VOXTYPE_NIRI_CONFIG="$HOME/.config/niri/config.kdl"
 readonly VOXTYPE_RUNTIME_PACKAGES=(
   wtype
 )
@@ -36,8 +40,24 @@ voxtype_binary_valid() {
       sha256sum --check --status
 }
 
-voxtype_model_present() {
-  [[ -f "$VOXTYPE_MODEL_FILE" && -s "$VOXTYPE_MODEL_FILE" ]]
+voxtype_model_valid() {
+  [[ -f "$VOXTYPE_MODEL_FILE" ]] &&
+    printf '%s  %s\n' "$VOXTYPE_MODEL_SHA256" "$VOXTYPE_MODEL_FILE" |
+      sha256sum --check --status
+}
+
+voxtype_niri_binding_present() {
+  [[ -r "$VOXTYPE_NIRI_CONFIG" ]] &&
+    grep -Eq '^[[:space:]]*Mod\+Ctrl\+Alt\+Shift\+S[[:space:]].*spawn "voxtype" "record" "toggle"' \
+      "$VOXTYPE_NIRI_CONFIG"
+}
+
+voxtype_cancel_key_configured() {
+  [[ -r "$VOXTYPE_CONFIG_TARGET" ]] &&
+    grep -Eq '^[[:space:]]*enabled[[:space:]]*=[[:space:]]*true[[:space:]]*$' \
+      "$VOXTYPE_CONFIG_TARGET" &&
+    grep -Eq '^[[:space:]]*cancel_key[[:space:]]*=[[:space:]]*"ESC"[[:space:]]*$' \
+      "$VOXTYPE_CONFIG_TARGET"
 }
 
 install_voxtype_runtime_packages() {
@@ -102,26 +122,52 @@ install_voxtype_config() {
   link_config "$VOXTYPE_CONFIG_SOURCE" "$VOXTYPE_CONFIG_TARGET"
 }
 
-install_voxtype_model() {
-  if voxtype_model_present; then
-    log "Voxtype model $VOXTYPE_MODEL already present"
+install_voxtype_input_access() {
+  local current_user
+  current_user="$(id -un)"
+
+  if id -nG "$current_user" | tr ' ' '\n' | grep -Fxq input; then
+    log "$current_user already belongs to the input group"
     return
+  fi
+
+  log "granting $current_user input-group access for Voxtype's state-aware cancel key"
+  run sudo usermod --append --groups input "$current_user"
+  log 'input-group changes take effect after logout or reboot'
+}
+
+install_voxtype_model() {
+  if voxtype_model_valid; then
+    log "Voxtype model $VOXTYPE_MODEL already installed and verified"
+    return
+  fi
+
+  if [[ -e "$VOXTYPE_MODEL_FILE" ]]; then
+    die "$VOXTYPE_MODEL_FILE exists but does not match the pinned model; move it aside and rerun the voxtype phase"
   fi
 
   if $DRY_RUN; then
-    log "would download Voxtype Whisper model $VOXTYPE_MODEL"
-    printf '+ %q setup --download --model %q --quiet --no-post-install\n' \
-      "$VOXTYPE_BINARY" "$VOXTYPE_MODEL"
+    log "would download, verify, and install Voxtype Whisper model $VOXTYPE_MODEL"
+    printf '+ curl -fsSLo <temporary-model> %q\n' "$VOXTYPE_MODEL_URL"
+    printf '+ verify SHA-256 %s for <temporary-model>\n' "$VOXTYPE_MODEL_SHA256"
+    printf '+ install -Dm0644 <temporary-model> %q\n' "$VOXTYPE_MODEL_FILE"
     return
   fi
 
-  voxtype_binary_valid || die 'Voxtype binary is missing; install the binary before downloading models'
   command -v curl >/dev/null 2>&1 || die 'curl is missing; run the packages phase first'
 
-  log "downloading Voxtype Whisper model $VOXTYPE_MODEL"
-  run "$VOXTYPE_BINARY" setup --download --model "$VOXTYPE_MODEL" --quiet --no-post-install
-  voxtype_model_present || die "Voxtype model download did not produce $VOXTYPE_MODEL_FILE"
-  log "downloaded Voxtype model $VOXTYPE_MODEL"
+  local download
+  download="$(mktemp)"
+  curl -fsSLo "$download" "$VOXTYPE_MODEL_URL"
+  if ! printf '%s  %s\n' "$VOXTYPE_MODEL_SHA256" "$download" |
+    sha256sum --check --status; then
+    die "Voxtype model $VOXTYPE_MODEL failed SHA-256 verification; downloaded artifact retained at $download"
+  fi
+
+  run install -Dm0644 "$download" "$VOXTYPE_MODEL_FILE"
+  rm -f -- "$download"
+  voxtype_model_valid || die "Voxtype installation did not produce the expected model: $VOXTYPE_MODEL_FILE"
+  log "installed and verified Voxtype model $VOXTYPE_MODEL"
 }
 
 install_voxtype_service() {
@@ -145,6 +191,7 @@ install_voxtype() {
   install_voxtype_runtime_packages
   install_voxtype_binary
   install_voxtype_config
+  install_voxtype_input_access
   install_voxtype_model
   install_voxtype_service
 }
@@ -178,8 +225,10 @@ show_voxtype_status() {
     printf '  [missing]  %s\n' "$VOXTYPE_CONFIG_TARGET"
   fi
 
-  if voxtype_model_present; then
-    printf '  [present]  model %s\n' "$VOXTYPE_MODEL"
+  if voxtype_model_valid; then
+    printf '  [verified] model %s\n' "$VOXTYPE_MODEL"
+  elif [[ -e "$VOXTYPE_MODEL_FILE" ]]; then
+    printf '  [invalid]  model %s (checksum mismatch)\n' "$VOXTYPE_MODEL"
   else
     printf '  [missing]  model %s\n' "$VOXTYPE_MODEL"
   fi
@@ -223,9 +272,28 @@ show_voxtype_status() {
     printf '  [inactive] pipewire.service\n'
   fi
 
-  if id -nG | tr ' ' '\n' | grep -Fxq input; then
-    printf '  [note]     user is in the input group (not required for niri bindings)\n'
+  if command -v wpctl >/dev/null 2>&1 &&
+    wpctl inspect '@DEFAULT_AUDIO_SOURCE@' >/dev/null 2>&1; then
+    printf '  [ok]       default microphone source\n'
   else
-    printf '  [ok]       input group not required (niri owns the bindings)\n'
+    printf '  [missing]  default microphone source\n'
+  fi
+
+  if voxtype_niri_binding_present; then
+    printf '  [ok]       niri Hyper+S toggle binding\n'
+  else
+    printf '  [missing]  niri Hyper+S toggle binding\n'
+  fi
+
+  if voxtype_cancel_key_configured; then
+    printf '  [ok]       Voxtype state-aware Escape cancellation\n'
+  else
+    printf '  [missing]  Voxtype state-aware Escape cancellation\n'
+  fi
+
+  if id -nG | tr ' ' '\n' | grep -Fxq input; then
+    printf '  [ok]       input group (required for Escape listener)\n'
+  else
+    printf '  [missing]  input group (log out after running the voxtype phase)\n'
   fi
 }

@@ -13,7 +13,7 @@ Quickshell widgets.
 
 | Candidate | Version evaluated | License | Packaging | Fedora/niri fit | Decision |
 | --- | --- | --- | --- | --- | --- |
-| [Voxtype](https://github.com/peteonrails/voxtype) | 0.7.5 | MIT | Signed GitHub release binaries, Fedora RPM, AppImage | Wayland-first; explicit `record start`/`stop`/`toggle`/`cancel`; compositor-native bindings avoid the `input` group; local Whisper default | **Adopted** |
+| [Voxtype](https://github.com/peteonrails/voxtype) | 0.7.5 | MIT | Signed GitHub release binaries, Fedora RPM, AppImage | Wayland-first; explicit `record start`/`stop`/`toggle`/`cancel`; compositor toggle plus state-aware evdev cancellation; local Whisper default | **Adopted** |
 | [Handy](https://github.com/cjpais/Handy) | 0.9.5 | MIT | Tauri GUI RPM/AppImage/deb with update signatures | Cross-platform GUI; Wayland typing needs `wtype`/`dotool`; global shortcuts on Wayland must still be compositor-owned; overlay can steal focus on some compositors | Rejected for this laptop |
 
 ### Decision matrix
@@ -34,9 +34,11 @@ Quickshell widgets.
 | Rollback | Remove binary, unit, bindings, optional model tree | Remove RPM/AppImage and config |
 
 Handy remains a reasonable cross-platform choice, but Voxtype matches this
-repository's recovery-friendly, compositor-owned, minimal-daemon preferences
-and the issue requirement to avoid permanent `input` group membership when
-niri can own the bindings.
+repository's recovery-friendly and minimal-daemon preferences. niri owns the
+intentional `Hyper+S` toggle. Voxtype observes bare `Escape` through evdev so it
+can cancel only while dictation is active; this deliberately requires permanent
+`input` group membership and is documented as the security cost of the chosen
+interaction.
 
 ## Ownership
 
@@ -48,8 +50,9 @@ niri can own the bindings.
 | Audio capture | Desktop foundation | PipeWire + `pipewire-alsa` |
 | Managed config | This repository | `config/voxtype/config.toml` → `~/.config/voxtype/config.toml` |
 | User systemd unit | This repository | `config/systemd/user/voxtype.service` attached to `niri.service` |
-| niri bindings | This repository | `config/niri/config.kdl` |
-| Model weights | User data (not in Git) | `~/.local/share/voxtype/models/` |
+| niri toggle binding | This repository | `config/niri/config.kdl` |
+| Escape cancel listener | Voxtype evdev listener | `/dev/input/event*` through the `input` group |
+| Model weights | This repository pins metadata; file remains user data | `~/.local/share/voxtype/models/` |
 | Runtime state | User runtime (not in Git) | `$XDG_RUNTIME_DIR/voxtype/` |
 | Optional meetings / caches | User data (not in Git) | under `~/.local/share/voxtype/` and cache dirs |
 
@@ -75,6 +78,8 @@ different checksum is never overwritten.
 | File | `~/.local/share/voxtype/models/ggml-base.en.bin` |
 | Approx. size | 142 MB |
 | Language | English |
+| Source revision | `ggerganov/whisper.cpp@5359861c739e955e79d9a303bcbc70fb988958b1` |
+| SHA-256 | `a03779c86df3323075f5e796cb2ce5029f00ec8869eee3fdfb897afe36c6d002` |
 
 `base.en` is the conservative laptop default: small enough for a 16 GiB system,
 fast enough for short dictations on an AVX2 CPU, and accurate enough for notes
@@ -119,8 +124,11 @@ The phase:
 1. Installs `wtype` from Fedora if missing.
 2. Downloads and SHA-256-verifies the pinned Voxtype binary into `~/.local/bin`.
 3. Links the managed config and user systemd unit.
-4. Downloads `base.en` when the model file is absent.
-5. Attaches `voxtype.service` to `niri.service` and restarts it when a graphical
+4. Adds the current user to `input` for Voxtype's evdev `Escape` listener. This
+   takes effect after logout or reboot.
+5. Downloads `base.en` from a pinned upstream revision and verifies its SHA-256.
+   An existing model with a different digest is never overwritten.
+6. Attaches `voxtype.service` to `niri.service` and restarts it when a graphical
    session is active.
 
 `./bin/laptop-setup config` also relinks the managed Voxtype config, unit, and
@@ -129,7 +137,9 @@ niri bindings so configuration updates stay idempotent after the binary exists.
 ## Bindings
 
 niri does not expose key-release binds, so the managed workflow uses toggle mode
-instead of hold-to-talk.
+instead of hold-to-talk. Binding bare `Escape` in niri would consume it in every
+application, even while Voxtype is idle, so cancellation is state-aware inside
+Voxtype instead.
 
 | Binding | Action |
 | --- | --- |
@@ -137,8 +147,11 @@ instead of hold-to-talk.
 | `Escape` | Cancel the in-flight recording or transcription |
 
 `Hyper` is Caps held via keyd and arrives in niri as `Ctrl+Alt+Super+Shift`.
-The built-in Voxtype evdev hotkey remains disabled so the user does not need the
-`input` group for normal dictation.
+Voxtype's evdev listener observes `Escape`; niri does not bind or consume it.
+The event still reaches the focused application, so cancelling can also dismiss
+an application dialog. Reading evdev requires the `input` group, which grants
+access to keyboard events beyond Voxtype's two managed controls. This is an
+intentional tradeoff for state-aware bare-`Escape` cancellation.
 
 ## Daily use
 
@@ -203,10 +216,11 @@ No model weights, recordings, or transcripts are tracked in Git.
 - pinned binary checksum
 - managed config and unit link state
 - niri attachment and unit activity
-- default model presence
+- default model checksum
 - insertion backend and clipboard fallback
-- PipeWire activity
-- whether the `input` group is present (informational only)
+- PipeWire activity and a resolvable default microphone source
+- niri `Hyper+S` and Voxtype `Escape` configuration
+- required `input` group membership
 
 Voxtype's own checker is also available:
 
@@ -221,6 +235,7 @@ Neither status path prints dictated text.
 | Symptom | Check |
 | --- | --- |
 | Binding does nothing | `systemctl --user status voxtype.service`; confirm niri loaded the managed config (`niri validate` / reload) |
+| `Escape` does not cancel | Confirm `id -nG` includes `input`; log out or reboot after the setup phase adds membership |
 | No text inserted | Install/verify `wtype`; confirm focus is in a text field; check `voxtype setup check` output chain |
 | Only clipboard fallback works | Some Flatpak or sandboxed fields reject virtual keyboards; paste manually once, or use a native field |
 | No microphone | `wpctl status`, `systemctl --user status pipewire.service wireplumber.service`, desktop privacy settings |
@@ -277,6 +292,14 @@ sudo dnf remove wtype
 
 Only remove `wtype` if no other tool needs it.
 
+Remove evdev access only if no other managed tool needs the `input` group:
+
+```bash
+sudo gpasswd --delete "$USER" input
+```
+
+Log out or reboot after removing membership.
+
 ## Validation checklist
 
 - [ ] `./bin/laptop-setup --dry-run voxtype` reports every intended mutation
@@ -286,5 +309,5 @@ Only remove `wtype` if no other tool needs it.
 - [ ] `niri validate --config config/niri/config.kdl` succeeds
 - [ ] Short dictation inserts into Alacritty, Chromium, a native GTK field, and a Flatpak text field
 - [ ] Network-disconnected dictation still succeeds with the default config
-- [ ] `Escape` cancels an in-progress recording
+- [ ] `Escape` cancels an in-progress recording while remaining usable in applications when Voxtype is idle
 - [ ] Microphone denial and a stopped daemon surface clear failures without locking the session

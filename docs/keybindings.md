@@ -41,11 +41,11 @@ authentication state; the repository stores no browser credentials.
 | `Super+Ctrl+S` | Open LocalSend | `flatpak run org.localsend.localsend_app` |
 | `Super+Ctrl+,` | Dismiss all Mako notifications | `makoctl dismiss --all` |
 | `Hyper+S` | Toggle local dictation (Voxtype) | `voxtype record toggle` |
-| `Escape` | Cancel in-progress dictation | `voxtype record cancel` |
 
 `Hyper` is Caps held via keyd (`Ctrl+Alt+Super+Shift`). Local dictation is
-toggle-based because niri has no key-release binds. See
-[voxtype.md](voxtype.md) for setup, privacy, and rollback.
+toggle-based because niri has no key-release binds. Voxtype—not niri—observes
+bare `Escape` through evdev to cancel only an active recording or transcription.
+See [voxtype.md](voxtype.md) for setup, privacy, and rollback.
 
 ## Window focus & navigation
 

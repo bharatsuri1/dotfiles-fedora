@@ -9,11 +9,14 @@ engine = "whisper"
 state_file = "auto"
 
 [hotkey]
-# niri owns Hyper+S (toggle) and Escape (cancel). Hyper is Caps held via keyd
-# (Ctrl+Alt+Super+Shift). Keep the built-in evdev listener off so membership in
-# the input group is unnecessary.
-enabled = false
+# niri owns Hyper+S (toggle). Voxtype observes Escape through evdev so it can
+# cancel only while recording or transcribing without making Escape a global
+# compositor binding. The setup phase manages the required input-group access.
+enabled = true
+# Recording is intentionally not assigned to an evdev key. Scroll Lock remains
+# an unused fallback while the compositor owns the real toggle binding.
 key = "SCROLLLOCK"
+cancel_key = "ESC"
 modifiers = []
 mode = "toggle"
 
