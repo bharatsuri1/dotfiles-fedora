@@ -2,8 +2,10 @@
   "show_edit_predictions": false,
   "agent": {
     "default_model": {
+      "effort": "max",
+      "enable_thinking": true,
       "provider": "opencode",
-      "model": "glm-5.2"
+      "model": "go/glm-5.2"
     },
     "use_modifier_to_send": true,
     "tool_permissions": {
@@ -19,6 +21,12 @@
       "show_free_models": false,
       "show_zen_models": false,
       "show_go_models": true
+    },
+    "ollama": {
+      "api_url": "http://ollama.com",
+      "model": "glm-5.2:cloud",
+      "prompt_format": "infer",
+      "max_output_tokens": 16000
     }
   },
   "base_keymap": "Zed",
@@ -32,8 +40,9 @@
       "insert": "bar"
     },
     "use_smartcase_find": true,
-    "use_system_clipboard": "always",
+    "use_system_clipboard": "on_yank",
     "use_regex_search": true,
+    "gdefault": true,
     "highlight_on_yank_duration": 200,
     "show_edit_predictions_in_normal_mode": false,
     "toggle_relative_line_numbers": false
@@ -45,9 +54,13 @@
   "restore_on_startup": "launchpad",
   "confirm_quit": true,
   "vertical_scroll_margin": 10,
+  "scroll_beyond_last_line": "off",
+  "scrollbar": {
+    "show": "never"
+  },
   "use_smartcase_search": true,
   "sticky_scroll": {
-    "enabled": true
+    "enabled": false
   },
   "ui_font_family": "Inter",
   "ui_font_size": 16,
@@ -99,5 +112,11 @@
     "allow_data_collection": "no",
     "mode": "subtle"
   },
-  "theme": "Vesper"
+  "theme": "Vesper",
+  "command_aliases": {
+    "W": "w",
+    "Wq": "wq",
+    "Wqa": "wqa",
+    "Q": "q"
+  }
 }

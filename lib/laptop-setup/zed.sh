@@ -14,6 +14,22 @@ zed_app_installed() {
   command -v flatpak >/dev/null 2>&1 && flatpak info "$ZED_FLATPAK_ID" >/dev/null 2>&1
 }
 
+# The Flatpak Wayland proxy does not properly forward clipboard (wl_data_device)
+# to niri, so vim yank silently fails to write to the system clipboard.
+# Force X11 mode through XWayland where the X11 clipboard works reliably.
+# See docs/zed.md "Flatpak clipboard workaround" for details and rollback.
+apply_zed_flatpak_overrides() {
+  if ! zed_app_installed && ! $DRY_RUN; then
+    return
+  fi
+  if $DRY_RUN; then
+    log "Would apply flatpak override: --socket=x11 --nosocket=wayland (clipboard workaround)"
+    return
+  fi
+  flatpak override --user --socket=x11 --nosocket=wayland "$ZED_FLATPAK_ID" 2>/dev/null || true
+  log "Applied flatpak override: X11 mode (clipboard workaround for niri)"
+}
+
 link_zed_config() {
   link_config "$ZED_SETTINGS_SOURCE" "$ZED_SETTINGS_TARGET"
   link_config "$ZED_THEME_SOURCE" "$ZED_THEME_TARGET"
@@ -29,6 +45,7 @@ install_zed() {
   fi
 
   link_zed_config
+  apply_zed_flatpak_overrides
 
   local ext
   for ext in "${ZED_EXTENSIONS[@]}"; do
@@ -83,5 +100,14 @@ show_zed_status() {
     done
   else
     printf '  [ok]      extension allowlist empty\n'
+  fi
+
+  # Report flatpak override state
+  local override_output
+  override_output="$(flatpak override --user --show "$ZED_FLATPAK_ID" 2>/dev/null || true)"
+    if echo "$override_output" | grep -q -- 'sockets=.*x11' 2>/dev/null; then
+    printf '  [applied] flatpak override: X11 mode (clipboard workaround)\n'
+  else
+    printf '  [missing] flatpak override (clipboard workaround not applied)\n'
   fi
 }
