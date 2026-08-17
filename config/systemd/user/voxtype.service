@@ -1,0 +1,19 @@
+[Unit]
+Description=Managed Voxtype local speech-to-text daemon
+Documentation=https://github.com/peteonrails/voxtype
+Documentation=https://github.com/bharatsuri1/dotfiles-fedora/blob/main/docs/voxtype.md
+PartOf=graphical-session.target
+After=graphical-session.target pipewire.service pipewire-pulse.service
+Requisite=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/voxtype -q daemon
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=graphical-session.target

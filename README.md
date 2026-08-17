@@ -73,6 +73,7 @@ phase can also run independently:
 ./bin/laptop-setup ollama
 ./bin/laptop-setup niri
 ./bin/laptop-setup device-controls
+./bin/laptop-setup voxtype
 ./bin/laptop-setup shell-tools
 ./bin/laptop-setup config
 ./bin/laptop-setup shell
@@ -151,6 +152,12 @@ for NetworkManager, `bluetui` for BlueZ, and `wiremix` for PipeWire, with
 validation, and rollback are documented in
 [`docs/device-controls.md`](docs/device-controls.md).
 
+Local speech-to-text uses a pinned Voxtype binary with Whisper `base.en`, a
+user systemd unit attached to the niri session, and `Super+Alt+V` /
+`Super+Alt+Escape` toggle/cancel bindings. Audio stays on-device by default.
+Ownership, privacy, model locations, and rollback are documented in
+[`docs/voxtype.md`](docs/voxtype.md).
+
 ## First-draft scope
 
 - Inter for system UI, Noto for broad fallback, and JetBrainsMono Nerd Font for
@@ -168,6 +175,7 @@ validation, and rollback are documented in
 - Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, Sesh, and `xh`;
 - Herdr from its official verified installer;
 - Ollama from its official installer;
+- Voxtype for local push-to-toggle dictation under niri;
 - niri with Fuzzel as its independent baseline launcher; and
 - a minimal, repository-owned Quickshell top bar layered on the session.
 - managed Zsh, Starship, tmux, Sesh, bat, and fastfetch defaults.

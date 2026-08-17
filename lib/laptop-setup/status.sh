@@ -144,6 +144,8 @@ show_status() {
 
   show_device_controls_status
 
+  show_voxtype_status
+
   printf 'Desktop authorization and secrets:\n'
   for item in "${DESKTOP_SECURITY_PACKAGES[@]}"; do
     if package_installed "$item"; then
@@ -179,7 +181,7 @@ show_status() {
       printf '  [missing] %s\n' "$item"
     fi
   done
-  for item in mako.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service; do
+  for item in mako.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service voxtype.service; do
     if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$item" ]]; then
       printf '  [attached] %s\n' "$item"
     else

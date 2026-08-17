@@ -27,6 +27,7 @@ for module in \
   shell-tools \
   config \
   shell \
+  voxtype \
   status; do
   # shellcheck source=/dev/null
   source "$LIB_DIR/$module.sh"
@@ -49,6 +50,7 @@ Commands:
               Install compositor-independent desktop foundations
   device-controls
               Install standalone network, Bluetooth, and audio TUIs
+  voxtype     Install and manage local Voxtype speech-to-text
   desktop-defaults
               Configure browser, file, media, image, and PDF handlers
   niri        Install niri from Fedora repositories
@@ -93,6 +95,7 @@ main() {
       install_docker
       install_desktop_foundation
       install_device_controls
+      install_voxtype
       install_niri
       install_screenshots
       install_quickshell
@@ -115,6 +118,7 @@ main() {
     docker) install_docker ;;
     desktop-foundation) install_desktop_foundation ;;
     device-controls) install_device_controls ;;
+    voxtype) install_voxtype ;;
     desktop-defaults) install_desktop_defaults ;;
     niri) install_niri ;;
     screenshots) install_screenshots ;;
