@@ -8,8 +8,8 @@ Managed portable configuration for the Flathub Zed Flatpak (`dev.zed.Zed`).
 | --- | --- | --- |
 | Settings | This repository | `~/.var/app/dev.zed.Zed/config/zed/settings.json` |
 | Vesper theme | This repository | `~/.var/app/dev.zed.Zed/config/zed/themes/vesper.json` |
+| Keymap | This repository | `~/.var/app/dev.zed.Zed/config/zed/keymap.json` |
 | Shell alias `zed` | This repository (`config/zsh/aliases.zsh`) | interactive Zsh only |
-| Keymap | User (deferred) | not managed yet |
 | Extensions | User; allowlist empty | `~/.var/app/dev.zed.Zed/data/zed/extensions/` |
 | DB, logs, cache, threads, prompts, accounts | Runtime / user | never tracked |
 
@@ -22,10 +22,13 @@ for the niri bind.
 `config/zed/settings.json` keeps a small set aligned with the rest of the
 machine:
 
-- Vim mode and related cursor/line-number preferences
+- Vim mode with always-on relative line numbers, smartcase find/search, and yank highlight
 - Inter UI font and JetBrainsMono Nerd Font buffer font
+- Editor ergonomics: soft wrap, sticky scroll, scroll margin, unified diffs, minimap, quit confirm
+- Project panel left/dense/closed-by-default; tabs show icons, git status, and errors
+- Preview tabs disabled for panel clicks, code navigation, and multibuffers
 - Telemetry diagnostics/metrics off
-- `session.trust_all_worktrees` enabled deliberately for a single-user laptop
+- `session.trust_all_worktrees` enabled deliberately; unsaved buffer restore off
 - Theme name `Vesper` (custom file below)
 
 Also managed from UI-tuned preferences (kept portable on purpose):
@@ -36,9 +39,23 @@ Also managed from UI-tuned preferences (kept portable on purpose):
 
 Intentionally **not** managed right now:
 
-- Keybindings (`keymap.json`)
 - Extensions
 - Secrets, API tokens, and account/sync state
+
+## Keybindings
+
+Managed `config/zed/keymap.json` departures from Zed defaults:
+
+| Binding | Context | Action |
+| --- | --- | --- |
+| `j k` | insert mode | leave insert (`vim::NormalBefore`) |
+| `ctrl-w h/j/k/l` | docks (terminal, panels) | move focus across panes/docks |
+| `space e` | normal/visual vim + empty pane | focus project panel |
+| `space f` | same | file finder |
+| `space t` | same | terminal panel |
+| `space b` | same | toggle left dock |
+
+Leader-style `space` bindings only apply in vim control contexts (and empty pane), so they do not steal insert-mode space.
 
 ## Vesper theme
 

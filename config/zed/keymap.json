@@ -1,0 +1,35 @@
+[
+  {
+    "context": "vim_mode == insert",
+    "bindings": {
+      "j k": "vim::NormalBefore"
+    }
+  },
+  {
+    "context": "Dock",
+    "bindings": {
+      "ctrl-w h": "workspace::ActivatePaneLeft",
+      "ctrl-w l": "workspace::ActivatePaneRight",
+      "ctrl-w k": "workspace::ActivatePaneUp",
+      "ctrl-w j": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "space e": "project_panel::ToggleFocus",
+      "space f": "file_finder::Toggle",
+      "space t": "terminal_panel::Toggle",
+      "space b": "workspace::ToggleLeftDock"
+    }
+  },
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      "space e": "project_panel::ToggleFocus",
+      "space f": "file_finder::Toggle",
+      "space t": "terminal_panel::Toggle",
+      "space b": "workspace::ToggleLeftDock"
+    }
+  }
+]

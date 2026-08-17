@@ -24,16 +24,31 @@
   "base_keymap": "Zed",
   "vim_mode": true,
   "vim": {
+    "default_mode": "normal",
     "cursor_shape": {
+      "normal": "block",
+      "replace": "underline",
+      "visual": "block",
       "insert": "bar"
     },
     "use_smartcase_find": true,
-    "toggle_relative_line_numbers": true
+    "use_system_clipboard": "always",
+    "use_regex_search": true,
+    "highlight_on_yank_duration": 200,
+    "show_edit_predictions_in_normal_mode": false,
+    "toggle_relative_line_numbers": false
   },
+  "relative_line_numbers": "enabled",
   "cursor_shape": "bar",
   "cursor_blink": false,
   "autosave": "on_focus_change",
   "restore_on_startup": "none",
+  "confirm_quit": true,
+  "vertical_scroll_margin": 10,
+  "use_smartcase_search": true,
+  "sticky_scroll": {
+    "enabled": true
+  },
   "ui_font_family": "Inter",
   "ui_font_size": 16,
   "buffer_font_family": "JetBrainsMono Nerd Font",
@@ -54,20 +69,31 @@
     "show": "always"
   },
   "preview_tabs": {
-    "enable_preview_from_project_panel": false
+    "enable_preview_from_project_panel": false,
+    "enable_preview_file_from_code_navigation": false,
+    "enable_preview_from_multibuffer": false
   },
   "diff_view_style": "unified",
   "format_on_save": "off",
   "soft_wrap": "editor_width",
   "git": {
     "inline_blame": {
-      "enabled": true
+      "enabled": true,
+      "delay_ms": 400
     }
   },
   "project_panel": {
     "dock": "left",
     "starts_open": false,
     "entry_spacing": "standard"
+  },
+  "collaboration_panel": {
+    "button": false
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+    "show_diagnostics": "errors"
   },
   "edit_predictions": {
     "allow_data_collection": "no",

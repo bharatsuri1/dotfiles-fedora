@@ -4,6 +4,8 @@ readonly ZED_SETTINGS_SOURCE="$REPO_ROOT/config/zed/settings.json"
 readonly ZED_SETTINGS_TARGET="$ZED_FLATPAK_CONFIG/settings.json"
 readonly ZED_THEME_SOURCE="$REPO_ROOT/config/zed/themes/vesper.json"
 readonly ZED_THEME_TARGET="$ZED_FLATPAK_CONFIG/themes/vesper.json"
+readonly ZED_KEYMAP_SOURCE="$REPO_ROOT/config/zed/keymap.json"
+readonly ZED_KEYMAP_TARGET="$ZED_FLATPAK_CONFIG/keymap.json"
 
 # Reviewed allowlist (empty for now). Rationale for future entries lives in docs/zed.md.
 readonly ZED_EXTENSIONS=()
@@ -15,6 +17,7 @@ zed_app_installed() {
 link_zed_config() {
   link_config "$ZED_SETTINGS_SOURCE" "$ZED_SETTINGS_TARGET"
   link_config "$ZED_THEME_SOURCE" "$ZED_THEME_TARGET"
+  link_config "$ZED_KEYMAP_SOURCE" "$ZED_KEYMAP_TARGET"
 }
 
 install_zed() {
@@ -42,11 +45,12 @@ show_zed_status() {
   fi
 
   local target source resolved
-  for target in "$ZED_SETTINGS_TARGET" "$ZED_THEME_TARGET"; do
+  for target in "$ZED_SETTINGS_TARGET" "$ZED_THEME_TARGET" "$ZED_KEYMAP_TARGET"; do
     source=""
     case "$target" in
       "$ZED_SETTINGS_TARGET") source="$ZED_SETTINGS_SOURCE" ;;
       "$ZED_THEME_TARGET") source="$ZED_THEME_SOURCE" ;;
+      "$ZED_KEYMAP_TARGET") source="$ZED_KEYMAP_SOURCE" ;;
     esac
     resolved=""
     if [[ -L "$target" ]]; then
