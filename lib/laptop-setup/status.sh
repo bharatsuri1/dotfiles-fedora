@@ -135,6 +135,8 @@ show_status() {
     printf '  [disabled] bluetooth.service\n'
   fi
 
+  show_device_controls_status
+
   printf 'Desktop authorization and secrets:\n'
   for item in "${DESKTOP_SECURITY_PACKAGES[@]}"; do
     if package_installed "$item"; then

@@ -71,6 +71,7 @@ phase can also run independently:
 ./bin/laptop-setup homebrew
 ./bin/laptop-setup herdr
 ./bin/laptop-setup niri
+./bin/laptop-setup device-controls
 ./bin/laptop-setup shell-tools
 ./bin/laptop-setup config
 ./bin/laptop-setup shell
@@ -142,6 +143,12 @@ tested.
 The managed keyboard repeat, touchpad profile, application shortcuts, repeat
 policy, validation, customization, and TTY rollback are documented in
 [`docs/niri-input-and-keybindings.md`](docs/niri-input-and-keybindings.md).
+
+Standalone recovery-friendly terminal controls are available through `wlctl`
+for NetworkManager, `bluetui` for BlueZ, and `wiremix` for PipeWire, with
+`nmtui` retained as the Fedora-owned network fallback. Their ownership, usage,
+validation, and rollback are documented in
+[`docs/device-controls.md`](docs/device-controls.md).
 
 ## First-draft scope
 

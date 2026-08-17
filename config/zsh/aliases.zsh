@@ -10,6 +10,9 @@ alias reload='exec zsh'
 alias cx='codex --profile dotfiles --dangerously-bypass-approvals-and-sandbox --dangerously-bypass-hook-trust'
 alias tl='sesh picker'
 alias tk='tmux kill-server'
+alias wifi='wlctl'
+alias bt='bluetui'
+alias audio='wiremix'
 
 t() {
   local session_name="${1:-home}"

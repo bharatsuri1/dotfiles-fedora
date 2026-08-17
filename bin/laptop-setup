@@ -13,6 +13,7 @@ for module in \
   herdr \
   docker \
   desktop-foundation \
+  device-controls \
   desktop-defaults \
   niri \
   screenshots \
@@ -44,6 +45,8 @@ Commands:
   docker      Install Docker Engine, Buildx, and Compose
   desktop-foundation
               Install compositor-independent desktop foundations
+  device-controls
+              Install standalone network, Bluetooth, and audio TUIs
   desktop-defaults
               Configure browser, file, media, image, and PDF handlers
   niri        Install niri from Fedora repositories
@@ -86,6 +89,7 @@ main() {
       install_herdr
       install_docker
       install_desktop_foundation
+      install_device_controls
       install_niri
       install_screenshots
       install_quickshell
@@ -106,6 +110,7 @@ main() {
     herdr) install_herdr ;;
     docker) install_docker ;;
     desktop-foundation) install_desktop_foundation ;;
+    device-controls) install_device_controls ;;
     desktop-defaults) install_desktop_defaults ;;
     niri) install_niri ;;
     screenshots) install_screenshots ;;

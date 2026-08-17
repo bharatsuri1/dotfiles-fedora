@@ -49,6 +49,7 @@ readonly DESKTOP_AUDIO_PACKAGES=(
   pipewire-alsa
   pipewire-pulseaudio
   wireplumber
+  alsa-sof-firmware
   alsa-utils
 )
 
