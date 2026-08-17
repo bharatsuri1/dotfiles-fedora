@@ -94,6 +94,13 @@ show_status() {
     printf '  [missing] %s\n' "$HERDR_BINARY"
   fi
 
+  printf 'Ollama:\n'
+  if command -v ollama >/dev/null 2>&1 || [[ -x "$OLLAMA_BINARY" ]]; then
+    printf '  [ok]      %s\n' "$(command -v ollama 2>/dev/null || printf '%s' "$OLLAMA_BINARY")"
+  else
+    printf '  [missing] %s\n' "$OLLAMA_BINARY"
+  fi
+
   printf 'Docker:\n'
   for item in "${DOCKER_PACKAGES[@]}"; do
     if package_installed "$item"; then

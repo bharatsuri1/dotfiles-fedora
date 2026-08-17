@@ -70,6 +70,7 @@ phase can also run independently:
 ./bin/laptop-setup flatpaks
 ./bin/laptop-setup homebrew
 ./bin/laptop-setup herdr
+./bin/laptop-setup ollama
 ./bin/laptop-setup niri
 ./bin/laptop-setup device-controls
 ./bin/laptop-setup shell-tools
@@ -166,6 +167,7 @@ validation, and rollback are documented in
 - LocalSend, OpenCode, Visual Studio Code, and Zed from Flathub;
 - Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, Sesh, and `xh`;
 - Herdr from its official verified installer;
+- Ollama from its official installer;
 - niri with Fuzzel as its independent baseline launcher; and
 - a minimal, repository-owned Quickshell top bar layered on the session.
 - managed Zsh, Starship, tmux, Sesh, bat, and fastfetch defaults.

@@ -11,6 +11,7 @@ for module in \
   packages \
   development \
   herdr \
+  ollama \
   docker \
   desktop-foundation \
   device-controls \
@@ -42,6 +43,7 @@ Commands:
   packages    Install missing Fedora-native packages
   development Install Mise and uv runtime tooling
   herdr      Install Herdr using its official verified installer
+  ollama      Install Ollama using its official installer
   docker      Install Docker Engine, Buildx, and Compose
   desktop-foundation
               Install compositor-independent desktop foundations
@@ -87,6 +89,7 @@ main() {
       install_packages
       install_development_tools
       install_herdr
+      install_ollama
       install_docker
       install_desktop_foundation
       install_device_controls
@@ -108,6 +111,7 @@ main() {
     packages) install_packages ;;
     development) install_development_tools ;;
     herdr) install_herdr ;;
+    ollama) install_ollama ;;
     docker) install_docker ;;
     desktop-foundation) install_desktop_foundation ;;
     device-controls) install_device_controls ;;
