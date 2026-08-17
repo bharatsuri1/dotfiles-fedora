@@ -20,7 +20,9 @@ mode = "toggle"
 [audio]
 device = "default"
 sample_rate = 16000
-max_duration_secs = 60
+# Voxtype always enforces a positive safety ceiling (default 60; 0 stops almost
+# immediately). Use a day-long cap so ordinary dictation is effectively unlimited.
+max_duration_secs = 86400
 
 [audio.feedback]
 enabled = true
