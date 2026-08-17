@@ -28,12 +28,17 @@ machine:
 - `session.trust_all_worktrees` enabled deliberately for a single-user laptop
 - Theme name `Vesper` (custom file below)
 
+Also managed from UI-tuned preferences (kept portable on purpose):
+
+- `show_edit_predictions: false` and `edit_predictions` (`mode: subtle`, no data collection)
+- `agent` defaults (Ollama model, modifier-to-send, tool permissions, sidebar)
+- `language_models.opencode` (hide free/zen model lists)
+
 Intentionally **not** managed right now:
 
-- `disable_ai` (removed from the live seed; revisit later)
-- Agent / Codex ACP server blocks
 - Keybindings (`keymap.json`)
 - Extensions
+- Secrets, API tokens, and account/sync state
 
 ## Vesper theme
 

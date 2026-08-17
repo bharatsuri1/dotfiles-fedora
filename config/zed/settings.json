@@ -1,4 +1,26 @@
 {
+  "show_edit_predictions": false,
+  "agent": {
+    "default_model": {
+      "provider": "ollama",
+      "model": "deepseek-v4-flash:cloud",
+      "enable_thinking": true
+    },
+    "use_modifier_to_send": true,
+    "tool_permissions": {
+      "default": "allow",
+      "tools": {}
+    },
+    "sidebar_side": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "language_models": {
+    "opencode": {
+      "show_free_models": false,
+      "show_zen_models": false
+    }
+  },
   "base_keymap": "Zed",
   "vim_mode": true,
   "vim": {
@@ -11,13 +33,13 @@
   "cursor_shape": "bar",
   "cursor_blink": false,
   "autosave": "on_focus_change",
-  "restore_on_startup": "empty_tab",
+  "restore_on_startup": "none",
   "ui_font_family": "Inter",
   "ui_font_size": 16,
   "buffer_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_size": 14,
   "terminal": {
-    "scroll_multiplier": 2.0,
+    "scroll_multiplier": 4.0,
     "alternate_scroll": "off"
   },
   "telemetry": {
@@ -26,6 +48,29 @@
   },
   "session": {
     "trust_all_worktrees": true
+  },
+  "minimap": {
+    "show": "always"
+  },
+  "preview_tabs": {
+    "enable_preview_from_project_panel": false
+  },
+  "diff_view_style": "unified",
+  "format_on_save": "off",
+  "soft_wrap": "editor_width",
+  "git": {
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+  "project_panel": {
+    "dock": "left",
+    "starts_open": false,
+    "entry_spacing": "standard"
+  },
+  "edit_predictions": {
+    "allow_data_collection": "no",
+    "mode": "subtle"
   },
   "theme": "Vesper"
 }
