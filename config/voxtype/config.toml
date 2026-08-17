@@ -1,0 +1,53 @@
+# Managed Voxtype configuration for the Fedora/niri laptop.
+# Linked to ~/.config/voxtype/config.toml by the voxtype setup phase.
+# Models, temporary audio, meetings, and caches stay under XDG data/cache
+# paths and are never committed to this repository.
+
+# Local Whisper is the only default engine. Remote transcription requires an
+# explicit documented config change and is intentionally left disabled.
+engine = "whisper"
+state_file = "auto"
+
+[hotkey]
+# niri owns Hyper+S (toggle) and Escape (cancel). Hyper is Caps held via keyd
+# (Ctrl+Alt+Super+Shift). Keep the built-in evdev listener off so membership in
+# the input group is unnecessary.
+enabled = false
+key = "SCROLLLOCK"
+modifiers = []
+mode = "toggle"
+
+[audio]
+device = "default"
+sample_rate = 16000
+# Voxtype always enforces a positive safety ceiling (default 60; 0 stops almost
+# immediately). Use a day-long cap so ordinary dictation is effectively unlimited.
+max_duration_secs = 86400
+
+[audio.feedback]
+enabled = true
+theme = "subtle"
+volume = 0.5
+
+[whisper]
+mode = "local"
+model = "base.en"
+language = "en"
+translate = false
+# Keep the model resident while the daemon runs so short dictations stay snappy
+# on the laptop CPU. Use on_demand_loading = true if memory pressure is high.
+on_demand_loading = false
+
+[output]
+# Prefer direct Wayland insertion through wtype. Clipboard remains the fallback
+# only when typing fails; existing clipboard content is left alone on success.
+mode = "type"
+fallback_to_clipboard = true
+type_delay_ms = 0
+pre_type_delay_ms = 50
+
+[output.notification]
+on_recording_start = true
+on_recording_stop = true
+# Do not put dictated text into notifications.
+on_transcription = false

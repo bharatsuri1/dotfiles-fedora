@@ -85,6 +85,9 @@ configure_niri_services() {
   link_config \
     "$REPO_ROOT/config/systemd/user/quickshell.service" \
     "$HOME/.config/systemd/user/quickshell.service"
+  link_config \
+    "$REPO_ROOT/config/systemd/user/voxtype.service" \
+    "$HOME/.config/systemd/user/voxtype.service"
   run systemctl --user daemon-reload
 
   local service
@@ -94,6 +97,11 @@ configure_niri_services() {
     fi
     attach_niri_service "$service"
   done
+  if $DRY_RUN || systemctl --user cat voxtype.service >/dev/null 2>&1; then
+    attach_niri_service voxtype.service
+  else
+    log 'voxtype.service is unavailable; run the voxtype phase to install the daemon'
+  fi
   if $DRY_RUN || systemctl --user is-active graphical-session.target >/dev/null 2>&1; then
     run systemctl --user restart swaybg.service
   else
@@ -105,6 +113,7 @@ configure_niri_services() {
   else
     log 'graphical session is inactive; quickshell will start with the next niri session'
   fi
+  run systemctl --user try-restart voxtype.service
 }
 
 install_config() {
@@ -133,6 +142,7 @@ install_config() {
   link_config "$REPO_ROOT/config/bat/config" "$HOME/.config/bat/config"
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
   link_config "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+  link_config "$REPO_ROOT/config/voxtype/config.toml" "$HOME/.config/voxtype/config.toml"
   link_config "$REPO_ROOT/config/mako/config" "$HOME/.config/mako/config"
   link_config "$REPO_ROOT/config/tensaku/config.toml" "$HOME/.config/tensaku/config.toml"
   link_config "$REPO_ROOT/config/fontconfig/fonts.conf" "$HOME/.config/fontconfig/fonts.conf"
