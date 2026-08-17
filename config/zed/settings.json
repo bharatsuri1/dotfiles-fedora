@@ -18,17 +18,7 @@
     "opencode": {
       "show_free_models": false,
       "show_zen_models": false,
-      "show_go_models": true,
-      "available_models": [
-        {
-          "name": "glm-5.2",
-          "display_name": "GLM-5.2",
-          "max_tokens": 1000000,
-          "max_output_tokens": 131072,
-          "protocol": "openai_chat",
-          "subscription": "go"
-        }
-      ]
+      "show_go_models": true
     }
   },
   "base_keymap": "Zed",
