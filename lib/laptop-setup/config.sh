@@ -143,6 +143,7 @@ install_config() {
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
   link_config "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
   link_config "$REPO_ROOT/config/voxtype/config.toml" "$HOME/.config/voxtype/config.toml"
+  link_zed_config
   link_config "$REPO_ROOT/config/mako/config" "$HOME/.config/mako/config"
   link_config "$REPO_ROOT/config/tensaku/config.toml" "$HOME/.config/tensaku/config.toml"
   link_config "$REPO_ROOT/config/fontconfig/fonts.conf" "$HOME/.config/fontconfig/fonts.conf"

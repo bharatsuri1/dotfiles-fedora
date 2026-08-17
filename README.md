@@ -177,7 +177,9 @@ default. Ownership, privacy, model locations, and rollback are documented in
 - Chromium from Fedora for browser app-mode launchers using
   `chromium-browser --app=URL`, plus a managed local policy that disables
   Chromium password saving, site notifications, and default-browser prompts;
-- LocalSend, OpenCode, Visual Studio Code, and Zed from Flathub;
+- LocalSend, OpenCode, Visual Studio Code, and Zed from Flathub, with managed
+  Zed settings, a custom Vesper theme, and a `zed` Zsh alias (see
+  [`docs/zed.md`](docs/zed.md));
 - Homebrew plus Dashlane CLI, Starship, `jless`, Lazygit, Lazydocker, Sesh, and `xh`;
 - Herdr from its official verified installer;
 - Ollama from its official installer;

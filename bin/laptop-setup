@@ -23,6 +23,7 @@ for module in \
   keyd \
   fonts \
   flatpaks \
+  zed \
   homebrew \
   shell-tools \
   config \
@@ -62,6 +63,7 @@ Commands:
   fonts       Install terminal, system UI, and fallback fonts
   font        Alias for fonts (deprecated)
   flatpaks    Configure Flathub and install managed desktop applications
+  zed         Link managed Zed settings and Vesper theme for the Flatpak app
   homebrew    Install Homebrew if needed, then Dashlane CLI and managed formulae
   shell-tools Install pinned Zsh plugins directly without a plugin manager
   config      Back up conflicts and link the managed configuration
@@ -103,6 +105,7 @@ main() {
       install_fonts
       install_sddm
       install_flatpaks
+      install_zed
       install_homebrew
       install_shell_tools
       install_config
@@ -128,6 +131,7 @@ main() {
     keyd) install_keyd ;;
     fonts|font) install_fonts ;;
     flatpaks) install_flatpaks ;;
+    zed) install_zed ;;
     homebrew) install_homebrew ;;
     shell-tools) install_shell_tools ;;
     config) install_config ;;
