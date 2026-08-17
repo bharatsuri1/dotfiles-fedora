@@ -6,6 +6,19 @@
     }
   },
   {
+    "context": "Editor && !menu",
+    "bindings": {
+      "ctrl-v": "editor::Paste",
+      "ctrl-c": "editor::Copy",
+      "ctrl-x": "editor::Cut",
+      "ctrl-a": "editor::SelectAll",
+      "ctrl-s": "workspace::Save",
+      "ctrl-f": "buffer_search::Deploy",
+      "ctrl-z": "editor::Undo",
+      "ctrl-shift-z": "editor::Redo"
+    }
+  },
+  {
     "context": "Dock",
     "bindings": {
       "ctrl-w h": "workspace::ActivatePaneLeft",
@@ -17,19 +30,90 @@
   {
     "context": "VimControl && !menu",
     "bindings": {
-      "space e": "project_panel::ToggleFocus",
+      "space e": "project_panel::Toggle",
       "space f": "file_finder::Toggle",
       "space t": "terminal_panel::Toggle",
-      "space b": "workspace::ToggleLeftDock"
+      "space g": "git_panel::Toggle",
+      "space a": "agent::Toggle",
+      "space o": "outline::Toggle",
+      "space d": "diagnostics::Deploy",
+      "space s": "workspace::Save",
+      "space n": "workspace::NewFile",
+      "space w": "pane::CloseActiveItem",
+      "space b": "tab_switcher::OpenInActivePane",
+      "space *": "pane::DeploySearch",
+      "space r": "editor::Rename",
+      "space c": "editor::ToggleComments",
+      "space x": "editor::ToggleCodeActions",
+      "space m": "editor::Format",
+      "space k": "editor::Hover",
+      "space v": "pane::SplitRight",
+      "space -": "pane::SplitDown",
+      "space z": "workspace::ToggleEditorZoom",
+      "space shift-a": "workspace::ToggleAllDocks",
+      "space shift-h": "workspace::ToggleLeftDock",
+      "space shift-l": "workspace::ToggleRightDock",
+      "space shift-n": "agent::NewThread",
+      "space shift-b": "agents_sidebar::ToggleThreadSwitcher",
+      "space l": "editor::RestartLanguageServer",
+      "space shift-m": "editor::ToggleMinimap",
+      "space shift-g": "editor::ToggleGitBlameInline",
+      "space shift-j": "editor::MoveLineDown",
+      "space shift-k": "editor::MoveLineUp",
+      "space shift-d": "editor::DuplicateLineDown",
+      "space shift-t": "pane::ReopenClosedItem",
+      "space p": "pane::RevealInProjectPanel",
+      "space ;": "command_palette::Toggle",
+      "space shift-r": "projects::OpenRecent",
+      "] b": "pane::ActivateNextItem",
+      "[ b": "pane::ActivatePreviousItem",
+      "space q": "pane::CloseActiveItem",
+      "space shift-q": "pane::CloseAllItems",
+      "tab": "pane::ActivateNextItem",
+      "shift-tab": "pane::ActivatePreviousItem",
+      "ctrl-d": ["workspace::SendKeystrokes", "ctrl-d z z"],
+      "ctrl-u": ["workspace::SendKeystrokes", "ctrl-u z z"]
+    }
+  },
+  {
+    "context": "AcpThread > Editor && VimControl && !menu",
+    "bindings": {
+      "space m": "agent::ToggleModelSelector"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-shift-t": "workspace::NewTerminal",
+      "ctrl-shift-v": "terminal::ToggleViMode",
+      "ctrl-v": "terminal::Paste"
+    }
+  },
+  {
+    "context": "vim_operator == a || vim_operator == i || vim_operator == cs",
+    "bindings": {
+      "q": "vim::AnyQuotes",
+      "b": "vim::AnyBrackets"
+    }
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "shift-s": "vim::PushAddSurrounds"
     }
   },
   {
     "context": "EmptyPane || SharedScreen",
     "bindings": {
-      "space e": "project_panel::ToggleFocus",
+      "space e": "project_panel::Toggle",
       "space f": "file_finder::Toggle",
       "space t": "terminal_panel::Toggle",
-      "space b": "workspace::ToggleLeftDock"
+      "space g": "git_panel::Toggle",
+      "space a": "agent::Toggle",
+      "space d": "diagnostics::Deploy",
+      "space b": "tab_switcher::OpenInActivePane",
+      "space *": "pane::DeploySearch",
+      "space n": "workspace::NewFile"
     }
   }
 ]
