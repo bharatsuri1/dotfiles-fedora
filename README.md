@@ -12,6 +12,12 @@ Flatpak owns LocalSend, OpenCode, Visual Studio Code, and Zed; Homebrew owns
 Dashlane CLI, Starship, `jless`, and `fx`; and Nerd Fonts owns the pinned
 JetBrains Mono archive.
 
+## Installation from ISO
+
+Fresh Fedora 44 Everything install through Custom OS, live-ISO Wi-Fi firmware
+repair, first-boot networking, and this bootstrap:
+[`docs/installation.md`](docs/installation.md).
+
 ## One-line bootstrap
 
 From any Fedora installation with working networking and an administrative
