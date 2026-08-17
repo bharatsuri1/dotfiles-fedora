@@ -59,3 +59,13 @@ fi
 mkcd() {
   mkdir -p -- "$1" && cd -- "$1"
 }
+
+# Prevent sleep/idle until Ctrl-C, or wrap a command (macOS caffeinate-style).
+# Does not pause Swayidle lock/DPMS — only blocks suspend via logind.
+caffeinate() {
+  if (( $# )); then
+    systemd-inhibit --what=sleep:idle --who=caffeinate --why="$*" -- "$@"
+  else
+    systemd-inhibit --what=sleep:idle --who=caffeinate --why="Keep awake" -- sleep infinity
+  fi
+}
