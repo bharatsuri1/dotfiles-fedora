@@ -153,9 +153,9 @@ validation, and rollback are documented in
 [`docs/device-controls.md`](docs/device-controls.md).
 
 Local speech-to-text uses a pinned Voxtype binary with Whisper `base.en`, a
-user systemd unit attached to the niri session, and `Hyper+S` /
-`Escape` toggle/cancel bindings. Audio stays on-device by default.
-Ownership, privacy, model locations, and rollback are documented in
+user systemd unit attached to the niri session, a niri-owned `Hyper+S` toggle,
+and state-aware `Escape` cancellation in Voxtype. Audio stays on-device by
+default. Ownership, privacy, model locations, and rollback are documented in
 [`docs/voxtype.md`](docs/voxtype.md).
 
 ## First-draft scope
