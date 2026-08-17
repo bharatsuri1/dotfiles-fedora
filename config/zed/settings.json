@@ -42,7 +42,7 @@
   "cursor_shape": "bar",
   "cursor_blink": false,
   "autosave": "on_focus_change",
-  "restore_on_startup": "none",
+  "restore_on_startup": "launchpad",
   "confirm_quit": true,
   "vertical_scroll_margin": 10,
   "use_smartcase_search": true,
