@@ -294,6 +294,8 @@ show_status() {
     fi
   done
 
+  show_zed_status
+
   printf 'Homebrew formulae:\n'
   local brew
   brew="$(brew_path || true)"

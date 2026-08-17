@@ -1,0 +1,31 @@
+{
+  "base_keymap": "Zed",
+  "vim_mode": true,
+  "vim": {
+    "cursor_shape": {
+      "insert": "bar"
+    },
+    "use_smartcase_find": true,
+    "toggle_relative_line_numbers": true
+  },
+  "cursor_shape": "bar",
+  "cursor_blink": false,
+  "autosave": "on_focus_change",
+  "restore_on_startup": "empty_tab",
+  "ui_font_family": "Inter",
+  "ui_font_size": 16,
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_size": 14,
+  "terminal": {
+    "scroll_multiplier": 2.0,
+    "alternate_scroll": "off"
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "session": {
+    "trust_all_worktrees": true
+  },
+  "theme": "Vesper"
+}
