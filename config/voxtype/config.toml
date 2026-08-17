@@ -9,8 +9,9 @@ engine = "whisper"
 state_file = "auto"
 
 [hotkey]
-# niri owns Super+Alt+V (toggle) and Super+Alt+Escape (cancel). Keep the
-# built-in evdev listener off so membership in the input group is unnecessary.
+# niri owns Hyper+S (toggle) and Hyper+Escape (cancel), where Hyper is Caps
+# held via keyd (Ctrl+Alt+Super+Shift). Keep the built-in evdev listener off so
+# membership in the input group is unnecessary.
 enabled = false
 key = "SCROLLLOCK"
 modifiers = []

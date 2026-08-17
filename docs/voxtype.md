@@ -101,7 +101,7 @@ To verify local-only operation after install:
 ```bash
 grep -E 'mode|remote_' ~/.config/voxtype/config.toml
 # Disconnect the network, then:
-voxtype record toggle   # or Super+Alt+V
+voxtype record toggle   # or Hyper+S
 # Speak a short phrase, toggle again, confirm insertion still works.
 ```
 
@@ -133,9 +133,10 @@ instead of hold-to-talk.
 
 | Binding | Action |
 | --- | --- |
-| `Super+Alt+V` | Toggle recording / stop and transcribe |
-| `Super+Alt+Escape` | Cancel the in-flight recording or transcription |
+| `Hyper+S` | Toggle recording / stop and transcribe |
+| `Hyper+Escape` | Cancel the in-flight recording or transcription |
 
+`Hyper` is Caps held via keyd and arrives in niri as `Ctrl+Alt+Super+Shift`.
 The built-in Voxtype evdev hotkey remains disabled so the user does not need the
 `input` group for normal dictation.
 
@@ -143,10 +144,10 @@ The built-in Voxtype evdev hotkey remains disabled so the user does not need the
 
 1. Ensure a niri graphical session is running so `voxtype.service` is active.
 2. Focus a text field.
-3. Press `Super+Alt+V`, speak, press `Super+Alt+V` again.
+3. Press `Hyper+S`, speak, press `Hyper+S` again.
 4. Text is typed at the cursor through `wtype`. If typing fails, Voxtype falls
    back to the clipboard and leaves a notification path via the daemon logs.
-5. Press `Super+Alt+Escape` to discard an in-progress take.
+5. Press `Hyper+Escape` to discard an in-progress take.
 
 Useful commands:
 
@@ -285,5 +286,5 @@ Only remove `wtype` if no other tool needs it.
 - [ ] `niri validate --config config/niri/config.kdl` succeeds
 - [ ] Short dictation inserts into Alacritty, Chromium, a native GTK field, and a Flatpak text field
 - [ ] Network-disconnected dictation still succeeds with the default config
-- [ ] `Super+Alt+Escape` cancels an in-progress recording
+- [ ] `Hyper+Escape` cancels an in-progress recording
 - [ ] Microphone denial and a stopped daemon surface clear failures without locking the session

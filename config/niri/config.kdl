@@ -117,10 +117,10 @@ binds {
 
     Mod+Ctrl+Comma repeat=false hotkey-overlay-title="Dismiss All Notifications" { spawn "makoctl" "dismiss" "--all"; }
 
-    // Local dictation (Voxtype). niri has no key-release binds, so toggle mode
-    // is used instead of push-to-talk hold/release.
-    Mod+Alt+V repeat=false hotkey-overlay-title="Toggle Dictation" { spawn "voxtype" "record" "toggle"; }
-    Mod+Alt+Escape repeat=false hotkey-overlay-title="Cancel Dictation" { spawn "voxtype" "record" "cancel"; }
+    // Local dictation (Voxtype). Hyper is Caps held via keyd (Ctrl+Alt+Super+Shift).
+    // niri has no key-release binds, so toggle mode is used instead of hold/release.
+    Mod+Ctrl+Alt+Shift+S repeat=false hotkey-overlay-title="Toggle Dictation" { spawn "voxtype" "record" "toggle"; }
+    Mod+Ctrl+Alt+Shift+Escape repeat=false hotkey-overlay-title="Cancel Dictation" { spawn "voxtype" "record" "cancel"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+" "-l" "1.0"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
