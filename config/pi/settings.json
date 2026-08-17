@@ -12,7 +12,7 @@
   "fullscreenScrollbar": "hidden",
   "defaultProvider": "opencode-go",
   "defaultModel": "grok-4.5",
-  "defaultThinkingLevel": "high",
+  "defaultThinkingLevel": "low",
   "npmCommand": [
     "mise",
     "exec",
