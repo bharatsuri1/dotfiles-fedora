@@ -134,7 +134,7 @@ instead of hold-to-talk.
 | Binding | Action |
 | --- | --- |
 | `Hyper+S` | Toggle recording / stop and transcribe |
-| `Hyper+Escape` | Cancel the in-flight recording or transcription |
+| `Escape` | Cancel the in-flight recording or transcription |
 
 `Hyper` is Caps held via keyd and arrives in niri as `Ctrl+Alt+Super+Shift`.
 The built-in Voxtype evdev hotkey remains disabled so the user does not need the
@@ -147,7 +147,7 @@ The built-in Voxtype evdev hotkey remains disabled so the user does not need the
 3. Press `Hyper+S`, speak, press `Hyper+S` again.
 4. Text is typed at the cursor through `wtype`. If typing fails, Voxtype falls
    back to the clipboard and leaves a notification path via the daemon logs.
-5. Press `Hyper+Escape` to discard an in-progress take.
+5. Press `Escape` to discard an in-progress take.
 
 Useful commands:
 
@@ -286,5 +286,5 @@ Only remove `wtype` if no other tool needs it.
 - [ ] `niri validate --config config/niri/config.kdl` succeeds
 - [ ] Short dictation inserts into Alacritty, Chromium, a native GTK field, and a Flatpak text field
 - [ ] Network-disconnected dictation still succeeds with the default config
-- [ ] `Hyper+Escape` cancels an in-progress recording
+- [ ] `Escape` cancels an in-progress recording
 - [ ] Microphone denial and a stopped daemon surface clear failures without locking the session
