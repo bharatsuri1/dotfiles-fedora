@@ -47,6 +47,7 @@
     "metrics": false
   },
   "session": {
+    "restore_unsaved_buffers": false,
     "trust_all_worktrees": true
   },
   "minimap": {
