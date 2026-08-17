@@ -9,7 +9,7 @@ not own OS installation, disk layout, secrets, or application state.
 The package and ownership choices are derived from the adjacent
 `dotfiles-omarchy` decision ledger. Fedora/DNF owns native tools and Chromium;
 Flatpak owns LocalSend, OpenCode, Visual Studio Code, and Zed; Homebrew owns
-Dashlane CLI, Starship, `jless`, and `fx`; and Nerd Fonts owns the pinned
+Dashlane CLI, Starship, and `jless`; and Nerd Fonts owns the pinned
 JetBrains Mono archive.
 
 ## Installation from ISO
@@ -178,7 +178,7 @@ default. Ownership, privacy, model locations, and rollback are documented in
   `chromium-browser --app=URL`, plus a managed local policy that disables
   Chromium password saving, site notifications, and default-browser prompts;
 - LocalSend, OpenCode, Visual Studio Code, and Zed from Flathub;
-- Homebrew plus Dashlane CLI, Starship, `jless`, `fx`, Lazygit, Sesh, and `xh`;
+- Homebrew plus Dashlane CLI, Starship, `jless`, Lazygit, Sesh, and `xh`;
 - Herdr from its official verified installer;
 - Ollama from its official installer;
 - Voxtype for local push-to-toggle dictation under niri;

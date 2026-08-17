@@ -110,7 +110,6 @@ readonly BREW_FORMULAE=(
   dashlane/tap/dashlane-cli
   starship
   jless
-  fx
   lazygit
   sesh
   xh
