@@ -47,6 +47,7 @@ command -v diff >/dev/null && alias diff='diff --color=auto'
 command -v rg >/dev/null && alias grep='rg --color=auto'
 command -v nvim >/dev/null && alias vim='nvim'
 command -v lazygit >/dev/null && alias lg='lazygit'
+command -v lazydocker >/dev/null && alias ld='lazydocker'
 
 if command -v git >/dev/null; then
   alias g='git'

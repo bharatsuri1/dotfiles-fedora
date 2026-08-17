@@ -178,7 +178,7 @@ default. Ownership, privacy, model locations, and rollback are documented in
   `chromium-browser --app=URL`, plus a managed local policy that disables
   Chromium password saving, site notifications, and default-browser prompts;
 - LocalSend, OpenCode, Visual Studio Code, and Zed from Flathub;
-- Homebrew plus Dashlane CLI, Starship, `jless`, Lazygit, Sesh, and `xh`;
+- Homebrew plus Dashlane CLI, Starship, `jless`, Lazygit, Lazydocker, Sesh, and `xh`;
 - Herdr from its official verified installer;
 - Ollama from its official installer;
 - Voxtype for local push-to-toggle dictation under niri;

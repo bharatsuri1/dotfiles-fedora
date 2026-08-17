@@ -111,6 +111,7 @@ readonly BREW_FORMULAE=(
   starship
   jless
   lazygit
+  lazydocker
   sesh
   xh
 )
