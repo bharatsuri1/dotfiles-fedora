@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+# Toggle fuzzel: close it if it is already open, otherwise launch it.
+# Bound to both Mod+Space and the Copilot key so either can dismiss it.
+
+if pgrep -x fuzzel >/dev/null 2>&1; then
+  pkill -x fuzzel
+else
+  exec fuzzel
+fi
