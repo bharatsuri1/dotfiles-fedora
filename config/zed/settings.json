@@ -2,12 +2,11 @@
   "show_edit_predictions": false,
   "agent": {
     "default_model": {
-      "effort": "max",
-      "enable_thinking": true,
+      "enable_thinking": false,
       "provider": "opencode",
-      "model": "go/glm-5.2"
+      "model": "go/qwen3.7-plus"
     },
-    "use_modifier_to_send": true,
+    "use_modifier_to_send": false,
     "tool_permissions": {
       "default": "allow",
       "tools": {}
