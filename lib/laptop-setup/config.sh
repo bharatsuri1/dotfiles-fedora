@@ -121,6 +121,7 @@ install_config() {
   link_config "$REPO_ROOT/bin/preview-lock-screen" "$HOME/.local/bin/preview-lock-screen"
   link_config "$REPO_ROOT/bin/session-wallpaper" "$HOME/.local/bin/session-wallpaper"
   link_config "$REPO_ROOT/bin/take-screenshot" "$HOME/.local/bin/take-screenshot"
+  link_config "$REPO_ROOT/bin/fuzzel-toggle" "$HOME/.local/bin/fuzzel-toggle"
   link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
   link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"

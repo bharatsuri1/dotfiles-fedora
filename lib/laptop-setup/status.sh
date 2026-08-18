@@ -358,6 +358,7 @@ EOF
     "$HOME/.local/bin/preview-lock-screen" \
     "$HOME/.local/bin/session-wallpaper" \
     "$HOME/.local/bin/take-screenshot" \
+    "$HOME/.local/bin/fuzzel-toggle" \
     "$HOME/.config/systemd/user/swaybg.service" \
     "$HOME/.config/systemd/user/swayidle.service" \
     "$HOME/.config/systemd/user/lxqt-policykit-agent.service" \
