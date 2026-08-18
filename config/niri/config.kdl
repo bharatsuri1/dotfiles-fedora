@@ -14,7 +14,7 @@ input {
         click-method "clickfinger"
     }
 
-    focus-follows-mouse
+    focus-follows-mouse max-scroll-amount="0%"
 }
 
 output "eDP-1" {
