@@ -1,0 +1,26 @@
+/* Managed SwayNotificationCenter theme, translated from the mako config:
+   background #101010f2, text #ffffffff, border #ffc799 (2px),
+   radius 12, font Inter 11, critical border #f5a191. */
+:root {
+  --cc-bg: rgba(16, 16, 16, 0.95);
+  --noti-bg: 16, 16, 16;
+  --noti-bg-alpha: 0.95;
+  --noti-bg-darker: rgb(16, 16, 16);
+  --noti-bg-hover: rgb(32, 32, 32);
+  --noti-bg-focus: rgba(32, 32, 32, 0.6);
+  --noti-border-color: #ffc799;
+  --text-color: #ffffff;
+  --border: 2px solid var(--noti-border-color);
+  --border-radius: 12px;
+  --font-size-body: 11pt;
+  --font-size-summary: 11pt;
+  --notification-icon-size: 48px;
+}
+
+.notification {
+  font-family: "Inter";
+}
+
+.notification.critical {
+  border-color: #f5a191;
+}
