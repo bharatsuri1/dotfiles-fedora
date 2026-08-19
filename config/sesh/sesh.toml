@@ -15,3 +15,15 @@ preview_command = "eza --all --git --icons --color=always {}"
 name = "home"
 path = "~"
 disable_startup_command = true
+
+# Terminal-based system control panel.
+# A single window with four split panes for Wi-Fi, Bluetooth, audio, and
+# system monitoring.  See docs/system-control-panel.md for details.
+[[session]]
+name = "control-panel"
+path = "~"
+windows = ["control-panel"]
+
+[[window]]
+name = "control-panel"
+startup_script = "~/.config/sesh/scripts/control-panel.sh"
