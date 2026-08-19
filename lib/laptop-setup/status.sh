@@ -144,6 +144,8 @@ show_status() {
 
   show_device_controls_status
 
+  show_system_tools_status
+
   show_voxtype_status
 
   printf 'Desktop authorization and secrets:\n'
