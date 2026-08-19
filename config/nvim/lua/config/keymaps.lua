@@ -17,6 +17,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Half-page up and center" })
 --   <leader>k -> hover         (LazyVim K)
 --   <leader>v -> split right   (LazyVim <leader>|)
 --   <leader>z -> toggle zoom   (LazyVim <leader>wm)
+-- Split down (Zed `space -`) is already LazyVim's default <leader>-; no keymap needed.
 vim.keymap.set("n", "<leader>m", function()
   LazyVim.format({ force = true })
 end, { desc = "Format (Zed space m)" })
