@@ -45,6 +45,7 @@ interaction.
 | Component | Owner | Location |
 | --- | --- | --- |
 | Binary | This repository (pinned upstream artifact) | `~/.local/bin/voxtype` |
+| OSD frontend | This repository (pinned upstream artifact) | `~/.local/bin/voxtype-osd-gtk4` |
 | Runtime typing backend | Fedora/DNF | `wtype` |
 | Clipboard fallback | Desktop foundation | `wl-clipboard` (`wl-copy`) |
 | Audio capture | Desktop foundation | PipeWire + `pipewire-alsa` |
@@ -62,6 +63,9 @@ interaction.
 | --- | --- | --- |
 | x86_64 | `voxtype-0.7.5-linux-x86_64-avx2` | `18ae0510d0c964689f8c9b7119c0b9a45569985e82977dc4f1ef4d76fddd887c` |
 | aarch64 | `voxtype-0.7.5-linux-aarch64-cpu` | `bf72fbfaae1f4720c25ee0a8e75ec381f6b7811b1e810d80dfb9207f4ebc2e4c` |
+| x86_64 | `voxtype-0.7.5-linux-x86_64-osd-gtk4` | `fed81695551cee95bb0fd376ec6dc49638b0fd714480504d78aa597b006a5952` |
+
+The OSD frontend (`voxtype-osd-gtk4`) is only published for x86_64 in 0.7.5; on aarch64 the setup phase skips it and the waveform OSD is unavailable.
 
 The upstream Fedora RPM was not selected as the install path because it is a
 multi-hundred-megabyte bundle of every binary variant. The pinned AVX2/CPU
@@ -96,6 +100,9 @@ managed by this repository.
   the supported path.
 - Notifications report recording start/stop only. Transcribed text is not shown
   in notifications.
+- A floating waveform OSD (`voxtype-osd-gtk4`) replaces the start/stop
+  notifications while recording. It shows only the live audio level meter, never
+  dictated text.
 - Audio feedback uses the subtle theme so recording state is audible without
   logging speech content.
 - Models, temporary audio, meetings, and caches stay in XDG locations and must
@@ -214,6 +221,7 @@ No model weights, recordings, or transcripts are tracked in Git.
 
 - `wtype` package presence
 - pinned binary checksum
+- pinned OSD frontend (`voxtype-osd-gtk4`) checksum
 - managed config and unit link state
 - niri attachment and unit activity
 - default model checksum
@@ -268,6 +276,7 @@ Remove the managed binary and linked unit/config:
 ```bash
 sha256sum ~/.local/bin/voxtype   # confirm it is still the pinned artifact
 rm ~/.local/bin/voxtype
+rm -f ~/.local/bin/voxtype-osd-gtk4
 rm -f ~/.config/systemd/user/voxtype.service
 rm -f ~/.config/voxtype/config.toml
 systemctl --user daemon-reload
@@ -308,6 +317,7 @@ Log out or reboot after removing membership.
 - [ ] `bash -n` and ShellCheck pass on the touched shell files
 - [ ] `niri validate --config config/niri/config.kdl` succeeds
 - [ ] Short dictation inserts into Alacritty, Chromium, a native GTK field, and a Flatpak text field
+- [ ] The waveform OSD appears while recording and no start/stop notification is shown
 - [ ] Network-disconnected dictation still succeeds with the default config
 - [ ] `Escape` cancels an in-progress recording while remaining usable in applications when Voxtype is idle
 - [ ] Microphone denial and a stopped daemon surface clear failures without locking the session

@@ -50,7 +50,18 @@ type_delay_ms = 0
 pre_type_delay_ms = 50
 
 [output.notification]
-on_recording_start = true
-on_recording_stop = true
+# Start/stop notifications are replaced by the floating waveform OSD below.
+on_recording_start = false
+on_recording_stop = false
 # Do not put dictated text into notifications.
 on_transcription = false
+
+[osd]
+# Floating waveform shown while recording, replacing the start/stop
+# notifications. Activates automatically when recording; no compositor
+# binding needed. Requires the pinned voxtype-osd-gtk4 frontend binary.
+enabled = true
+frontend = "gtk4"
+# position = "bottom-center"   # default; centered above the bar
+# width = 400
+# height = 48
