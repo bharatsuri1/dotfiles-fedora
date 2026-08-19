@@ -47,6 +47,7 @@ interaction.
 | Binary | This repository (pinned upstream artifact) | `~/.local/bin/voxtype` |
 | OSD frontend | This repository (pinned upstream artifact) | `~/.local/bin/voxtype-osd-gtk4` |
 | Runtime typing backend | Fedora/DNF | `wtype` |
+| OSD layer-shell library | Fedora/DNF | `gtk4-layer-shell` |
 | Clipboard fallback | Desktop foundation | `wl-clipboard` (`wl-copy`) |
 | Audio capture | Desktop foundation | PipeWire + `pipewire-alsa` |
 | Managed config | This repository | `config/voxtype/config.toml` → `~/.config/voxtype/config.toml` |
@@ -128,7 +129,7 @@ Preview or apply only this phase:
 
 The phase:
 
-1. Installs `wtype` from Fedora if missing.
+1. Installs `wtype` and `gtk4-layer-shell` from Fedora if missing.
 2. Downloads and SHA-256-verifies the pinned Voxtype binary into `~/.local/bin`.
 3. Links the managed config and user systemd unit.
 4. Adds the current user to `input` for Voxtype's evdev `Escape` listener. This
