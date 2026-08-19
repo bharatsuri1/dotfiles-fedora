@@ -296,6 +296,8 @@ show_status() {
 
   show_zed_status
 
+  show_nvim_status
+
   printf 'Homebrew formulae:\n'
   local brew
   brew="$(brew_path || true)"
