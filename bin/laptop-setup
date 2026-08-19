@@ -24,6 +24,7 @@ for module in \
   fonts \
   flatpaks \
   zed \
+  nvim \
   homebrew \
   shell-tools \
   config \
@@ -64,6 +65,7 @@ Commands:
   font        Alias for fonts (deprecated)
   flatpaks    Configure Flathub and install managed desktop applications
   zed         Link managed Zed settings and Vesper theme for the Flatpak app
+  nvim        Link managed LazyVim Neovim configuration
   homebrew    Install Homebrew if needed, then Dashlane CLI and managed formulae
   shell-tools Install pinned Zsh plugins directly without a plugin manager
   config      Back up conflicts and link the managed configuration
@@ -106,6 +108,7 @@ main() {
       install_sddm
       install_flatpaks
       install_zed
+      install_nvim
       install_homebrew
       install_shell_tools
       install_config
@@ -132,6 +135,7 @@ main() {
     fonts|font) install_fonts ;;
     flatpaks) install_flatpaks ;;
     zed) install_zed ;;
+    nvim) install_nvim ;;
     homebrew) install_homebrew ;;
     shell-tools) install_shell_tools ;;
     config) install_config ;;
