@@ -106,10 +106,11 @@ A window rule matches `app-id="^ControlPanel$"` and opens it floating at
 ## Idempotence and reconnection
 
 Sesh's `connect` command is idempotent: if the `control-panel` session already
-exists, Sesh attaches to it without re-running the startup script.  This means
-pressing `Super+Shift+C` a second time opens a second terminal attached to the
-same session (a second client), rather than creating duplicate windows.
-Closing either client leaves the session and its windows intact.
+exists, Sesh attaches to it without re-running the startup script.  The
+`control-panel` wrapper toggles the Alacritty window — pressing
+`Super+Shift+C` a second time closes the Alacritty window (the tmux session
+persists in the background).  Pressing it a third time reattaches to the same
+session with all windows still running.
 
 To kill the session entirely and start fresh, use the tmux prefix:
 

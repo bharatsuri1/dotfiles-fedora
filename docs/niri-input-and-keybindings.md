@@ -31,7 +31,7 @@ In a normal niri session, `Mod` is the Super key.
 | `Super+Ctrl+Z` | Open Zed |
 | `Super+Ctrl+V` | Open Visual Studio Code |
 | `Super+Ctrl+S` | Open LocalSend |
-| `Super+Shift+C` | Open the system control panel (floating Tmux session) |
+| `Super+Shift+C` | Toggle the system control panel (floating Tmux session) |
 | `Super+Ctrl+,` | Dismiss all Mako notifications |
 
 The Herdr binding always opens a new terminal client. Herdr remains responsible

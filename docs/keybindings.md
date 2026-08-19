@@ -39,7 +39,7 @@ authentication state; the repository stores no browser credentials.
 | `Super+Ctrl+Z` | Open Zed | `flatpak run dev.zed.Zed` |
 | `Super+Ctrl+V` | Open Visual Studio Code | `flatpak run com.visualstudio.code` |
 | `Super+Ctrl+S` | Open LocalSend | `flatpak run org.localsend.localsend_app` |
-| `Super+Shift+C` | Open system control panel (Tmux) | `alacritty -e /home/linuxbrew/.linuxbrew/bin/sesh connect control-panel` |
+| `Super+Shift+C` | Toggle system control panel (Tmux) | `control-panel` |
 | `Super+Ctrl+,` | Toggle notification center | `swaync-client -t` |
 | `Super+Ctrl+Shift+,` | Dismiss all notifications | `swaync-client -C` |
 | `Hyper+S` | Toggle local dictation (Voxtype) | `voxtype record toggle` |

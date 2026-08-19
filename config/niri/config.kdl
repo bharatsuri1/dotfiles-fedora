@@ -122,7 +122,7 @@ binds {
     Mod+Ctrl+Z repeat=false hotkey-overlay-title="Open Zed" { spawn "flatpak" "run" "dev.zed.Zed"; }
     Mod+Ctrl+V repeat=false hotkey-overlay-title="Open Visual Studio Code" { spawn "flatpak" "run" "com.visualstudio.code"; }
     Mod+Ctrl+S repeat=false hotkey-overlay-title="Open LocalSend" { spawn "flatpak" "run" "org.localsend.localsend_app"; }
-    Mod+Shift+C repeat=false hotkey-overlay-title="Open Control Panel" { spawn "alacritty" "--class" "ControlPanel" "--title" "Control Panel" "-e" "/home/linuxbrew/.linuxbrew/bin/sesh" "connect" "control-panel"; }
+    Mod+Shift+C repeat=false hotkey-overlay-title="Toggle Control Panel" { spawn "control-panel"; }
 
     Mod+Ctrl+Comma repeat=false hotkey-overlay-title="Toggle Notification Center" { spawn "swaync-client" "-t"; }
     Mod+Ctrl+Shift+Comma repeat=false hotkey-overlay-title="Dismiss All Notifications" { spawn "swaync-client" "-C"; }
