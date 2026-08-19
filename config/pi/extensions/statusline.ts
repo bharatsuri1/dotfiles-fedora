@@ -81,7 +81,26 @@ export default function statuslineExtension(pi: ExtensionAPI) {
 	};
 
 	/* ─── helpers ─── */
-	const fmtK = (n: number) => (n < 1000 ? `${n}` : `${(n / 1000).toFixed(1)}k`);
+	const fmtK = (n: number) => {
+		if (n < 1000) return `${n}`;
+		const units = ["k", "M", "B", "T"];
+		let tier = 0;
+		let v = n / 1000;
+		while (v >= 1000 && tier < units.length - 1) {
+			v /= 1000;
+			tier++;
+		}
+		let str = v.toFixed(1);
+		// If rounding pushed us to 1000+ in this tier, move up
+		if (parseFloat(str) >= 1000 && tier < units.length - 1) {
+			str = (parseFloat(str) / 1000).toFixed(1);
+			tier++;
+		}
+		const num = parseFloat(str);
+		if (num >= 100) return `${Math.round(num)}${units[tier]}`;
+		if (Number.isInteger(num)) return `${num}${units[tier]}`;
+		return `${str}${units[tier]}`;
+	};
 	const sep = () => rp.muted(" │ ");
 	const hair = () => rp.muted(" · ");
 
