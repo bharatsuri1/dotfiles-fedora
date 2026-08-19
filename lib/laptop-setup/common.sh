@@ -136,7 +136,27 @@ run() {
     printf '%q ' "$@"
     printf '\n'
   else
+    [[ "${1:-}" == sudo ]] && sudo_validate
     "$@"
+  fi
+}
+
+# Cache sudo credentials once and keep them fresh for the duration of the run so
+# a long `apply` asks for the password a single time instead of re-prompting when
+# the default sudo timestamp (15 minutes) expires. The background keep-alive is
+# killed on exit so it does not linger and keep credentials alive.
+sudo_validate() {
+  $DRY_RUN && return
+  sudo -v
+  if [[ -z "${SUDO_KEEPALIVE_PID:-}" ]]; then
+    (
+      while true; do
+        sudo -n true 2>/dev/null || exit 1
+        sleep 60
+      done
+    ) &
+    SUDO_KEEPALIVE_PID=$!
+    trap 'kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true' EXIT
   fi
 }
 
