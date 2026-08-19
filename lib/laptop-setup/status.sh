@@ -181,7 +181,7 @@ show_status() {
       printf '  [missing] %s\n' "$item"
     fi
   done
-  for item in mako.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service voxtype.service; do
+  for item in swaync.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service voxtype.service; do
     if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$item" ]]; then
       printf '  [attached] %s\n' "$item"
     else
@@ -346,7 +346,8 @@ EOF
     "$HOME/.config/bat/config" \
     "$HOME/.config/fastfetch/config.jsonc" \
     "$HOME/.config/herdr/config.toml" \
-    "$HOME/.config/mako/config" \
+    "$HOME/.config/swaync/config.json" \
+    "$HOME/.config/swaync/style.css" \
     "$HOME/.config/tensaku/config.toml" \
     "$HOME/.config/fontconfig/fonts.conf" \
     "$HOME/.config/gtklock/config.ini" \

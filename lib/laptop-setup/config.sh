@@ -91,7 +91,7 @@ configure_niri_services() {
   run systemctl --user daemon-reload
 
   local service
-  for service in mako.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service; do
+  for service in swaync.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service; do
     if ! $DRY_RUN && ! systemctl --user cat "$service" >/dev/null 2>&1; then
       die "$service is unavailable; run the desktop-foundation phase first"
     fi
@@ -106,6 +106,11 @@ configure_niri_services() {
     run systemctl --user restart swaybg.service
   else
     log 'graphical session is inactive; swaybg will start with the next niri session'
+  fi
+  if $DRY_RUN || systemctl --user is-active graphical-session.target >/dev/null 2>&1; then
+    run systemctl --user restart swaync.service
+  else
+    log 'graphical session is inactive; swaync will start with the next niri session'
   fi
   run systemctl --user try-restart swayidle.service
   if $DRY_RUN || systemctl --user is-active graphical-session.target >/dev/null 2>&1; then
@@ -145,7 +150,8 @@ install_config() {
   link_config "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
   link_config "$REPO_ROOT/config/voxtype/config.toml" "$HOME/.config/voxtype/config.toml"
   link_zed_config
-  link_config "$REPO_ROOT/config/mako/config" "$HOME/.config/mako/config"
+  link_config "$REPO_ROOT/config/swaync/config.json" "$HOME/.config/swaync/config.json"
+  link_config "$REPO_ROOT/config/swaync/style.css" "$HOME/.config/swaync/style.css"
   link_config "$REPO_ROOT/config/tensaku/config.toml" "$HOME/.config/tensaku/config.toml"
   link_config "$REPO_ROOT/config/fontconfig/fonts.conf" "$HOME/.config/fontconfig/fonts.conf"
   link_config "$REPO_ROOT/config/quickshell" "$HOME/.config/quickshell"

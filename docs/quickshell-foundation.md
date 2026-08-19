@@ -83,7 +83,7 @@ Safeguards:
   Wayland session and prevents restart loops on a headless boot.
 - `PartOf=graphical-session.target` stops Quickshell with the session.
 - Attachment through `niri.service.wants/` makes Quickshell start when niri
-  starts, alongside mako, swaybg, swayidle, and the polkit agent.
+  starts, alongside swaync, swaybg, swayidle, and the polkit agent.
 - `Restart=on-failure` with `RestartSec=5` and a 30s/5 burst start limit recovers
   from a Quickshell crash without hammering the compositor.
 - `StandardOutput/Error=journal` capture logs to journald.
@@ -108,7 +108,7 @@ the service attachment, and the active/inactive state.
   launching. The launcher built on Quickshell later (Ticket 6 follow-up) will
   bind to a separate key and coexist with Fuzzel.
 - A top bar is cosmetic. If Quickshell fails, the rest of the bare-niri session
-  (niri, mako, swayidle, gtklock, polkit, portals) keeps working unchanged.
+  (niri, swaync, swayidle, gtklock, polkit, portals) keeps working unchanged.
 - To force a clean reload: `systemctl --user restart quickshell.service`.
 - To roll back: `systemctl --user disable --now quickshell.service`,
   `laptop-setup` re-link is idempotent; remove the symlink to revert to no bar.
@@ -122,7 +122,7 @@ UPower; the rest remains follow-up:
 | Concern | Plan | Provider |
 | --- | --- | --- |
 | Workspaces / focus / windows | niri IPC event stream (`niri msg event-stream`) or `niri msg --json` queries | `Quickshell.Io` (Process / Socket / StdioCollector) |
-| Notifications | already handled by mako | none needed in shell; shell mirrors via notification server later |
+| Notifications | already handled by swaync | none needed in shell; shell mirrors via notification server later |
 | Media | MPRIS | `Quickshell.Services.Mpris` |
 | Audio | PipeWire | `Quickshell.Services.Pipewire` |
 | Network | NetworkManager | `Quickshell.Networking` |
