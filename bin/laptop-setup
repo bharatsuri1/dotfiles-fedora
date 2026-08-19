@@ -15,6 +15,7 @@ for module in \
   docker \
   desktop-foundation \
   device-controls \
+  system-tools \
   desktop-defaults \
   niri \
   screenshots \
@@ -52,6 +53,8 @@ Commands:
               Install compositor-independent desktop foundations
   device-controls
               Install standalone network, Bluetooth, and audio TUIs
+  system-tools
+              Install system management TUIs (systemctl-tui, bandwhich, batctl, etc.)
   voxtype     Install and manage local Voxtype speech-to-text
   desktop-defaults
               Configure browser, file, media, image, and PDF handlers
@@ -99,6 +102,7 @@ main() {
       install_docker
       install_desktop_foundation
       install_device_controls
+      install_system_tools
       install_voxtype
       install_niri
       install_screenshots
@@ -124,6 +128,7 @@ main() {
     docker) install_docker ;;
     desktop-foundation) install_desktop_foundation ;;
     device-controls) install_device_controls ;;
+    system-tools) install_system_tools ;;
     voxtype) install_voxtype ;;
     desktop-defaults) install_desktop_defaults ;;
     niri) install_niri ;;

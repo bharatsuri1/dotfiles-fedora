@@ -127,6 +127,7 @@ install_config() {
   link_config "$REPO_ROOT/bin/session-wallpaper" "$HOME/.local/bin/session-wallpaper"
   link_config "$REPO_ROOT/bin/take-screenshot" "$HOME/.local/bin/take-screenshot"
   link_config "$REPO_ROOT/bin/fuzzel-toggle" "$HOME/.local/bin/fuzzel-toggle"
+  link_config "$REPO_ROOT/bin/control-panel" "$HOME/.local/bin/control-panel"
   link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
   link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"
@@ -141,6 +142,7 @@ install_config() {
   link_config "$REPO_ROOT/config/tmux/status.conf" "$HOME/.config/tmux/status.conf"
   reload_tmux_config
   link_config "$REPO_ROOT/config/sesh/sesh.toml" "$HOME/.config/sesh/sesh.toml"
+  link_config "$REPO_ROOT/config/sesh/scripts/control-panel.sh" "$HOME/.config/sesh/scripts/control-panel.sh"
   link_config "$REPO_ROOT/config/pi/settings.json" "$HOME/.pi/agent/settings.json"
   link_config "$REPO_ROOT/config/pi/extensions/statusline.ts" "$HOME/.pi/agent/extensions/statusline.ts"
   link_config "$REPO_ROOT/config/codex/dotfiles.config.toml" "$HOME/.codex/dotfiles.config.toml"

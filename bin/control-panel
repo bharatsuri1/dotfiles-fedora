@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+# Toggle the control panel: close it if it is already open, otherwise
+# launch it.  Bound to Super+Shift+C in the Niri config.
+# Same toggle pattern as bin/fuzzel-toggle.
+
+if pgrep -f "alacritty.*ControlPanel" >/dev/null 2>&1; then
+  pkill -f "alacritty.*ControlPanel"
+else
+  exec alacritty \
+    --class ControlPanel \
+    --title "Control Panel" \
+    -e /home/linuxbrew/.linuxbrew/bin/sesh connect control-panel
+fi
