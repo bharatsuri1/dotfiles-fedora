@@ -9,6 +9,7 @@ the managed LazyVim configuration.
 | Object | Owner | Path |
 | --- | --- | --- |
 | LazyVim config | This repository | `~/.config/nvim` (symlink to `config/nvim`) |
+| Plugin lockfile | This repository | `config/nvim/lazy-lock.json` |
 | lazy.nvim + plugins | Runtime (bootstrapped) | `~/.local/share/nvim/lazy/` |
 | Plugin state, shada, logs | Runtime | `~/.local/state/nvim/` |
 | Cache | Runtime | `~/.cache/nvim/` |
@@ -31,11 +32,16 @@ The config vendors the [LazyVim starter](https://github.com/LazyVim/starter)
 - `lua/plugins/*.lua` hold plugin specs and LazyVim overrides
 - `.neoconf.json` and `stylua.toml` configure lua_ls and Stylua for the config
 
-Unlike the pinned zsh plugins, LazyVim plugin versions are **not** pinned:
-`lazy.lua` keeps LazyVim's recommended `version = false` (latest git commit).
-LazyVim explicitly warns that semver releases for many plugins are stale and
-can break the install. The `checker` is enabled so `:Lazy` surfaces updates
-without notifications.
+Unlike the pinned zsh plugins, LazyVim plugin versions are **not** pinned via
+`version =`: `lazy.lua` keeps LazyVim's recommended `version = false` (latest
+git commit). LazyVim explicitly warns that semver releases for many plugins are
+stale and can break the install. The `checker` is enabled so `:Lazy` surfaces
+updates without notifications.
+
+`lazy-lock.json` is still committed: lazy.nvim records the exact commit each
+plugin was synced to, and committing the lockfile makes installs reproducible
+(`:Lazy restore` / `:Lazy sync` install the locked commits). `lazyvim.json`
+(extras, news read marker, install version) is local state and is git-ignored.
 
 ## Theme
 
