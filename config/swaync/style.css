@@ -10,17 +10,78 @@
   --noti-bg-focus: rgba(32, 32, 32, 0.6);
   --noti-border-color: #ffc799;
   --text-color: #ffffff;
-  --border: 2px solid var(--noti-border-color);
+  --text-color-muted: rgba(255, 255, 255, 0.72);
+  --text-color-faint: rgba(255, 255, 255, 0.45);
+  --border: 1px solid rgba(255, 199, 153, 0.18);
   --border-radius: 12px;
-  --font-size-body: 11pt;
-  --font-size-summary: 11pt;
+  --font-size-body: 10.5pt;
+  --font-size-summary: 12pt;
   --notification-icon-size: 48px;
+  --notification-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --hover-tranistion: background 0.12s ease-in-out, border-color 0.12s ease-in-out;
 }
 
 .notification {
   font-family: "Inter";
 }
 
-.notification.critical {
+.notification-row .notification-background .notification.critical {
   border-color: #f5a191;
+}
+
+/* 1. Typography hierarchy: summary > body > time */
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .summary {
+  font-size: 12pt;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .body {
+  font-size: 10.5pt;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--text-color-muted);
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .time {
+  font-size: 9.5pt;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-color-faint);
+}
+
+/* 2. Soften borders: faint by default, peach on hover/focus */
+.notification-row:hover .notification-background .notification {
+  border-color: rgba(255, 199, 153, 0.5);
+}
+
+.notification-row:hover .notification-background .notification.critical {
+  border-color: #f5a191;
+}
+
+.notification-row:focus .notification-background .notification {
+  border-color: var(--noti-border-color);
+}
+
+/* 3. Depth: gradient control center + soft shadow */
+.control-center {
+  background: linear-gradient(180deg, #141414 0%, #0d0d0d 100%);
+}
+
+.control-center .control-center-list .notification {
+  box-shadow: var(--notification-shadow);
+}
+
+.floating-notifications .notification {
+  box-shadow: var(--notification-shadow);
+}
+
+/* 4. Spacing: more gap between cards and inner padding */
+.notification-row .notification-background {
+  padding: 8px 12px;
+}
+
+.notification-row .notification-background .notification .notification-default-action {
+  padding: 8px;
 }
