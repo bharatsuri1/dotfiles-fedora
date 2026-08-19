@@ -65,7 +65,7 @@ frontend = "gtk4"
 # Visual gain on audio samples before drawing. The default 10.0 pegs the
 # waveform full on a hot mic; lower it (e.g. 4.0) to tame it, raise toward
 # 14.0 for quiet sources. Does not affect transcription.
-waveform_gain = 4.0
+waveform_gain = 3.0
 # How fast the held-peak indicator decays (dB/sec). Higher = more responsive.
 peak_decay_db_per_sec = 6.0
 # How much recent audio history to draw (seconds).
