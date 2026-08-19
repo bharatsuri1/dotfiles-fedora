@@ -39,7 +39,8 @@ authentication state; the repository stores no browser credentials.
 | `Super+Ctrl+Z` | Open Zed | `flatpak run dev.zed.Zed` |
 | `Super+Ctrl+V` | Open Visual Studio Code | `flatpak run com.visualstudio.code` |
 | `Super+Ctrl+S` | Open LocalSend | `flatpak run org.localsend.localsend_app` |
-| `Super+Ctrl+,` | Dismiss all Mako notifications | `makoctl dismiss --all` |
+| `Super+Ctrl+,` | Toggle notification center | `swaync-client -t` |
+| `Super+Ctrl+Shift+,` | Dismiss all notifications | `swaync-client -C` |
 | `Hyper+S` | Toggle local dictation (Voxtype) | `voxtype record toggle` |
 
 `Hyper` is Caps held via keyd (`Ctrl+Alt+Super+Shift`). Local dictation is
