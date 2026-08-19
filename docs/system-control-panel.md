@@ -2,7 +2,7 @@
 
 A terminal-based system control panel launched via a niri keybind and managed
 through [Sesh](https://github.com/joshmedeski/sesh).  It opens a Tmux session
-with nine windows, each running a full-screen TUI for a different subsystem.
+with six windows, each running a full-screen TUI for a different subsystem.
 
 ## Overview
 
@@ -10,28 +10,22 @@ with nine windows, each running a full-screen TUI for a different subsystem.
 | --- | --- |
 | **Niri keybind** | `Super+Shift+C` launches Alacritty with the full sesh path |
 | **Sesh session** | `control-panel` session defined in `config/sesh/sesh.toml` |
-| **Startup script** | `config/sesh/scripts/control-panel.sh` creates the 9 windows |
+| **Startup script** | `config/sesh/scripts/control-panel.sh` creates the 6 windows |
 | **Window rule** | Niri opens the terminal as a 1400×900 floating window |
 
 ## Windows
 
-| # | Name | Tool | Privilege | Backing service | Purpose |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Wi-Fi | `wlctl` | — | `NetworkManager.service` | Scan, connect, disconnect, and troubleshoot Wi-Fi |
-| 2 | Bluetooth | `bluetui` | — | `bluetooth.service` | Scan, pair, trust, connect, and unpair Bluetooth devices |
-| 3 | Audio | `wiremix` | — | PipeWire + WirePlumber | Volume, mute, default-device, and stream routing |
-| 4 | Network | `bandwhich` | `sudo` | — | Per-process bandwidth monitoring in real-time |
-| 5 | Services | `systemctl-tui` | — | systemd | Browse, start, stop, restart services; view logs |
-| 6 | Disk | `diskonaut` | — | — | Visual treemap disk usage analyzer |
-| 7 | Power | `powertop` | `sudo` | — | Power consumption monitoring and tunable optimization |
-| 8 | Battery | `batctl` | `sudo` | sysfs | Battery charge thresholds, health, and persistence |
-| 9 | Monitor | `btop` | — | — | CPU, memory, battery, network, and process monitoring |
+| # | Name | Tool | Backing service | Purpose |
+| --- | --- | --- | --- | --- |
+| 1 | Wi-Fi | `wlctl` | `NetworkManager.service` | Scan, connect, disconnect, and troubleshoot Wi-Fi |
+| 2 | Bluetooth | `bluetui` | `bluetooth.service` | Scan, pair, trust, connect, and unpair Bluetooth devices |
+| 3 | Audio | `wiremix` | PipeWire + WirePlumber | Volume, mute, default-device, and stream routing |
+| 4 | Services | `systemctl-tui` | systemd | Browse, start, stop, restart services; view logs |
+| 5 | Disk | `diskonaut` | — | Visual treemap disk usage analyzer |
+| 6 | Monitor | `btop` | — | CPU, memory, battery, network, and process monitoring |
 
 Focus starts on window 1 (Wi-Fi).  Switch between windows with the tmux prefix
 (`C-Space` followed by the window number).
-
-Windows 4, 7, and 8 require `sudo` and will prompt for a password when the
-session is created.  Type your password in each pane to start the TUI.
 
 ### Installation phases
 
@@ -39,8 +33,6 @@ session is created.  Type your password in each pane to start the TUI.
 | --- | --- | --- |
 | `wlctl`, `bluetui`, `wiremix` | `device-controls` | Pinned binaries / DNF |
 | `systemctl-tui` | `system-tools` | Pinned binary (v0.8.0) |
-| `bandwhich` | `system-tools` | Pinned binary (v0.23.1) |
-| `batctl` | `system-tools` | Pinned binary (v2026.3.13) |
 | `diskonaut`, `powertop` | `system-tools` | Fedora DNF |
 | `btop` | `packages` | Fedora DNF |
 
@@ -60,7 +52,7 @@ bandwhich, batctl, diskonaut, and powertop.
 3. **Startup script**: Sesh runs
    `~/.config/sesh/scripts/control-panel.sh` as the session's
    `startup_command`.  The script renames the default window to "Wi-Fi" and
-   launches `wlctl`, then creates eight additional windows via
+   launches `wlctl`, then creates five additional windows via
    `tmux new-window` — each with its own TUI — and returns focus to window 1.
 4. **Window rule**: Niri matches the `ControlPanel` app-id and opens the
    terminal as a 1400×900 floating window, so the control panel sits on top
@@ -85,19 +77,16 @@ startup_command = "~/.config/sesh/scripts/control-panel.sh"
 
 ### `config/sesh/scripts/control-panel.sh`
 
-An executable script that renames the default window and creates eight
+An executable script that renames the default window and creates five
 additional windows, launching a TUI in each:
 
 ```
 1  Wi-Fi          wlctl
 2  Bluetooth      bluetui
 3  Audio          wiremix
-4  Network        sudo bandwhich
-5  Services       systemctl-tui
-6  Disk           diskonaut /
-7  Power          sudo powertop
-8  Battery        sudo batctl
-9  Monitor        btop
+4  Services       systemctl-tui
+5  Disk           diskonaut /
+6  Monitor        btop
 ```
 
 ### `config/niri/config.kdl`
@@ -139,15 +128,12 @@ tmux kill-session -t control-panel
 After applying the configuration:
 
 1. Press `Super+Shift+C` and confirm a floating Alacritty window opens.
-2. Verify nine tmux windows, each showing a TUI:
+2. Verify six tmux windows, each showing a TUI:
    - Wi-Fi: scan and connect to a network with `wlctl`.
    - Bluetooth: scan and pair a device with `bluetui`.
    - Audio: adjust volume with `wiremix`.
-   - Network: enter sudo password; `bandwhich` shows per-process traffic.
    - Services: `systemctl-tui` shows unit list and journal logs.
    - Disk: `diskonaut` shows treemap of `/`.
-   - Power: enter sudo password; `powertop` shows power overview and tunables.
-   - Battery: enter sudo password; `batctl` shows battery health and thresholds.
    - Monitor: `btop` shows CPU, memory, and processes.
 3. Close the terminal and press `Super+Shift+C` again.  The session should
    reattach with the same windows still running.
