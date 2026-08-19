@@ -12,6 +12,7 @@ for module in \
   development \
   herdr \
   ollama \
+  vicinae \
   docker \
   desktop-foundation \
   device-controls \
@@ -48,6 +49,7 @@ Commands:
   development Install Mise and uv runtime tooling
   herdr      Install Herdr using its official verified installer
   ollama      Install Ollama using its official installer
+  vicinae     Install Vicinae using its official installer
   docker      Install Docker Engine, Buildx, and Compose
   desktop-foundation
               Install compositor-independent desktop foundations
@@ -99,6 +101,7 @@ main() {
       install_development_tools
       install_herdr
       install_ollama
+      install_vicinae
       install_docker
       install_desktop_foundation
       install_device_controls
@@ -125,6 +128,7 @@ main() {
     development) install_development_tools ;;
     herdr) install_herdr ;;
     ollama) install_ollama ;;
+    vicinae) install_vicinae ;;
     docker) install_docker ;;
     desktop-foundation) install_desktop_foundation ;;
     device-controls) install_device_controls ;;

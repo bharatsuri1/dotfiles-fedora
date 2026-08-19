@@ -148,6 +148,8 @@ show_status() {
 
   show_voxtype_status
 
+  show_vicinae_status
+
   printf 'Desktop authorization and secrets:\n'
   for item in "${DESKTOP_SECURITY_PACKAGES[@]}"; do
     if package_installed "$item"; then
@@ -183,7 +185,7 @@ show_status() {
       printf '  [missing] %s\n' "$item"
     fi
   done
-  for item in swaync.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service voxtype.service; do
+  for item in swaync.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service voxtype.service vicinae.service; do
     if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$item" ]]; then
       printf '  [attached] %s\n' "$item"
     else

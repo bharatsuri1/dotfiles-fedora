@@ -102,6 +102,11 @@ configure_niri_services() {
   else
     log 'voxtype.service is unavailable; run the voxtype phase to install the daemon'
   fi
+  if $DRY_RUN || systemctl --user cat vicinae.service >/dev/null 2>&1; then
+    attach_niri_service vicinae.service
+  else
+    log 'vicinae.service is unavailable; run the vicinae phase to install the daemon'
+  fi
   if $DRY_RUN || systemctl --user is-active graphical-session.target >/dev/null 2>&1; then
     run systemctl --user restart swaybg.service
   else
@@ -119,6 +124,7 @@ configure_niri_services() {
     log 'graphical session is inactive; quickshell will start with the next niri session'
   fi
   run systemctl --user try-restart voxtype.service
+  run systemctl --user try-restart vicinae.service
 }
 
 install_config() {

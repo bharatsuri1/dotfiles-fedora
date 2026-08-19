@@ -113,7 +113,7 @@ binds {
     Mod+T repeat=false hotkey-overlay-title="Open Alacritty" { spawn "alacritty"; }
     Mod+Ctrl+T repeat=false hotkey-overlay-title="Open Herdr" { spawn "alacritty" "--class" "Herdr" "--title" "Herdr" "-e" "herdr"; }
     Mod+Space repeat=false hotkey-overlay-title="Open Fuzzel" { spawn "fuzzel-toggle"; }
-    Super+Shift+F23 repeat=false hotkey-overlay-title="Open Fuzzel (Copilot key)" { spawn "fuzzel-toggle"; }
+    Super+Shift+F23 repeat=false hotkey-overlay-title="Open Vicinae (Copilot key)" { spawn "vicinae" "toggle"; }
     Mod+B repeat=false hotkey-overlay-title="Open Chromium" { spawn "chromium-browser"; }
     Mod+Ctrl+C repeat=false hotkey-overlay-title="Open ChatGPT" { spawn "chromium-browser" "--app=https://chatgpt.com/"; }
     Mod+Ctrl+Y repeat=false hotkey-overlay-title="Open YouTube" { spawn "chromium-browser" "--app=https://youtube.com/"; }
