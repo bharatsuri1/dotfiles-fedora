@@ -62,6 +62,26 @@ mkcd() {
   mkdir -p -- "$1" && cd -- "$1"
 }
 
+# Pick a pi model from `pi --list-models` via a fuzzy gum chooser, then launch it.
+# Falls back to passing args straight through to `pi` when gum isn't installed.
+pim() {
+  if ! command -v gum >/dev/null 2>&1; then
+    pi "$@"
+    return $?
+  fi
+  local line provider model
+  line=$(pi --list-models 2>/dev/null | tail -n +2 |
+    gum filter --height=35 --fuzzy \
+      --header='  Select a model' --header.foreground=99 \
+      --prompt='› ' --prompt.foreground=240 \
+      --placeholder='type to fuzzy-match model or provider...' \
+      --indicator='▶' --indicator.foreground=212 \
+      --match.foreground=212) || return
+  [[ -z "$line" ]] && return
+  read -r provider model _ <<< "$line"
+  pi --model "${provider}/${model}"
+}
+
 # Prevent sleep/idle until Ctrl-C, or wrap a command (macOS caffeinate-style).
 # Does not pause Swayidle lock/DPMS — only blocks suspend via logind.
 caffeinate() {
