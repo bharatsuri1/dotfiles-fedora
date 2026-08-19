@@ -89,8 +89,8 @@ window-rule {
 window-rule {
     match app-id="^ControlPanel$"
     open-floating true
-    default-column-width { fixed 1200; }
-    default-window-height { fixed 800; }
+    default-column-width { fixed 1400; }
+    default-window-height { fixed 900; }
 }
 
 overview {
@@ -122,7 +122,7 @@ binds {
     Mod+Ctrl+Z repeat=false hotkey-overlay-title="Open Zed" { spawn "flatpak" "run" "dev.zed.Zed"; }
     Mod+Ctrl+V repeat=false hotkey-overlay-title="Open Visual Studio Code" { spawn "flatpak" "run" "com.visualstudio.code"; }
     Mod+Ctrl+S repeat=false hotkey-overlay-title="Open LocalSend" { spawn "flatpak" "run" "org.localsend.localsend_app"; }
-    Mod+Ctrl+P repeat=false hotkey-overlay-title="Open Control Panel" { spawn "alacritty" "--class" "ControlPanel" "--title" "Control Panel" "-e" "sesh" "connect" "control-panel"; }
+    Mod+Shift+C repeat=false hotkey-overlay-title="Open Control Panel" { spawn "alacritty" "--class" "ControlPanel" "--title" "Control Panel" "-e" "/home/linuxbrew/.linuxbrew/bin/sesh" "connect" "control-panel"; }
 
     Mod+Ctrl+Comma repeat=false hotkey-overlay-title="Toggle Notification Center" { spawn "swaync-client" "-t"; }
     Mod+Ctrl+Shift+Comma repeat=false hotkey-overlay-title="Dismiss All Notifications" { spawn "swaync-client" "-C"; }

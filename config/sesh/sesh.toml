@@ -22,8 +22,4 @@ disable_startup_command = true
 [[session]]
 name = "control-panel"
 path = "~"
-windows = ["control-panel"]
-
-[[window]]
-name = "control-panel"
-startup_script = "~/.config/sesh/scripts/control-panel.sh"
+startup_command = "~/.config/sesh/scripts/control-panel.sh"

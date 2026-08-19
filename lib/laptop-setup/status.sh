@@ -341,6 +341,7 @@ EOF
     "$HOME/.config/tmux/tmux.conf" \
     "$HOME/.config/tmux/status.conf" \
     "$HOME/.config/sesh/sesh.toml" \
+    "$HOME/.config/sesh/scripts/control-panel.sh" \
     "$HOME/.pi/agent/settings.json" \
     "$HOME/.pi/agent/extensions/statusline.ts" \
     "$HOME/.codex/dotfiles.config.toml" \
@@ -362,6 +363,7 @@ EOF
     "$HOME/.local/bin/session-wallpaper" \
     "$HOME/.local/bin/take-screenshot" \
     "$HOME/.local/bin/fuzzel-toggle" \
+    "$HOME/.local/bin/control-panel" \
     "$HOME/.config/systemd/user/swaybg.service" \
     "$HOME/.config/systemd/user/swayidle.service" \
     "$HOME/.config/systemd/user/lxqt-policykit-agent.service" \

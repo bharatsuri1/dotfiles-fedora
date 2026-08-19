@@ -1,33 +1,31 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# Build a 2×2 grid of system-control TUIs in the current tmux window.
-# Invoked by sesh as the window's startup_script when connecting to the
-# "control-panel" session.  The script runs inside pane 0 of the new window,
-# so every tmux command targets the session that just spawned it.
+# Build a system control panel with four tmux windows, each running a TUI
+# for a different subsystem.  Invoked by sesh as the session's
+# startup_command when connecting to "control-panel".  The script runs
+# inside the first (default) window, so tmux commands target the current
+# session.
+#
+# ── Windows ──────────────────────────────────────────────────────────
+#   1  Wi-Fi          wlctl
+#   2  Bluetooth      bluetui
+#   3  Audio          wiremix
+#   4  System monitor btop
 
-# ── Pane layout ──────────────────────────────────────────────────────
-#   ┌──────────────────┬──────────────────┐
-#   │  0  Wi-Fi (wlctl) │  1  Bluetooth    │
-#   │                   │     (bluetui)     │
-#   ├──────────────────┼──────────────────┤
-#   │  2  Audio         │  3  System monitor│
-#   │     (wiremix)     │     (btop)        │
-#   └──────────────────┴──────────────────┘
+# Window 1 already exists — rename it and launch the first TUI.
+tmux rename-window "Wi-Fi"
+tmux send-keys "wlctl" Enter
 
-# Pane 0 already exists.  Create three splits to reach four panes.
-tmux split-window -h -c "#{pane_current_path}"       # pane 1 — right column
-tmux split-window -v -t 0 -c "#{pane_current_path}"  # pane 2 — left-bottom
-tmux split-window -v -t 1 -c "#{pane_current_path}"  # pane 3 — right-bottom
+# Create the remaining windows, each with its own TUI.
+tmux new-window -n "Bluetooth"
+tmux send-keys "bluetui" Enter
 
-# Even out pane sizes into a clean 2×2 grid.
-tmux select-layout tiled
+tmux new-window -n "Audio"
+tmux send-keys "wiremix" Enter
 
-# Launch a TUI in each pane.
-tmux send-keys -t 0 "wlctl" Enter      # Wi-Fi
-tmux send-keys -t 1 "bluetui" Enter    # Bluetooth
-tmux send-keys -t 2 "wiremix" Enter    # Audio
-tmux send-keys -t 3 "btop" Enter       # System monitor
+tmux new-window -n "Monitor"
+tmux send-keys "btop" Enter
 
-# Put focus on the Wi-Fi pane (top-left).
-tmux select-pane -t 0
+# Return to the first window (Wi-Fi).
+tmux select-window -t 1

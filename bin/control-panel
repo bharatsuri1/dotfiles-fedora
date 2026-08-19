@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+# Launch the system control panel: a floating Alacritty window attached to
+# the Sesh-managed "control-panel" Tmux session.  Bound to Super+Ctrl+P in
+# the Niri config.  A wrapper is needed because Niri's spawn PATH does not
+# include the Linuxbrew directory where sesh is installed.
+
+exec alacritty \
+  --class ControlPanel \
+  --title "Control Panel" \
+  -e sesh connect control-panel
