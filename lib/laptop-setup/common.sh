@@ -27,6 +27,7 @@ readonly DNF_PACKAGES=(
   fzf
   git
   gh
+  gum
   neovim
   ripgrep
   tmux
