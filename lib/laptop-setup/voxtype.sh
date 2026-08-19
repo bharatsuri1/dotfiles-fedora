@@ -1,6 +1,8 @@
 readonly VOXTYPE_VERSION="0.7.5"
 readonly VOXTYPE_REPOSITORY="https://github.com/peteonrails/voxtype"
 readonly VOXTYPE_BINARY="$HOME/.local/bin/voxtype"
+readonly VOXTYPE_OSD_BINARY="$HOME/.local/bin/voxtype-osd-gtk4"
+readonly VOXTYPE_OSD_WRAPPER_BINARY="$HOME/.local/bin/voxtype-osd"
 readonly VOXTYPE_MODEL="base.en"
 readonly VOXTYPE_MODEL_FILE="$HOME/.local/share/voxtype/models/ggml-${VOXTYPE_MODEL}.bin"
 readonly VOXTYPE_MODEL_REVISION="5359861c739e955e79d9a303bcbc70fb988958b1"
@@ -14,6 +16,7 @@ readonly VOXTYPE_SERVICE_NAME="voxtype.service"
 readonly VOXTYPE_NIRI_CONFIG="$HOME/.config/niri/config.kdl"
 readonly VOXTYPE_RUNTIME_PACKAGES=(
   wtype
+  gtk4-layer-shell
 )
 
 voxtype_asset_name() {
@@ -30,6 +33,50 @@ voxtype_expected_sha256() {
     aarch64) printf 'bf72fbfaae1f4720c25ee0a8e75ec381f6b7811b1e810d80dfb9207f4ebc2e4c\n' ;;
     *) return 1 ;;
   esac
+}
+
+voxtype_osd_asset_name() {
+  case "$(uname -m)" in
+    x86_64) printf 'voxtype-%s-linux-x86_64-osd-gtk4\n' "$VOXTYPE_VERSION" ;;
+    *) return 1 ;;
+  esac
+}
+
+voxtype_osd_expected_sha256() {
+  case "$(uname -m)" in
+    x86_64) printf 'fed81695551cee95bb0fd376ec6dc49638b0fd714480504d78aa597b006a5952\n' ;;
+    *) return 1 ;;
+  esac
+}
+
+voxtype_osd_wrapper_asset_name() {
+  case "$(uname -m)" in
+    x86_64) printf 'voxtype-%s-linux-x86_64-osd\n' "$VOXTYPE_VERSION" ;;
+    *) return 1 ;;
+  esac
+}
+
+voxtype_osd_wrapper_expected_sha256() {
+  case "$(uname -m)" in
+    x86_64) printf 'c510388dff6a69b59055a1915830fee8e0cb5aafd8f065e3e382b78a84eebab7\n' ;;
+    *) return 1 ;;
+  esac
+}
+
+voxtype_osd_binary_valid() {
+  local expected_sha256
+  expected_sha256="$(voxtype_osd_expected_sha256)" || return 1
+  [[ -x "$VOXTYPE_OSD_BINARY" ]] &&
+    printf '%s  %s\n' "$expected_sha256" "$VOXTYPE_OSD_BINARY" |
+      sha256sum --check --status
+}
+
+voxtype_osd_wrapper_binary_valid() {
+  local expected_sha256
+  expected_sha256="$(voxtype_osd_wrapper_expected_sha256)" || return 1
+  [[ -x "$VOXTYPE_OSD_WRAPPER_BINARY" ]] &&
+    printf '%s  %s\n' "$expected_sha256" "$VOXTYPE_OSD_WRAPPER_BINARY" |
+      sha256sum --check --status
 }
 
 voxtype_binary_valid() {
@@ -118,6 +165,63 @@ install_voxtype_binary() {
   log "installed and verified Voxtype $VOXTYPE_VERSION at $VOXTYPE_BINARY"
 }
 
+install_voxtype_osd_asset() {
+  local asset_name expected_sha256 url target label
+  asset_name="$1"
+  expected_sha256="$2"
+  target="$3"
+  label="$4"
+  url="$VOXTYPE_REPOSITORY/releases/download/v$VOXTYPE_VERSION/$asset_name"
+
+  if [[ -x "$target" ]] &&
+    printf '%s  %s\n' "$expected_sha256" "$target" | sha256sum --check --status; then
+    log "Voxtype OSD $label already installed and verified"
+    return
+  fi
+
+  if [[ -e "$target" ]]; then
+    die "$target exists but is not the pinned Voxtype $VOXTYPE_VERSION OSD $label; move it aside and rerun the voxtype phase"
+  fi
+
+  if $DRY_RUN; then
+    log "would download, verify, and install Voxtype OSD $label for $(uname -m)"
+    printf '+ curl -fsSLo <temporary-osd> %q\n' "$url"
+    printf '+ verify SHA-256 %s for <temporary-osd>\n' "$expected_sha256"
+    printf '+ install -Dm0755 <temporary-osd> %q\n' "$target"
+    return
+  fi
+
+  command -v curl >/dev/null 2>&1 || die 'curl is missing; run the packages phase first'
+
+  local download
+  download="$(mktemp)"
+  curl -fsSLo "$download" "$url"
+  if ! printf '%s  %s\n' "$expected_sha256" "$download" |
+    sha256sum --check --status; then
+    die "Voxtype OSD $label failed SHA-256 verification; downloaded artifact retained at $download"
+  fi
+
+  run install -Dm0755 "$download" "$target"
+  rm -f -- "$download"
+  printf '%s  %s\n' "$expected_sha256" "$target" | sha256sum --check --status ||
+    die "Voxtype OSD $label installation did not produce the expected binary: $target"
+  log "installed and verified Voxtype OSD $label at $target"
+}
+
+install_voxtype_osd_binary() {
+  local asset_name expected_sha256
+  asset_name="$(voxtype_osd_asset_name)" || {
+    log "Voxtype $VOXTYPE_VERSION has no OSD frontend asset for $(uname -m); skipping the waveform OSD"
+    return
+  }
+  expected_sha256="$(voxtype_osd_expected_sha256)"
+  install_voxtype_osd_asset "$asset_name" "$expected_sha256" "$VOXTYPE_OSD_BINARY" "frontend (gtk4)"
+
+  asset_name="$(voxtype_osd_wrapper_asset_name)" || return
+  expected_sha256="$(voxtype_osd_wrapper_expected_sha256)"
+  install_voxtype_osd_asset "$asset_name" "$expected_sha256" "$VOXTYPE_OSD_WRAPPER_BINARY" "wrapper"
+}
+
 install_voxtype_config() {
   link_config "$VOXTYPE_CONFIG_SOURCE" "$VOXTYPE_CONFIG_TARGET"
 }
@@ -190,6 +294,7 @@ install_voxtype_service() {
 install_voxtype() {
   install_voxtype_runtime_packages
   install_voxtype_binary
+  install_voxtype_osd_binary
   install_voxtype_config
   install_voxtype_input_access
   install_voxtype_model
@@ -214,6 +319,22 @@ show_voxtype_status() {
     printf '  [local]    %s (not the pinned artifact)\n' "$VOXTYPE_BINARY"
   else
     printf '  [missing]  Voxtype %s\n' "$VOXTYPE_VERSION"
+  fi
+
+  if voxtype_osd_binary_valid; then
+    printf '  [pinned]   Voxtype OSD frontend (gtk4)\n'
+  elif [[ -e "$VOXTYPE_OSD_BINARY" ]]; then
+    printf '  [local]    %s (not the pinned artifact)\n' "$VOXTYPE_OSD_BINARY"
+  else
+    printf '  [missing]  Voxtype OSD frontend (gtk4)\n'
+  fi
+
+  if voxtype_osd_wrapper_binary_valid; then
+    printf '  [pinned]   Voxtype OSD wrapper\n'
+  elif [[ -e "$VOXTYPE_OSD_WRAPPER_BINARY" ]]; then
+    printf '  [local]    %s (not the pinned artifact)\n' "$VOXTYPE_OSD_WRAPPER_BINARY"
+  else
+    printf '  [missing]  Voxtype OSD wrapper\n'
   fi
 
   if [[ -L "$VOXTYPE_CONFIG_TARGET" &&

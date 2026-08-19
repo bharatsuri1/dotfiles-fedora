@@ -50,7 +50,28 @@ type_delay_ms = 0
 pre_type_delay_ms = 50
 
 [output.notification]
-on_recording_start = true
-on_recording_stop = true
+# Start/stop notifications are replaced by the floating waveform OSD below.
+on_recording_start = false
+on_recording_stop = false
 # Do not put dictated text into notifications.
 on_transcription = false
+
+[osd]
+# Floating waveform shown while recording, replacing the start/stop
+# notifications. Activates automatically when recording; no compositor
+# binding needed. Requires the pinned voxtype-osd-gtk4 frontend binary.
+enabled = true
+frontend = "gtk4"
+# Visual gain on audio samples before drawing. The default 10.0 pegs the
+# waveform full on a hot mic; lower it (e.g. 4.0) to tame it, raise toward
+# 14.0 for quiet sources. Does not affect transcription.
+waveform_gain = 3.0
+# How fast the held-peak indicator decays (dB/sec). Higher = more responsive.
+peak_decay_db_per_sec = 6.0
+# How much recent audio history to draw (seconds).
+waveform_window_secs = 3.0
+# Background opacity, 0 (transparent) to 1 (opaque).
+opacity = 0.95
+# position = "bottom-center"   # default; centered above the bar
+# width = 400
+# height = 48
