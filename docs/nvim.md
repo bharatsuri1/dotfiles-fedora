@@ -67,15 +67,26 @@ numbers, smartcase search, yank highlight, and soft wrap.
 ## Keymaps
 
 LazyVim's default keymaps (space leader, which-key discoverable) already cover
-the managed Zed keymap (`config/zed/keymap.json`). The only addition in
-`lua/config/keymaps.lua` is:
+most of the managed Zed keymap (`config/zed/keymap.json`).
+`lua/config/keymaps.lua` adds the Zed behaviors LazyVim does not provide by
+default:
 
 | Binding | Mode | Action | Zed equivalent |
 | --- | --- | --- | --- |
 | `j k` | insert | leave insert mode | `vim::NormalBefore` |
+| `<C-d>` | normal | half-page down + center | `ctrl-d z z` |
+| `<C-u>` | normal | half-page up + center | `ctrl-u z z` |
+| `<leader>m` | normal | format | `space m` |
+| `<leader>k` | normal | hover | `space k` |
+| `<leader>v` | normal | split right | `space v` |
+| `<leader>z` | normal | toggle zoom | `space z` |
 
-Zed leader bindings map onto LazyVim defaults as follows (no local overrides
-needed):
+The four single-letter leader bindings use keys LazyVim leaves free; LazyVim's
+two-letter equivalents (`<leader>cf`, `K`, `<leader>|`, `<leader>wm`) remain
+available alongside them.
+
+The remaining Zed leader bindings map onto LazyVim defaults as follows (no
+local overrides needed):
 
 | Zed | LazyVim | Action |
 | --- | --- | --- |
@@ -93,11 +104,7 @@ needed):
 | `space r` | `<leader>cr` | rename |
 | `space c` | `gcc` | toggle comment |
 | `space x` | `<leader>ca` | code action |
-| `space m` | `<leader>cf` | format |
-| `space k` | `K` | hover |
-| `space v` | `<leader>\|` | split right |
 | `space -` | `<leader>-` | split below |
-| `space z` | `<leader>wm` | toggle zoom |
 | `space ;` | `:` | command line |
 | `] b` / `[ b` | `]b` / `[b` | next / prev buffer |
 | `tab` / `shift-tab` | `]b` / `[b` | next / prev buffer |
