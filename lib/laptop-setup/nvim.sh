@@ -44,10 +44,10 @@ show_nvim_status() {
     printf '  [missing] %s\n' "$NVIM_CONFIG_TARGET"
   fi
 
-  # Alias is shell-config owned; report whether the managed alias file defines it.
+  # Aliases are shell-config owned; report whether the managed alias file defines them.
   if grep -q "alias vim='nvim'" "$REPO_ROOT/config/zsh/aliases.zsh" 2>/dev/null; then
-    printf '  [alias]   vim -> nvim\n'
+    printf '  [alias]   v, vi, vim -> nvim\n'
   else
-    printf '  [missing] vim alias in managed zsh aliases\n'
+    printf '  [missing] v/vi/vim aliases in managed zsh aliases\n'
   fi
 }

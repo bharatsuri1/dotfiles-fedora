@@ -30,6 +30,7 @@ The config vendors the [LazyVim starter](https://github.com/LazyVim/starter)
   imports LazyVim and the local `plugins/` directory
 - `lua/config/{autocmds,keymaps,options}.lua` hold local overrides
 - `lua/plugins/*.lua` hold plugin specs and LazyVim overrides
+- `colors/vesper.lua` is the vendored Vesper colorscheme (no plugin)
 - `.neoconf.json` and `stylua.toml` configure lua_ls and Stylua for the config
 
 Unlike the pinned zsh plugins, LazyVim plugin versions are **not** pinned via
@@ -45,17 +46,16 @@ plugin was synced to, and committing the lockfile makes installs reproducible
 
 ## Theme
 
-`lua/plugins/colorscheme.lua` installs
-[`datsfilipe/vesper.nvim`](https://github.com/datsfilipe/vesper.nvim), a port of
-the VS Code [Vesper](https://github.com/raunofreiberg/vesper) theme, and sets
-`opts.colorscheme = "vesper"` on LazyVim. This is the same Vesper identity used
-by Zed (`config/zed/themes/vesper.json`), Alacritty
-(`config/alacritty/themes/vesper.toml`), and Quickshell
-(`config/quickshell/theme/Theme.qml`).
+`colors/vesper.lua` is a self-contained Vesper colorscheme vendored into the
+checkout (no third-party colorscheme plugin). Its palette mirrors
+`config/zed/themes/vesper.json`, the same Vesper identity used by Zed,
+Alacritty (`config/alacritty/themes/vesper.toml`), and Quickshell
+(`config/quickshell/theme/Theme.qml`). `lua/plugins/colorscheme.lua` sets
+`opts.colorscheme = "vesper"` on LazyVim to load it.
 
 `lazy.lua` keeps `install.colorscheme = { "tokyonight", "habamax" }` as the
-fallback used during the very first plugin install, before `vesper.nvim` has
-been cloned.
+fallback used during the very first lazy.nvim bootstrap, before LazyVim is
+cloned.
 
 ## Options
 
@@ -118,10 +118,14 @@ local overrides needed):
 ## CLI / alias
 
 ```zsh
-command -v nvim >/dev/null && alias vim='nvim'
+if command -v nvim >/dev/null; then
+  alias v='nvim'
+  alias vi='nvim'
+  alias vim='nvim'
+fi
 ```
 
-The managed alias already exists in `config/zsh/aliases.zsh`; no new wrapper is
+The managed aliases already exist in `config/zsh/aliases.zsh`; no new wrapper is
 installed. `nvim` is available directly from DNF.
 
 ## Setup phases

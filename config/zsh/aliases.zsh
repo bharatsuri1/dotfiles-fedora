@@ -46,7 +46,11 @@ command -v ss >/dev/null && alias ports='ss -tulpn'
 command -v ip >/dev/null && alias ip='ip --color=auto'
 command -v diff >/dev/null && alias diff='diff --color=auto'
 command -v rg >/dev/null && alias grep='rg --color=auto'
-command -v nvim >/dev/null && alias vim='nvim'
+if command -v nvim >/dev/null; then
+  alias v='nvim'
+  alias vi='nvim'
+  alias vim='nvim'
+fi
 command -v lazygit >/dev/null && alias lg='lazygit'
 command -v lazydocker >/dev/null && alias ld='lazydocker'
 
