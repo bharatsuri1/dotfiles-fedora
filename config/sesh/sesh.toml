@@ -16,10 +16,3 @@ name = "home"
 path = "~"
 disable_startup_command = true
 
-# Terminal-based system control panel.
-# A single window with four split panes for Wi-Fi, Bluetooth, audio, and
-# system monitoring.  See docs/system-control-panel.md for details.
-[[session]]
-name = "control-panel"
-path = "~"
-startup_command = "~/.config/sesh/scripts/control-panel.sh"

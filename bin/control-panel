@@ -8,8 +8,12 @@ set -Eeuo pipefail
 if pgrep -f "alacritty.*ControlPanel" >/dev/null 2>&1; then
   pkill -f "alacritty.*ControlPanel"
 else
+  tmux kill-session -t control-panel 2>/dev/null || true
+  tmux new-session -d -s control-panel
+  tmux send-keys -t control-panel "~/.config/sesh/scripts/control-panel.sh" Enter
+  sleep 1
   exec alacritty \
     --class ControlPanel \
     --title "Control Panel" \
-    -e /home/linuxbrew/.linuxbrew/bin/sesh connect control-panel
+    -e tmux attach -t control-panel
 fi
