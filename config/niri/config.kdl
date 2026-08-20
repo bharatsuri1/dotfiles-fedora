@@ -118,6 +118,7 @@ binds {
     Mod+Ctrl+C repeat=false hotkey-overlay-title="Open ChatGPT" { spawn "chromium-browser" "--app=https://chatgpt.com/"; }
     Mod+Ctrl+Y repeat=false hotkey-overlay-title="Open YouTube" { spawn "chromium-browser" "--app=https://youtube.com/"; }
     Mod+Ctrl+G repeat=false hotkey-overlay-title="Open GitHub" { spawn "chromium-browser" "--app=https://github.com/"; }
+    Mod+Ctrl+I repeat=false hotkey-overlay-title="Open Gemini" { spawn "chromium-browser" "--app=https://gemini.google.com/"; }
     Mod+E repeat=false hotkey-overlay-title="Open Files" { spawn "nautilus" "--new-window"; }
     Mod+Ctrl+Z repeat=false hotkey-overlay-title="Open Zed" { spawn "flatpak" "run" "dev.zed.Zed"; }
     Mod+Ctrl+V repeat=false hotkey-overlay-title="Open Visual Studio Code" { spawn "flatpak" "run" "com.visualstudio.code"; }
