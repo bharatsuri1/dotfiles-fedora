@@ -3,8 +3,8 @@ mkdir -p "$XDG_CACHE_HOME/zsh" "$XDG_STATE_HOME/zsh"
 for module in \
   options \
   completion \
-  aliases \
   integrations \
+  aliases \
   plugins; do
   source "$ZDOTDIR/$module.zsh"
 done
