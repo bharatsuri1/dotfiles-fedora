@@ -23,7 +23,7 @@ machine:
 
 - **Telemetry off** — telemetry level, feedback, SQM, experiments, natural-language settings search, and extension recommendations all disabled.
 - **Fonts** — JetBrainsMono Nerd Font for the editor and integrated terminal at size 14, matching the Zed and Alacritty configuration.
-- **Editor ergonomics** — relative line numbers, solid cursor (no blink), no minimap, no scroll-beyond-last-line, no sticky scroll, trailing whitespace rendering, bracket pair colorization and guides, linked editing, soft word wrap, 2-space indent, ruler at 100.
+- **Editor ergonomics** — relative line numbers, solid cursor (no blink), minimap enabled, no scroll-beyond-last-line, no sticky scroll, trailing whitespace rendering, bracket pair colorization and guides, linked editing, soft word wrap, 2-space indent, ruler at 100.
 - **Files** — trim trailing whitespace, insert final newline, trim final newlines, auto-save on focus change, common excludes.
 - **Search** — smart case matching.
 - **Git** — smart commit, no confirm sync, auto-fetch, inline blame with 400 ms delay (matches the Zed inline-blame setting).

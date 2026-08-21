@@ -16,7 +16,7 @@
   "editor.lineNumbers": "relative",
   "editor.cursorBlinking": "solid",
   "editor.cursorSmoothCaretAnimation": "off",
-  "editor.minimap.enabled": false,
+  "editor.minimap.enabled": true,
   "editor.scrollBeyondLastLine": false,
   "editor.stickyScroll.enabled": false,
   "editor.renderWhitespace": "trailing",
