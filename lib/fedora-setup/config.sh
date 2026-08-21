@@ -128,7 +128,6 @@ configure_niri_services() {
 }
 
 install_config() {
-  link_config "$REPO_ROOT/bin/fedora-setup" "$HOME/.local/bin/fedora-setup"
   link_config "$REPO_ROOT/bin/fedora-update" "$HOME/.local/bin/fedora-update"
   link_config "$REPO_ROOT/bin/lock-screen" "$HOME/.local/bin/lock-screen"
   link_config "$REPO_ROOT/bin/preview-lock-screen" "$HOME/.local/bin/preview-lock-screen"

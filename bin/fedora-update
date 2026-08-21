@@ -1,15 +1,42 @@
 #!/usr/bin/env bash
-# Link this into ~/.local/bin (or add the repo's bin/ to PATH) and run
-# `fedora-update` to update Fedora packages, Flatpak apps, and Homebrew.
+# Link this into ~/.local/bin and run `fedora-update` to pull the latest
+# dotfiles, re-run the setup from inside the repo, then update Fedora
+# packages, Flatpak apps, and Homebrew.
 set -Eeuo pipefail
+
+readonly REPOSITORY_URL="${DOTFILES_FEDORA_REPOSITORY_URL:-https://github.com/bharatsuri1/dotfiles-fedora.git}"
+readonly INSTALL_ROOT="${DOTFILES_FEDORA_INSTALL_ROOT:-$HOME/.local/share/dotfiles-fedora}"
 
 log() {
   printf '==> %s\n' "$*"
 }
 
+die() {
+  printf 'error: %s\n' "$*" >&2
+  exit 1
+}
+
+if [[ -d "$INSTALL_ROOT/.git" ]]; then
+  log "updating existing checkout at $INSTALL_ROOT"
+  current_branch="$(git -C "$INSTALL_ROOT" symbolic-ref --quiet --short HEAD)" ||
+    die "$INSTALL_ROOT has a detached HEAD; check out main before running fedora-update"
+  [[ "$current_branch" == main ]] ||
+    die "$INSTALL_ROOT is on branch $current_branch; check out main before running fedora-update"
+  git -C "$INSTALL_ROOT" pull --ff-only origin main
+elif [[ -e "$INSTALL_ROOT" ]]; then
+  die "$INSTALL_ROOT exists but is not a Git checkout; move it aside or set DOTFILES_FEDORA_INSTALL_ROOT"
+else
+  log "cloning dotfiles-fedora into $INSTALL_ROOT"
+  mkdir -p "$(dirname -- "$INSTALL_ROOT")"
+  git clone "$REPOSITORY_URL" "$INSTALL_ROOT"
+fi
+
+log 'running the Fedora setup from the repo'
+"$INSTALL_ROOT/bin/fedora-setup" apply
+
 if command -v brew &>/dev/null; then
   log 'updating Homebrew packages'
-  brew update && brew upgrade -y
+  brew update && brew upgrade
 fi
 
 if command -v flatpak &>/dev/null; then

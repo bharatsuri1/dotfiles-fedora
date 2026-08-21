@@ -49,7 +49,17 @@ else
   git clone "$REPOSITORY_URL" "$INSTALL_ROOT"
 fi
 
-log 'fedora-setup and fedora-update are linked into ~/.local/bin by the config phase'
+log 'installing fedora-setup command'
+mkdir -p "$HOME/.local/bin"
+
+cat > "$HOME/.local/bin/fedora-setup" <<EOF
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+exec "$INSTALL_ROOT/bootstrap.sh" "\$@"
+EOF
+
+chmod +x "$HOME/.local/bin/fedora-setup"
 
 log 'configuring Git defaults'
 
