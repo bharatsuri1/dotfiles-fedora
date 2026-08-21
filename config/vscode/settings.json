@@ -130,6 +130,8 @@
     "sound": "off"
   },
   "chat.agent.enabled": false,
+  "chatgpt.composerEnterBehavior": "enter",
+  "chatgpt.openOnStartup": false,
   "editor.accessibilitySupport": "on",
   "editor.bracketPairColorization.enabled": true,
   "editor.cursorBlinking": "solid",
@@ -580,6 +582,7 @@
     }
   ],
   "window.menuBarVisibility": "compact",
+  "window.restoreWindows": "none",
   "workbench.activityBar.compact": true,
   "workbench.activityBar.iconClickBehavior": "toggle",
   "workbench.activityBar.location": "top",
