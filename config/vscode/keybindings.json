@@ -1,0 +1,73 @@
+[
+  {
+    "command": "editor.action.clipboardCopyAction",
+    "key": "ctrl+c",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "editor.action.clipboardCutAction",
+    "key": "ctrl+x",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "editor.action.clipboardPasteAction",
+    "key": "ctrl+v",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "editor.action.selectAll",
+    "key": "ctrl+a",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "workbench.action.files.save",
+    "key": "ctrl+s",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "workbench.action.quickOpen",
+    "key": "ctrl+e"
+  },
+  {
+    "command": "workbench.action.terminal.new",
+    "key": "ctrl+shift+t"
+  },
+  {
+    "command": "workbench.action.quickOpen",
+    "key": "ctrl+p"
+  },
+  {
+    "command": "workbench.action.toggleSidebarVisibility",
+    "key": "ctrl+b",
+    "when": "vim.mode == 'Normal'"
+  },
+  {
+    "command": "actions.find",
+    "key": "ctrl+f",
+    "when": "vim.mode == 'Normal'"
+  },
+  {
+    "command": "workbench.action.gotoLine",
+    "key": "ctrl+g",
+    "when": "vim.mode == 'Normal'"
+  },
+  {
+    "command": "workbench.action.files.openFile",
+    "key": "ctrl+o",
+    "when": "vim.mode == 'Normal'"
+  },
+  {
+    "command": "workbench.action.files.newUntitledFile",
+    "key": "ctrl+n",
+    "when": "vim.mode == 'Normal'"
+  },
+  {
+    "command": "workbench.action.splitEditor",
+    "key": "ctrl+\\"
+  },
+  {
+    "command": "workbench.action.closeEditorsInGroup",
+    "key": "ctrl+shift+w",
+    "when": "vim.mode == 'Normal'"
+  }
+]

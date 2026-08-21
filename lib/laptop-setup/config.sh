@@ -158,6 +158,7 @@ install_config() {
   link_config "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
   link_config "$REPO_ROOT/config/voxtype/config.toml" "$HOME/.config/voxtype/config.toml"
   link_zed_config
+  link_vscode_config
   link_nvim_config
   link_config "$REPO_ROOT/config/swaync/config.json" "$HOME/.config/swaync/config.json"
   link_config "$REPO_ROOT/config/swaync/style.css" "$HOME/.config/swaync/style.css"

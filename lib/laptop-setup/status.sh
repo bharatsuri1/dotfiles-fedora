@@ -300,6 +300,8 @@ show_status() {
 
   show_zed_status
 
+  show_vscode_status
+
   show_nvim_status
 
   printf 'Homebrew formulae:\n'

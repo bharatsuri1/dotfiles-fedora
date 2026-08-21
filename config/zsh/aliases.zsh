@@ -11,6 +11,7 @@ alias cx='codex --profile dotfiles --dangerously-bypass-approvals-and-sandbox --
 alias sol='codex --profile dotfiles --dangerously-bypass-approvals-and-sandbox --dangerously-bypass-hook-trust -c model="gpt-5.6-sol"'
 alias terra='codex --profile dotfiles --dangerously-bypass-approvals-and-sandbox --dangerously-bypass-hook-trust -c model="gpt-5.6-terra"'
 alias zed='flatpak run dev.zed.Zed'
+alias code='flatpak run com.visualstudio.code'
 alias tl='sesh picker'
 alias tk='tmux kill-server'
 alias wifi='wlctl'
