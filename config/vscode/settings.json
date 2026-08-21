@@ -219,7 +219,7 @@
     {
       "before": [
         "<leader>",
-        "e"
+        "b"
       ],
       "commands": [
         "workbench.action.toggleSidebarVisibility"
@@ -527,7 +527,7 @@
     {
       "before": [
         "<leader>",
-        "a"
+        "i"
       ],
       "commands": [
         "workbench.action.showAllSymbols"
@@ -536,7 +536,16 @@
     {
       "before": [
         "<leader>",
-        "b"
+        "e"
+      ],
+      "commands": [
+        "workbench.view.explorer"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "a"
       ],
       "commands": [
         "workbench.action.toggleAuxiliaryBar"

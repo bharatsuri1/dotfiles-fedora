@@ -69,5 +69,10 @@
     "command": "workbench.action.closeEditorsInGroup",
     "key": "ctrl+shift+w",
     "when": "vim.mode == 'Normal'"
+  },
+  {
+    "command": "workbench.action.focusActiveEditorGroup",
+    "key": "escape",
+    "when": "filesExplorerFocus && !inputFocus"
   }
 ]
