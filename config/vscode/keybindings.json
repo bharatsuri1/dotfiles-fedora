@@ -29,39 +29,7 @@
     "command": "workbench.action.quickOpen"
   },
   {
-    "key": "ctrl+b",
-    "command": "workbench.action.toggleSidebarVisibility"
-  },
-  {
-    "key": "ctrl+j",
-    "command": "workbench.action.togglePanel"
-  },
-  {
-    "key": "ctrl+shift+e",
-    "command": "workbench.view.explorer"
-  },
-  {
-    "key": "ctrl+shift+g",
-    "command": "workbench.view.scm"
-  },
-  {
-    "key": "ctrl+shift+x",
-    "command": "workbench.view.extensions"
-  },
-  {
-    "key": "ctrl+shift+f",
-    "command": "workbench.action.findInFiles"
-  },
-  {
     "key": "ctrl+shift+t",
     "command": "workbench.action.terminal.new"
-  },
-  {
-    "key": "ctrl+shift+c",
-    "command": "workbench.action.terminal.copySelection"
-  },
-  {
-    "key": "ctrl+shift+v",
-    "command": "workbench.action.terminal.paste"
   }
 ]

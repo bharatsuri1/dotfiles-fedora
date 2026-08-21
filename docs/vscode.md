@@ -57,25 +57,17 @@ for copy, etc.). These overrides restore conventional GUI behavior:
 | `Ctrl+A` | Select all | `Ctrl+Shift+A` (Emacs-style) |
 | `Ctrl+S` | Save | `Ctrl+K S` (chord) |
 
-### Quick open and panel toggles
+### Quick open
 
-| Binding | Action | Notes |
+| Binding | Action | Default it replaces |
 | --- | --- | --- |
-| `Ctrl+E` | Quick open | Replaces the default `Ctrl+P` |
-| `Ctrl+B` | Toggle sidebar | VS Code default, restated for clarity |
-| `Ctrl+J` | Toggle panel | VS Code default, restated for clarity |
-| `Ctrl+Shift+E` | Explorer view | VS Code default, restated for clarity |
-| `Ctrl+Shift+G` | Source control view | VS Code default, restated for clarity |
-| `Ctrl+Shift+X` | Extensions view | VS Code default, restated for clarity |
-| `Ctrl+Shift+F` | Find in files | VS Code default, restated for clarity |
+| `Ctrl+E` | Quick open | `Ctrl+P` |
 
 ### Integrated terminal
 
 | Binding | Action | Default it replaces |
 | --- | --- | --- |
 | `Ctrl+Shift+T` | New terminal | `Ctrl+Shift+\`` (backtick) |
-| `Ctrl+Shift+C` | Copy selection | `Ctrl+Shift+C` (retained for terminal) |
-| `Ctrl+Shift+V` | Paste | `Ctrl+Shift+V` (retained for terminal) |
 
 ## Extension allowlist
 
