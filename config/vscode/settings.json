@@ -372,15 +372,6 @@
     {
       "before": [
         "<leader>",
-        "b"
-      ],
-      "commands": [
-        "workbench.action.quickOpenLeastRecentlyUsedEditorInGroup"
-      ]
-    },
-    {
-      "before": [
-        "<leader>",
         "m"
       ],
       "commands": [
@@ -541,6 +532,15 @@
       "commands": [
         "workbench.action.showAllSymbols"
       ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "b"
+      ],
+      "commands": [
+        "workbench.action.toggleAuxiliaryBar"
+      ]
     }
   ],
   "vim.replaceWithRegister": true,
@@ -571,6 +571,9 @@
     }
   ],
   "window.menuBarVisibility": "compact",
+  "workbench.activityBar.compact": true,
+  "workbench.activityBar.iconClickBehavior": "toggle",
+  "workbench.activityBar.location": "top",
   "workbench.colorTheme": "Vesper",
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
@@ -579,6 +582,7 @@
   "workbench.iconTheme": "vs-seti",
   "workbench.remoteIndicator.showExtensionRecommendations": false,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "workbench.secondarySideBar.showLabels": true,
   "workbench.settings.editor": "json",
   "workbench.settings.enableNaturalLanguageSearch": false,
   "workbench.sideBar.location": "left",

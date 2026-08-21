@@ -180,7 +180,7 @@ default. Ownership, privacy, model locations, and rollback are documented in
 - LocalSend, OpenCode, Visual Studio Code, and Zed from Flathub, with managed
   Zed settings, a custom Vesper theme, and a `zed` Zsh alias (see
   [`docs/zed.md`](docs/zed.md)); managed VS Code settings, keybindings, and a
-  `code` Zsh alias (see [`docs/vscode.md`](docs/vscode.md));
+  `code` Zsh alias;
 - Neovim from Fedora with a managed LazyVim configuration, Vesper theme, and a
   `vim` Zsh alias (see [`docs/nvim.md`](docs/nvim.md));
 - Homebrew plus Dashlane CLI, Starship, `jless`, Lazygit, Lazydocker, Sesh, and `xh`;

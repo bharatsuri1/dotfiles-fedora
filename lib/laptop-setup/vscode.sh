@@ -6,7 +6,7 @@ readonly VSCODE_KEYBINDINGS_SOURCE="$REPO_ROOT/config/vscode/keybindings.json"
 readonly VSCODE_KEYBINDINGS_TARGET="$VSCODE_FLATPAK_CONFIG/keybindings.json"
 
 # Reviewed extension allowlist.
-# Rationale for each entry lives in docs/vscode.md.
+# Reviewed extension allowlist.
 readonly VSCODE_EXTENSIONS=(
   vscodevim.vim
   ms-vscode-remote.remote-ssh
