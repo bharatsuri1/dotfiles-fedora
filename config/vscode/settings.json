@@ -168,6 +168,7 @@
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "git.autofetch": true,
+  "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "search.smartCase": true,
   "telemetry.feedback.enabled": false,
