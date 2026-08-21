@@ -40,7 +40,7 @@ if [[ -d "$INSTALL_ROOT/.git" ]]; then
   current_branch="$(git -C "$INSTALL_ROOT" symbolic-ref --quiet --short HEAD)" ||
     die "$INSTALL_ROOT has a detached HEAD; check out main before running the installed command"
   [[ "$current_branch" == main ]] ||
-    die "$INSTALL_ROOT is on branch $current_branch; check out main or run ./bin/laptop-setup to use it unchanged"
+    die "$INSTALL_ROOT is on branch $current_branch; check out main or run ./bin/fedora-setup to use it unchanged"
   git -C "$INSTALL_ROOT" pull --ff-only origin main
 elif [[ -e "$INSTALL_ROOT" ]]; then
   die "$INSTALL_ROOT exists but is not a Git checkout; move it aside or set DOTFILES_FEDORA_INSTALL_ROOT"
@@ -50,17 +50,17 @@ else
   git clone "$REPOSITORY_URL" "$INSTALL_ROOT"
 fi
 
-log 'installing laptop-setup command'
+log 'installing fedora-setup command'
 mkdir -p "$LOCAL_BIN"
 
-cat > "$LOCAL_BIN/laptop-setup" <<EOF
+cat > "$LOCAL_BIN/fedora-setup" <<EOF
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
 exec "$INSTALL_ROOT/bootstrap.sh" "\$@"
 EOF
 
-chmod +x "$LOCAL_BIN/laptop-setup"
+chmod +x "$LOCAL_BIN/fedora-setup"
 
 log 'configuring Git defaults'
 
@@ -72,9 +72,9 @@ git config --global push.autoSetupRemote true
 git config --global core.editor nvim
 
 
-log 'starting the guided Fedora laptop setup'
+log 'starting the guided Fedora setup'
 if (($#)); then
-  exec "$INSTALL_ROOT/bin/laptop-setup" "$@"
+  exec "$INSTALL_ROOT/bin/fedora-setup" "$@"
 else
-  exec "$INSTALL_ROOT/bin/laptop-setup" apply
+  exec "$INSTALL_ROOT/bin/fedora-setup" apply
 fi

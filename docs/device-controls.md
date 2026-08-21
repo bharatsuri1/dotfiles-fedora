@@ -73,8 +73,8 @@ phase if this repository should take ownership.
 Preview or apply only this phase:
 
 ```bash
-./bin/laptop-setup --dry-run device-controls
-./bin/laptop-setup device-controls
+./bin/fedora-setup --dry-run device-controls
+./bin/fedora-setup device-controls
 ```
 
 Launch each interface directly from a terminal:
@@ -113,7 +113,7 @@ Inspect package, artifact, and service state without displaying network names,
 device identifiers, or audio application metadata:
 
 ```bash
-./bin/laptop-setup status
+./bin/fedora-setup status
 ```
 
 Live validation on Fedora should cover:
@@ -142,7 +142,7 @@ temporary interruption is acceptable.
 DNF updates `NetworkManager-tui` and `wiremix`. Updating wlctl or Bluetui is an
 explicit repository change: review the new upstream release, replace its
 version and both architecture hashes in
-`lib/laptop-setup/device-controls.sh`, run the validation above, and record the
+`lib/fedora-setup/device-controls.sh`, run the validation above, and record the
 result in the tracking issue. Before running the updated phase, verify the
 installed binary against the previously managed hash and move it aside; the
 installer intentionally refuses to overwrite a binary that does not match its

@@ -51,7 +51,7 @@ in the foreground with a temporary copy of the managed stylesheet; it never
 edits the production CSS. Unlock normally to return to the terminal.
 
 ```bash
-./bin/laptop-setup fonts
+./bin/fedora-setup fonts
 ./bin/preview-lock-screen --check "Inter"
 ./bin/preview-lock-screen "Inter"
 ```

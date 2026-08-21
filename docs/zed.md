@@ -10,7 +10,7 @@ Managed portable configuration for the Flathub Zed Flatpak (`dev.zed.Zed`).
 | Vesper theme | This repository | `~/.var/app/dev.zed.Zed/config/zed/themes/vesper.json` |
 | Keymap | This repository | `~/.var/app/dev.zed.Zed/config/zed/keymap.json` |
 | Shell alias `zed` | This repository (`config/zsh/aliases.zsh`) | interactive Zsh only |
-| Flatpak override | This repository (`lib/laptop-setup/zed.sh`) | `flatpak override --user` |
+| Flatpak override | This repository (`lib/fedora-setup/zed.sh`) | `flatpak override --user` |
 | Extensions | User; allowlist empty | `~/.var/app/dev.zed.Zed/data/zed/extensions/` |
 | DB, logs, cache, threads, prompts, accounts | Runtime / user | never tracked |
 
@@ -290,7 +290,7 @@ ignored across Zed upgrades.
 alias zed='flatpak run dev.zed.Zed'
 ```
 
-After `laptop-setup config` (or `shell` + new Zsh), `zed --help` and
+After `fedora-setup config` (or `shell` + new Zsh), `zed --help` and
 `zed path/to/file` work in interactive Zsh. Non-interactive scripts should call
 `flatpak run dev.zed.Zed` explicitly (as niri does).
 
@@ -298,7 +298,7 @@ No `~/.local/bin/zed` wrapper is installed.
 
 ## Extensions
 
-The allowlist in `lib/laptop-setup/zed.sh` is empty. Future entries should record
+The allowlist in `lib/fedora-setup/zed.sh` is empty. Future entries should record
 purpose, publisher, license/source, trust notes, and removal steps here before
 automated install is wired. Setup must never remove user-installed extensions
 that are not on the allowlist.
@@ -307,16 +307,16 @@ that are not on the allowlist.
 
 | Command | Behavior |
 | --- | --- |
-| `./bin/laptop-setup zed` | Ensures Flatpak presence (or dry-run note), links settings + theme, and applies flatpak override |
-| `./bin/laptop-setup config` | Calls the same `link_zed_config` helpers so relinks stay in sync |
-| `./bin/laptop-setup apply` | Runs `zed` after `flatpaks` and still runs full `config` later |
+| `./bin/fedora-setup zed` | Ensures Flatpak presence (or dry-run note), links settings + theme, and applies flatpak override |
+| `./bin/fedora-setup config` | Calls the same `link_zed_config` helpers so relinks stay in sync |
+| `./bin/fedora-setup apply` | Runs `zed` after `flatpaks` and still runs full `config` later |
 
 Both paths use `link_config`, so conflicting files are backed up under
 `~/.local/state/dotfiles-fedora/backups/`.
 
 ## Status
 
-`./bin/laptop-setup status` reports Flatpak install state, managed link state for
+`./bin/fedora-setup status` reports Flatpak install state, managed link state for
 settings and theme, the managed alias definition, the empty allowlist, and the
 flatpak override state.
 
@@ -326,9 +326,9 @@ flatpak override state.
 python3 -m json.tool config/zed/settings.json >/dev/null
 python3 -m json.tool config/zed/themes/vesper.json >/dev/null
 python3 -m json.tool config/zed/keymap.json >/dev/null
-bash -n bin/laptop-setup lib/laptop-setup/zed.sh
-./bin/laptop-setup --dry-run zed
-./bin/laptop-setup status
+bash -n bin/fedora-setup lib/fedora-setup/zed.sh
+./bin/fedora-setup --dry-run zed
+./bin/fedora-setup status
 # interactive zsh:
 zed --help
 ```

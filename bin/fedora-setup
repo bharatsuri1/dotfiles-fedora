@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 readonly REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
-readonly LIB_DIR="$REPO_ROOT/lib/laptop-setup"
+readonly LIB_DIR="$REPO_ROOT/lib/fedora-setup"
 
 for module in \
   common \
@@ -41,7 +41,7 @@ unset module
 
 usage() {
   cat <<'USAGE'
-Usage: laptop-setup [--dry-run] [--yes] COMMAND
+Usage: fedora-setup [--dry-run] [--yes] COMMAND
 
 Commands:
   status      Report installed and managed state
@@ -124,7 +124,7 @@ main() {
       install_config
       install_desktop_defaults
       set_shell
-      log 'SDDM is prepared but not implicitly enabled; run laptop-setup sddm-enable when ready'
+      log 'SDDM is prepared but not implicitly enabled; run fedora-setup sddm-enable when ready'
       log 'Recovery path: switch to a TTY, log in, and run: niri-session'
       ;;
     packages) install_packages ;;

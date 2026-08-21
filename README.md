@@ -45,44 +45,44 @@ curl -fsSL https://raw.githubusercontent.com/bharatsuri1/dotfiles-fedora/main/bo
 After bootstrapping, run or rerun the complete setup with:
 
 ```bash
-laptop-setup
+fedora-setup
 ```
 
 The installed command first fast-forwards the managed checkout from
 `origin/main`, then runs the requested setup command. Inspect what is already
-complete with `laptop-setup status`.
+complete with `fedora-setup status`.
 
 To intentionally use the currently checked-out version without fetching or
-changing branches, invoke `./bin/laptop-setup` from the repository root.
+changing branches, invoke `./bin/fedora-setup` from the repository root.
 
 Preview all missing work without changing the machine:
 
 ```bash
-./bin/laptop-setup --dry-run apply
+./bin/fedora-setup --dry-run apply
 ```
 
 Apply the complete first-draft setup interactively:
 
 ```bash
-./bin/laptop-setup apply
+./bin/fedora-setup apply
 ```
 
 Use `--yes` to accept package-manager prompts and the login-shell change. Each
 phase can also run independently:
 
 ```bash
-./bin/laptop-setup packages
-./bin/laptop-setup fonts        # terminal, system UI, and fallback families
-./bin/laptop-setup flatpaks
-./bin/laptop-setup homebrew
-./bin/laptop-setup herdr
-./bin/laptop-setup ollama
-./bin/laptop-setup niri
-./bin/laptop-setup device-controls
-./bin/laptop-setup voxtype
-./bin/laptop-setup shell-tools
-./bin/laptop-setup config
-./bin/laptop-setup shell
+./bin/fedora-setup packages
+./bin/fedora-setup fonts        # terminal, system UI, and fallback families
+./bin/fedora-setup flatpaks
+./bin/fedora-setup homebrew
+./bin/fedora-setup herdr
+./bin/fedora-setup ollama
+./bin/fedora-setup niri
+./bin/fedora-setup device-controls
+./bin/fedora-setup voxtype
+./bin/fedora-setup shell-tools
+./bin/fedora-setup config
+./bin/fedora-setup shell
 ```
 
 Configuration deployment uses symlinks back into this checkout. An existing
@@ -131,9 +131,9 @@ emoji fallback; terminal and code surfaces retain JetBrains Mono. The research,
 role split, and foreground gtklock comparison command are documented in
 [`docs/system-ui-fonts.md`](docs/system-ui-fonts.md).
 
-`laptop-setup apply` installs and configures SDDM with the repository-owned
+`fedora-setup apply` installs and configures SDDM with the repository-owned
 Vesper theme, wallpaper, and user picture, but does not activate it. After
-testing the TTY recovery path, run `laptop-setup sddm-enable`; the guarded
+testing the TTY recovery path, run `fedora-setup sddm-enable`; the guarded
 command validates the niri session and managed theme, refuses to replace a
 different enabled display manager, and switches the next boot to
 `graphical.target`. It does not stop the current session. From a recovery TTY,

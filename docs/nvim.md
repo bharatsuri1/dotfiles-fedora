@@ -132,25 +132,25 @@ installed. `nvim` is available directly from DNF.
 
 | Command | Behavior |
 | --- | --- |
-| `./bin/laptop-setup nvim` | Ensures Neovim presence (or dry-run note) and links the config |
-| `./bin/laptop-setup config` | Calls the same `link_nvim_config` helper so relinks stay in sync |
-| `./bin/laptop-setup apply` | Runs `nvim` after `zed` and still runs full `config` later |
+| `./bin/fedora-setup nvim` | Ensures Neovim presence (or dry-run note) and links the config |
+| `./bin/fedora-setup config` | Calls the same `link_nvim_config` helper so relinks stay in sync |
+| `./bin/fedora-setup apply` | Runs `nvim` after `zed` and still runs full `config` later |
 
 Both paths use `link_config`, so a conflicting `~/.config/nvim` is backed up
 under `~/.local/state/dotfiles-fedora/backups/`.
 
 ## Status
 
-`./bin/laptop-setup status` reports the Neovim binary, the managed link state
+`./bin/fedora-setup status` reports the Neovim binary, the managed link state
 for `~/.config/nvim`, and the managed `vim` alias definition.
 
 ## Validation
 
 ```bash
-bash -n bin/laptop-setup lib/laptop-setup/nvim.sh
-./bin/laptop-setup --help
-./bin/laptop-setup --dry-run nvim
-./bin/laptop-setup status
+bash -n bin/fedora-setup lib/fedora-setup/nvim.sh
+./bin/fedora-setup --help
+./bin/fedora-setup --dry-run nvim
+./bin/fedora-setup status
 # headless smoke test (first run clones lazy.nvim + plugins):
 nvim --headless "+Lazy! sync" +qa
 nvim --headless "+Lazy! health" +qa
