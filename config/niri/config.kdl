@@ -115,6 +115,13 @@ window-rule {
     default-window-height { fixed 420; }
 }
 
+window-rule {
+    match app-id="^IslandAudio$"
+    open-floating true
+    default-column-width { fixed 1000; }
+    default-window-height { fixed 750; }
+}
+
 overview {
     backdrop-color "#101010"
 }

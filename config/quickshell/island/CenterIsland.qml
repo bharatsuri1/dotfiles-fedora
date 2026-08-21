@@ -240,16 +240,15 @@ Item {
     transformOrigin: Item.Top
 
     Repeater {
-      // Actions are placeholders until the system-control-panel work lands;
-      // for now a click just logs so hover/press can be validated live.
-      // Clicking wifi/bluetooth launches the TUI straight in an Alacritty
-      // window; the ControlPanel app-id matches the niri floating rule.
+      // Each button launches its TUI in a floating Alacritty window; the
+      // Island* app-ids match the niri floating rules in config/niri.
       model: [
         { glyph: "\uf1eb", name: "wifi",
           command: ["alacritty", "--class", "IslandWifi", "--title", "Wi-Fi", "-e", "wlctl"] },
         { glyph: "\udb80\udcaf", name: "bluetooth",
           command: ["alacritty", "--class", "IslandBluetooth", "--title", "Bluetooth", "-e", "bluetui"] },
-        { glyph: "\uf028", name: "sound", command: [] },
+        { glyph: "\uf028", name: "sound",
+          command: ["alacritty", "--class", "IslandAudio", "--title", "Audio", "-e", "wiremix", "-v", "playback"] },
         { glyph: "\u23fb", name: "power",
           command: ["alacritty", "--class", "IslandPower", "--title", "Power", "-e", "island-power"] }
       ]
@@ -286,12 +285,7 @@ Item {
 
         MouseArea {
           anchors.fill: parent
-          onClicked: {
-            if (controlButton.modelData.command.length > 0)
-              Quickshell.execDetached(controlButton.modelData.command)
-            else
-              console.log("island control (unwired):", controlButton.modelData.name)
-          }
+          onClicked: Quickshell.execDetached(controlButton.modelData.command)
         }
       }
     }
