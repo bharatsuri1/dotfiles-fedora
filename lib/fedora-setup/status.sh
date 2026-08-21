@@ -370,6 +370,7 @@ EOF
     "$HOME/.local/bin/take-screenshot" \
     "$HOME/.local/bin/fuzzel-toggle" \
     "$HOME/.local/bin/control-panel" \
+    "$HOME/.local/bin/island-power" \
     "$HOME/.config/systemd/user/swaybg.service" \
     "$HOME/.config/systemd/user/swayidle.service" \
     "$HOME/.config/systemd/user/lxqt-policykit-agent.service" \

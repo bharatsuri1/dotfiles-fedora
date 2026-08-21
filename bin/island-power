@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+# Minimal power menu for the Quickshell island power button: a gum filter
+# picker over session actions. Runs inside a floating Alacritty window
+# (app-id IslandPower). Esc / Ctrl-C exits cleanly.
+
+choice="$(printf '%s\n' \
+  "Lock" \
+  "Log Out" \
+  "Suspend" \
+  "Reboot" \
+  "Power Off" | gum filter --placeholder "Type to filter…" --header "Power")" || exit 0
+
+gum confirm "$choice?" || exit 0
+
+case "$choice" in
+  "Lock")
+    loginctl lock-session
+    ;;
+  "Log Out")
+    niri msg action quit --skip-confirmation
+    ;;
+  "Suspend")
+    systemctl suspend
+    ;;
+  "Reboot")
+    systemctl reboot
+    ;;
+  "Power Off")
+    systemctl poweroff
+    ;;
+esac

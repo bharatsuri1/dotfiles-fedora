@@ -134,6 +134,7 @@ install_config() {
   link_config "$REPO_ROOT/bin/take-screenshot" "$HOME/.local/bin/take-screenshot"
   link_config "$REPO_ROOT/bin/fuzzel-toggle" "$HOME/.local/bin/fuzzel-toggle"
   link_config "$REPO_ROOT/bin/control-panel" "$HOME/.local/bin/control-panel"
+  link_config "$REPO_ROOT/bin/island-power" "$HOME/.local/bin/island-power"
   link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
   link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"

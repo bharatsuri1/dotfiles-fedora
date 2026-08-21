@@ -41,7 +41,10 @@ ShellRoot {
         right: true
       }
 
-      implicitHeight: Theme.islandHeight
+      // The surface is tall enough for the hovered island to draw fully, but
+      // only the resting height is reserved on the screen. The overhang is
+      // transparent and click-through via the island-shaped input mask.
+      implicitHeight: Theme.islandHeight * Theme.islandHoverScaleH
       exclusiveZone: Theme.islandHeight
       exclusionMode: ExclusionMode.Normal
       aboveWindows: true

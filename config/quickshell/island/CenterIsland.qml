@@ -10,8 +10,41 @@ import "../theme"
 Item {
   id: root
 
-  implicitWidth: Theme.islandWidth
-  implicitHeight: Theme.islandHeight
+  implicitWidth: morphWidth
+  implicitHeight: morphHeight
+
+  // Hover morph. morphWidth/morphHeight are the single animated source of
+  // truth: the Shape silhouette and the window input mask both bind to the
+  // live size, so the alcove curve re-tessellates every spring frame.
+  property bool hovered: false
+  property real morphWidth: hovered
+    ? Theme.islandWidth * Theme.islandHoverScaleW
+    : Theme.islandWidth
+  property real morphHeight: hovered
+    ? Theme.islandHeight * Theme.islandHoverScaleH
+    : Theme.islandHeight
+
+  property real fontScale: hovered ? Theme.islandHoverFontScale : 1.0
+
+  // 0 at resting size, 1 when fully expanded; drives control-button reveal.
+  readonly property real expandProgress: {
+    const span = Theme.islandHeight * (Theme.islandHoverScaleH - 1)
+    return Math.max(0, Math.min(1, (morphHeight - Theme.islandHeight) / span))
+  }
+
+  Behavior on morphWidth {
+    SpringAnimation { spring: Theme.expandSpring; damping: Theme.expandDamping }
+  }
+  Behavior on morphHeight {
+    SpringAnimation { spring: Theme.expandSpring; damping: Theme.expandDamping }
+  }
+  Behavior on fontScale {
+    SpringAnimation { spring: Theme.expandSpring; damping: Theme.expandDamping }
+  }
+
+  HoverHandler {
+    onHoveredChanged: root.hovered = hovered
+  }
 
   property real revealProgress: Theme.motionEnabled ? 0 : 1
 
@@ -67,48 +100,56 @@ Item {
       }
       PathLine {
         x: Theme.topFlareWidth
-        y: Theme.islandHeight - Theme.cornerRadius
+        y: root.height - Theme.cornerRadius
       }
       PathCubic {
         x: Theme.topFlareWidth + Theme.cornerRadius
-        y: Theme.islandHeight
+        y: root.height
         control1X: Theme.topFlareWidth
-        control1Y: Theme.islandHeight - Theme.cornerRadius * 0.35
+        control1Y: root.height - Theme.cornerRadius * 0.35
         control2X: Theme.topFlareWidth + Theme.cornerRadius * 0.35
-        control2Y: Theme.islandHeight
+        control2Y: root.height
       }
       PathLine {
-        x: Theme.islandWidth - Theme.topFlareWidth - Theme.cornerRadius
-        y: Theme.islandHeight
+        x: root.width - Theme.topFlareWidth - Theme.cornerRadius
+        y: root.height
       }
       PathCubic {
-        x: Theme.islandWidth - Theme.topFlareWidth
-        y: Theme.islandHeight - Theme.cornerRadius
-        control1X: Theme.islandWidth - Theme.topFlareWidth - Theme.cornerRadius * 0.35
-        control1Y: Theme.islandHeight
-        control2X: Theme.islandWidth - Theme.topFlareWidth
-        control2Y: Theme.islandHeight - Theme.cornerRadius * 0.35
+        x: root.width - Theme.topFlareWidth
+        y: root.height - Theme.cornerRadius
+        control1X: root.width - Theme.topFlareWidth - Theme.cornerRadius * 0.35
+        control1Y: root.height
+        control2X: root.width - Theme.topFlareWidth
+        control2Y: root.height - Theme.cornerRadius * 0.35
       }
       PathLine {
-        x: Theme.islandWidth - Theme.topFlareWidth
+        x: root.width - Theme.topFlareWidth
         y: Theme.topFlareDepth
       }
       PathCubic {
-        x: Theme.islandWidth
+        x: root.width
         y: 0
-        control1X: Theme.islandWidth - Theme.topFlareWidth
+        control1X: root.width - Theme.topFlareWidth
         control1Y: Theme.topFlareDepth * 0.45
-        control2X: Theme.islandWidth - Theme.topFlareWidth * 0.7
+        control2X: root.width - Theme.topFlareWidth * 0.7
         control2Y: 0
       }
       PathLine { x: 0; y: 0 }
     }
   }
 
+  // Content stays glued to the screen edge while the silhouette grows around
+  // it; content-aware layout comes later with the responsive island.
   Row {
-    anchors.centerIn: parent
-    anchors.verticalCenterOffset: -1
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    // Approximate the old vertical centering at the resting height.
+    anchors.topMargin: Math.max(0, (Theme.islandHeight - implicitHeight) / 2 - 1)
     spacing: Theme.contentGap
+    // Font growth rides on a GPU scale transform, not pixelSize: no text
+    // re-rasterization or layout passes during the spring, so it stays smooth.
+    scale: root.fontScale
+    transformOrigin: Item.Top
     opacity: Math.max(0, Math.min(1, (root.revealProgress - 0.34) / 0.66))
     transform: Translate {
       y: -root.height * (1 - root.revealProgress)
@@ -180,6 +221,78 @@ Item {
         color: root.charging ? Theme.green : Theme.fgDim
         font.family: Theme.fontUi
         font.pixelSize: 11
+      }
+    }
+  }
+
+  // Control buttons: revealed inside the expanded silhouette. They fade and
+  // settle with the same spring progress that drives the shape morph.
+  Row {
+    id: controls
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    anchors.topMargin: Theme.islandHeight + 10
+    spacing: Theme.controlGap
+
+    visible: root.expandProgress > 0.05
+    opacity: root.expandProgress
+    scale: 0.85 + 0.15 * root.expandProgress
+    transformOrigin: Item.Top
+
+    Repeater {
+      // Actions are placeholders until the system-control-panel work lands;
+      // for now a click just logs so hover/press can be validated live.
+      // Clicking wifi/bluetooth launches the TUI straight in an Alacritty
+      // window; the ControlPanel app-id matches the niri floating rule.
+      model: [
+        { glyph: "\uf1eb", name: "wifi",
+          command: ["alacritty", "--class", "IslandWifi", "--title", "Wi-Fi", "-e", "wlctl"] },
+        { glyph: "\udb80\udcaf", name: "bluetooth",
+          command: ["alacritty", "--class", "IslandBluetooth", "--title", "Bluetooth", "-e", "bluetui"] },
+        { glyph: "\uf028", name: "sound", command: [] },
+        { glyph: "\u23fb", name: "power",
+          command: ["alacritty", "--class", "IslandPower", "--title", "Power", "-e", "island-power"] }
+      ]
+
+      delegate: Rectangle {
+        id: controlButton
+        required property var modelData
+
+        property bool buttonHovered: false
+
+        width: Theme.controlSize
+        height: Theme.controlSize
+        radius: width / 2
+        color: buttonHovered ? Theme.controlBgHover : Theme.controlBg
+
+        Behavior on color {
+          ColorAnimation { duration: 120 }
+        }
+
+        Text {
+          anchors.centerIn: parent
+          text: controlButton.modelData.glyph
+          color: controlButton.buttonHovered
+            ? Theme.controlFgHover
+            : Theme.controlFg
+          font.family: Theme.fontIcons
+          font.pixelSize: 16
+        }
+
+        HoverHandler {
+          onHoveredChanged: controlButton.buttonHovered = hovered
+          cursorShape: Qt.PointingHandCursor
+        }
+
+        MouseArea {
+          anchors.fill: parent
+          onClicked: {
+            if (controlButton.modelData.command.length > 0)
+              Quickshell.execDetached(controlButton.modelData.command)
+            else
+              console.log("island control (unwired):", controlButton.modelData.name)
+          }
+        }
       }
     }
   }
