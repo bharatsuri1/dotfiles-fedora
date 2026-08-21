@@ -1,5 +1,4 @@
 {
-  // Accessibility signals
   "accessibility.signals.chatEditModifiedFile": {
     "sound": "off"
   },
@@ -130,12 +129,12 @@
   "accessibility.signals.voiceRecordingStopped": {
     "sound": "off"
   },
-  // Editor
+  "chat.agent.enabled": false,
   "editor.accessibilitySupport": "on",
   "editor.bracketPairColorization.enabled": true,
   "editor.cursorBlinking": "solid",
   "editor.cursorSmoothCaretAnimation": "off",
-  "editor.cursorStyle": "block",
+  "editor.cursorStyle": "line",
   "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
   "editor.fontLigatures": true,
   "editor.fontSize": 14,
@@ -156,11 +155,9 @@
   "editor.tabSize": 2,
   "editor.trimAutoWhitespace": true,
   "editor.wordWrap": "on",
-  // Extensions
   "extensions.autoCheckUpdates": false,
   "extensions.autoUpdate": "off",
   "extensions.ignoreRecommendations": true,
-  // Files
   "files.autoSave": "onFocusChange",
   "files.exclude": {
     "**/.DS_Store": true,
@@ -170,22 +167,16 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  // Git
   "git.autofetch": true,
   "git.enableSmartCommit": true,
-  // Search
   "search.smartCase": true,
-  // Telemetry
   "telemetry.feedback.enabled": false,
-  // Terminal
   "terminal.integrated.copyOnSelection": true,
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
   "terminal.integrated.fontSize": 14,
   "terminal.integrated.gpuAcceleration": "on",
   "terminal.integrated.scrollback": 10000,
-  // Updates
   "update.mode": "none",
-  // Workbench
   "workbench.colorTheme": "Dark Modern",
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
