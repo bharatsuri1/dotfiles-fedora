@@ -4,7 +4,6 @@ set -Eeuo pipefail
 
 readonly REPOSITORY_URL="${DOTFILES_FEDORA_REPOSITORY_URL:-https://github.com/bharatsuri1/dotfiles-fedora.git}"
 readonly INSTALL_ROOT="${DOTFILES_FEDORA_INSTALL_ROOT:-$HOME/.local/share/dotfiles-fedora}"
-readonly LOCAL_BIN="$HOME/.local/bin"
 
 readonly GIT_NAME="${DOTFILES_GIT_NAME:-Bharat Suri}"
 readonly GIT_EMAIL="${DOTFILES_GIT_EMAIL:-bharatsuri.us@gmail.com}"
@@ -50,12 +49,7 @@ else
   git clone "$REPOSITORY_URL" "$INSTALL_ROOT"
 fi
 
-log 'installing fedora-setup and fedora-update commands'
-mkdir -p "$LOCAL_BIN"
-
-for command in fedora-setup fedora-update; do
-  ln -sf "$INSTALL_ROOT/bin/$command" "$LOCAL_BIN/$command"
-done
+log 'fedora-setup and fedora-update are linked into ~/.local/bin by the config phase'
 
 log 'configuring Git defaults'
 
