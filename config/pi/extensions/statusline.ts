@@ -225,7 +225,10 @@ export default function statuslineExtension(pi: ExtensionAPI) {
 
 	function renderGit(): string {
 		if (!gitBranch) return "";
-		return iconText(ICON_GIT_BRANCH, truncateToWidth(gitBranch, 28), rp.pine, rp.pine);
+		// Strip ANSI resets that truncateToWidth inserts before the ellipsis
+		// so the color wrapper applies uniformly to the branch name and the …
+		const truncated = truncateToWidth(gitBranch, 28).replace(/\x1b\[0m/g, "");
+		return iconText(ICON_GIT_BRANCH, truncated, rp.pine, rp.pine);
 	}
 
 	function alignLine(left: string, right: string, width: number): string {
@@ -375,7 +378,7 @@ export default function statuslineExtension(pi: ExtensionAPI) {
 
 	function renderNarrow(width: number): string[] {
 		const spacer = rp.muted("  ");
-		const git = gitBranch ? rp.pine(ICON_GIT_BRANCH) + " " + rp.pine(truncateToWidth(gitBranch, 12)) : "";
+		const git = gitBranch ? rp.pine(ICON_GIT_BRANCH) + " " + rp.pine(truncateToWidth(gitBranch, 12).replace(/\x1b\[0m/g, "")) : "";
 		const ctxTone = contextTone();
 		const cwdSegment = rp.iris(ICON_DIR) + " " + rp.subtle(shortenCwd(cwd, Math.max(10, Math.floor(width * 0.34))));
 		const ctxSegment = ctxTone(ICON_CONTEXT) + " " + ctxTone(contextText());
