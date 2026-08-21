@@ -29,7 +29,7 @@ vscode_app_installed() {
 vscode_extension_installed() {
   local ext_id="$1"
   flatpak run --command=code "$VSCODE_FLATPAK_ID" --list-extensions 2>/dev/null \
-    | grep -Fxq "$ext_id"
+    | grep -Fixq "$ext_id"
 }
 
 link_vscode_config() {
