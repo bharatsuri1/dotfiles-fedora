@@ -9,6 +9,17 @@ readonly VSCODE_KEYBINDINGS_TARGET="$VSCODE_FLATPAK_CONFIG/keybindings.json"
 # Rationale for each entry lives in docs/vscode.md.
 readonly VSCODE_EXTENSIONS=(
   vscodevim.vim
+  ms-vscode-remote.remote-ssh
+  ms-vscode-remote.remote-ssh-edit
+  GitHub.vscode-pull-request-github
+  ms-vscode.remote-explorer
+  openai.chatgpt
+  raunofreiberg.vesper
+  ms-azuretools.vscode-docker
+  ms-vscode-remote.remote-containers
+  ms-azuretools.vscode-containers
+  GitHub.vscode-github-actions
+  sst-dev.opencode
 )
 
 vscode_app_installed() {

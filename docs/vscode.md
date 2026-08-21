@@ -93,6 +93,127 @@ The allowlist is currently empty. Each future entry must document:
 | Trust assessment | Open source, widely adopted, no network or data-collection permissions beyond VS Code's own extension host |
 | Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension vscodevim.vim` |
 
+### ms-vscode-remote.remote-ssh
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `ms-vscode-remote.remote-ssh` |
+| Purpose | Edit files on remote machines over SSH from within VS Code |
+| Publisher | Microsoft (`ms-vscode-remote`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | First-party Microsoft extension; no telemetry beyond VS Code's own reporting; SSH keys and host credentials stay on the host machine |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension ms-vscode-remote.remote-ssh` |
+
+### ms-vscode-remote.remote-ssh-edit
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `ms-vscode-remote.remote-ssh-edit` |
+| Purpose | Lightweight SSH file editing without a full remote server install (companion to remote-ssh) |
+| Publisher | Microsoft (`ms-vscode-remote`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | First-party Microsoft extension; same trust profile as remote-ssh |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension ms-vscode-remote.remote-ssh-edit` |
+
+### GitHub.vscode-pull-request-github
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `GitHub.vscode-pull-request-github` |
+| Purpose | Review and manage GitHub pull requests and issues from within VS Code |
+| Publisher | GitHub (`GitHub`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | First-party GitHub extension; requires GitHub authentication through VS Code's built-in auth provider; no credentials stored by the extension itself |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension GitHub.vscode-pull-request-github` |
+
+### ms-vscode.remote-explorer
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `ms-vscode.remote-explorer` |
+| Purpose | Explorer view for remote SSH and container connections |
+| Publisher | Microsoft (`ms-vscode`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | First-party Microsoft extension; UI-only companion to the remote extensions |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension ms-vscode.remote-explorer` |
+
+### openai.chatgpt
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `openai.chatgpt` |
+| Purpose | ChatGPT integration for in-editor AI assistance |
+| Publisher | OpenAI (`openai`) |
+| License / source | Proprietary, distributed via the VS Code Marketplace |
+| Trust assessment | First-party OpenAI extension; sends code context to OpenAI's API per user request; requires user-provided API key or sign-in; no background data collection |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension openai.chatgpt` |
+
+### raunofreiberg.vesper
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `raunofreiberg.vesper` |
+| Purpose | Vesper color theme for VS Code, consistent with the managed Zed and SDDM Vesper themes |
+| Publisher | Rauno Freiberg (`raunofreiberg`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | Open-source theme extension; no permissions, no network access, no data collection |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension raunofreiberg.vesper` |
+
+### ms-azuretools.vscode-docker
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `ms-azuretools.vscode-docker` |
+| Purpose | Build, manage, and inspect Docker images and containers from within VS Code |
+| Publisher | Microsoft (`ms-azuretools`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | First-party Microsoft extension; interacts with the local Docker socket; no external network access beyond Docker's own |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension ms-azuretools.vscode-docker` |
+
+### ms-vscode-remote.remote-containers
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `ms-vscode-remote.remote-containers` |
+| Purpose | Open any project inside a Dev Container for reproducible development environments |
+| Publisher | Microsoft (`ms-vscode-remote`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | First-party Microsoft extension; requires Docker; container definitions are user-controlled via devcontainer.json |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension ms-vscode-remote.remote-containers` |
+
+### ms-azuretools.vscode-containers
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `ms-azuretools.vscode-containers` |
+| Purpose | Container management view (companion to vscode-docker) for browsing and inspecting running containers |
+| Publisher | Microsoft (`ms-azuretools`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | First-party Microsoft extension; same trust profile as vscode-docker |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension ms-azuretools.vscode-containers` |
+
+### GitHub.vscode-github-actions
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `GitHub.vscode-github-actions` |
+| Purpose | GitHub Actions workflow validation, autocomplete, and run status in VS Code |
+| Publisher | GitHub (`GitHub`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | First-party GitHub extension; reads workflow YAML and queries GitHub API for run status; requires GitHub authentication through VS Code's built-in auth provider |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension GitHub.vscode-github-actions` |
+
+### sst-dev.opencode
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `sst-dev.opencode` |
+| Purpose | OpenCode AI assistant integration in VS Code, consistent with the managed OpenCode Flatpak and terminal workflow |
+| Publisher | SST (`sst-dev`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | Open-source extension; connects to user-configured OpenCode or Ollama endpoints; no credentials stored by the extension beyond local configuration |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension sst-dev.opencode` |
+
 Extensions are installed via `flatpak run --command=code com.visualstudio.code
 --install-extension <id>`. Installation is idempotent: the module checks
 `--list-extensions` first and skips already-installed entries. Unlisted user
