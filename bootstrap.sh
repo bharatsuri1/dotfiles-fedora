@@ -4,7 +4,6 @@ set -Eeuo pipefail
 
 readonly REPOSITORY_URL="${DOTFILES_FEDORA_REPOSITORY_URL:-https://github.com/bharatsuri1/dotfiles-fedora.git}"
 readonly INSTALL_ROOT="${DOTFILES_FEDORA_INSTALL_ROOT:-$HOME/.local/share/dotfiles-fedora}"
-readonly LOCAL_BIN="$HOME/.local/bin"
 
 readonly GIT_NAME="${DOTFILES_GIT_NAME:-Bharat Suri}"
 readonly GIT_EMAIL="${DOTFILES_GIT_EMAIL:-bharatsuri.us@gmail.com}"
@@ -49,18 +48,6 @@ else
   mkdir -p "$(dirname -- "$INSTALL_ROOT")"
   git clone "$REPOSITORY_URL" "$INSTALL_ROOT"
 fi
-
-log 'installing fedora-setup command'
-mkdir -p "$LOCAL_BIN"
-
-cat > "$LOCAL_BIN/fedora-setup" <<EOF
-#!/usr/bin/env bash
-set -Eeuo pipefail
-
-exec "$INSTALL_ROOT/bootstrap.sh" "\$@"
-EOF
-
-chmod +x "$LOCAL_BIN/fedora-setup"
 
 log 'configuring Git defaults'
 
