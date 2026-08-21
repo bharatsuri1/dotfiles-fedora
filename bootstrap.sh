@@ -50,17 +50,12 @@ else
   git clone "$REPOSITORY_URL" "$INSTALL_ROOT"
 fi
 
-log 'installing fedora-setup command'
+log 'installing fedora-setup and fedora-update commands'
 mkdir -p "$LOCAL_BIN"
 
-cat > "$LOCAL_BIN/fedora-setup" <<EOF
-#!/usr/bin/env bash
-set -Eeuo pipefail
-
-exec "$INSTALL_ROOT/bootstrap.sh" "\$@"
-EOF
-
-chmod +x "$LOCAL_BIN/fedora-setup"
+for command in fedora-setup fedora-update; do
+  ln -sf "$INSTALL_ROOT/bin/$command" "$LOCAL_BIN/$command"
+done
 
 log 'configuring Git defaults'
 

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Link this into ~/.local/bin (or add the repo's bin/ to PATH) and run
+# `fedora-update` to update Fedora packages, Flatpak apps, and Homebrew.
+set -Eeuo pipefail
+
+log() {
+  printf '==> %s\n' "$*"
+}
+
+if command -v brew &>/dev/null; then
+  log 'updating Homebrew packages'
+  brew update && brew upgrade
+fi
+
+if command -v flatpak &>/dev/null; then
+  log 'updating Flatpak apps and runtimes'
+  flatpak update --assumeyes
+fi
+
+log 'updating Fedora packages with dnf'
+sudo dnf upgrade --refresh --assumeyes
+
+log 'all updates complete'
