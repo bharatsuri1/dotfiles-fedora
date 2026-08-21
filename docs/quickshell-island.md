@@ -40,7 +40,7 @@ state comes from the event-driven `UPower.displayDevice`; machines without a
 laptop battery show only the clock.
 
 The whole `config/quickshell/` directory is linked to
-`~/.config/quickshell` by `laptop-setup config`. The setup helper backs up an
+`~/.config/quickshell` by `fedora-setup config`. The setup helper backs up an
 existing destination before replacing it, so applying the managed directory is
 idempotent and recoverable.
 
@@ -49,11 +49,11 @@ idempotent and recoverable.
 Static checks:
 
 ```bash
-bash -n bootstrap.sh bin/laptop-setup lib/laptop-setup/*.sh \
-  lib/laptop-setup/fonts/*.sh
+bash -n bootstrap.sh bin/fedora-setup lib/fedora-setup/*.sh \
+  lib/fedora-setup/fonts/*.sh
 git diff --cached --check
-./bin/laptop-setup --help
-./bin/laptop-setup --dry-run config
+./bin/fedora-setup --help
+./bin/fedora-setup --dry-run config
 ```
 
 Live review must confirm the exact staged configuration at the laptop's 1.5×

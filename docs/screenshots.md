@@ -53,7 +53,7 @@ a38d6b29c62916791305842d1ee066b580f1d7063c3f9182faad79c081c2a423
 
 The setup verifies both the bundle checksum and installed Flatpak commit. To
 upgrade Tensaku, replace the versioned artifact and update its version,
-checksum, and expected commit in `lib/laptop-setup/screenshots.sh`.
+checksum, and expected commit in `lib/fedora-setup/screenshots.sh`.
 
 Tensaku's configuration is managed read-only at `config/tensaku/config.toml`.
 Change preferences in the repository rather than through Tensaku's preferences
@@ -79,5 +79,5 @@ Tensaku can be removed without touching saved images:
 flatpak uninstall --user dev.tensaku.Tensaku
 ```
 
-The repository artifact remains available for a later `laptop-setup screenshots`
+The repository artifact remains available for a later `fedora-setup screenshots`
 run.

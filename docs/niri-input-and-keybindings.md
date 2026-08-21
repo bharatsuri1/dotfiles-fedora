@@ -45,7 +45,7 @@ After editing `config/niri/config.kdl`, validate it before reloading:
 
 ```bash
 niri validate -c config/niri/config.kdl
-./bin/laptop-setup --dry-run config
+./bin/fedora-setup --dry-run config
 ```
 
 Niri normally reloads its active configuration after a valid change. For a

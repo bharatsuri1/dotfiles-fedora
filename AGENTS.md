@@ -2,21 +2,21 @@
 
 ## Project Structure & Module Organization
 
-This repository provides an idempotent Fedora laptop setup CLI. `bootstrap.sh` bootstraps the checkout. `bin/laptop-setup` dispatches setup phases in `lib/laptop-setup/*.sh`; shared helpers and constants belong in `common.sh`. Managed settings live under `config/`, static images in `assets/`, and plans in `docs/`.
+This repository provides an idempotent Fedora laptop setup CLI. `bootstrap.sh` bootstraps the checkout. `bin/fedora-setup` dispatches setup phases in `lib/fedora-setup/*.sh`; shared helpers and constants belong in `common.sh`. Managed settings live under `config/`, static images in `assets/`, and plans in `docs/`.
 
-When adding a phase, define an `install_<name>` function in a focused module, source it from `bin/laptop-setup`, add its command to `usage()` and `main()`, and place it correctly in the `apply` dependency order.
+When adding a phase, define an `install_<name>` function in a focused module, source it from `bin/fedora-setup`, add its command to `usage()` and `main()`, and place it correctly in the `apply` dependency order.
 
 ## Build, Test, and Development Commands
 
 There is no build step. Validate changes from the repository root:
 
-- `./bin/laptop-setup --help` checks CLI loading and command documentation.
-- `./bin/laptop-setup status` reports current managed state.
-- `./bin/laptop-setup --dry-run apply` previews setup without mutation (Fedora required).
-- `shellcheck bootstrap.sh bin/laptop-setup lib/laptop-setup/*.sh lib/laptop-setup/fonts/*.sh` performs static Bash analysis when ShellCheck is installed.
-- `bash -n bootstrap.sh bin/laptop-setup lib/laptop-setup/*.sh lib/laptop-setup/fonts/*.sh` checks shell syntax.
+- `./bin/fedora-setup --help` checks CLI loading and command documentation.
+- `./bin/fedora-setup status` reports current managed state.
+- `./bin/fedora-setup --dry-run apply` previews setup without mutation (Fedora required).
+- `shellcheck bootstrap.sh bin/fedora-setup lib/fedora-setup/*.sh lib/fedora-setup/fonts/*.sh` performs static Bash analysis when ShellCheck is installed.
+- `bash -n bootstrap.sh bin/fedora-setup lib/fedora-setup/*.sh lib/fedora-setup/fonts/*.sh` checks shell syntax.
 
-Run a focused dry-run command, such as `./bin/laptop-setup --dry-run fonts`, for the phase you changed.
+Run a focused dry-run command, such as `./bin/fedora-setup --dry-run fonts`, for the phase you changed.
 
 ## Work Tracking
 

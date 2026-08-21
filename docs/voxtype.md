@@ -123,8 +123,8 @@ voxtype record toggle   # or Hyper+S
 Preview or apply only this phase:
 
 ```bash
-./bin/laptop-setup --dry-run voxtype
-./bin/laptop-setup voxtype
+./bin/fedora-setup --dry-run voxtype
+./bin/fedora-setup voxtype
 ```
 
 The phase:
@@ -139,7 +139,7 @@ The phase:
 6. Attaches `voxtype.service` to `niri.service` and restarts it when a graphical
    session is active.
 
-`./bin/laptop-setup config` also relinks the managed Voxtype config, unit, and
+`./bin/fedora-setup config` also relinks the managed Voxtype config, unit, and
 niri bindings so configuration updates stay idempotent after the binary exists.
 
 ## Bindings
@@ -218,7 +218,7 @@ No model weights, recordings, or transcripts are tracked in Git.
 
 ## Status and doctor checks
 
-`./bin/laptop-setup status` reports:
+`./bin/fedora-setup status` reports:
 
 - `wtype` package presence
 - pinned binary checksum
@@ -248,7 +248,7 @@ Neither status path prints dictated text.
 | No text inserted | Install/verify `wtype`; confirm focus is in a text field; check `voxtype setup check` output chain |
 | Only clipboard fallback works | Some Flatpak or sandboxed fields reject virtual keyboards; paste manually once, or use a native field |
 | No microphone | `wpctl status`, `systemctl --user status pipewire.service wireplumber.service`, desktop privacy settings |
-| Missing model | `./bin/laptop-setup voxtype` or `voxtype setup --download --model base.en` |
+| Missing model | `./bin/fedora-setup voxtype` or `voxtype setup --download --model base.en` |
 | Stuck recording | `voxtype record cancel`, then `systemctl --user restart voxtype.service` |
 | Daemon crash loop | `journalctl --user -u voxtype.service -b`; ensure the binary checksum still matches the pin |
 
@@ -256,9 +256,9 @@ Neither status path prints dictated text.
 
 1. Review the upstream release notes and `SHA256SUMS.txt` for the new version.
 2. Update `VOXTYPE_VERSION`, asset names, and SHA-256 digests in
-   `lib/laptop-setup/voxtype.sh`.
+   `lib/fedora-setup/voxtype.sh`.
 3. Move the old `~/.local/bin/voxtype` aside if the checksum will change.
-4. Run `./bin/laptop-setup --dry-run voxtype`, then `./bin/laptop-setup voxtype`.
+4. Run `./bin/fedora-setup --dry-run voxtype`, then `./bin/fedora-setup voxtype`.
 5. Validate short dictations in Alacritty, Chromium, and a Flatpak text field.
 6. Record the new pin in the commit message.
 
@@ -312,9 +312,9 @@ Log out or reboot after removing membership.
 
 ## Validation checklist
 
-- [ ] `./bin/laptop-setup --dry-run voxtype` reports every intended mutation
-- [ ] `./bin/laptop-setup voxtype` is idempotent on a second run
-- [ ] `./bin/laptop-setup status` shows pinned binary, model, linked unit, and active service in a niri session
+- [ ] `./bin/fedora-setup --dry-run voxtype` reports every intended mutation
+- [ ] `./bin/fedora-setup voxtype` is idempotent on a second run
+- [ ] `./bin/fedora-setup status` shows pinned binary, model, linked unit, and active service in a niri session
 - [ ] `bash -n` and ShellCheck pass on the touched shell files
 - [ ] `niri validate --config config/niri/config.kdl` succeeds
 - [ ] Short dictation inserts into Alacritty, Chromium, a native GTK field, and a Flatpak text field

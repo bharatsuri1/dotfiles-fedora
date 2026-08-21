@@ -20,11 +20,11 @@ tickets in order so the machine retains its tested bare-niri recovery path.
 
 ### Ticket 2: Remove DMS ownership from the setup installer
 
-- [x] Remove the DMS phase and DMS Greeter workflow from `laptop-setup apply`, command dispatch, status, and documentation.
+- [x] Remove the DMS phase and DMS Greeter workflow from `fedora-setup apply`, command dispatch, status, and documentation.
 - [x] Stop enabling the DMS and Dank Linux COPRs during niri installation; keep niri sourced independently.
 - [x] Move the active `eDP-1` output configuration into repository-owned niri configuration.
 - [x] Remove all DMS includes and IPC bindings from the managed niri configuration.
-- [x] Ensure rerunning `laptop-setup apply` cannot reinstall, enable, or reattach DMS.
+- [x] Ensure rerunning `fedora-setup apply` cannot reinstall, enable, or reattach DMS.
 - [x] Add dry-run and validation coverage for the DMS-free installer path.
 
 ### Ticket 3: Add and wire bare-niri desktop components
@@ -68,7 +68,7 @@ live in the graphical session.
 
 - [x] Research the current Fedora/Quickshell package and APIs; track the distro
   `quickshell` package and the QML module inventory needed for the alcove.
-- [x] Add Quickshell to laptop-setup as an `install_quickshell` phase.
+- [x] Add Quickshell to fedora-setup as an `install_quickshell` phase.
 - [x] Create a minimal repository-owned configuration at `config/quickshell/shell.qml`.
 - [x] Wire it as one systemd user service attached to Niri via `niri.service.wants`.
 - [x] Add restart, logging, status, and fallback safeguards to the service unit, `status`, and the foundation doc.
@@ -80,7 +80,7 @@ live in the graphical session.
 - [ ] Implement a polished keyboard-first launcher with applications and custom actions.
 - [ ] Retain a deterministic Fuzzel fallback when Quickshell or its launcher fails.
 - [ ] Investigate a Quickshell-to-Elephant provider prototype without committing the architecture to it.
-- [ ] Add niri, Quickshell, DMS-absence, and Xwayland checks to `laptop-setup doctor`.
+- [ ] Add niri, Quickshell, DMS-absence, and Xwayland checks to `fedora-setup doctor`.
 
 ### Ticket 7: Build the macOS-style alcove and Dynamic Island
 

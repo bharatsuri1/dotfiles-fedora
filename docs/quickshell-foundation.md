@@ -98,7 +98,7 @@ systemctl --user status quickshell.service
 quickshell log -f        # upstream log reader, if preferred
 ```
 
-`laptop-setup status` reports the Quickshell package, the managed shell symlink,
+`fedora-setup status` reports the Quickshell package, the managed shell symlink,
 the service attachment, and the active/inactive state.
 
 ## Fallback
@@ -111,7 +111,7 @@ the service attachment, and the active/inactive state.
   (niri, swaync, swayidle, gtklock, polkit, portals) keeps working unchanged.
 - To force a clean reload: `systemctl --user restart quickshell.service`.
 - To roll back: `systemctl --user disable --now quickshell.service`,
-  `laptop-setup` re-link is idempotent; remove the symlink to revert to no bar.
+  `fedora-setup` re-link is idempotent; remove the symlink to revert to no bar.
 
 ## Provider inventory
 
@@ -141,11 +141,11 @@ documented here.
 
 ## Validation
 
-From a TTY-started niri session, after `laptop-setup apply`:
+From a TTY-started niri session, after `fedora-setup apply`:
 
 1. `systemctl --user status quickshell.service` shows active.
 2. The alcove renders centered and flush with the top edge of `eDP-1`.
-3. `laptop-setup status` reports `[ok] quickshell`, `[managed]` for the exact
+3. `fedora-setup status` reports `[ok] quickshell`, `[managed]` for the exact
    Quickshell directory link, and `[active] quickshell.service`.
 4. `pgrep -x quickshell` returns exactly one process.
 5. `journalctl --user -u quickshell.service` shows no Qt/Wayland errors.

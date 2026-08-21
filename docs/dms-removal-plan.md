@@ -31,7 +31,7 @@ The final reboot audit confirmed:
 - niri, Fuzzel, Mako, Swayidle, gtklock, LXQt PolicyKit, portals, media keys,
   brightness controls, screenshots, clipboard integration, and Xwayland were
   validated from a TTY-started session before and after reboot; and
-- rerunning `laptop-setup apply` cannot reinstall or reattach DMS.
+- rerunning `fedora-setup apply` cannot reinstall or reattach DMS.
 
 ## Migration decisions
 

@@ -1,4 +1,4 @@
-# Fedora 44 ISO to laptop-setup
+# Fedora 44 ISO to fedora-setup
 
 Linear path from the official Fedora 44 Everything netinst ISO to a TTY Custom
 OS install with working Wi-Fi, then the repository bootstrap. This repository
@@ -194,7 +194,7 @@ firmware missing from the early boot path. Intel Wi-Fi is not required to mount
 `/`; a normal reboot after the packages above is usually sufficient.
 
 Do not install the full desktop or development stack here. Bootstrap and
-`laptop-setup` own the rest.
+`fedora-setup` own the rest.
 
 Exit the chroot:
 
@@ -242,7 +242,7 @@ sudo dnf upgrade --refresh
 
 Reboot again if the kernel updated.
 
-## 8. Bootstrap laptop-setup
+## 8. Bootstrap fedora-setup
 
 **Where:** installed system, working network, administrative user. The
 repository need not exist yet.
@@ -260,7 +260,7 @@ curl -fsSL https://raw.githubusercontent.com/bharatsuri1/dotfiles-fedora/main/bo
 
 Bootstrap clones or updates
 `~/.local/share/dotfiles-fedora` (override with
-`DOTFILES_FEDORA_INSTALL_ROOT`), installs the `laptop-setup` wrapper under
+`DOTFILES_FEDORA_INSTALL_ROOT`), installs the `fedora-setup` wrapper under
 `~/.local/bin`, and runs guided `apply` unless you pass other arguments. Reruns
 are safe: phases detect completed work. Full CLI behavior is in the
 [README](../README.md).
@@ -269,10 +269,10 @@ are safe: phases detect completed work. Full CLI behavior is in the
 
 | Check | Command / action |
 | --- | --- |
-| Managed state | `laptop-setup status` |
-| Local checkout without fetching | `cd ~/.local/share/dotfiles-fedora && ./bin/laptop-setup --dry-run apply` |
+| Managed state | `fedora-setup status` |
+| Local checkout without fetching | `cd ~/.local/share/dotfiles-fedora && ./bin/fedora-setup --dry-run apply` |
 | First graphical session | From a TTY: `niri-session` |
-| Optional graphical login | After TTY recovery works: `laptop-setup sddm-enable` |
+| Optional graphical login | After TTY recovery works: `fedora-setup sddm-enable` |
 | Undo graphical default boot | From a recovery TTY: `sudo systemctl set-default multi-user.target` |
 
 Session layout, keybindings, device TUIs, and greeter rollback:
