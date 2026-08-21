@@ -1,69 +1,200 @@
 {
-  "telemetry.telemetryLevel": "off",
-  "telemetry.feedback.enabled": false,
-  "telemetry.sqm.enabled": false,
-  "workbench.enableExperiments": false,
-  "workbench.settings.enableNaturalLanguageSearch": false,
-  "extensions.ignoreRecommendations": true,
-  "extensions.showRecommendationsOnlyOnDemand": true,
-
-  "editor.fontFamily": "'JetBrainsMono Nerd Font', 'monospace'",
-  "editor.fontLigatures": true,
-  "editor.fontSize": 14,
-  "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font', 'monospace'",
-  "terminal.integrated.fontSize": 14,
-
-  "editor.lineNumbers": "relative",
+  // Accessibility signals
+  "accessibility.signals.chatEditModifiedFile": {
+    "sound": "off"
+  },
+  "accessibility.signals.chatRequestSent": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.chatResponseReceived": {
+    "sound": "off"
+  },
+  "accessibility.signals.chatUserActionRequired": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.clear": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.codeActionApplied": {
+    "sound": "off"
+  },
+  "accessibility.signals.codeActionTriggered": {
+    "sound": "off"
+  },
+  "accessibility.signals.diffLineDeleted": {
+    "sound": "off"
+  },
+  "accessibility.signals.diffLineInserted": {
+    "sound": "off"
+  },
+  "accessibility.signals.diffLineModified": {
+    "sound": "off"
+  },
+  "accessibility.signals.editsKept": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.editsUndone": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.lineHasBreakpoint": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.lineHasError": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.lineHasFoldedArea": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.lineHasInlineSuggestion": {
+    "sound": "off"
+  },
+  "accessibility.signals.lineHasWarning": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.nextEditSuggestion": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.noInlayHints": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.notebookCellCompleted": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.notebookCellFailed": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.onDebugBreak": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.positionHasError": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.positionHasWarning": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.progress": {
+    "announcement": "off",
+    "sound": "off"
+  },
+  "accessibility.signals.taskCompleted": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.taskFailed": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.terminalBell": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.terminalCommandFailed": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.terminalCommandSucceeded": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.terminalQuickFix": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.voiceModeStarted": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.voiceModeStopped": {
+    "announcement": "auto",
+    "sound": "off"
+  },
+  "accessibility.signals.voiceRecordingStarted": {
+    "sound": "off"
+  },
+  "accessibility.signals.voiceRecordingStopped": {
+    "sound": "off"
+  },
+  // Editor
+  "editor.accessibilitySupport": "on",
+  "editor.bracketPairColorization.enabled": true,
   "editor.cursorBlinking": "solid",
   "editor.cursorSmoothCaretAnimation": "off",
+  "editor.cursorStyle": "block",
+  "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 14,
+  "editor.formatOnSave": true,
+  "editor.guides.bracketPairs": true,
+  "editor.inertialScroll": true,
+  "editor.insertSpaces": true,
+  "editor.lineNumbers": "relative",
+  "editor.linkedEditing": true,
   "editor.minimap.enabled": true,
+  "editor.renderWhitespace": "trailing",
+  "editor.rulers": [
+    100
+  ],
+  "editor.scrollbar.vertical": "hidden",
   "editor.scrollBeyondLastLine": false,
   "editor.stickyScroll.enabled": false,
-  "editor.renderWhitespace": "trailing",
-  "editor.trimAutoWhitespace": true,
-  "editor.formatOnSave": true,
-  "editor.wordWrap": "on",
-  "editor.guides.bracketPairs": true,
-  "editor.bracketPairColorization.enabled": true,
-  "editor.linkedEditing": true,
   "editor.tabSize": 2,
-  "editor.insertSpaces": true,
-  "editor.rulers": [100],
-
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true,
+  "editor.trimAutoWhitespace": true,
+  "editor.wordWrap": "on",
+  // Extensions
+  "extensions.autoCheckUpdates": false,
+  "extensions.autoUpdate": "off",
+  "extensions.ignoreRecommendations": true,
+  // Files
   "files.autoSave": "onFocusChange",
   "files.exclude": {
-    "**/.git": true,
     "**/.DS_Store": true,
+    "**/.git": true,
     "**/node_modules": true
   },
-
-  "search.smartCase": true,
-
-  "git.enableSmartCommit": true,
-  "git.confirmSync": false,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  // Git
   "git.autofetch": true,
-  "git.inlineBlame": {
-    "enabled": true,
-    "delay": 400
-  },
-
-  "workbench.startupEditor": "none",
+  "git.enableSmartCommit": true,
+  // Search
+  "search.smartCase": true,
+  // Telemetry
+  "telemetry.feedback.enabled": false,
+  // Terminal
+  "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.gpuAcceleration": "on",
+  "terminal.integrated.scrollback": 10000,
+  // Updates
+  "update.mode": "none",
+  // Workbench
+  "workbench.colorTheme": "Dark Modern",
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
-  "workbench.tree.indent": 12,
-  "workbench.colorTheme": "Default Dark Modern",
-
-  "window.titleBarStyle": "native",
-  "window.menuBarVisibility": "hidden",
-
-  "terminal.integrated.scrollback": 10000,
-  "terminal.integrated.copyOnSelection": true,
-  "terminal.integrated.gpuAcceleration": "on",
-
-  "update.mode": "none",
-  "extensions.autoUpdate": false,
-  "extensions.autoCheckUpdates": false
+  "workbench.editor.useModal": "off",
+  "workbench.enableExperiments": false,
+  "workbench.iconTheme": "vs-seti",
+  "workbench.remoteIndicator.showExtensionRecommendations": false,
+  "workbench.settings.editor": "json",
+  "workbench.settings.enableNaturalLanguageSearch": false,
+  "workbench.startupEditor": "none",
+  "workbench.tree.indent": 12
 }

@@ -5,9 +5,11 @@ readonly VSCODE_SETTINGS_TARGET="$VSCODE_FLATPAK_CONFIG/settings.json"
 readonly VSCODE_KEYBINDINGS_SOURCE="$REPO_ROOT/config/vscode/keybindings.json"
 readonly VSCODE_KEYBINDINGS_TARGET="$VSCODE_FLATPAK_CONFIG/keybindings.json"
 
-# Reviewed extension allowlist (empty for now).
-# Rationale for future entries lives in docs/vscode.md.
-readonly VSCODE_EXTENSIONS=()
+# Reviewed extension allowlist.
+# Rationale for each entry lives in docs/vscode.md.
+readonly VSCODE_EXTENSIONS=(
+  vscodevim.vim
+)
 
 vscode_app_installed() {
   command -v flatpak >/dev/null 2>&1 && flatpak info "$VSCODE_FLATPAK_ID" >/dev/null 2>&1

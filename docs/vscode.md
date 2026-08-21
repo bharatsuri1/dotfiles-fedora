@@ -82,6 +82,17 @@ The allowlist is currently empty. Each future entry must document:
 | Trust assessment | Review notes (permissions, data access, reputation) |
 | Removal path | How to uninstall it |
 
+### vscodevim.vim
+
+| Field | Value |
+| --- | --- |
+| Extension ID | `vscodevim.vim` |
+| Purpose | Vim modal editing in VS Code, consistent with the managed Zed (vim mode) and Neovim configurations |
+| Publisher | VSCodeVim (`vscodevim`) |
+| License / source | MIT, distributed via the VS Code Marketplace |
+| Trust assessment | Open source, widely adopted, no network or data-collection permissions beyond VS Code's own extension host |
+| Removal path | `flatpak run --command=code com.visualstudio.code --uninstall-extension vscodevim.vim` |
+
 Extensions are installed via `flatpak run --command=code com.visualstudio.code
 --install-extension <id>`. Installation is idempotent: the module checks
 `--list-extensions` first and skips already-installed entries. Unlisted user
