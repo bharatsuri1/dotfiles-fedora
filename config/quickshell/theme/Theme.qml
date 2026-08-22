@@ -63,5 +63,5 @@ QtObject {
   readonly property int osdContentGap: 12
   // When true, a debug stepper pulses fake volume OSDs so layout can be
   // tuned without PipeWire. Keep false in normal use.
-  readonly property bool osdDebug: true
+  readonly property bool osdDebug: false
 }

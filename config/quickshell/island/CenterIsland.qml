@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Shapes
 import Quickshell
+import Quickshell.Services.Pipewire
 import Quickshell.Services.UPower
 import "../theme"
 
@@ -38,6 +39,36 @@ Item {
     root.osdMuted = muted ?? false
     root.mode = "osd"
     osdDwell.restart()
+  }
+
+  // --- real volume source: default PipeWire sink ---
+  // niri/wpctl remain the writers; the island only observes. PwNodeTracker
+  // is required for property change signals to fire on the node.
+  readonly property PwNode defaultSink: Pipewire.defaultAudioSink
+  readonly property var sinkAudio: defaultSink ? defaultSink.audio : null
+
+  // Suppress OSD flashes while the binding populates on shell start.
+  property bool audioReady: false
+  Timer {
+    running: true
+    interval: 2000
+    onTriggered: root.audioReady = true
+  }
+
+  PwNodeTracker {
+    model: root.defaultSink ? [root.defaultSink] : []
+  }
+
+  Connections {
+    target: root.sinkAudio
+    function onVolumeChanged() { root.onSinkEvent() }
+    function onMutedChanged() { root.onSinkEvent() }
+  }
+
+  function onSinkEvent() {
+    if (!audioReady || !sinkAudio)
+      return
+    showOsd("volume", sinkAudio.volume, sinkAudio.muted)
   }
 
   Timer {
