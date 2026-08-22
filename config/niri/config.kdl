@@ -73,6 +73,12 @@ window-rule {
     clip-to-geometry true
 }
 
+// Mod+T terminal: opens in a half-width column instead of the default full width.
+window-rule {
+    match app-id="^TerminalHalf$"
+    default-column-width { proportion 0.5; }
+}
+
 // Keep browser video useful without disrupting the scrolling layout.
 window-rule {
     match app-id=r#"^(chromium-browser|firefox|org\.mozilla\.firefox)$"# title="^Picture-in-Picture$"
@@ -139,7 +145,8 @@ debug {
 binds {
     Mod+Shift+Slash repeat=false { show-hotkey-overlay; }
 
-    Mod+T repeat=false hotkey-overlay-title="Open Alacritty" { spawn "alacritty"; }
+    Mod+Return repeat=false hotkey-overlay-title="Open Alacritty" { spawn "alacritty"; }
+    Mod+T repeat=false hotkey-overlay-title="Open Alacritty (Half Width)" { spawn "alacritty" "--class" "TerminalHalf"; }
     Mod+Ctrl+T repeat=false hotkey-overlay-title="Open Herdr" { spawn "alacritty" "--class" "Herdr" "--title" "Herdr" "-e" "herdr"; }
     // Attach to the default tmux session (sesh "home", rooted at ~); creates it if missing.
     // Absolute brew path: niri's spawn PATH lacks /home/linuxbrew so bare "sesh" fails silently.
@@ -199,8 +206,6 @@ binds {
     Mod+Ctrl+K { move-window-up; }
     Mod+Ctrl+L { move-column-right-or-to-monitor-right; }
 
-    Mod+Shift+BracketRight { focus-workspace-down; }
-    Mod+Shift+BracketLeft { focus-workspace-up; }
     Mod+Ctrl+BracketRight { move-column-to-workspace-down; }
     Mod+Ctrl+BracketLeft { move-column-to-workspace-up; }
 
