@@ -30,6 +30,7 @@ authentication state; the repository stores no browser credentials.
 | --- | --- | --- |
 | `Super+T` | Open Alacritty | `alacritty` |
 | `Super+Ctrl+T` | Open a Herdr client in Alacritty | `alacritty … -e herdr` |
+| `Super+Alt+T` | Attach to the tmux `home` session (sesh) | `alacritty … -e sesh connect home` |
 | `Super+Space` | Open the Fuzzel launcher | `fuzzel` |
 | `Super+B` | Open Chromium | `chromium-browser` |
 | `Super+Ctrl+C` | Open ChatGPT (Chromium app mode) | `chromium-browser --app=https://chatgpt.com/` |
