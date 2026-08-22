@@ -178,10 +178,10 @@ binds {
     Mod+Q repeat=false { close-window; }
     Mod+Shift+L repeat=false allow-inhibiting=false hotkey-overlay-title="Lock Screen" { spawn "lock-screen"; }
 
-    Mod+Left { focus-column-left; }
-    Mod+Down { focus-window-down; }
-    Mod+Up { focus-window-up; }
-    Mod+Right { focus-column-right; }
+    Mod+Left { focus-column-or-monitor-left; }
+    Mod+Down { focus-window-or-workspace-down; }
+    Mod+Up { focus-window-or-workspace-up; }
+    Mod+Right { focus-column-or-monitor-right; }
     Mod+H { focus-column-or-monitor-left; }
     Mod+J { focus-window-down; }
     Mod+K { focus-window-up; }

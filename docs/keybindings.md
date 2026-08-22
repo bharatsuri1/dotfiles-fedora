@@ -51,15 +51,16 @@ See [voxtype.md](voxtype.md) for setup, privacy, and rollback.
 
 ## Window focus & navigation
 
-Repeatable. Arrow keys and `HJKL` are aliases (`H`/`L` cross columns or monitors,
-`J`/`K` move between windows in a column).
+Repeatable. Arrow keys and `HJKL` are aliases (`H`/`L` and Left/Right cross
+columns or monitors; `J`/`K` move windows only, while Up/Down fall through
+to the workspace when the column edge is reached).
 
 | Binding | Action |
 | --- | --- |
 | `Super+Left` / `Super+H` | Focus column or monitor to the left |
 | `Super+Right` / `Super+L` | Focus column or monitor to the right |
-| `Super+Down` / `Super+J` | Focus window down |
-| `Super+Up` / `Super+K` | Focus window up |
+| `Super+Down` / `Super+J` | Focus window down (arrows fall through to workspace) |
+| `Super+Up` / `Super+K` | Focus window up (arrows fall through to workspace) |
 | `Super+Page Down` | Focus workspace down |
 | `Super+Page Up` | Focus workspace up |
 | `Super+1` … `Super+9` | Focus workspace 1–9 |
