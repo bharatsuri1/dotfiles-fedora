@@ -320,7 +320,8 @@ Item {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        width: Math.max(0, Math.min(parent.width, parent.width * root.osdValue))
+        width: Math.max(0, Math.min(parent.width,
+          parent.width * (root.osdMuted ? 0 : root.osdValue)))
         radius: parent.radius
         color: root.osdMuted ? Theme.fgDim : Theme.fg
 
