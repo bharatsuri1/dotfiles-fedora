@@ -335,9 +335,7 @@ Item {
       width: 38
       horizontalAlignment: Text.AlignLeft
       anchors.verticalCenter: parent.verticalCenter
-      text: root.osdMuted
-        ? "Mut"
-        : Math.round(root.osdValue * 100) + "%"
+      text: Math.round(root.osdValue * 100) + "%"
       color: root.osdMuted ? Theme.fgDim : Theme.fg
       font.family: Theme.fontUi
       font.pixelSize: 11
