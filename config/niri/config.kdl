@@ -142,7 +142,8 @@ binds {
     Mod+T repeat=false hotkey-overlay-title="Open Alacritty" { spawn "alacritty"; }
     Mod+Ctrl+T repeat=false hotkey-overlay-title="Open Herdr" { spawn "alacritty" "--class" "Herdr" "--title" "Herdr" "-e" "herdr"; }
     // Attach to the default tmux session (sesh "home", rooted at ~); creates it if missing.
-    Mod+Ctrl+Return repeat=false hotkey-overlay-title="Open Tmux (home)" { spawn "alacritty" "--class" "Tmux" "--title" "Tmux" "-e" "sesh" "connect" "home"; }
+    // Absolute brew path: niri's spawn PATH lacks /home/linuxbrew so bare "sesh" fails silently.
+    Mod+Ctrl+Return repeat=false hotkey-overlay-title="Open Tmux (home)" { spawn "alacritty" "--class" "Tmux" "--title" "Tmux" "-e" "/home/linuxbrew/.linuxbrew/bin/sesh" "connect" "home"; }
     Mod+Space repeat=false hotkey-overlay-title="Launcher" { spawn "vicinae" "toggle"; }
     Super+Shift+F23 repeat=false hotkey-overlay-title="Open Vicinae (Copilot key)" { spawn "vicinae" "toggle"; }
     Mod+B repeat=false hotkey-overlay-title="Open Chromium" { spawn "chromium-browser"; }
