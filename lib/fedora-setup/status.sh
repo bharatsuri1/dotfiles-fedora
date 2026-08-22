@@ -351,6 +351,9 @@ EOF
     "$HOME/.pi/agent/settings.json" \
     "$HOME/.pi/agent/extensions/statusline.ts" \
     "$HOME/.codex/dotfiles.config.toml" \
+    "$HOME/.config/opencode/opencode.jsonc" \
+    "$HOME/.config/opencode/tui.jsonc" \
+    "$HOME/.config/opencode/herdr-tui-session.js" \
     "$HOME/.config/starship.toml" \
     "$HOME/.config/bat/config" \
     "$HOME/.config/fastfetch/config.jsonc" \
