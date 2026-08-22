@@ -124,7 +124,8 @@ UPower; the rest remains follow-up:
 | Workspaces / focus / windows | niri IPC event stream (`niri msg event-stream`) or `niri msg --json` queries | `Quickshell.Io` (Process / Socket / StdioCollector) |
 | Notifications | already handled by swaync | none needed in shell; shell mirrors via notification server later |
 | Media | MPRIS | `Quickshell.Services.Mpris` |
-| Audio | PipeWire | `Quickshell.Services.Pipewire` |
+| Audio | PipeWire | `Quickshell.Services.Pipewire` (in use) |
+| Brightness | backlight sysfs | `Quickshell.Io.FileView` inotify watch on `/sys/class/backlight/<dev>/brightness` (in use) |
 | Network | NetworkManager | `Quickshell.Networking` |
 | Bluetooth | BlueZ | `Quickshell.Bluetooth` |
 | Battery / power | UPower | `Quickshell.Services.UPower` (in use) |
@@ -134,10 +135,12 @@ UPower; the rest remains follow-up:
 ## Performance budget
 
 Goal: event-driven providers, zero steady-state polling. The shell satisfies
-this: `SystemClock` at minute precision is the only timer, while UPower updates
-through signals. Future providers should subscribe to niri IPC and DBus
-signals. Any unavoidable poll must stay at or below a 1 Hz cadence and be
-documented here.
+this: `SystemClock` at minute precision is the only UI timer, while UPower,
+PipeWire, and the backlight `FileView` (inotify via `watchChanges`) all update
+through signals. The one OSD dwell timer and the 2 s startup suppression
+timer only run transiently. Future providers should subscribe to niri IPC,
+DBus signals, or inotify. Any unavoidable poll must stay at or below a 1 Hz
+cadence and be documented here.
 
 ## Validation
 
