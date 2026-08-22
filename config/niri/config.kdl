@@ -145,6 +145,7 @@ binds {
     Super+Shift+F23 repeat=false hotkey-overlay-title="Open Vicinae (Copilot key)" { spawn "vicinae" "toggle"; }
     Mod+B repeat=false hotkey-overlay-title="Open Chromium" { spawn "chromium-browser"; }
     Mod+Ctrl+C repeat=false hotkey-overlay-title="Open ChatGPT" { spawn "chromium-browser" "--app=https://chatgpt.com/"; }
+    Mod+Ctrl+M repeat=false hotkey-overlay-title="Open YouTube" { spawn "chromium-browser" "--app=https://music.youtube.com/"; }
     Mod+Ctrl+Y repeat=false hotkey-overlay-title="Open YouTube" { spawn "chromium-browser" "--app=https://youtube.com/"; }
     Mod+Ctrl+G repeat=false hotkey-overlay-title="Open GitHub" { spawn "chromium-browser" "--app=https://github.com/"; }
     Mod+Ctrl+I repeat=false hotkey-overlay-title="Open Gemini" { spawn "chromium-browser" "--app=https://gemini.google.com/"; }
