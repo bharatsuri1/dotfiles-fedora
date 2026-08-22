@@ -300,7 +300,7 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
       text: root.osdKind === "brightness"
         ? "\uf5de" // brightness
-        : root.osdMuted ? "\uf6a9" : "\uf028" // mute / volume
+        : root.osdMuted ? "\ueee8" : "\uf028" // mute / volume
       color: root.osdMuted ? Theme.fgDim : Theme.fg
       font.family: Theme.fontIcons
       font.pixelSize: 15
