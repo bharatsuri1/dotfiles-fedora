@@ -101,6 +101,7 @@ readonly FLATPAK_APPS=(
   ai.opencode.opencode
   dev.zed.Zed
   com.visualstudio.code
+  com.protonvpn.www
 )
 
 readonly QUICKSHELL_PACKAGES=(
