@@ -64,4 +64,8 @@ QtObject {
   // When true, a debug stepper pulses fake volume OSDs so layout can be
   // tuned without PipeWire. Keep false in normal use.
   readonly property bool osdDebug: false
+
+  // sysfs backlight device for the brightness OSD (checked once under
+  // /sys/class/backlight/; change if hardware differs, e.g. amdgpu_bl1).
+  readonly property string backlightDevice: "intel_backlight"
 }

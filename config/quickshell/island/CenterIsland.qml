@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Shapes
 import Quickshell
+import Quickshell.Io
 import Quickshell.Services.Pipewire
 import Quickshell.Services.UPower
 import "../theme"
@@ -47,12 +48,16 @@ Item {
   readonly property PwNode defaultSink: Pipewire.defaultAudioSink
   readonly property var sinkAudio: defaultSink ? defaultSink.audio : null
 
-  // Suppress OSD flashes while the binding populates on shell start.
+  // Suppress OSD flashes while the bindings populate on shell start.
   property bool audioReady: false
+  property bool brightnessReady: false
   Timer {
     running: true
     interval: 2000
-    onTriggered: root.audioReady = true
+    onTriggered: {
+      root.audioReady = true
+      root.brightnessReady = true
+    }
   }
 
   PwObjectTracker {
@@ -69,6 +74,36 @@ Item {
     if (!audioReady || !sinkAudio)
       return
     showOsd("volume", sinkAudio.volume, sinkAudio.muted)
+  }
+
+  // --- real brightness source: sysfs backlight ---
+  // Quickshell 0.2.1 has no backlight service, so the island watches the
+  // sysfs brightness file. watchChanges is inotify-based: event-driven,
+  // zero polling (verified: the kernel emits fsnotify MODIFY on this file).
+  // brightnessctl remains the writer via niri keybinds; display-only.
+  FileView {
+    id: brightnessFile
+    path: "/sys/class/backlight/" + Theme.backlightDevice + "/brightness"
+    preload: true
+    watchChanges: true
+    onFileChanged: reload()
+    onTextChanged: root.onBrightnessEvent()
+  }
+
+  // Static for the device's lifetime: read once, no watcher.
+  FileView {
+    id: maxBrightnessFile
+    path: "/sys/class/backlight/" + Theme.backlightDevice + "/max_brightness"
+    preload: true
+  }
+
+  function onBrightnessEvent() {
+    if (!brightnessReady || !brightnessFile.loaded || !maxBrightnessFile.loaded)
+      return
+    const max = parseFloat(maxBrightnessFile.text())
+    if (!(max > 0))
+      return
+    showOsd("brightness", parseFloat(brightnessFile.text()) / max, false)
   }
 
   Timer {
@@ -330,7 +365,7 @@ Item {
     Text {
       anchors.verticalCenter: parent.verticalCenter
       text: root.osdKind === "brightness"
-        ? "\uf5de" // brightness
+        ? "\uf522" // brightness
         : root.osdMuted ? "\ueee8" : "\uf028" // mute / volume
       color: root.osdMuted ? Theme.fgDim : Theme.fg
       font.family: Theme.fontIcons
