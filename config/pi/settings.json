@@ -10,8 +10,8 @@
   "defaultProjectTrust": "always",
   "tuiMode": "regular",
   "fullscreenScrollbar": "hidden",
-  "defaultProvider": "ollama",
-  "defaultModel": "kimi-k3:cloud",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "grok-4.5",
   "defaultThinkingLevel": "low",
   "npmCommand": [
     "mise",
