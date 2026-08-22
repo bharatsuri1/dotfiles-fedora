@@ -51,4 +51,17 @@ QtObject {
   readonly property color controlBgHover: accent
   readonly property color controlFg: fg
   readonly property color controlFgHover: bg
+
+  // --- transient OSD (volume / brightness share this morph) ---
+  // Shorter than hover: one content row (icon + slider + percent), not the
+  // control strip. Width stretches enough for a readable track.
+  readonly property real islandOsdScaleW: 1.6
+  readonly property real islandOsdScaleH: 1.25
+  readonly property int osdDwellMs: 1400
+  readonly property int osdSliderWidth: 120
+  readonly property int osdTrackHeight: 4
+  readonly property int osdContentGap: 12
+  // When true, a debug stepper pulses fake volume OSDs so layout can be
+  // tuned without PipeWire. Keep false in normal use.
+  readonly property bool osdDebug: true
 }
