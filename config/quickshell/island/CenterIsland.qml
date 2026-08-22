@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Shapes
 import Quickshell
+import Quickshell.Io
+import Quickshell.Services.Pipewire
 import Quickshell.Services.UPower
 import "../theme"
 
@@ -17,14 +19,126 @@ Item {
   // truth: the Shape silhouette and the window input mask both bind to the
   // live size, so the alcove curve re-tessellates every spring frame.
   property bool hovered: false
-  property real morphWidth: hovered
-    ? Theme.islandWidth * Theme.islandHoverScaleW
-    : Theme.islandWidth
-  property real morphHeight: hovered
-    ? Theme.islandHeight * Theme.islandHoverScaleH
-    : Theme.islandHeight
+  // Presentation mode. "osd" is a transient modal overlay (volume, later
+  // brightness): it wins over hover, hides status + controls, and reuses the
+  // same morph primitives so the silhouette and input mask stay correct.
+  // "idle"/"hover" are derived from `hovered` when no OSD is active.
+  property string mode: "idle" // "idle" | "hover" | "osd"
+  property string osdKind: "none" // "none" | "volume" | "brightness"
+  property real osdValue: 0 // 0..1
+  property bool osdMuted: false
 
-  property real fontScale: hovered ? Theme.islandHoverFontScale : 1.0
+  readonly property bool osdActive: mode === "osd"
+  readonly property string effectiveMode:
+    osdActive ? "osd" : (hovered ? "hover" : "idle")
+
+  // Single entry point for OSD content (volume now, brightness later).
+  // Every call refreshes the value and resets the dwell timer.
+  function showOsd(kind, value, muted) {
+    root.osdKind = kind
+    root.osdValue = Math.max(0, Math.min(1, value))
+    root.osdMuted = muted ?? false
+    root.mode = "osd"
+    osdDwell.restart()
+  }
+
+  // --- real volume source: default PipeWire sink ---
+  // niri/wpctl remain the writers; the island only observes. PwNodeTracker
+  // is required for property change signals to fire on the node.
+  readonly property PwNode defaultSink: Pipewire.defaultAudioSink
+  readonly property var sinkAudio: defaultSink ? defaultSink.audio : null
+
+  // Suppress OSD flashes while the bindings populate on shell start.
+  property bool audioReady: false
+  property bool brightnessReady: false
+  Timer {
+    running: true
+    interval: 2000
+    onTriggered: {
+      root.audioReady = true
+      root.brightnessReady = true
+    }
+  }
+
+  PwObjectTracker {
+    objects: root.defaultSink ? [root.defaultSink] : []
+  }
+
+  Connections {
+    target: root.sinkAudio
+    function onVolumesChanged() { root.onSinkEvent() }
+    function onMutedChanged() { root.onSinkEvent() }
+  }
+
+  function onSinkEvent() {
+    if (!audioReady || !sinkAudio)
+      return
+    showOsd("volume", sinkAudio.volume, sinkAudio.muted)
+  }
+
+  // --- real brightness source: sysfs backlight ---
+  // Quickshell 0.2.1 has no backlight service, so the island watches the
+  // sysfs brightness file. watchChanges is inotify-based: event-driven,
+  // zero polling (verified: the kernel emits fsnotify MODIFY on this file).
+  // brightnessctl remains the writer via niri keybinds; display-only.
+  FileView {
+    id: brightnessFile
+    path: "/sys/class/backlight/" + Theme.backlightDevice + "/brightness"
+    preload: true
+    watchChanges: true
+    onFileChanged: reload()
+    onTextChanged: root.onBrightnessEvent()
+  }
+
+  // Static for the device's lifetime: read once, no watcher.
+  FileView {
+    id: maxBrightnessFile
+    path: "/sys/class/backlight/" + Theme.backlightDevice + "/max_brightness"
+    preload: true
+  }
+
+  function onBrightnessEvent() {
+    if (!brightnessReady || !brightnessFile.loaded || !maxBrightnessFile.loaded)
+      return
+    const max = parseFloat(maxBrightnessFile.text())
+    if (!(max > 0))
+      return
+    showOsd("brightness", parseFloat(brightnessFile.text()) / max, false)
+  }
+
+  Timer {
+    id: osdDwell
+    interval: Theme.osdDwellMs
+    onTriggered: root.mode = root.hovered ? "hover" : "idle"
+  }
+
+  // Dry-run trigger (no PipeWire yet): while osdDebug is on, step a fake
+  // volume up/down so the morph, layout, and dwell can be reviewed live.
+  Timer {
+    id: osdDebugStepper
+    interval: Theme.osdDwellMs + 900 // let the OSD exit between steps
+    repeat: true
+    running: Theme.osdDebug
+    property real step: 0
+    onTriggered: {
+      step = (step + 1) % 6
+      root.showOsd("volume", 0.35 + step * 0.13, step === 4)
+    }
+  }
+
+  property real morphWidth: root.effectiveMode === "osd"
+    ? Theme.islandWidth * Theme.islandOsdScaleW
+    : root.hovered
+      ? Theme.islandWidth * Theme.islandHoverScaleW
+      : Theme.islandWidth
+  property real morphHeight: root.effectiveMode === "osd"
+    ? Theme.islandHeight * Theme.islandOsdScaleH
+    : root.hovered
+      ? Theme.islandHeight * Theme.islandHoverScaleH
+      : Theme.islandHeight
+
+  property real fontScale:
+    root.effectiveMode === "hover" ? Theme.islandHoverFontScale : 1.0
 
   // 0 at resting size, 1 when fully expanded; drives control-button reveal.
   readonly property real expandProgress: {
@@ -151,6 +265,12 @@ Item {
     scale: root.fontScale
     transformOrigin: Item.Top
     opacity: Math.max(0, Math.min(1, (root.revealProgress - 0.34) / 0.66))
+      * (root.osdActive ? 0 : 1)
+    visible: opacity > 0
+
+    Behavior on opacity {
+      NumberAnimation { duration: 120 }
+    }
     transform: Translate {
       y: -root.height * (1 - root.revealProgress)
     }
@@ -225,6 +345,71 @@ Item {
     }
   }
 
+  // Transient OSD row: icon + slider + percent, same top-edge glue as the
+  // status row. Volume now; brightness reuses this with showOsd().
+  Row {
+    id: osdRow
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    anchors.topMargin: Math.max(0, (Theme.islandHeight - implicitHeight) / 2 - 1)
+    spacing: Theme.osdContentGap
+    transformOrigin: Item.Top
+
+    visible: root.osdActive || osdRow.opacity > 0
+    opacity: root.osdActive ? 1 : 0
+
+    Behavior on opacity {
+      NumberAnimation { duration: 120 }
+    }
+
+    Text {
+      anchors.verticalCenter: parent.verticalCenter
+      text: root.osdKind === "brightness"
+        ? "\uf522" // brightness
+        : root.osdMuted ? "\ueee8" : "\uf028" // mute / volume
+      color: root.osdMuted ? Theme.fgDim : Theme.fg
+      font.family: Theme.fontIcons
+      font.pixelSize: 15
+    }
+
+    // Display-only slider: track + proportional fill. Interactive drag is
+    // deferred; niri/wpctl remain the source of truth for the value.
+    Rectangle {
+      id: osdTrack
+      width: Theme.osdSliderWidth
+      height: Theme.osdTrackHeight
+      radius: height / 2
+      anchors.verticalCenter: parent.verticalCenter
+      color: Theme.batteryTrack
+
+      Rectangle {
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        width: Math.max(0, Math.min(parent.width,
+          parent.width * (root.osdMuted ? 0 : root.osdValue)))
+        radius: parent.radius
+        color: root.osdMuted ? Theme.fgDim : Theme.fg
+
+        Behavior on width {
+          NumberAnimation { duration: 150; easing.type: Easing.OutCubic }
+        }
+      }
+    }
+
+    // Fixed slot so percent changes never resize the pill.
+    Text {
+      width: 38
+      horizontalAlignment: Text.AlignLeft
+      anchors.verticalCenter: parent.verticalCenter
+      text: (root.osdMuted ? 0 : Math.round(root.osdValue * 100)) + "%"
+      color: root.osdMuted ? Theme.fgDim : Theme.fg
+      font.family: Theme.fontUi
+      font.pixelSize: 11
+      font.weight: Font.Medium
+    }
+  }
+
   // Control buttons: revealed inside the expanded silhouette. They fade and
   // settle with the same spring progress that drives the shape morph.
   Row {
@@ -234,7 +419,7 @@ Item {
     anchors.topMargin: Theme.islandHeight + 10
     spacing: Theme.controlGap
 
-    visible: root.expandProgress > 0.05
+    visible: !root.osdActive && root.expandProgress > 0.05
     opacity: root.expandProgress
     scale: 0.85 + 0.15 * root.expandProgress
     transformOrigin: Item.Top

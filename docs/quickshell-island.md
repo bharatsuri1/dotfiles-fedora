@@ -62,12 +62,31 @@ optical centering, type rendering, battery fill, fullscreen behavior, and a
 clean Quickshell journal. External and multi-monitor outputs remain required
 validation.
 
+## Transient OSD (volume / brightness)
+
+The island has an explicit presentation mode: `idle`, `hover`, or `osd`. A
+detected system change — volume/mute from the default PipeWire sink, or screen
+brightness from an inotify watch on the sysfs backlight file — calls
+`showOsd(kind, value, muted)`, which claims the island: the silhouette morphs
+to a shorter, wider pill (`islandOsdScaleW` × `islandOsdScaleH`), the clock,
+battery row, and hover control buttons hide, and a single row shows an icon,
+a display-only slider, and a fixed-width percent.
+
+A dwell timer (`osdDwellMs`, 1.4 s) holds the OSD and resets on every change;
+on timeout the island returns to hover if the pointer is still inside,
+otherwise idle. Mute swaps the speaker glyph (`\ueee8`), dims and drains the
+track, and shows `0%`. Brightness uses `\uf522` and always shows the real
+percent. Writers stay external (niri `wpctl`/`brightnessctl` keybinds); the
+island only observes, and both providers are event-driven (PipeWire signals,
+sysfs inotify) with a 2 s startup suppression window so shell reloads never
+flash an OSD.
+
 ## Next slice
 
 Any future state transition must inherit this geometry, use a complete
-reduced-motion path, and justify occupying permanent attention. Media, audio,
-notifications, network, Bluetooth, workspace context, and expansion remain out
-of the MVP.
+reduced-motion path, and justify occupying permanent attention. Media,
+notifications, network, Bluetooth, workspace context, and further expansion
+remain out of scope.
 
 ## Rollback
 
