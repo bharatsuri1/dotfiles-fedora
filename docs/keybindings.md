@@ -140,13 +140,13 @@ brightness repeat; mute and transport are non-repeat.
 
 | Key | Repeat | Action |
 | --- | --- | --- |
-| `Volume Up` | yes | Raise sink volume by 10% (capped at 100%) |
-| `Volume Down` | yes | Lower sink volume by 10% |
+| `Volume Up` | yes | Raise sink volume by 1% (capped at 100%) |
+| `Volume Down` | yes | Lower sink volume by 1% |
 | `Volume Mute` | no | Toggle sink mute |
 | `Mic Mute` | no | Toggle microphone mute |
 | `Play` / `Pause` | no | Play or pause media (`playerctl play-pause`) |
 | `Stop` | no | Stop media (`playerctl stop`) |
 | `Previous` | no | Previous track (`playerctl previous`) |
 | `Next` | no | Next track (`playerctl next`) |
-| `Brightness Up` | yes | Raise backlight by 10% |
-| `Brightness Down` | yes | Lower backlight by 10% |
+| `Brightness Up` | yes | Raise backlight by 1% |
+| `Brightness Down` | yes | Lower backlight by 1% |
