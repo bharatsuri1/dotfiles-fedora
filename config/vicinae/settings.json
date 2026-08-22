@@ -1,0 +1,27 @@
+{
+   "$schema": "https://vicinae.com/schemas/config.json",
+   "close_on_focus_loss": true,
+   "pop_to_root_on_close": true,
+   "escape_key_behavior": "",
+   "font": {
+      "normal": {
+         "size": 10.5
+      }
+   },
+   "theme": {
+      "dark": {
+         "name": "vicinae-dark"
+      }
+   },
+   "telemetry": {
+      "system_info": false
+   },
+   "launcher_window": {
+      "compact_mode": {
+         "enabled": true
+      },
+      "layer_shell": {
+         "layer": "overlay"
+      }
+   }
+}
