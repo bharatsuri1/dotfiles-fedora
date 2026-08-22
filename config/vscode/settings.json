@@ -189,9 +189,21 @@
   "search.smartCase": true,
   "telemetry.feedback.enabled": false,
   "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.defaultProfile.linux": "zsh (host)",
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
   "terminal.integrated.fontSize": 14,
   "terminal.integrated.gpuAcceleration": "on",
+  "terminal.integrated.profiles.linux": {
+    "zsh (host)": {
+      "args": [
+        "--host",
+        "--env=TERM=xterm-256color",
+        "--env=COLORTERM=truecolor",
+        "zsh"
+      ],
+      "path": "/usr/bin/flatpak-spawn"
+    }
+  },
   "terminal.integrated.scrollback": 10000,
   "update.mode": "none",
   "vim.autoindent": true,

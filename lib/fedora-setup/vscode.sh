@@ -5,6 +5,18 @@ readonly VSCODE_SETTINGS_TARGET="$VSCODE_FLATPAK_CONFIG/settings.json"
 readonly VSCODE_KEYBINDINGS_SOURCE="$REPO_ROOT/config/vscode/keybindings.json"
 readonly VSCODE_KEYBINDINGS_TARGET="$VSCODE_FLATPAK_CONFIG/keybindings.json"
 
+# Flatpak user overrides required so the integrated terminal runs the host login
+# shell with a usable environment. The profile in settings.json launches
+# `flatpak-spawn --host zsh`; these overrides let the sandbox forward the host
+# terminal's TERM/COLORTERM and allow richer host-spawn negotiation. ZDOTDIR is
+# not forwarded into host spawns on Development apps, so the host zsh resolves
+# the managed ~/.config/zsh startup normally.
+readonly VSCODE_TERMINAL_ENV_OVERRIDES=(
+  "TERM=xterm-256color"
+  "COLORTERM=truecolor"
+)
+readonly VSCODE_HOST_SPAWN_TALK_NAME="org.freedesktop.Flatpak"
+
 # Reviewed extension allowlist.
 # Reviewed extension allowlist.
 readonly VSCODE_EXTENSIONS=(
@@ -37,6 +49,39 @@ link_vscode_config() {
   link_config "$VSCODE_KEYBINDINGS_SOURCE" "$VSCODE_KEYBINDINGS_TARGET"
 }
 
+vscode_flatpak_override_show() {
+  flatpak override --user --show "$VSCODE_FLATPAK_ID" 2>/dev/null || true
+}
+
+vscode_overrides_expected() {
+  local overrides
+  overrides="$(vscode_flatpak_override_show)"
+
+  local setting
+  local -a actual=()
+  mapfile -t actual < <(sed -n '/^\[Environment\]$/,/^\[/p' <<<"$overrides" | tail -n +2)
+  while [[ ${#actual[@]} -gt 0 && -z "${actual[$((${#actual[@]} - 1))]}" ]]; do
+    unset 'actual[$((${#actual[@]} - 1))]'
+  done
+
+  [[ "${actual[*]-}" == " ${VSCODE_TERMINAL_ENV_OVERRIDES[*]}" ]] \
+    && sed -n '/^\[Session Bus Policy\]$/,/^\[/p' <<<"$overrides" | grep -Fxq "${VSCODE_HOST_SPAWN_TALK_NAME}=talk"
+}
+
+apply_vscode_flatpak_overrides() {
+  if vscode_overrides_expected; then
+    log "VS Code flatpak terminal overrides already applied"
+    return
+  fi
+
+  local -a flags=("--talk-name=$VSCODE_HOST_SPAWN_TALK_NAME")
+  local setting
+  for setting in "${VSCODE_TERMINAL_ENV_OVERRIDES[@]}"; do
+    flags+=("--env=$setting")
+  done
+  run flatpak override --user "${flags[@]}" "$VSCODE_FLATPAK_ID"
+}
+
 install_vscode_extensions() {
   local ext
   for ext in "${VSCODE_EXTENSIONS[@]}"; do
@@ -57,6 +102,7 @@ install_vscode() {
   fi
 
   link_vscode_config
+  apply_vscode_flatpak_overrides
   install_vscode_extensions
 }
 
@@ -97,6 +143,13 @@ show_vscode_status() {
     printf '  [alias]   code -> flatpak run %s\n' "$VSCODE_FLATPAK_ID"
   else
     printf '  [missing] code alias in managed zsh aliases\n'
+  fi
+
+  # Host-terminal flatpak overrides required by the integrated terminal profile.
+  if vscode_overrides_expected; then
+    printf '  [applied] flatpak overrides (host zsh terminal env)\n'
+  else
+    printf '  [missing] flatpak overrides (host zsh terminal env)\n'
   fi
 
   if ((${#VSCODE_EXTENSIONS[@]})); then
