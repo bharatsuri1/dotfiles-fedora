@@ -55,13 +55,13 @@ Item {
     onTriggered: root.audioReady = true
   }
 
-  PwNodeTracker {
-    model: root.defaultSink ? [root.defaultSink] : []
+  PwObjectTracker {
+    objects: root.defaultSink ? [root.defaultSink] : []
   }
 
   Connections {
     target: root.sinkAudio
-    function onVolumeChanged() { root.onSinkEvent() }
+    function onVolumesChanged() { root.onSinkEvent() }
     function onMutedChanged() { root.onSinkEvent() }
   }
 
