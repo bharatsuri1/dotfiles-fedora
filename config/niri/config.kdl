@@ -36,7 +36,7 @@ layout {
     }
     default-column-width { proportion 1.0; }
     focus-ring {
-        width 2
+        width 1
         active-color "#ffc799"
         inactive-color "#505050"
         urgent-color "#f5a191"
@@ -196,10 +196,10 @@ binds {
     Mod+Ctrl+K { move-window-up; }
     Mod+Ctrl+L { move-column-right-or-to-monitor-right; }
 
-    Mod+Page_Down { focus-workspace-down; }
-    Mod+Page_Up { focus-workspace-up; }
-    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
-    Mod+Ctrl+Page_Up { move-column-to-workspace-up; }
+    Mod+Shift+BracketRight { focus-workspace-down; }
+    Mod+Shift+BracketLeft { focus-workspace-up; }
+    Mod+Ctrl+BracketRight { move-column-to-workspace-down; }
+    Mod+Ctrl+BracketLeft { move-column-to-workspace-up; }
 
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
@@ -224,6 +224,8 @@ binds {
     Mod+Equal { set-column-width "+10%"; }
     Mod+Shift+Minus { set-window-height "-10%"; }
     Mod+Shift+Equal { set-window-height "+10%"; }
+    Mod+Shift+Comma { set-window-width "-10%"; }
+    Mod+Shift+Period { set-window-width "+10%"; }
 
     Mod+R repeat=false { switch-preset-column-width; }
     Mod+Shift+R repeat=false { switch-preset-column-width-back; }
