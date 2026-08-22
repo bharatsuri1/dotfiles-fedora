@@ -250,7 +250,9 @@ Item {
         { glyph: "\uf028", name: "sound",
           command: ["alacritty", "--class", "IslandAudio", "--title", "Audio", "-e", "wiremix", "-v", "playback"] },
         { glyph: "\u23fb", name: "power",
-          command: ["alacritty", "--class", "IslandPower", "--title", "Power", "-e", "island-power"] }
+          command: ["alacritty", "--class", "IslandPower", "--title", "Power", "-e", "island-power"] },
+        { glyph: "\uf023", name: "lock",
+          command: ["lock-screen"] }
       ]
 
       delegate: Rectangle {
