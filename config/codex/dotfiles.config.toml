@@ -1,7 +1,7 @@
 #:schema https://developers.openai.com/codex/config-schema.json
 
-model = "gpt-5.6-terra"
-model_reasoning_effort = "medium"
+model = "luna"
+model_reasoning_effort = "high"
 
 [features]
 hooks = true
