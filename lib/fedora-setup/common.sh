@@ -170,7 +170,7 @@ enable_copr() {
     log "COPR $repository already enabled"
   else
     local -a command=(sudo dnf copr enable)
-    $ASSUME_YES && command+=(--assumeyes)
+    $ASSUME_YES && command+=(-y)
     run "${command[@]}" "$repository"
   fi
 }
