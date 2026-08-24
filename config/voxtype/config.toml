@@ -42,13 +42,10 @@ translate = false
 on_demand_loading = false
 
 [output]
-# Paste the complete transcription through the clipboard instead of simulating
-# one keyboard event per character; restore the user's clipboard afterward.
-mode = "paste"
-fallback_to_clipboard = true
+# Copy the complete transcription to the clipboard for manual pasting.
+mode = "clipboard"
 type_delay_ms = 0
 pre_type_delay_ms = 50
-restore_clipboard = true
 
 [output.notification]
 # Start/stop notifications are replaced by the floating waveform OSD below.
