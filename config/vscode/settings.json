@@ -432,8 +432,8 @@
     },
     {
       "before": [
-        "<C-w>",
-        "h"
+        "<leader>",
+        "H"
       ],
       "commands": [
         "workbench.action.focusPreviousGroup"
@@ -441,8 +441,8 @@
     },
     {
       "before": [
-        "<C-w>",
-        "l"
+        "<leader>",
+        "L"
       ],
       "commands": [
         "workbench.action.focusNextGroup"
@@ -450,8 +450,8 @@
     },
     {
       "before": [
-        "<C-w>",
-        "j"
+        "<leader>",
+        "J"
       ],
       "commands": [
         "workbench.action.focusBelowGroup"
@@ -459,8 +459,8 @@
     },
     {
       "before": [
-        "<C-w>",
-        "k"
+        "<leader>",
+        "K"
       ],
       "commands": [
         "workbench.action.focusAboveGroup"

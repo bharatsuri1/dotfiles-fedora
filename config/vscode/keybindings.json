@@ -66,6 +66,11 @@
     "key": "ctrl+\\"
   },
   {
+    "command": "workbench.action.closeActiveEditor",
+    "key": "ctrl+w",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
     "command": "workbench.action.closeEditorsInGroup",
     "key": "ctrl+shift+w",
     "when": "vim.mode == 'Normal'"
