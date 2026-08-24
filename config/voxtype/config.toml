@@ -52,7 +52,7 @@ pre_type_delay_ms = 50
 on_recording_start = false
 on_recording_stop = false
 # Do not put dictated text into notifications.
-on_transcription = false
+on_transcription = true
 
 [osd]
 # Floating waveform shown while recording, replacing the start/stop
