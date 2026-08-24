@@ -34,6 +34,9 @@ fi
 log 'running the Fedora setup from the repo'
 "$INSTALL_ROOT/bin/fedora-setup" --yes apply
 
+log 'updating SDDM from the repo'
+"$INSTALL_ROOT/bin/fedora-setup" --yes sddm
+
 if command -v brew &>/dev/null; then
   log 'updating Homebrew packages'
   brew update && brew upgrade -y
