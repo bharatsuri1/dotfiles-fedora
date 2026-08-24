@@ -128,11 +128,16 @@ configure_niri_services() {
 }
 
 install_config() {
+  if ! $DRY_RUN; then
+    sync_packaged_wallpapers "$REPO_ROOT/assets/wallpapers"
+    initialize_wallpapers
+  fi
   link_config "$REPO_ROOT/bin/fedora-update" "$HOME/.local/bin/fedora-update"
   link_config "$REPO_ROOT/bin/fedora-sync" "$HOME/.local/bin/fedora-sync"
   link_config "$REPO_ROOT/bin/lock-screen" "$HOME/.local/bin/lock-screen"
   link_config "$REPO_ROOT/bin/preview-lock-screen" "$HOME/.local/bin/preview-lock-screen"
   link_config "$REPO_ROOT/bin/session-wallpaper" "$HOME/.local/bin/session-wallpaper"
+  link_config "$REPO_ROOT/bin/wallpaper-picker" "$HOME/.local/bin/wallpaper-picker"
   link_config "$REPO_ROOT/bin/take-screenshot" "$HOME/.local/bin/take-screenshot"
   link_config "$REPO_ROOT/bin/fuzzel-toggle" "$HOME/.local/bin/fuzzel-toggle"
   link_config "$REPO_ROOT/bin/control-panel" "$HOME/.local/bin/control-panel"

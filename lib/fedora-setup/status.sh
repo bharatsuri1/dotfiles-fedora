@@ -370,6 +370,7 @@ EOF
     "$HOME/.local/bin/lock-screen" \
     "$HOME/.local/bin/preview-lock-screen" \
     "$HOME/.local/bin/session-wallpaper" \
+    "$HOME/.local/bin/wallpaper-picker" \
     "$HOME/.local/bin/take-screenshot" \
     "$HOME/.local/bin/fuzzel-toggle" \
     "$HOME/.local/bin/control-panel" \

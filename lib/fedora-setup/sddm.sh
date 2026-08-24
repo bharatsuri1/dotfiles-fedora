@@ -6,9 +6,10 @@ readonly SDDM_CONFIG_TARGET="/etc/sddm.conf.d/10-dotfiles-fedora.conf"
 readonly SDDM_AVATAR_SOURCE="$REPO_ROOT/assets/user-pictures/user_compress.jpeg"
 readonly SDDM_AVATAR_TARGET="/usr/share/sddm/faces/$(id -un).face.icon"
 readonly SDDM_THEME_AVATAR_TARGET="$SDDM_THEME_TARGET/avatar.jpg"
-readonly SDDM_BACKGROUND_SOURCE="$REPO_ROOT/assets/wallpapers/wallhaven-836yl2_2560x1600.png"
 readonly SDDM_BACKGROUND_TARGET="$SDDM_THEME_TARGET/background.png"
 readonly SDDM_PACKAGES=(sddm sddm-wayland-generic)
+# shellcheck source=/dev/null
+source "$REPO_ROOT/lib/wallpaper.sh"
 
 install_sddm_file() {
   local mode="$1"
@@ -57,7 +58,13 @@ install_sddm() {
     relative_path="${source#"$SDDM_THEME_SOURCE"/}"
     install_sddm_file 0644 "$source" "$SDDM_THEME_TARGET/$relative_path"
   done < <(find "$SDDM_THEME_SOURCE" -type f -print0)
-  install_sddm_file 0644 "$SDDM_BACKGROUND_SOURCE" "$SDDM_BACKGROUND_TARGET"
+  local wallpaper_source="$REPO_ROOT/assets/wallpapers/wallhaven-836yl2_2560x1600.png"
+  if ! $DRY_RUN; then
+    sync_packaged_wallpapers "$REPO_ROOT/assets/wallpapers"
+    initialize_wallpapers
+    wallpaper_source="$(current_wallpaper)"
+  fi
+  install_sddm_file 0644 "$wallpaper_source" "$SDDM_BACKGROUND_TARGET"
   install_sddm_file 0644 "$SDDM_AVATAR_SOURCE" "$SDDM_AVATAR_TARGET"
   install_sddm_file 0644 "$SDDM_AVATAR_SOURCE" "$SDDM_THEME_AVATAR_TARGET"
 
