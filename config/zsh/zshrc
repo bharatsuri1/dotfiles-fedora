@@ -2,6 +2,7 @@ mkdir -p "$XDG_CACHE_HOME/zsh" "$XDG_STATE_HOME/zsh"
 
 for module in \
   options \
+  cursor \
   completion \
   integrations \
   aliases \

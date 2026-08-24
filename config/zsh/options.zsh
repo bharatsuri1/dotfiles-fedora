@@ -4,3 +4,6 @@ SAVEHIST=50000
 
 setopt APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE AUTO_CD INTERACTIVE_COMMENTS NO_BEEP
+
+# Keep Escape responsive when switching from insert to vi normal mode.
+KEYTIMEOUT=1

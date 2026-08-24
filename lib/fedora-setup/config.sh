@@ -142,7 +142,7 @@ install_config() {
   link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"
   link_config "$REPO_ROOT/config/zsh/zshrc" "$HOME/.config/zsh/.zshrc"
   local module
-  for module in aliases completion integrations options plugins; do
+  for module in aliases completion cursor integrations options plugins; do
     link_config "$REPO_ROOT/config/zsh/$module.zsh" "$HOME/.config/zsh/$module.zsh"
   done
   link_config "$REPO_ROOT/config/atuin/config.toml" "$HOME/.config/atuin/config.toml"
