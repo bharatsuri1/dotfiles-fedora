@@ -116,14 +116,14 @@ Rectangle {
         radius: 13
         color: "#dc101010"
         border.width: 1
-        border.color: password.activeFocus ? "#ea83a5" : "#80ffffff"
+        border.color: password.activeFocus ? "#ffc799" : "#80ffffff"
 
         Text {
           anchors.left: parent.left
           anchors.leftMargin: 18
           anchors.verticalCenter: parent.verticalCenter
           text: "●"
-          color: password.activeFocus ? "#ea83a5" : "#b8ffffff"
+          color: password.activeFocus ? "#ffc799" : "#b8ffffff"
           font.pixelSize: 11
         }
 
@@ -140,7 +140,7 @@ Rectangle {
           echoMode: TextInput.Password
           focus: true
           color: "#ffffff"
-          selectionColor: "#ea83a5"
+          selectionColor: "#ffc799"
           selectedTextColor: "#101010"
           font.family: "Inter"
           font.pixelSize: 16
