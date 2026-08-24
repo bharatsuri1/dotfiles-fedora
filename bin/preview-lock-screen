@@ -4,6 +4,8 @@ set -Eeuo pipefail
 
 readonly SCRIPT_PATH="$(readlink -f -- "${BASH_SOURCE[0]}")"
 readonly REPO_ROOT="$(cd -- "$(dirname -- "$SCRIPT_PATH")/.." && pwd)"
+# shellcheck source=/dev/null
+source "$REPO_ROOT/lib/wallpaper.sh"
 
 check_only=false
 if [[ "${1:-}" == --check ]]; then
@@ -65,4 +67,4 @@ gtklock \
   --config "$REPO_ROOT/config/gtklock/config.ini" \
   --layout "$REPO_ROOT/config/gtklock/layout.ui" \
   --style "$preview_style" \
-  --background "$REPO_ROOT/assets/wallpapers/wallhaven-836yl2_2560x1600.png"
+  --background "$(current_wallpaper)"

@@ -218,6 +218,7 @@ binds {
 
     Mod+O repeat=false { toggle-overview; }
     Mod+Q repeat=false { close-window; }
+    Mod+Shift+W repeat=false hotkey-overlay-title="Pick Wallpaper" { spawn "wallpaper-picker"; }
     Mod+Shift+L repeat=false allow-inhibiting=false hotkey-overlay-title="Lock Screen" { spawn "lock-screen"; }
 
     Mod+Left { focus-column-or-monitor-left; }

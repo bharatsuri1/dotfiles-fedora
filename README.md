@@ -123,8 +123,12 @@ authorization prompts. Quickshell runs as one systemd user service attached to
 `niri.service` and renders the minimal top bar via the Wayland layer-shell
 protocol; it is optional and can be stopped without disturbing the session.
 These services are attached to `niri.service` and stop with the graphical
-session. Swaybg renders the repository-owned wallpaper used by SDDM and gtklock
-throughout the desktop session.
+session. Swaybg renders the selected wallpaper from `$XDG_WALLPAPERS_DIR`
+(defaulting to `$XDG_DATA_HOME/wallpapers` or `~/.local/share/wallpapers`).
+Setup synchronizes the packaged wallpapers from `assets/wallpapers` into that
+directory on each run and uses its `current` symlink for SDDM and gtklock as
+well. Extra supported images placed in the directory are preserved. Run
+`fedora-setup wallpaper` to choose an image with Fuzzel.
 
 The proportional desktop UI uses Inter with Noto for multilingual, CJK, and
 emoji fallback; terminal and code surfaces retain JetBrains Mono. The research,

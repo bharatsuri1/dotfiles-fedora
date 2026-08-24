@@ -75,6 +75,7 @@ Commands:
   nvim        Link managed LazyVim Neovim configuration
   homebrew    Install Homebrew if needed, then Dashlane CLI and managed formulae
   shell-tools Install pinned Zsh plugins directly without a plugin manager
+  wallpaper   Pick and activate a wallpaper from the managed wallpaper directory
   config      Back up conflicts and link the managed configuration
   shell       Change the login shell to Zsh after confirmation
 USAGE
@@ -152,6 +153,7 @@ main() {
     homebrew) install_homebrew ;;
     shell-tools) install_shell_tools ;;
     config) install_config ;;
+    wallpaper) "$REPO_ROOT/bin/wallpaper-picker" ;;
     shell) set_shell ;;
     *) usage >&2; die "unknown command: $command" ;;
   esac

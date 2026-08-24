@@ -4,7 +4,9 @@ set -Eeuo pipefail
 
 readonly SCRIPT_PATH="$(readlink -f -- "${BASH_SOURCE[0]}")"
 readonly REPO_ROOT="$(cd -- "$(dirname -- "$SCRIPT_PATH")/.." && pwd)"
+# shellcheck source=/dev/null
+source "$REPO_ROOT/lib/wallpaper.sh"
 
 exec swaybg \
-  --image "$REPO_ROOT/assets/wallpapers/wallhaven-836yl2_2560x1600.png" \
+  --image "$(current_wallpaper)" \
   --mode fill
