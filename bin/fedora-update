@@ -36,7 +36,7 @@ log 'running the Fedora setup from the repo'
 
 if command -v brew &>/dev/null; then
   log 'updating Homebrew packages'
-  brew update && brew upgrade
+  brew update && brew upgrade -y
 fi
 
 if command -v flatpak &>/dev/null; then
