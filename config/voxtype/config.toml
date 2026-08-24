@@ -42,12 +42,13 @@ translate = false
 on_demand_loading = false
 
 [output]
-# Prefer direct Wayland insertion through wtype. Clipboard remains the fallback
-# only when typing fails; existing clipboard content is left alone on success.
-mode = "type"
+# Paste the complete transcription through the clipboard instead of simulating
+# one keyboard event per character; restore the user's clipboard afterward.
+mode = "paste"
 fallback_to_clipboard = true
 type_delay_ms = 0
 pre_type_delay_ms = 50
+restore_clipboard = true
 
 [output.notification]
 # Start/stop notifications are replaced by the floating waveform OSD below.
