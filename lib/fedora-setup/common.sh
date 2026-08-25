@@ -102,6 +102,8 @@ readonly FLATPAK_APPS=(
   dev.zed.Zed
   com.visualstudio.code
   com.protonvpn.www
+  io.github.tanaybhomia.Whisp
+  io.appflowy.AppFlowy
 )
 
 readonly QUICKSHELL_PACKAGES=(

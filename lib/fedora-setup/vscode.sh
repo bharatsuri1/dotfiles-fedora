@@ -32,6 +32,7 @@ readonly VSCODE_EXTENSIONS=(
   ms-azuretools.vscode-containers
   GitHub.vscode-github-actions
   sst-dev.opencode
+  pomdtr.excalidraw-editor
 )
 
 vscode_app_installed() {
