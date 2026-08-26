@@ -1,6 +1,6 @@
 animations {
     workspace-switch {
-        spring damping-ratio=1.0 stiffness=1400 epsilon=0.0001
+        off
     }
 
     horizontal-view-movement {
@@ -68,21 +68,19 @@ layout {
     }
     default-column-width { proportion 1.0; }
     focus-ring {
-        width 1
-        active-color "#ffc799"
-        inactive-color "#505050"
-        urgent-color "#f5a191"
+        off
     }
     border {
         off
     }
     shadow {
         on
-        softness 24
-        spread 3
-        offset x=0 y=4
-        draw-behind-window true
-        color "#00000050"
+        softness 32
+        spread 4
+        offset x=0 y=5
+        draw-behind-window false
+        color "#00000088"
+        inactive-color "#00000028"
     }
 
     tab-indicator {
