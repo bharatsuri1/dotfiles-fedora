@@ -208,6 +208,7 @@ binds {
     Mod+Ctrl+V repeat=false hotkey-overlay-title="Open Visual Studio Code" { spawn "flatpak" "run" "com.visualstudio.code"; }
     Mod+Ctrl+S repeat=false hotkey-overlay-title="Open LocalSend" { spawn "flatpak" "run" "org.localsend.localsend_app"; }
     Mod+Shift+C repeat=false hotkey-overlay-title="Toggle Control Panel" { spawn "control-panel"; }
+    Mod+Shift+P repeat=false hotkey-overlay-title="Power Menu" { spawn "alacritty" "--class" "IslandPower" "--title" "Power" "-e" "island-power"; }
 
     Mod+Ctrl+Comma repeat=false hotkey-overlay-title="Toggle Notification Center" { spawn "swaync-client" "-t"; }
     Mod+Ctrl+Shift+Comma repeat=false hotkey-overlay-title="Dismiss All Notifications" { spawn "swaync-client" "-C"; }
