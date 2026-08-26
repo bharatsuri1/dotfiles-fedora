@@ -57,6 +57,12 @@ input {
     focus-follows-mouse max-scroll-amount="0%"
 }
 
+gestures {
+    hot-corners {
+        off
+    }
+}
+
 output "eDP-1" {
     mode "2560x1600@120.002"
     scale 1.5
@@ -297,5 +303,4 @@ binds {
     Mod+Escape repeat=false allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+E repeat=false { quit; }
     Ctrl+Alt+Delete repeat=false { quit; }
-    Mod+Shift+P repeat=false { power-off-monitors; }
 }
