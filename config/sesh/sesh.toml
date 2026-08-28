@@ -16,3 +16,19 @@ name = "home"
 path = "~"
 disable_startup_command = true
 
+[[wildcard]]
+pattern = "~/**"
+startup_command = "tmux rename-window shell"
+windows = ["agent", "editor", "git"]
+
+[[window]]
+name = "agent"
+startup_script = "cx"
+
+[[window]]
+name = "editor"
+startup_script = "nvim"
+
+[[window]]
+name = "git"
+startup_script = "if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then lazygit; else exit; fi"

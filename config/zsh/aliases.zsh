@@ -22,6 +22,11 @@ alias audio='wiremix'
 t() {
   local session_name="${1:-home}"
 
+  if [[ "$session_name" == "home" ]]; then
+    sesh connect home
+    return
+  fi
+
   if [[ -n "$TMUX" ]]; then
     tmux has-session -t "=$session_name" 2>/dev/null ||
       tmux new-session -d -s "$session_name" -c "$HOME"
