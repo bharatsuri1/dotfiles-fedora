@@ -169,6 +169,7 @@
     "**/node_modules": true
   },
   "files.insertFinalNewline": true,
+  "files.simpleDialog.enable": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "git.autofetch": true,
@@ -193,6 +194,7 @@
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
   "terminal.integrated.fontSize": 14,
   "terminal.integrated.gpuAcceleration": "on",
+  "terminal.integrated.initialHint": false,
   "terminal.integrated.profiles.linux": {
     "zsh (host)": {
       "args": [
