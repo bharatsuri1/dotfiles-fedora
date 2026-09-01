@@ -48,7 +48,8 @@ input {
         tap
         dwt
         natural-scroll
-        accel-speed 0.2
+        accel-profile "flat"
+        accel-speed 0.7
         scroll-factor 0.3
         click-method "clickfinger"
     }
