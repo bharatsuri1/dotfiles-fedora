@@ -8,8 +8,8 @@ not own OS installation, disk layout, secrets, or application state.
 
 The package and ownership choices are derived from the adjacent
 `dotfiles-omarchy` decision ledger. Fedora/DNF owns native tools and Chromium;
-Flatpak owns LocalSend, OpenCode, Visual Studio Code, and Zed; Homebrew owns
-Dashlane CLI, Starship, and `jless`; and Nerd Fonts owns the pinned
+Flatpak owns 1Password, LocalSend, OpenCode, Visual Studio Code, and Zed;
+Homebrew owns Starship and `jless`; and Nerd Fonts owns the pinned
 JetBrains Mono archive.
 
 ## Installation from ISO
@@ -181,13 +181,14 @@ default. Ownership, privacy, model locations, and rollback are documented in
 - Chromium from Fedora for browser app-mode launchers using
   `chromium-browser --app=URL`, plus a managed local policy that disables
   Chromium password saving, site notifications, and default-browser prompts;
-- LocalSend, OpenCode, Visual Studio Code, and Zed from Flathub, with managed
-  Zed settings, a custom Vesper theme, and a `zed` Zsh alias (see
+- 1Password, LocalSend, OpenCode, Visual Studio Code, Zed, Proton VPN, Whisp,
+  and AppFlowy from Flathub, with managed Zed settings, a custom Vesper theme,
+  and a `zed` Zsh alias (see
   [`docs/zed.md`](docs/zed.md)); managed VS Code settings, keybindings, and a
   `code` Zsh alias;
 - Neovim from Fedora with a managed LazyVim configuration, Vesper theme, and a
   `vim` Zsh alias (see [`docs/nvim.md`](docs/nvim.md));
-- Homebrew plus Dashlane CLI, Starship, `jless`, Lazygit, Lazydocker, Sesh, and `xh`;
+- Homebrew plus Starship, `jless`, Lazygit, Lazydocker, Sesh, and `xh`;
 - Herdr from its official verified installer;
 - Ollama from its official installer;
 - Voxtype for local push-to-toggle dictation under niri;
@@ -195,7 +196,7 @@ default. Ownership, privacy, model locations, and rollback are documented in
 - a minimal, repository-owned Quickshell top bar layered on the session.
 - managed Zsh, Starship, tmux, Sesh, bat, and fastfetch defaults.
 
-Authentication, browser profiles, Dashlane sessions, shell history, SSH keys,
+Authentication, browser profiles, 1Password data, shell history, SSH keys,
 Codex project trust records, GNOME dconf state, caches, and generated runtime
 files must stay outside Git.
 Chromium displays “Managed by your organization” because the setup installs

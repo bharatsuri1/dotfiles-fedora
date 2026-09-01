@@ -73,7 +73,7 @@ Commands:
   zed         Link managed Zed settings and Vesper theme for the Flatpak app
   vscode     Link managed VS Code settings and keybindings for the Flatpak app
   nvim        Link managed LazyVim Neovim configuration
-  homebrew    Install Homebrew if needed, then Dashlane CLI and managed formulae
+  homebrew    Install Homebrew if needed, then managed formulae
   shell-tools Install pinned Zsh plugins directly without a plugin manager
   wallpaper   Pick and activate a wallpaper from the managed wallpaper directory
   config      Back up conflicts and link the managed configuration

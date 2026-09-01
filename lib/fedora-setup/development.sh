@@ -4,6 +4,7 @@ readonly DEVELOPMENT_PACKAGES=(
 )
 
 readonly NPM_GLOBAL_PACKAGES=(
+  @devcontainers/cli
   @earendil-works/pi-coding-agent
   @openai/codex
   opencode-ai

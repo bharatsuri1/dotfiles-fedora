@@ -98,6 +98,7 @@ readonly DESKTOP_COMPATIBILITY_PACKAGES=(
 
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
+  com.onepassword.OnePassword
   ai.opencode.opencode
   dev.zed.Zed
   com.visualstudio.code
@@ -111,7 +112,6 @@ readonly QUICKSHELL_PACKAGES=(
 )
 
 readonly BREW_FORMULAE=(
-  dashlane/tap/dashlane-cli
   starship
   jless
   lazygit
@@ -120,9 +120,7 @@ readonly BREW_FORMULAE=(
   xh
 )
 
-readonly BREW_TRUST_TAPS=(
-  dashlane/tap/dashlane-cli
-)
+readonly BREW_TRUST_TAPS=()
 
 log() {
   printf '==> %s\n' "$*"
