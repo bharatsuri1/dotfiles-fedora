@@ -96,6 +96,25 @@ pim() {
   pi --model "${provider}/${model}"
 }
 
+# Pick an Ollama model via a fuzzy gum chooser, then launch OpenCode with it.
+# Falls back to the standard OpenCode launch when gum is unavailable.
+ocm() {
+  if ! command -v gum >/dev/null 2>&1; then
+    ollama launch opencode "$@"
+    return $?
+  fi
+  local line model
+  line=$(ollama list 2>/dev/null | tail -n +2 |
+    gum filter --height=35 --fuzzy \
+      --header='  Select an Ollama model for OpenCode' --header.foreground=99 \
+      --prompt='› ' --prompt.foreground=240 \
+      --placeholder='type to fuzzy-match a model...' \
+      --indicator='▶' --indicator.foreground=212) || return
+  [[ -z "$line" ]] && return
+  read -r model _ <<< "$line"
+  ollama launch opencode --model "$model" "$@"
+}
+
 # Prevent sleep/idle until Ctrl-C, or wrap a command (macOS caffeinate-style).
 # Does not pause Swayidle lock/DPMS — only blocks suspend via logind.
 caffeinate() {
