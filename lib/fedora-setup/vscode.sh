@@ -17,6 +17,13 @@ readonly VSCODE_TERMINAL_ENV_OVERRIDES=(
 )
 readonly VSCODE_HOST_SPAWN_TALK_NAME="org.freedesktop.Flatpak"
 
+# Docker socket visible inside the sandbox so the container extensions
+# (ms-azuretools.vscode-docker, ms-azuretools.vscode-containers,
+# ms-vscode-remote.remote-containers) can reach the host Docker daemon.
+# /var/run is a symlink to /run, and bwrap refuses to bind paths through it,
+# so the override must reference /run/docker.sock.
+readonly VSCODE_DOCKER_SOCKET="/run/docker.sock"
+
 # Reviewed extension allowlist.
 # Reviewed extension allowlist.
 readonly VSCODE_EXTENSIONS=(
@@ -65,22 +72,38 @@ vscode_overrides_expected() {
     unset 'actual[$((${#actual[@]} - 1))]'
   done
 
-  [[ "${actual[*]-}" == " ${VSCODE_TERMINAL_ENV_OVERRIDES[*]}" ]] \
-    && sed -n '/^\[Session Bus Policy\]$/,/^\[/p' <<<"$overrides" | grep -Fxq "${VSCODE_HOST_SPAWN_TALK_NAME}=talk"
+  ((${#actual[@]} == ${#VSCODE_TERMINAL_ENV_OVERRIDES[@]})) || return 1
+  local index
+  for index in "${!VSCODE_TERMINAL_ENV_OVERRIDES[@]}"; do
+    [[ "${actual[index]}" == "${VSCODE_TERMINAL_ENV_OVERRIDES[index]}" ]] || return 1
+  done
+
+  sed -n '/^\[Session Bus Policy\]$/,/^\[/p' <<<"$overrides" | grep -Fxq "${VSCODE_HOST_SPAWN_TALK_NAME}=talk"
+}
+
+vscode_docker_socket_override_expected() {
+  local filesystems
+  filesystems="$(sed -n 's/^filesystems=//p' <<<"$(vscode_flatpak_override_show)")"
+  [[ ";${filesystems};" == *";${VSCODE_DOCKER_SOCKET};"* ]]
 }
 
 apply_vscode_flatpak_overrides() {
   if vscode_overrides_expected; then
     log "VS Code flatpak terminal overrides already applied"
-    return
+  else
+    local -a flags=("--talk-name=$VSCODE_HOST_SPAWN_TALK_NAME")
+    local setting
+    for setting in "${VSCODE_TERMINAL_ENV_OVERRIDES[@]}"; do
+      flags+=("--env=$setting")
+    done
+    run flatpak override --user "${flags[@]}" "$VSCODE_FLATPAK_ID"
   fi
 
-  local -a flags=("--talk-name=$VSCODE_HOST_SPAWN_TALK_NAME")
-  local setting
-  for setting in "${VSCODE_TERMINAL_ENV_OVERRIDES[@]}"; do
-    flags+=("--env=$setting")
-  done
-  run flatpak override --user "${flags[@]}" "$VSCODE_FLATPAK_ID"
+  if vscode_docker_socket_override_expected; then
+    log "VS Code flatpak Docker socket override already applied"
+  else
+    run flatpak override --user --filesystem="$VSCODE_DOCKER_SOCKET" "$VSCODE_FLATPAK_ID"
+  fi
 }
 
 install_vscode_extensions() {
@@ -151,6 +174,13 @@ show_vscode_status() {
     printf '  [applied] flatpak overrides (host zsh terminal env)\n'
   else
     printf '  [missing] flatpak overrides (host zsh terminal env)\n'
+  fi
+
+  # Docker socket override required by the container extensions.
+  if vscode_docker_socket_override_expected; then
+    printf '  [applied] flatpak Docker socket (%s)\n' "$VSCODE_DOCKER_SOCKET"
+  else
+    printf '  [missing] flatpak Docker socket (%s)\n' "$VSCODE_DOCKER_SOCKET"
   fi
 
   if ((${#VSCODE_EXTENSIONS[@]})); then

@@ -132,6 +132,7 @@
   "chat.agent.enabled": false,
   "chatgpt.composerEnterBehavior": "enter",
   "chatgpt.openOnStartup": false,
+  "dev.containers.dockerPath": "/run/host/usr/bin/docker",
   "diffEditor.renderSideBySide": false,
   "editor.accessibilitySupport": "on",
   "editor.bracketPairColorization.enabled": true,
