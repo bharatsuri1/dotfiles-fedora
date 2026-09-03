@@ -134,7 +134,7 @@
   "chatgpt.openOnStartup": false,
   "dev.containers.dockerPath": "/run/host/usr/bin/docker",
   "diffEditor.renderSideBySide": false,
-  "editor.accessibilitySupport": "on",
+  "editor.accessibilitySupport": "off",
   "editor.bracketPairColorization.enabled": true,
   "editor.cursorBlinking": "solid",
   "editor.cursorSmoothCaretAnimation": "off",
