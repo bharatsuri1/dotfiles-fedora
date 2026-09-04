@@ -1,7 +1,7 @@
 /**
  * Statusline Extension
  *
- * A polished Rosé Pine footer statusline showing:
+ * A polished Vesper footer statusline showing:
  *   - cwd (shortened)
  *   - git branch
  *   - model / provider
@@ -50,13 +50,10 @@ export default function statuslineExtension(pi: ExtensionAPI) {
 	let renderTimer: ReturnType<typeof setTimeout> | null = null;
 
 	/* ─── nerd font icons ─── */
-	const ICON_MODEL = "";
+	const ICON_MODEL = " ";
 	const ICON_THINKING = "";
 	const ICON_COST = " ";
-	const ICON_TOKENS_UP = "";
-	const ICON_TOKENS_DOWN = "";
 	const ICON_CONTEXT = " ";
-	const ICON_CONTEXT_BAR = ""; // Alternatives:  󱞇
 	const ICON_CONTEXT_WINDOW = "";
 	const ICON_TOOLS = " ";
 	const ICON_QUEUE = "";
@@ -65,19 +62,19 @@ export default function statuslineExtension(pi: ExtensionAPI) {
 	const ICON_GIT_BRANCH = "";
 	const ICON_DIR = " ";
 
-	/* ─── Rosé Pine foreground palette ─── */
+	/* ─── Vesper foreground palette ─── */
 	const ansi = (rgb: [number, number, number]) => (s: string) => `\x1b[38;2;${rgb[0]};${rgb[1]};${rgb[2]}m${s}\x1b[0m`;
 	const rp = {
-		text: ansi([224, 222, 244]),
-		subtle: ansi([144, 140, 170]),
-		muted: ansi([110, 106, 134]),
-		love: ansi([235, 111, 146]),
-		gold: ansi([246, 193, 119]),
-		rose: ansi([235, 188, 186]),
-		pine: ansi([49, 116, 143]),
-		foam: ansi([156, 207, 216]),
-		mint: ansi([137, 221, 181]),
-		iris: ansi([196, 167, 231]),
+		text: ansi([255, 255, 255]),
+		subtle: ansi([160, 160, 160]),
+		muted: ansi([126, 126, 126]),
+		love: ansi([245, 145, 178]),
+		gold: ansi([255, 199, 153]),
+		rose: ansi([245, 161, 145]),
+		pine: ansi([172, 161, 207]),
+		foam: ansi([234, 131, 165]),
+		mint: ansi([153, 255, 228]),
+		iris: ansi([185, 174, 218]),
 	};
 
 	/* ─── helpers ─── */
@@ -102,7 +99,6 @@ export default function statuslineExtension(pi: ExtensionAPI) {
 		return `${str}${units[tier]}`;
 	};
 	const sep = () => rp.muted(" │ ");
-	const hair = () => rp.muted(" · ");
 
 	function queueRender() {
 		const gen = footerGeneration;
@@ -193,17 +189,6 @@ export default function statuslineExtension(pi: ExtensionAPI) {
 
 	function contextWindowText(): string {
 		return contextUsage.contextWindow > 0 ? fmtK(contextUsage.contextWindow) : "ctx";
-	}
-
-	function contextBar(width = 10): string {
-		const pct = Math.max(0, Math.min(100, contextUsage.percent ?? 0));
-		const filled = Math.round((pct / 100) * width);
-		return contextTone()("█".repeat(filled)) + rp.muted("░".repeat(width - filled));
-	}
-
-	function renderContextMeter(width = 10): string {
-		const tone = contextTone();
-		return tone(ICON_CONTEXT_BAR) + "  " + contextBar(width) + " " + tone(contextText());
 	}
 
 	function toolText(): string {
@@ -307,9 +292,6 @@ export default function statuslineExtension(pi: ExtensionAPI) {
 	/* ─── render tiers ─── */
 	function renderWide(width: number): string[] {
 		const ctxTone = contextTone();
-		const tokens = rp.love(ICON_TOKENS_UP) + " " + rp.love(fmtK(totalInput)) + hair() + rp.foam(ICON_TOKENS_DOWN) + " " + rp.foam(fmtK(totalOutput));
-		const contextMeter = renderContextMeter();
-		const contextWindowThinking = iconText(ICON_CONTEXT_WINDOW, contextWindowText(), ctxTone, ctxTone) + hair() + iconText(ICON_THINKING, thinkingLevel, rp.pine, rp.pine);
 
 		let dirBudget = Math.min(34, Math.max(18, Math.floor(width * 0.3)));
 		let modelBudget = Math.min(44, Math.max(24, Math.floor(width * 0.34)));
@@ -322,8 +304,11 @@ export default function statuslineExtension(pi: ExtensionAPI) {
 				{ top: renderAgentStatus(), bottom: renderGit() },
 			]);
 			const right = tableRows([
-				{ top: iconText(ICON_MODEL, modelDisplay(modelBudget), rp.foam, rp.subtle), bottom: contextMeter },
-				{ top: contextWindowThinking, bottom: tokens },
+				{ top: joinSegments([
+					iconText(ICON_MODEL, modelDisplay(modelBudget), rp.foam, rp.subtle),
+					iconText(ICON_CONTEXT_WINDOW, contextWindowText(), ctxTone, ctxTone),
+					iconText(ICON_THINKING, thinkingLevel, rp.pine, rp.pine),
+				]), bottom: "" },
 			]);
 			const rowWidth = Math.max(
 				visibleWidth(left[0]) + 1 + visibleWidth(right[0]),
@@ -437,7 +422,7 @@ export default function statuslineExtension(pi: ExtensionAPI) {
 			});
 
 			return {
-				invalidate() {},
+				invalidate() { },
 				render(width: number) {
 					return renderFooter(width);
 				},

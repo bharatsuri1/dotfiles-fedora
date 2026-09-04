@@ -1,5 +1,6 @@
 readonly DEVELOPMENT_PACKAGES=(
   mise
+  shellcheck
   uv
 )
 
