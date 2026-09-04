@@ -183,8 +183,9 @@ default. Ownership, privacy, model locations, and rollback are documented in
 - Chromium from Fedora for browser app-mode launchers using
   `chromium-browser --app=URL`, plus a managed local policy that disables
   Chromium password saving, site notifications, and default-browser prompts;
-- 1Password, LocalSend, OpenCode, Visual Studio Code, Zed, Proton VPN, Whisp,
-  and AppFlowy from Flathub, with managed Zed settings, a custom Vesper theme,
+- 1Password, LocalSend, OpenCode, Signal, Visual Studio Code, Zed, Proton
+  VPN, Whisp, and AppFlowy from Flathub, with managed Zed settings, a custom
+  Vesper theme,
   and a `zed` Zsh alias (see
   [`docs/zed.md`](docs/zed.md)); managed VS Code settings, keybindings, and a
   `code` Zsh alias;

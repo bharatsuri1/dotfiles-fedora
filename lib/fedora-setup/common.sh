@@ -107,6 +107,7 @@ readonly FLATPAK_APPS=(
   com.protonvpn.www
   io.github.tanaybhomia.Whisp
   io.appflowy.AppFlowy
+  org.signal.Signal
 )
 
 readonly QUICKSHELL_PACKAGES=(
