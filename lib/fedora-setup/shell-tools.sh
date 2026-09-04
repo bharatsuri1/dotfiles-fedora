@@ -36,4 +36,5 @@ install_shell_tools() {
   log 'installing directly sourced Zsh plugins without a plugin manager'
   install_zsh_plugin zsh-autosuggestions "$AUTOSUGGESTIONS_REPOSITORY" "$AUTOSUGGESTIONS_REVISION"
   install_zsh_plugin fast-syntax-highlighting "$SYNTAX_HIGHLIGHTING_REPOSITORY" "$SYNTAX_HIGHLIGHTING_REVISION"
+  install_zsh_plugin fzf-tab "$FZF_TAB_REPOSITORY" "$FZF_TAB_REVISION"
 }
