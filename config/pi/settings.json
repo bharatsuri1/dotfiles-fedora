@@ -11,8 +11,8 @@
   "tuiMode": "regular",
   "fullscreenScrollbar": "hidden",
   "defaultProvider": "opencode-go",
-  "defaultModel": "grok-4.5",
-  "defaultThinkingLevel": "low",
+  "defaultModel": "glm-5.2",
+  "defaultThinkingLevel": "high",
   "npmCommand": [
     "mise",
     "exec",

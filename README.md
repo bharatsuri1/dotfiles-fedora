@@ -176,13 +176,16 @@ default. Ownership, privacy, model locations, and rollback are documented in
 - local-only Atuin history with automatic sync, update checks, and its daemon disabled;
 - Mise-managed Node.js with Pi and Codex, a managed Pi statusline extension,
   and a portable Codex profile selected by the `cx` alias;
-- pinned, directly sourced `zsh-autosuggestions` and
-  `fast-syntax-highlighting` checkouts with no shell framework or plugin manager;
+- pinned, directly sourced `zsh-autosuggestions`,
+  `fast-syntax-highlighting`, and `fzf-tab` checkouts with no shell framework
+  or plugin manager, with `fzf-tab` rendering the completion menu as an
+  fzf-powered picker;
 - Chromium from Fedora for browser app-mode launchers using
   `chromium-browser --app=URL`, plus a managed local policy that disables
   Chromium password saving, site notifications, and default-browser prompts;
-- 1Password, LocalSend, OpenCode, Visual Studio Code, Zed, Proton VPN, Whisp,
-  and AppFlowy from Flathub, with managed Zed settings, a custom Vesper theme,
+- 1Password, LocalSend, OpenCode, Signal, Visual Studio Code, Zed, Proton
+  VPN, Whisp, and AppFlowy from Flathub, with managed Zed settings, a custom
+  Vesper theme,
   and a `zed` Zsh alias (see
   [`docs/zed.md`](docs/zed.md)); managed VS Code settings, keybindings, and a
   `code` Zsh alias;

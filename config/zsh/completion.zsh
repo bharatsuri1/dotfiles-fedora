@@ -6,5 +6,8 @@ else
   compinit -C -d "$XDG_CACHE_HOME/zsh/zcompdump"
 fi
 
+# fzf-tab (sourced later in plugins.zsh) takes over the completion menu and
+# renders an fzf picker; menu select is kept as the fallback when fzf-tab is
+# absent so completion still gets an interactive, highlighted column list.
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'

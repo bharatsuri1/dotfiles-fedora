@@ -329,6 +329,7 @@ show_status() {
   done <<EOF
 zsh-autosuggestions $AUTOSUGGESTIONS_REVISION
 fast-syntax-highlighting $SYNTAX_HIGHLIGHTING_REVISION
+fzf-tab $FZF_TAB_REVISION
 EOF
 
   printf 'Configuration:\n'
