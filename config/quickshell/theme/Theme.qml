@@ -45,6 +45,13 @@ QtObject {
   // --- control buttons (shown while the island is expanded) ---
   readonly property int controlSize: 34
   readonly property int controlGap: 18
+  // Vertical gap between the resting strip and the control row.
+  readonly property int controlTopGap: 10
+  // The control row fades over this many pixels as the silhouette's bottom
+  // edge passes the row's own bottom edge, so icons are never visible
+  // outside the panel: fully faded before the collapsing edge reaches them,
+  // and only appearing once the expanding edge has covered them.
+  readonly property int controlFadeSpan: 20
   readonly property color controlBg: "#262626"
   // Hover washes the button in warm orange and flips the glyph to the
   // background color so it stays readable.

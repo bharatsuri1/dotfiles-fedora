@@ -1,8 +1,9 @@
 # Quickshell center alcove
 
 Status: MVP implemented; final live review pending. The shell renders a single
-centered alcove with a clock and battery indicator. Its static silhouette
-passed the first live review before the entrance motion was added.
+centered alcove with a clock and battery indicator, a hover-expanded control
+strip, and a transient volume/brightness OSD. Its static silhouette passed the
+first live review before the entrance motion was added.
 
 ## Design
 
@@ -12,24 +13,35 @@ depth, creating a restrained lip before the sidewalls resolve into soft lower
 corners. The rest of the top strip is transparent and does not accept pointer
 input.
 
-The surface is intentionally quiet:
+The compact surface is intentionally quiet:
 
-- a fixed 250×34 logical-pixel silhouette prevents minute and percentage
-  changes from resizing the island;
+- a fixed 250×34 logical-pixel resting silhouette prevents minute and
+  percentage changes from resizing the island;
 - a 12-hour clock and battery percentage use fixed measurement slots;
 - the battery is an authored gauge, avoiding icon-font rendering differences;
 - the gauge and percentage use an 8-pixel optical gap;
 - charging changes only the battery treatment to Vesper green; and
-- there are no shadows, borders, hover states, or continuous animation.
+- there are no shadows, borders, or continuous animation.
 
 Geometry is centralized in `theme/Theme.qml`: `islandWidth`, `islandHeight`,
 `topFlareWidth`, `topFlareDepth`, `cornerRadius`, and `contentGap` define the composition.
-`island/CenterIsland.qml` owns the shape and content.
+`island/CenterIsland.qml` owns state, providers, and composition.
+
+## File layout
+
+- `island/CenterIsland.qml` — state machine (`idle` / `hover` / `osd`),
+  event-driven providers (PipeWire, UPower, sysfs backlight, clock), and the
+  animated `morphWidth`/`morphHeight` that drive shape, mask, and reveal.
+- `island/IslandShape.qml` — the alcove silhouette as a filled Shape.
+- `island/StatusRow.qml` — clock and battery gauge row.
+- `island/OsdRow.qml` — transient OSD row (icon, slider, percent).
+- `island/ControlsRow.qml` — control buttons revealed while expanded.
 
 The only motion is a 360 ms `OutExpo` entrance from the top edge when the shell
-starts or reloads. Shape and content move as one object; content resolves after
-the surface is already legible. Setting `motionEnabled` to `false` renders the
-finished state immediately, without an opacity-hidden first frame.
+starts or reloads, plus the spring-driven hover/OSD morphs described below.
+Shape and content move as one object; content resolves after the surface is
+already legible. Setting `motionEnabled` to `false` renders the finished state
+immediately, without an opacity-hidden first frame.
 
 ## Runtime model
 
@@ -91,6 +103,6 @@ remain out of scope.
 ## Rollback
 
 Stopping `quickshell.service` removes only the cosmetic surface. Fuzzel, niri,
-Mako, Swayidle, gtklock, policy prompts, and portals remain independent. To
+SwayNC, Swayidle, gtklock, policy prompts, and portals remain independent. To
 restore a prior user-owned Quickshell directory, remove the managed symlink and
 move its timestamped copy back from the setup backup directory.

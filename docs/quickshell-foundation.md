@@ -46,7 +46,9 @@ plus a restart applies updates live.
 ## Repository-owned configuration
 
 - `config/quickshell/` — the shell tree (`shell.qml` entry point, `theme/`
-  design tokens, `island/` components), linked as a whole to
+  design tokens, `island/` components: state/composition in
+  `CenterIsland.qml`, silhouette in `IslandShape.qml`, content rows in
+  `StatusRow.qml` / `OsdRow.qml` / `ControlsRow.qml`), linked as a whole to
   `~/.config/quickshell` by the `config` phase.
 - `config/systemd/user/quickshell.service` — the systemd user unit, linked to
   `~/.config/systemd/user/quickshell.service` and attached to the niri session.
