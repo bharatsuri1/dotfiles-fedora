@@ -111,11 +111,11 @@ Rectangle {
       }
 
       Rectangle {
-        width: 370
+        width: 342
         height: 60
-        radius: 13
-        color: "#dc101010"
-        border.width: 1
+        radius: 16
+        color: "#e2101010"
+        border.width: password.activeFocus ? 2 : 1
         border.color: password.activeFocus ? "#ffc799" : "#80ffffff"
 
         Text {
