@@ -2,6 +2,7 @@
 # Installs terminal-based system management TUIs:
 #   • diskonaut   — visual treemap disk usage analyzer      (Fedora DNF)
 #   • powertop    — power consumption monitor and tuner     (Fedora DNF)
+#   • power-profiles-daemon — power profile switching       (Fedora DNF)
 #   • systemctl-tui — systemd service and log browser        (GitHub binary)
 #   • bandwhich   — per-process bandwidth monitor           (GitHub binary)
 #   • batctl      — battery charge threshold manager        (GitHub binary)
@@ -14,6 +15,7 @@
 readonly SYSTEM_TOOL_PACKAGES=(
   diskonaut
   powertop
+  power-profiles-daemon
 )
 
 # ── systemctl-tui ────────────────────────────────────────────────────
