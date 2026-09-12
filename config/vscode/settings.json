@@ -297,7 +297,7 @@
         "x"
       ],
       "commands": [
-        "workbench.view.extensions"
+        "workbench.action.closeActiveEditor"
       ]
     },
     {
