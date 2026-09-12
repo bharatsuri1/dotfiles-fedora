@@ -8,7 +8,7 @@ not own OS installation, disk layout, secrets, or application state.
 
 The package and ownership choices are derived from the adjacent
 `dotfiles-omarchy` decision ledger. Fedora/DNF owns native tools and Chromium;
-Flatpak owns 1Password, LocalSend, OpenCode, Visual Studio Code, and Zed;
+Flatpak owns 1Password, LocalSend, Visual Studio Code, and Zed;
 Homebrew owns Starship and `jless`; and Nerd Fonts owns the pinned
 JetBrains Mono archive.
 
@@ -183,7 +183,7 @@ default. Ownership, privacy, model locations, and rollback are documented in
 - Chromium from Fedora for browser app-mode launchers using
   `chromium-browser --app=URL`, plus a managed local policy that disables
   Chromium password saving, site notifications, and default-browser prompts;
-- 1Password, LocalSend, OpenCode, Signal, Visual Studio Code, Zed, Proton
+- 1Password, LocalSend, Signal, Visual Studio Code, Zed, Proton
   VPN, Whisp, and AppFlowy from Flathub, with managed Zed settings, a custom
   Vesper theme,
   and a `zed` Zsh alias (see
