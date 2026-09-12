@@ -623,7 +623,7 @@
   "window.restoreWindows": "none",
   "workbench.activityBar.compact": true,
   "workbench.activityBar.iconClickBehavior": "toggle",
-  "workbench.activityBar.location": "top",
+  "workbench.activityBar.location": "default",
   "workbench.colorTheme": "Vesper",
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
