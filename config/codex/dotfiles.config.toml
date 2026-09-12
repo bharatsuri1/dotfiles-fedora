@@ -15,3 +15,6 @@ status_line = [
   "context-used",
 ]
 status_line_use_colors = true
+
+[tui.model_availability_nux]
+gpt-6-astra = 2
