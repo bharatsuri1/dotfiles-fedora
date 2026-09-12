@@ -37,4 +37,7 @@ install_shell_tools() {
   install_zsh_plugin zsh-autosuggestions "$AUTOSUGGESTIONS_REPOSITORY" "$AUTOSUGGESTIONS_REVISION"
   install_zsh_plugin fast-syntax-highlighting "$SYNTAX_HIGHLIGHTING_REPOSITORY" "$SYNTAX_HIGHLIGHTING_REVISION"
   install_zsh_plugin fzf-tab "$FZF_TAB_REPOSITORY" "$FZF_TAB_REVISION"
+  install_zsh_plugin zsh-history-substring-search \
+    "$HISTORY_SUBSTRING_SEARCH_REPOSITORY" \
+    "$HISTORY_SUBSTRING_SEARCH_REVISION"
 }

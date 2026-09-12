@@ -25,20 +25,17 @@ readonly VSCODE_HOST_SPAWN_TALK_NAME="org.freedesktop.Flatpak"
 readonly VSCODE_DOCKER_SOCKET="/run/docker.sock"
 
 # Reviewed extension allowlist.
-# Reviewed extension allowlist.
 readonly VSCODE_EXTENSIONS=(
   vscodevim.vim
   ms-vscode-remote.remote-ssh
   ms-vscode-remote.remote-ssh-edit
   GitHub.vscode-pull-request-github
   ms-vscode.remote-explorer
-  openai.chatgpt
   raunofreiberg.vesper
   ms-azuretools.vscode-docker
   ms-vscode-remote.remote-containers
   ms-azuretools.vscode-containers
   GitHub.vscode-github-actions
-  sst-dev.opencode
   pomdtr.excalidraw-editor
 )
 

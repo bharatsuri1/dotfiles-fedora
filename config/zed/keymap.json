@@ -2,7 +2,8 @@
   {
     "context": "vim_mode == insert",
     "bindings": {
-      "j k": "vim::NormalBefore"
+      "j k": "vim::NormalBefore",
+      "j j": "vim::NormalBefore"
     }
   },
   {

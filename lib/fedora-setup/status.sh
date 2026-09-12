@@ -330,6 +330,7 @@ show_status() {
 zsh-autosuggestions $AUTOSUGGESTIONS_REVISION
 fast-syntax-highlighting $SYNTAX_HIGHLIGHTING_REVISION
 fzf-tab $FZF_TAB_REVISION
+zsh-history-substring-search $HISTORY_SUBSTRING_SEARCH_REVISION
 EOF
 
   printf 'Configuration:\n'
