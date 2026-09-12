@@ -29,14 +29,14 @@ window {
   padding: 0 18px;
   color: #ffffff;
   caret-color: #ffc799;
-  background-color: rgba(34, 29, 24, 0.94);
+  background-color: rgba(34, 29, 24, 0.89);
   border: 1px solid rgba(255, 199, 153, 0.42);
-  border-radius: 14px;
+  border-radius: 16px;
   box-shadow: none;
 }
 
 #input-field:focus {
-  border-color: #ffc799;
+  border: 2px solid #ffc799;
 }
 
 #status-box {
