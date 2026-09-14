@@ -183,12 +183,13 @@ default. Ownership, privacy, model locations, and rollback are documented in
 - Chromium from Fedora for browser app-mode launchers using
   `chromium-browser --app=URL`, plus a managed local policy that disables
   Chromium password saving, site notifications, and default-browser prompts;
-- 1Password, LocalSend, Signal, Visual Studio Code, Zed, Proton
+- 1Password, LocalSend, Signal, Zed, Proton
   VPN, Whisp, and AppFlowy from Flathub, with managed Zed settings, a custom
   Vesper theme,
   and a `zed` Zsh alias (see
-  [`docs/zed.md`](docs/zed.md)); managed VS Code settings, keybindings, and a
-  `code` Zsh alias;
+  [`docs/zed.md`](docs/zed.md));
+- Visual Studio Code from Microsoft's stable RPM repository, with managed
+  settings, keybindings, and extensions (see [`docs/vscode.md`](docs/vscode.md));
 - Neovim from Fedora with a managed LazyVim configuration, Vesper theme, and a
   `vim` Zsh alias (see [`docs/nvim.md`](docs/nvim.md));
 - Homebrew plus Starship, `jless`, Lazygit, Lazydocker, Sesh, and `xh`;

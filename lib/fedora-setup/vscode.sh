@@ -1,28 +1,12 @@
-readonly VSCODE_FLATPAK_ID="com.visualstudio.code"
-readonly VSCODE_FLATPAK_CONFIG="$HOME/.var/app/${VSCODE_FLATPAK_ID}/config/Code/User"
+# shellcheck shell=bash
+readonly VSCODE_REPOSITORY_SOURCE="$REPO_ROOT/config/vscode/vscode.repo"
+readonly VSCODE_REPOSITORY_TARGET="/etc/yum.repos.d/vscode.repo"
+readonly VSCODE_BINARY="/usr/bin/code"
+readonly VSCODE_CONFIG="$HOME/.config/Code/User"
 readonly VSCODE_SETTINGS_SOURCE="$REPO_ROOT/config/vscode/settings.json"
-readonly VSCODE_SETTINGS_TARGET="$VSCODE_FLATPAK_CONFIG/settings.json"
+readonly VSCODE_SETTINGS_TARGET="$VSCODE_CONFIG/settings.json"
 readonly VSCODE_KEYBINDINGS_SOURCE="$REPO_ROOT/config/vscode/keybindings.json"
-readonly VSCODE_KEYBINDINGS_TARGET="$VSCODE_FLATPAK_CONFIG/keybindings.json"
-
-# Flatpak user overrides required so the integrated terminal runs the host login
-# shell with a usable environment. The profile in settings.json launches
-# `flatpak-spawn --host zsh`; these overrides let the sandbox forward the host
-# terminal's TERM/COLORTERM and allow richer host-spawn negotiation. ZDOTDIR is
-# not forwarded into host spawns on Development apps, so the host zsh resolves
-# the managed ~/.config/zsh startup normally.
-readonly VSCODE_TERMINAL_ENV_OVERRIDES=(
-  "TERM=xterm-256color"
-  "COLORTERM=truecolor"
-)
-readonly VSCODE_HOST_SPAWN_TALK_NAME="org.freedesktop.Flatpak"
-
-# Docker socket visible inside the sandbox so the container extensions
-# (ms-azuretools.vscode-docker, ms-azuretools.vscode-containers,
-# ms-vscode-remote.remote-containers) can reach the host Docker daemon.
-# /var/run is a symlink to /run, and bwrap refuses to bind paths through it,
-# so the override must reference /run/docker.sock.
-readonly VSCODE_DOCKER_SOCKET="/run/docker.sock"
+readonly VSCODE_KEYBINDINGS_TARGET="$VSCODE_CONFIG/keybindings.json"
 
 # Reviewed extension allowlist.
 readonly VSCODE_EXTENSIONS=(
@@ -40,67 +24,35 @@ readonly VSCODE_EXTENSIONS=(
 )
 
 vscode_app_installed() {
-  command -v flatpak >/dev/null 2>&1 && flatpak info "$VSCODE_FLATPAK_ID" >/dev/null 2>&1
+  package_installed code && [[ -x "$VSCODE_BINARY" ]]
 }
 
 vscode_extension_installed() {
   local ext_id="$1"
-  flatpak run --command=code "$VSCODE_FLATPAK_ID" --list-extensions 2>/dev/null \
-    | grep -Fixq "$ext_id"
+  vscode_app_installed || return 1
+  "$VSCODE_BINARY" --list-extensions 2>/dev/null | grep -Fix "$ext_id" >/dev/null
+}
+
+configure_vscode_repository() {
+  if cmp -s -- "$VSCODE_REPOSITORY_SOURCE" "$VSCODE_REPOSITORY_TARGET"; then
+    log 'official VS Code repository already configured'
+    return
+  fi
+
+  if [[ -e "$VSCODE_REPOSITORY_TARGET" || -L "$VSCODE_REPOSITORY_TARGET" ]]; then
+    ensure_backup_dir
+    local backup="$BACKUP_DIR/etc/yum.repos.d/vscode.repo"
+    run mkdir -p "$(dirname -- "$backup")"
+    run sudo cp -a -- "$VSCODE_REPOSITORY_TARGET" "$backup"
+    log "backed up $VSCODE_REPOSITORY_TARGET to $backup"
+  fi
+  run sudo install -m 0644 "$VSCODE_REPOSITORY_SOURCE" "$VSCODE_REPOSITORY_TARGET"
+  # DNF imports the configured gpgkey when needed and verifies package signatures.
 }
 
 link_vscode_config() {
   link_config "$VSCODE_SETTINGS_SOURCE" "$VSCODE_SETTINGS_TARGET"
   link_config "$VSCODE_KEYBINDINGS_SOURCE" "$VSCODE_KEYBINDINGS_TARGET"
-}
-
-vscode_flatpak_override_show() {
-  flatpak override --user --show "$VSCODE_FLATPAK_ID" 2>/dev/null || true
-}
-
-vscode_overrides_expected() {
-  local overrides
-  overrides="$(vscode_flatpak_override_show)"
-
-  local setting
-  local -a actual=()
-  mapfile -t actual < <(sed -n '/^\[Environment\]$/,/^\[/p' <<<"$overrides" | tail -n +2)
-  while [[ ${#actual[@]} -gt 0 && -z "${actual[$((${#actual[@]} - 1))]}" ]]; do
-    unset 'actual[$((${#actual[@]} - 1))]'
-  done
-
-  ((${#actual[@]} == ${#VSCODE_TERMINAL_ENV_OVERRIDES[@]})) || return 1
-  local index
-  for index in "${!VSCODE_TERMINAL_ENV_OVERRIDES[@]}"; do
-    [[ "${actual[index]}" == "${VSCODE_TERMINAL_ENV_OVERRIDES[index]}" ]] || return 1
-  done
-
-  sed -n '/^\[Session Bus Policy\]$/,/^\[/p' <<<"$overrides" | grep -Fxq "${VSCODE_HOST_SPAWN_TALK_NAME}=talk"
-}
-
-vscode_docker_socket_override_expected() {
-  local filesystems
-  filesystems="$(sed -n 's/^filesystems=//p' <<<"$(vscode_flatpak_override_show)")"
-  [[ ";${filesystems};" == *";${VSCODE_DOCKER_SOCKET};"* ]]
-}
-
-apply_vscode_flatpak_overrides() {
-  if vscode_overrides_expected; then
-    log "VS Code flatpak terminal overrides already applied"
-  else
-    local -a flags=("--talk-name=$VSCODE_HOST_SPAWN_TALK_NAME")
-    local setting
-    for setting in "${VSCODE_TERMINAL_ENV_OVERRIDES[@]}"; do
-      flags+=("--env=$setting")
-    done
-    run flatpak override --user "${flags[@]}" "$VSCODE_FLATPAK_ID"
-  fi
-
-  if vscode_docker_socket_override_expected; then
-    log "VS Code flatpak Docker socket override already applied"
-  else
-    run flatpak override --user --filesystem="$VSCODE_DOCKER_SOCKET" "$VSCODE_FLATPAK_ID"
-  fi
 }
 
 install_vscode_extensions() {
@@ -109,30 +61,39 @@ install_vscode_extensions() {
     if vscode_extension_installed "$ext"; then
       log "VS Code extension $ext already installed"
     else
-      run flatpak run --command=code "$VSCODE_FLATPAK_ID" --install-extension "$ext"
+      run "$VSCODE_BINARY" --install-extension "$ext"
     fi
   done
 }
 
 install_vscode() {
-  if ! vscode_app_installed && ! $DRY_RUN; then
-    die "VS Code Flatpak ($VSCODE_FLATPAK_ID) is missing; run the flatpaks phase first"
-  fi
-  if ! vscode_app_installed && $DRY_RUN; then
-    log "VS Code Flatpak ($VSCODE_FLATPAK_ID) is not installed; would still link managed configuration"
+  configure_vscode_repository
+  if vscode_app_installed; then
+    log 'VS Code RPM already installed'
+  else
+    local -a command=(sudo dnf install --refresh)
+    $ASSUME_YES && command+=(--assumeyes)
+    run "${command[@]}" code
   fi
 
+  if ! $DRY_RUN && ! vscode_app_installed; then
+    die "VS Code RPM installation did not produce $VSCODE_BINARY"
+  fi
   link_vscode_config
-  apply_vscode_flatpak_overrides
   install_vscode_extensions
 }
 
 show_vscode_status() {
   printf 'VS Code:\n'
   if vscode_app_installed; then
-    printf '  [ok]      %s\n' "$VSCODE_FLATPAK_ID"
+    printf '  [ok]      code RPM (%s)\n' "$VSCODE_BINARY"
   else
-    printf '  [missing] %s\n' "$VSCODE_FLATPAK_ID"
+    printf '  [missing] code RPM (%s)\n' "$VSCODE_BINARY"
+  fi
+  if cmp -s -- "$VSCODE_REPOSITORY_SOURCE" "$VSCODE_REPOSITORY_TARGET"; then
+    printf '  [managed] %s\n' "$VSCODE_REPOSITORY_TARGET"
+  else
+    printf '  [missing/wrong] %s\n' "$VSCODE_REPOSITORY_TARGET"
   fi
 
   local target source resolved
@@ -159,37 +120,12 @@ show_vscode_status() {
     fi
   done
 
-  # Alias is shell-config owned; report whether the managed alias file defines it.
-  if grep -Eq "^alias code=" "$REPO_ROOT/config/zsh/aliases.zsh" 2>/dev/null; then
-    printf '  [alias]   code -> flatpak run %s\n' "$VSCODE_FLATPAK_ID"
-  else
-    printf '  [missing] code alias in managed zsh aliases\n'
-  fi
-
-  # Host-terminal flatpak overrides required by the integrated terminal profile.
-  if vscode_overrides_expected; then
-    printf '  [applied] flatpak overrides (host zsh terminal env)\n'
-  else
-    printf '  [missing] flatpak overrides (host zsh terminal env)\n'
-  fi
-
-  # Docker socket override required by the container extensions.
-  if vscode_docker_socket_override_expected; then
-    printf '  [applied] flatpak Docker socket (%s)\n' "$VSCODE_DOCKER_SOCKET"
-  else
-    printf '  [missing] flatpak Docker socket (%s)\n' "$VSCODE_DOCKER_SOCKET"
-  fi
-
-  if ((${#VSCODE_EXTENSIONS[@]})); then
-    local ext
-    for ext in "${VSCODE_EXTENSIONS[@]}"; do
-      if vscode_extension_installed "$ext"; then
-        printf '  [ok]      extension %s\n' "$ext"
-      else
-        printf '  [missing] extension %s\n' "$ext"
-      fi
-    done
-  else
-    printf '  [ok]      extension allowlist empty\n'
-  fi
+  local ext
+  for ext in "${VSCODE_EXTENSIONS[@]}"; do
+    if vscode_extension_installed "$ext"; then
+      printf '  [ok]      extension %s\n' "$ext"
+    else
+      printf '  [missing] extension %s\n' "$ext"
+    fi
+  done
 }

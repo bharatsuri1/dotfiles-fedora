@@ -104,7 +104,6 @@ readonly FLATPAK_APPS=(
   org.localsend.localsend_app
   com.onepassword.OnePassword
   dev.zed.Zed
-  com.visualstudio.code
   com.protonvpn.www
   io.github.tanaybhomia.Whisp
   io.appflowy.AppFlowy

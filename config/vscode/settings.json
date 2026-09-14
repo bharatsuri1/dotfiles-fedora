@@ -130,7 +130,6 @@
     "sound": "off"
   },
   "chat.agent.enabled": false,
-  "dev.containers.dockerPath": "/run/host/usr/bin/docker",
   "diffEditor.renderSideBySide": false,
   "editor.accessibilitySupport": "off",
   "editor.bracketPairColorization.enabled": true,
@@ -197,20 +196,17 @@
   "search.smartCase": true,
   "telemetry.feedback.enabled": false,
   "terminal.integrated.copyOnSelection": true,
-  "terminal.integrated.defaultProfile.linux": "zsh (host)",
+  "terminal.integrated.defaultProfile.linux": "zsh",
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
   "terminal.integrated.fontSize": 14,
   "terminal.integrated.gpuAcceleration": "on",
   "terminal.integrated.initialHint": false,
   "terminal.integrated.profiles.linux": {
-    "zsh (host)": {
+    "zsh": {
       "args": [
-        "--host",
-        "--env=TERM=xterm-256color",
-        "--env=COLORTERM=truecolor",
-        "zsh"
+        "-l"
       ],
-      "path": "/usr/bin/flatpak-spawn"
+      "path": "/usr/bin/zsh"
     }
   },
   "terminal.integrated.scrollback": 10000,
