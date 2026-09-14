@@ -44,6 +44,7 @@ authentication state; the repository stores no browser credentials.
 | `Super+Ctrl+,` | Toggle notification center | `swaync-client -t` |
 | `Super+Ctrl+Shift+,` | Dismiss all notifications | `swaync-client -C` |
 | `Hyper+S` | Toggle local dictation (Voxtype) | `voxtype record toggle` |
+| `Hyper+N` | Open Whisp | `flatpak run io.github.tanaybhomia.Whisp` |
 
 `Hyper` is Caps held via keyd (`Ctrl+Alt+Super+Shift`). Local dictation is
 toggle-based because niri has no key-release binds. Voxtype—not niri—observes
