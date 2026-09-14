@@ -16,8 +16,9 @@ name = "home"
 path = "~"
 disable_startup_command = true
 
-[[wildcard]]
-pattern = "~/**"
+[[session]]
+name = "dotfiles-fedora"
+path = "~/.local/share/dotfiles-fedora"
 startup_command = "tmux rename-window shell"
 windows = ["agent", "editor", "git"]
 
