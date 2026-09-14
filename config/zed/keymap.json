@@ -45,7 +45,7 @@
       "space *": "pane::DeploySearch",
       "space r": "editor::Rename",
       "space c": "editor::ToggleComments",
-      "space x": "editor::ToggleCodeActions",
+      "space x": "pane::CloseActiveItem",
       "space m": "editor::Format",
       "space k": "editor::Hover",
       "space v": "pane::SplitRight",
