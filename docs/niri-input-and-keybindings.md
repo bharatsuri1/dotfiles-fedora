@@ -28,7 +28,6 @@ In a normal niri session, `Mod` is the Super key.
 | `Super+Ctrl+Y` | Open YouTube in Chromium app mode |
 | `Super+Ctrl+G` | Open GitHub in Chromium app mode |
 | `Super+E` | Open Files |
-| `Super+Ctrl+Z` | Open Zed |
 | `Super+Ctrl+V` | Open Visual Studio Code |
 | `Super+Ctrl+S` | Open LocalSend |
 | `Super+Shift+C` | Toggle the system control panel (floating Tmux session) |

@@ -134,7 +134,7 @@ installed. `nvim` is available directly from DNF.
 | --- | --- |
 | `./bin/fedora-setup nvim` | Ensures Neovim presence (or dry-run note) and links the config |
 | `./bin/fedora-setup config` | Calls the same `link_nvim_config` helper so relinks stay in sync |
-| `./bin/fedora-setup apply` | Runs `nvim` after `zed` and still runs full `config` later |
+| `./bin/fedora-setup apply` | Runs `nvim` and still runs full `config` later |
 
 Both paths use `link_config`, so a conflicting `~/.config/nvim` is backed up
 under `~/.local/state/dotfiles-fedora/backups/`.

@@ -37,7 +37,6 @@ authentication state; the repository stores no browser credentials.
 | `Super+Ctrl+Y` | Open YouTube (Chromium app mode) | `chromium-browser --app=https://youtube.com/` |
 | `Super+Ctrl+G` | Open GitHub (Chromium app mode) | `chromium-browser --app=https://github.com/` |
 | `Super+E` | Open Files | `nautilus --new-window` |
-| `Super+Ctrl+Z` | Open Zed | `flatpak run dev.zed.Zed` |
 | `Super+Ctrl+V` | Open Visual Studio Code | `code` |
 | `Super+Ctrl+S` | Open LocalSend | `flatpak run org.localsend.localsend_app` |
 | `Super+Shift+C` | Toggle system control panel (Tmux) | `control-panel` |

@@ -70,7 +70,7 @@ Commands:
   fonts       Install terminal, system UI, and fallback fonts
   font        Alias for fonts (deprecated)
   flatpaks    Configure Flathub and install managed desktop applications
-  zed         Link managed Zed settings and Vesper theme for the Flatpak app
+  zed         Install verified official Zed archive and managed native configuration
   vscode     Install the official VS Code RPM, managed configuration, and extensions
   nvim        Link managed LazyVim Neovim configuration
   homebrew    Install Homebrew if needed, then managed formulae

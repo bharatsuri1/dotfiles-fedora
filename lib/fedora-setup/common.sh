@@ -103,7 +103,6 @@ readonly DESKTOP_COMPATIBILITY_PACKAGES=(
 readonly FLATPAK_APPS=(
   org.localsend.localsend_app
   com.onepassword.OnePassword
-  dev.zed.Zed
   com.protonvpn.www
   io.github.tanaybhomia.Whisp
   io.appflowy.AppFlowy
