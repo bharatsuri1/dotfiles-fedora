@@ -34,4 +34,6 @@ No automated test framework or coverage threshold is currently configured. At mi
 
 ## Commit & Pull Request Guidelines
 
-Use short, imperative subjects such as `Add managed Chromium privacy defaults`. Keep commits focused and explain non-obvious safety decisions in the body. Pull requests should summarize changes, list validation, identify affected Fedora profiles, and include screenshots for visible changes. Never commit secrets, history, browser profiles, caches, or runtime state.
+Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification): `<type>[optional scope]: <description>`. Use lowercase, imperative descriptions and focused commits; for example, `feat(ghostty): add managed configuration`, `fix(homebrew): handle absent brew`, `docs: clarify recovery steps`, or `chore: update defaults`. Use `feat` for new functionality and `fix` for bug fixes. Mark incompatible changes with `!` (for example, `feat!: remove legacy phase`) or a `BREAKING CHANGE:` footer, and explain non-obvious safety decisions in the body.
+
+Pull requests should summarize changes, link the relevant issue, list validation, identify affected Fedora profiles, and include screenshots for visible changes. Never commit secrets, history, browser profiles, caches, or runtime state.
