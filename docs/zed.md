@@ -8,7 +8,8 @@ into that directory. The initial verified release is 1.19.2.
 
 Zed may update itself normally. A managed-install marker lives under
 `~/.local/state/dotfiles-fedora/zed/`, so future setup runs preserve a valid,
-newer upstream-updated installation rather than downgrading it.
+newer upstream-updated installation rather than downgrading it. The
+`system-tools` phase installs `rsync`, which Zed requires for auto-updates.
 
 | Configuration | Repository source | Native destination |
 | --- | --- | --- |

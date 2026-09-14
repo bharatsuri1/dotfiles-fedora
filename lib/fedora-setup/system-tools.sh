@@ -3,19 +3,21 @@
 #   • diskonaut   — visual treemap disk usage analyzer      (Fedora DNF)
 #   • powertop    — power consumption monitor and tuner     (Fedora DNF)
 #   • power-profiles-daemon — power profile switching       (Fedora DNF)
+#   • rsync       — required by Zed's native auto-updater    (Fedora DNF)
 #   • systemctl-tui — systemd service and log browser        (GitHub binary)
 #   • bandwhich   — per-process bandwidth monitor           (GitHub binary)
 #   • batctl      — battery charge threshold manager        (GitHub binary)
 #
-# The DNF packages are declared in DNF_PACKAGES in common.sh so the packages
-# phase installs them.  The three binary releases are downloaded from pinned
-# upstream releases, SHA-256 verified, and installed under ~/.local/bin — the
-# same pattern used by the device-controls phase for wlctl and Bluetui.
+# The Fedora packages are declared below and installed by this phase. The three
+# binary releases are downloaded from pinned upstream releases, SHA-256
+# verified, and installed under ~/.local/bin — the same pattern used by the
+# device-controls phase for wlctl and Bluetui.
 
 readonly SYSTEM_TOOL_PACKAGES=(
   diskonaut
   powertop
   power-profiles-daemon
+  rsync
 )
 
 # ── systemctl-tui ────────────────────────────────────────────────────
