@@ -20,7 +20,13 @@ The compact surface is intentionally quiet:
 - a 12-hour clock and battery percentage use fixed measurement slots;
 - the battery is an authored gauge, avoiding icon-font rendering differences;
 - the gauge and percentage use an 8-pixel optical gap;
-- charging changes only the battery treatment to Vesper green; and
+- the gauge's casing (border and nub) uses only even-pixel dimensions so it
+  stays pixel-snapped at 1.5× display scale and the 1.12× hover type scale;
+- charging changes only the battery's fill and percentage text to Vesper
+  green — the casing stays dim, so green reads as energy inside the gauge,
+  not the whole battery recoloring;
+- the gauge fill paints honestly at the low end: below 6% the bar is exact
+  (0% is genuinely empty), with a 2px floor only above that threshold; and
 - there are no shadows, borders, or continuous animation.
 
 Geometry is centralized in `theme/Theme.qml`: `islandWidth`, `islandHeight`,
@@ -42,6 +48,14 @@ starts or reloads, plus the spring-driven hover/OSD morphs described below.
 Shape and content move as one object; content resolves after the surface is
 already legible. Setting `motionEnabled` to `false` renders the finished state
 immediately, without an opacity-hidden first frame.
+
+On hover the silhouette springs to 1.4× width and 3× height, revealing the
+control strip. The status row (clock, gauge, percentage) grows with it at 1.12×
+via a GPU scale transform — enough to feel fuller beside the expanded panel,
+small enough that the rasterized type holds at this factor. The row stays
+anchored to the top edge: the panel grows beneath it, like a notch whose
+content lives at the reading edge, and moving the row with the morph was
+explicitly tried and rejected as unpolished.
 
 ## Runtime model
 

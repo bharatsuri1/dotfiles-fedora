@@ -38,7 +38,9 @@ QtObject {
   // controls how quickly the overshoot settles. Lower damping = bouncier.
   readonly property real islandHoverScaleW: 1.4
   readonly property real islandHoverScaleH: 3.0
-  readonly property real islandHoverFontScale: 1.5
+  // Type grows a touch on hover: fuller alongside the expanded panel,
+  // but far slower than its 1.4x width so it never reads inflated.
+  readonly property real islandHoverFontScale: 1.12
   readonly property real expandSpring: 4.0
   readonly property real expandDamping: 0.4
 
