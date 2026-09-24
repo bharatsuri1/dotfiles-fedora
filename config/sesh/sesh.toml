@@ -19,7 +19,7 @@ disable_startup_command = true
 [[session]]
 name = "dotfiles-fedora"
 path = "~/.local/share/dotfiles-fedora"
-startup_command = "tmux rename-window shell"
+disable_startup_command = true
 windows = ["agent", "editor", "git"]
 
 [[window]]
