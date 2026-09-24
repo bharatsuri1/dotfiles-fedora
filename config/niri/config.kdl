@@ -71,7 +71,7 @@ output "eDP-1" {
 
 layout {
     gaps 12
-    background-color "#101010"
+    background-color "transparent"
     center-focused-column "on-overflow"
     always-center-single-column
     preset-column-widths {
@@ -170,6 +170,13 @@ window-rule {
     open-floating true
     default-column-width { fixed 1000; }
     default-window-height { fixed 750; }
+}
+
+// Show the swaybg wallpaper behind the workspace overview instead of the solid
+// backdrop color. Matches the layer namespace reported by `niri msg layers`.
+layer-rule {
+    match namespace="^wallpaper$"
+    place-within-backdrop true
 }
 
 overview {
