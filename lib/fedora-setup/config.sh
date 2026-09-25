@@ -145,6 +145,7 @@ install_config() {
   link_config "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
   link_config "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
   link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"
+  link_config "$REPO_ROOT/config/zsh/zshenv" "$HOME/.config/zsh/.zshenv"
   link_config "$REPO_ROOT/config/zsh/zshrc" "$HOME/.config/zsh/.zshrc"
   local module
   for module in aliases completion cursor integrations options plugins; do

@@ -345,6 +345,7 @@ EOF
   for target in \
     "$HOME/.config/alacritty/alacritty.toml" \
     "$HOME/.zshenv" \
+    "$HOME/.config/zsh/.zshenv" \
     "$HOME/.config/zsh/.zshrc" \
     "$HOME/.config/zsh/aliases.zsh" \
     "$HOME/.config/zsh/completion.zsh" \
