@@ -8,7 +8,6 @@ readonly NPM_GLOBAL_PACKAGES=(
   @devcontainers/cli
   @earendil-works/pi-coding-agent
   @openai/codex
-  opencode-ai
 )
 
 npm_global_package_installed() {

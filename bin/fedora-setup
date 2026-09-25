@@ -10,6 +10,7 @@ for module in \
   common \
   packages \
   development \
+  opencode \
   herdr \
   ollama \
   vicinae \
@@ -48,6 +49,7 @@ Commands:
   apply       Run every setup phase in dependency order
   packages    Install missing Fedora-native packages
   development Install Mise and uv runtime tooling
+  opencode    Install the official OpenCode v2 CLI
   herdr      Install Herdr using its official verified installer
   ollama      Install Ollama using its official installer
   vicinae     Install Vicinae using its official installer
@@ -102,6 +104,7 @@ main() {
     apply)
       install_packages
       install_development_tools
+      install_opencode
       install_herdr
       install_ollama
       install_vicinae
@@ -130,6 +133,7 @@ main() {
       ;;
     packages) install_packages ;;
     development) install_development_tools ;;
+    opencode) install_opencode ;;
     herdr) install_herdr ;;
     ollama) install_ollama ;;
     vicinae) install_vicinae ;;

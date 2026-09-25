@@ -87,6 +87,13 @@ show_status() {
     fi
   done
 
+  printf 'OpenCode:\n'
+  if [[ -x "$OPENCODE_BINARY" ]]; then
+    printf '  [ok]      %s\n' "$OPENCODE_BINARY"
+  else
+    printf '  [missing] %s\n' "$OPENCODE_BINARY"
+  fi
+
   printf 'Herdr:\n'
   if [[ -x "$HERDR_BINARY" ]]; then
     printf '  [ok]      %s\n' "$HERDR_BINARY"

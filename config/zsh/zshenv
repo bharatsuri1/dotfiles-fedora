@@ -10,5 +10,5 @@ export VISUAL="${VISUAL:-$EDITOR}"
 export MANPAGER="${MANPAGER:-bat --language=man --plain}"
 export STARSHIP_CONFIG="${STARSHIP_CONFIG:-$XDG_CONFIG_HOME/starship.toml}"
 
-path=("$HOME/.local/bin" $path)
+path=("$HOME/.opencode/bin" "$HOME/.local/bin" $path)
 typeset -U path PATH
