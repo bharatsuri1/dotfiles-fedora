@@ -1,6 +1,23 @@
 readonly OLLAMA_INSTALLER_URL="https://ollama.com/install.sh"
 readonly OLLAMA_BINARY="/usr/local/bin/ollama"
 
+# ### Manual uninstall commands ###
+# These commands apply to the system-wide installation created by the official
+# Ollama installer. Run them only if you decide to remove Ollama.
+# The final two removal commands delete downloaded models and user state.
+#
+# sudo systemctl stop ollama
+# sudo systemctl disable ollama
+# sudo rm -f /etc/systemd/system/ollama.service
+# sudo rm -rf /usr/local/lib/ollama
+# sudo rm -f /usr/local/bin/ollama
+# sudo userdel ollama
+# sudo groupdel ollama
+# sudo rm -rf /usr/share/ollama
+# rm -rf /home/bharat/.ollama
+# sudo systemctl daemon-reload
+# ### End manual uninstall commands ###
+
 install_ollama() {
   if [[ -x "$OLLAMA_BINARY" ]] || command -v ollama >/dev/null 2>&1; then
     log "Ollama already installed at $(command -v ollama 2>/dev/null || printf '%s' "$OLLAMA_BINARY")"
