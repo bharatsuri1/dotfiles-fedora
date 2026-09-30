@@ -4,6 +4,10 @@ wallpapers_dir() {
   printf '%s\n' "${XDG_WALLPAPERS_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/wallpapers}"
 }
 
+default_wallpaper_basename() {
+  printf '%s\n' 'affinity-orange-clog-vector_6000x4000.jpg'
+}
+
 current_wallpaper() {
   local directory
   directory="$(wallpapers_dir)"
@@ -12,18 +16,23 @@ current_wallpaper() {
 }
 
 initialize_wallpapers() {
-  local directory first
+  local directory candidate
 
   directory="$(wallpapers_dir)"
   mkdir -p -- "$directory"
 
-  if [[ ! -e "$directory/current" ]]; then
-    first="$(find "$directory" -maxdepth 1 -type f \
+  if [[ -e "$directory/current" ]]; then
+    return 0
+  fi
+
+  candidate="$directory/$(default_wallpaper_basename)"
+  if [[ ! -f "$candidate" ]]; then
+    candidate="$(find "$directory" -maxdepth 1 -type f \
       \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) \
       -print -quit)"
-    [[ -n "$first" ]] || return 1
-    ln -s -- "$first" "$directory/current"
   fi
+  [[ -n "$candidate" ]] || return 1
+  ln -s -- "$candidate" "$directory/current"
 }
 
 sync_packaged_wallpapers() {

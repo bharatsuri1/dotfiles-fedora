@@ -58,7 +58,8 @@ install_sddm() {
     relative_path="${source#"$SDDM_THEME_SOURCE"/}"
     install_sddm_file 0644 "$source" "$SDDM_THEME_TARGET/$relative_path"
   done < <(find "$SDDM_THEME_SOURCE" -type f -print0)
-  local wallpaper_source="$REPO_ROOT/assets/wallpapers/wallhaven-836yl2_2560x1600.png"
+  local wallpaper_source
+  wallpaper_source="$REPO_ROOT/assets/wallpapers/$(default_wallpaper_basename)"
   if ! $DRY_RUN; then
     sync_packaged_wallpapers "$REPO_ROOT/assets/wallpapers"
     initialize_wallpapers
