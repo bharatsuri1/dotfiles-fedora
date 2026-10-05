@@ -67,6 +67,7 @@ install_vscode_extensions() {
 }
 
 install_vscode() {
+  section "VS Code"
   configure_vscode_repository
   if vscode_app_installed; then
     log 'VS Code RPM already installed'
@@ -84,16 +85,16 @@ install_vscode() {
 }
 
 show_vscode_status() {
-  printf 'VS Code:\n'
+  section "VS Code"
   if vscode_app_installed; then
-    printf '  [ok]      code RPM (%s)\n' "$VSCODE_BINARY"
+    report ok "code RPM ($VSCODE_BINARY)"
   else
-    printf '  [missing] code RPM (%s)\n' "$VSCODE_BINARY"
+    report missing "code RPM ($VSCODE_BINARY)"
   fi
   if cmp -s -- "$VSCODE_REPOSITORY_SOURCE" "$VSCODE_REPOSITORY_TARGET"; then
-    printf '  [managed] %s\n' "$VSCODE_REPOSITORY_TARGET"
+    report ok "$VSCODE_REPOSITORY_TARGET"
   else
-    printf '  [missing/wrong] %s\n' "$VSCODE_REPOSITORY_TARGET"
+    report missing "$VSCODE_REPOSITORY_TARGET"
   fi
 
   local target source resolved
@@ -108,24 +109,24 @@ show_vscode_status() {
       resolved="$(readlink -f -- "$target" 2>/dev/null || true)"
     fi
     if [[ -n "$source" && "$resolved" == "$(readlink -f -- "$source" 2>/dev/null || true)" ]]; then
-      printf '  [linked]  %s\n' "$target"
+      report linked "$target"
     elif [[ -L "$target" && -z "$resolved" ]]; then
-      printf '  [broken]  %s\n' "$target"
+      report broken "$target"
     elif [[ -L "$target" ]]; then
-      printf '  [wrong]   %s -> %s\n' "$target" "$resolved"
+      report wrong "$target -> $resolved"
     elif [[ -e "$target" ]]; then
-      printf '  [local]   %s\n' "$target"
+      report local "$target"
     else
-      printf '  [missing] %s\n' "$target"
+      report missing "$target"
     fi
   done
 
   local ext
   for ext in "${VSCODE_EXTENSIONS[@]}"; do
     if vscode_extension_installed "$ext"; then
-      printf '  [ok]      extension %s\n' "$ext"
+      report ok "extension $ext"
     else
-      printf '  [missing] extension %s\n' "$ext"
+      report missing "extension $ext"
     fi
   done
 }

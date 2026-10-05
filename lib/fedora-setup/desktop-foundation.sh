@@ -167,6 +167,7 @@ install_desktop_compatibility() {
 }
 
 install_desktop_foundation() {
+  section "Desktop foundation"
   install_desktop_graphics
   install_desktop_audio
   install_desktop_bluetooth

@@ -9,6 +9,7 @@ readonly DOCKER_PACKAGES=(
 )
 
 install_docker() {
+  section Docker
   if [[ -r "$DOCKER_REPOSITORY_FILE" ]]; then
     log 'official Docker repository already configured'
   elif $DRY_RUN; then

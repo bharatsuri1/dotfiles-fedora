@@ -2,6 +2,7 @@ readonly HERDR_INSTALLER_URL="https://herdr.dev/install.sh"
 readonly HERDR_BINARY="$HOME/.local/bin/herdr"
 
 install_herdr() {
+  section Herdr
   if [[ -x "$HERDR_BINARY" ]]; then
     log "Herdr already installed at $HERDR_BINARY"
     return

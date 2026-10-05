@@ -7,6 +7,7 @@ readonly REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
 readonly LIB_DIR="$REPO_ROOT/lib/fedora-setup"
 
 for module in \
+  output \
   common \
   packages \
   development \
@@ -161,6 +162,8 @@ main() {
     shell) set_shell ;;
     *) usage >&2; die "unknown command: $command" ;;
   esac
+
+  output_summary
 }
 
 main "$@"

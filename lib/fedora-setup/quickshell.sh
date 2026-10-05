@@ -1,4 +1,5 @@
 install_quickshell() {
+  section Quickshell
   local -a missing=()
   local package
 

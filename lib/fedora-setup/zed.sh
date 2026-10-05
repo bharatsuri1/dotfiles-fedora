@@ -128,6 +128,7 @@ install_zed_archive() {
 }
 
 install_zed() {
+  section Zed
   assert_zed_install_is_safe
   if zed_managed_install; then
     log "managed Zed already installed at $ZED_APP_ROOT; preserving its current version and upstream updates"
@@ -144,18 +145,22 @@ install_zed() {
 }
 
 show_zed_status() {
-  printf 'Zed:\n'
+  section Zed
   if zed_managed_install; then
-    printf '  [ok]      managed native install (%s)\n' "$ZED_BINARY"
+    report ok "managed native install ($ZED_BINARY)"
   elif [[ -e "$ZED_APP_ROOT" || -L "$ZED_APP_ROOT" ]]; then
-    printf '  [local]   unrecognized install at %s\n' "$ZED_APP_ROOT"
+    report local "unrecognized install at $ZED_APP_ROOT"
   else
-    printf '  [missing] %s\n' "$ZED_APP_ROOT"
+    report missing "$ZED_APP_ROOT"
   fi
-  zed_path_is_managed "$ZED_BIN_LINK" &&
-    printf '  [linked]  %s\n' "$ZED_BIN_LINK" ||
-    printf '  [missing/wrong] %s\n' "$ZED_BIN_LINK"
-  zed_desktop_is_managed &&
-    printf '  [managed] %s\n' "$ZED_DESKTOP_FILE" ||
-    printf '  [missing/wrong] %s\n' "$ZED_DESKTOP_FILE"
+  if zed_path_is_managed "$ZED_BIN_LINK"; then
+    report linked "$ZED_BIN_LINK"
+  else
+    report missing "$ZED_BIN_LINK"
+  fi
+  if zed_desktop_is_managed; then
+    report ok "$ZED_DESKTOP_FILE"
+  else
+    report missing "$ZED_DESKTOP_FILE"
+  fi
 }

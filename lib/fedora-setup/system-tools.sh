@@ -235,6 +235,7 @@ install_batctl() {
 
 # ── Phase entry point ────────────────────────────────────────────────
 install_system_tools() {
+  section "System tools"
   local -a missing=()
   local package
 
@@ -257,37 +258,37 @@ install_system_tools() {
 }
 
 show_system_tools_status() {
-  printf 'System tools:\n'
+  section "System tools"
   local package
   for package in "${SYSTEM_TOOL_PACKAGES[@]}"; do
     if package_installed "$package"; then
-      printf '  [ok]       %s\n' "$package"
+      report ok "$package"
     else
-      printf '  [missing]  %s\n' "$package"
+      report missing "$package"
     fi
   done
 
   if systemctl_tui_binary_valid; then
-    printf '  [pinned]   systemctl-tui %s\n' "$SYSTEMCTL_TUI_VERSION"
+    report pinned "systemctl-tui $SYSTEMCTL_TUI_VERSION"
   elif [[ -e "$SYSTEMCTL_TUI_BINARY" ]]; then
-    printf '  [local]    %s (not the pinned artifact)\n' "$SYSTEMCTL_TUI_BINARY"
+    report local "$SYSTEMCTL_TUI_BINARY (not the pinned artifact)"
   else
-    printf '  [missing]  systemctl-tui %s\n' "$SYSTEMCTL_TUI_VERSION"
+    report missing "systemctl-tui $SYSTEMCTL_TUI_VERSION"
   fi
 
   if bandwhich_binary_valid; then
-    printf '  [pinned]   bandwhich %s\n' "$BANDWHICH_VERSION"
+    report pinned "bandwhich $BANDWHICH_VERSION"
   elif [[ -e "$BANDWHICH_BINARY" ]]; then
-    printf '  [local]    %s (not the pinned artifact)\n' "$BANDWHICH_BINARY"
+    report local "$BANDWHICH_BINARY (not the pinned artifact)"
   else
-    printf '  [missing]  bandwhich %s\n' "$BANDWHICH_VERSION"
+    report missing "bandwhich $BANDWHICH_VERSION"
   fi
 
   if batctl_binary_valid; then
-    printf '  [pinned]   batctl %s\n' "$BATCTL_VERSION"
+    report pinned "batctl $BATCTL_VERSION"
   elif [[ -e "$BATCTL_BINARY" ]]; then
-    printf '  [local]    %s (not the pinned artifact)\n' "$BATCTL_BINARY"
+    report local "$BATCTL_BINARY (not the pinned artifact)"
   else
-    printf '  [missing]  batctl %s\n' "$BATCTL_VERSION"
+    report missing "batctl $BATCTL_VERSION"
   fi
 }

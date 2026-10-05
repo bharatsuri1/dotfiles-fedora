@@ -292,6 +292,7 @@ install_voxtype_service() {
 }
 
 install_voxtype() {
+  section Voxtype
   install_voxtype_runtime_packages
   install_voxtype_binary
   install_voxtype_osd_binary
@@ -302,119 +303,119 @@ install_voxtype() {
 }
 
 show_voxtype_status() {
-  printf 'Local speech-to-text (Voxtype):\n'
+  section Voxtype
 
   local package
   for package in "${VOXTYPE_RUNTIME_PACKAGES[@]}"; do
     if package_installed "$package"; then
-      printf '  [ok]       %s\n' "$package"
+      report ok "$package"
     else
-      printf '  [missing]  %s\n' "$package"
+      report missing "$package"
     fi
   done
 
   if voxtype_binary_valid; then
-    printf '  [pinned]   Voxtype %s\n' "$VOXTYPE_VERSION"
+    report pinned "Voxtype $VOXTYPE_VERSION"
   elif [[ -e "$VOXTYPE_BINARY" ]]; then
-    printf '  [local]    %s (not the pinned artifact)\n' "$VOXTYPE_BINARY"
+    report local "$VOXTYPE_BINARY (not the pinned artifact)"
   else
-    printf '  [missing]  Voxtype %s\n' "$VOXTYPE_VERSION"
+    report missing "Voxtype $VOXTYPE_VERSION"
   fi
 
   if voxtype_osd_binary_valid; then
-    printf '  [pinned]   Voxtype OSD frontend (gtk4)\n'
+    report pinned 'Voxtype OSD frontend (gtk4)'
   elif [[ -e "$VOXTYPE_OSD_BINARY" ]]; then
-    printf '  [local]    %s (not the pinned artifact)\n' "$VOXTYPE_OSD_BINARY"
+    report local "$VOXTYPE_OSD_BINARY (not the pinned artifact)"
   else
-    printf '  [missing]  Voxtype OSD frontend (gtk4)\n'
+    report missing 'Voxtype OSD frontend (gtk4)'
   fi
 
   if voxtype_osd_wrapper_binary_valid; then
-    printf '  [pinned]   Voxtype OSD wrapper\n'
+    report pinned 'Voxtype OSD wrapper'
   elif [[ -e "$VOXTYPE_OSD_WRAPPER_BINARY" ]]; then
-    printf '  [local]    %s (not the pinned artifact)\n' "$VOXTYPE_OSD_WRAPPER_BINARY"
+    report local "$VOXTYPE_OSD_WRAPPER_BINARY (not the pinned artifact)"
   else
-    printf '  [missing]  Voxtype OSD wrapper\n'
+    report missing 'Voxtype OSD wrapper'
   fi
 
   if [[ -L "$VOXTYPE_CONFIG_TARGET" &&
     "$(readlink -f -- "$VOXTYPE_CONFIG_TARGET")" == "$(readlink -f -- "$VOXTYPE_CONFIG_SOURCE")" ]]; then
-    printf '  [linked]   %s\n' "$VOXTYPE_CONFIG_TARGET"
+    report linked "$VOXTYPE_CONFIG_TARGET"
   elif [[ -e "$VOXTYPE_CONFIG_TARGET" ]]; then
-    printf '  [local]    %s\n' "$VOXTYPE_CONFIG_TARGET"
+    report local "$VOXTYPE_CONFIG_TARGET"
   else
-    printf '  [missing]  %s\n' "$VOXTYPE_CONFIG_TARGET"
+    report missing "$VOXTYPE_CONFIG_TARGET"
   fi
 
   if voxtype_model_valid; then
-    printf '  [verified] model %s\n' "$VOXTYPE_MODEL"
+    report pinned "model $VOXTYPE_MODEL"
   elif [[ -e "$VOXTYPE_MODEL_FILE" ]]; then
-    printf '  [invalid]  model %s (checksum mismatch)\n' "$VOXTYPE_MODEL"
+    report missing "model $VOXTYPE_MODEL (checksum mismatch)"
   else
-    printf '  [missing]  model %s\n' "$VOXTYPE_MODEL"
+    report missing "model $VOXTYPE_MODEL"
   fi
 
   if [[ -L "$VOXTYPE_SERVICE_TARGET" &&
     "$(readlink -f -- "$VOXTYPE_SERVICE_TARGET")" == "$(readlink -f -- "$VOXTYPE_SERVICE_SOURCE")" ]]; then
-    printf '  [linked]   %s\n' "$VOXTYPE_SERVICE_NAME"
+    report linked "$VOXTYPE_SERVICE_NAME"
   elif [[ -e "$VOXTYPE_SERVICE_TARGET" ]]; then
-    printf '  [local]    %s\n' "$VOXTYPE_SERVICE_TARGET"
+    report local "$VOXTYPE_SERVICE_TARGET"
   else
-    printf '  [missing]  %s\n' "$VOXTYPE_SERVICE_NAME"
+    report missing "$VOXTYPE_SERVICE_NAME"
   fi
 
   if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$VOXTYPE_SERVICE_NAME" ]]; then
-    printf '  [attached] %s\n' "$VOXTYPE_SERVICE_NAME"
+    report ok "$VOXTYPE_SERVICE_NAME attached to the niri session"
   else
-    printf '  [detached] %s\n' "$VOXTYPE_SERVICE_NAME"
+    report missing "$VOXTYPE_SERVICE_NAME detached from the niri session"
   fi
 
   if systemctl --user is-active "$VOXTYPE_SERVICE_NAME" >/dev/null 2>&1; then
-    printf '  [active]   %s\n' "$VOXTYPE_SERVICE_NAME"
+    report ok "$VOXTYPE_SERVICE_NAME"
   else
-    printf '  [inactive] %s\n' "$VOXTYPE_SERVICE_NAME"
+    report local "$VOXTYPE_SERVICE_NAME (inactive)"
   fi
 
   if command -v wtype >/dev/null 2>&1; then
-    printf '  [ok]       insertion backend wtype\n'
+    report ok 'insertion backend wtype'
   else
-    printf '  [missing]  insertion backend wtype\n'
+    report missing 'insertion backend wtype'
   fi
 
   if command -v wl-copy >/dev/null 2>&1; then
-    printf '  [ok]       clipboard fallback wl-copy\n'
+    report ok 'clipboard fallback wl-copy'
   else
-    printf '  [missing]  clipboard fallback wl-copy\n'
+    report missing 'clipboard fallback wl-copy'
   fi
 
   if systemctl --user is-active pipewire.service >/dev/null 2>&1; then
-    printf '  [active]   pipewire.service\n'
+    report ok 'pipewire.service'
   else
-    printf '  [inactive] pipewire.service\n'
+    report local 'pipewire.service (inactive)'
   fi
 
   if command -v wpctl >/dev/null 2>&1 &&
     wpctl inspect '@DEFAULT_AUDIO_SOURCE@' >/dev/null 2>&1; then
-    printf '  [ok]       default microphone source\n'
+    report ok 'default microphone source'
   else
-    printf '  [missing]  default microphone source\n'
+    report missing 'default microphone source'
   fi
 
   if voxtype_niri_binding_present; then
-    printf '  [ok]       niri Hyper+S toggle binding\n'
+    report ok 'niri Hyper+S toggle binding'
   else
-    printf '  [missing]  niri Hyper+S toggle binding\n'
+    report missing 'niri Hyper+S toggle binding'
   fi
 
   if voxtype_cancel_key_configured; then
-    printf '  [ok]       Voxtype state-aware Escape cancellation\n'
+    report ok 'Voxtype state-aware Escape cancellation'
   else
-    printf '  [missing]  Voxtype state-aware Escape cancellation\n'
+    report missing 'Voxtype state-aware Escape cancellation'
   fi
 
   if id -nG | tr ' ' '\n' | grep -Fxq input; then
-    printf '  [ok]       input group (required for Escape listener)\n'
+    report ok 'input group (required for Escape listener)'
   else
-    printf '  [missing]  input group (log out after running the voxtype phase)\n'
+    report missing 'input group (log out after running the voxtype phase)'
   fi
 }

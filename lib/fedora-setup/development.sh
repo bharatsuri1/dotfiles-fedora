@@ -28,6 +28,7 @@ install_npm_global_tools() {
 }
 
 install_development_tools() {
+  section Development
   enable_copr jdxcode/mise
 
   local -a missing=()

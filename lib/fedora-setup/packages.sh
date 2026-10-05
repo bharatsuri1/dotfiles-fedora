@@ -3,6 +3,7 @@ package_installed() {
 }
 
 install_packages() {
+  section Packages
   local -a missing=()
   local package
 

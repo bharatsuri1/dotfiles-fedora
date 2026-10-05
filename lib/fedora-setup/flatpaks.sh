@@ -1,4 +1,5 @@
 install_flatpaks() {
+  section Flatpaks
   command -v flatpak >/dev/null 2>&1 || die 'Flatpak is missing; run the packages phase first'
 
   if ! flatpak remotes --columns=name 2>/dev/null | grep -Fxq flathub; then

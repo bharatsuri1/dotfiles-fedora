@@ -124,28 +124,14 @@ readonly BREW_FORMULAE=(
 
 readonly BREW_TRUST_TAPS=()
 
-log() {
-  printf '==> %s\n' "$*"
-}
-
-die() {
-  printf 'error: %s\n' "$*" >&2
-  exit 1
-}
-
-run() {
-  if $DRY_RUN; then
-    printf '+ '
-    printf '%q ' "$@"
-    printf '\n'
-  else
-    "$@"
-  fi
-}
+# log, die, and run live in output.sh, which bin/fedora-setup sources first.
 
 confirm() {
   local prompt="$1"
-  $ASSUME_YES && return 0
+  if $ASSUME_YES; then
+    report local "$prompt [assumed yes]"
+    return 0
+  fi
   local answer
   if [[ -r /dev/tty ]]; then
     read -r -p "$prompt [y/N] " answer </dev/tty

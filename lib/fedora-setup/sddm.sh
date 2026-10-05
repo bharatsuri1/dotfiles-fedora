@@ -34,6 +34,7 @@ validate_sddm() {
 }
 
 install_sddm() {
+  section SDDM
   if ! $DRY_RUN && ! font_family_installed "$UI_FONT_FAMILY"; then
     die "$UI_FONT_FAMILY is missing; run the fonts phase before sddm"
   fi
@@ -78,6 +79,7 @@ install_sddm() {
 }
 
 enable_sddm() {
+  section "SDDM activation"
   $DRY_RUN || validate_sddm
 
   local display_manager_fragment

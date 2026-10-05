@@ -1,4 +1,5 @@
 set_shell() {
+  section Shell
   local zsh_path
   zsh_path="$(command -v zsh || true)"
   if [[ -z "$zsh_path" ]]; then

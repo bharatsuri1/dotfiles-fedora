@@ -18,6 +18,7 @@ install_chromium_policy() {
 }
 
 install_desktop_defaults() {
+  section "Desktop defaults"
   command -v xdg-mime >/dev/null 2>&1 || die 'xdg-mime is missing; run the packages phase first'
 
   log 'configuring desktop application defaults'

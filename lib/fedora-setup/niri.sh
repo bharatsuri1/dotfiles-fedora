@@ -1,4 +1,5 @@
 install_niri() {
+  section Niri
   if package_installed niri; then
     log 'niri already installed'
   else

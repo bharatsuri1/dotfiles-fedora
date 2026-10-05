@@ -1,33 +1,34 @@
 show_status() {
-  printf 'Login shell:\n'
-  local login_shell
+  section Machine
+  local os_name login_shell
+  os_name="$(grep -m1 '^PRETTY_NAME=' /etc/os-release 2>/dev/null | cut -d= -f2- | tr -d '"')"
+  report ok "${os_name:-Fedora} ($(uname -m))"
+  report local "checkout $REPO_ROOT"
   login_shell="$(getent passwd "$(id -un)" | cut -d: -f7)"
   if [[ -n "$login_shell" ]]; then
-    printf '  [configured] %s\n' "$login_shell"
+    report ok "login shell $login_shell"
   else
-    printf '  [unknown] unable to read the login shell\n'
+    report missing 'unable to read the login shell'
   fi
 
-  printf 'Default browser:\n'
+  section "Default browser"
   local default_browser
   default_browser="$(xdg-settings get default-web-browser 2>/dev/null || true)"
   if [[ -n "$default_browser" ]]; then
-    printf '  [configured] %s\n' "$default_browser"
+    report ok "$default_browser"
   else
-    printf '  [unknown] no default browser configured\n'
+    report missing 'no default browser configured'
   fi
-
-  printf 'Chromium policy:\n'
   if [[ -r "$CHROMIUM_POLICY_TARGET" ]] &&
     cmp -s "$CHROMIUM_POLICY_SOURCE" "$CHROMIUM_POLICY_TARGET"; then
-    printf '  [managed] %s\n' "$CHROMIUM_POLICY_TARGET"
+    report ok "$CHROMIUM_POLICY_TARGET"
   elif [[ -e "$CHROMIUM_POLICY_TARGET" ]]; then
-    printf '  [local]   %s\n' "$CHROMIUM_POLICY_TARGET"
+    report local "$CHROMIUM_POLICY_TARGET"
   else
-    printf '  [missing] %s\n' "$CHROMIUM_POLICY_TARGET"
+    report missing "$CHROMIUM_POLICY_TARGET"
   fi
 
-  printf 'Graphical login:\n'
+  section "Graphical login"
   local boot_target display_manager display_manager_fragment display_manager_state
   boot_target="$(systemctl get-default 2>/dev/null || true)"
   display_manager_state="$(systemctl show display-manager.service -p LoadState --value 2>/dev/null || true)"
@@ -37,117 +38,162 @@ show_status() {
   else
     display_manager=""
   fi
-  printf '  [target]   %s\n' "${boot_target:-unknown}"
+  report local "boot target ${boot_target:-unknown}"
   if [[ -n "$display_manager" ]]; then
-    printf '  [enabled]  %s\n' "$display_manager"
+    report ok "$display_manager"
   else
-    printf '  [missing]  display-manager.service\n'
+    report missing 'display-manager.service'
   fi
   if [[ -r "$NIRI_SESSION_FILE" ]] && grep -Eq '^Exec=niri-session$' "$NIRI_SESSION_FILE"; then
-    printf '  [ok]       niri-session\n'
+    report ok 'niri-session'
   else
-    printf '  [invalid]  %s\n' "$NIRI_SESSION_FILE"
+    report missing "$NIRI_SESSION_FILE"
   fi
   if package_installed sddm; then
-    printf '  [installed] sddm\n'
+    report ok sddm
   else
-    printf '  [missing]  sddm\n'
+    report missing sddm
   fi
   if [[ -r "$SDDM_CONFIG_TARGET" && -r "$SDDM_THEME_TARGET/Main.qml" ]]; then
-    printf '  [managed]  %s theme\n' "$SDDM_THEME_NAME"
+    report ok "managed SDDM theme ($SDDM_THEME_NAME)"
   else
-    printf '  [missing]  managed SDDM theme\n'
+    report missing 'managed SDDM theme'
   fi
 
-  printf 'Fedora packages:\n'
+  section Packages
   local item
   for item in "${DNF_PACKAGES[@]}"; do
     if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
 
-  printf 'Development runtime tools:\n'
+  section Development
   for item in "${DEVELOPMENT_PACKAGES[@]}"; do
     if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
-
-  printf 'Mise-managed npm tools:\n'
   for item in "${NPM_GLOBAL_PACKAGES[@]}"; do
     if npm_global_package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
 
-  printf 'OpenCode:\n'
+  section OpenCode
   if [[ -x "$OPENCODE_BINARY" ]]; then
-    printf '  [ok]      %s\n' "$OPENCODE_BINARY"
+    report ok "$OPENCODE_BINARY"
   else
-    printf '  [missing] %s\n' "$OPENCODE_BINARY"
+    report missing "$OPENCODE_BINARY"
   fi
 
-  printf 'Herdr:\n'
+  section Herdr
   if [[ -x "$HERDR_BINARY" ]]; then
-    printf '  [ok]      %s\n' "$HERDR_BINARY"
+    report ok "$HERDR_BINARY"
   else
-    printf '  [missing] %s\n' "$HERDR_BINARY"
+    report missing "$HERDR_BINARY"
   fi
 
-  printf 'Ollama:\n'
+  section Ollama
   if command -v ollama >/dev/null 2>&1 || [[ -x "$OLLAMA_BINARY" ]]; then
-    printf '  [ok]      %s\n' "$(command -v ollama 2>/dev/null || printf '%s' "$OLLAMA_BINARY")"
+    report ok "$(command -v ollama 2>/dev/null || printf '%s' "$OLLAMA_BINARY")"
   else
-    printf '  [missing] %s\n' "$OLLAMA_BINARY"
+    report missing "$OLLAMA_BINARY"
   fi
 
-  printf 'Docker:\n'
+  section Docker
   for item in "${DOCKER_PACKAGES[@]}"; do
     if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
 
-  printf 'Desktop graphics and media:\n'
+  section "Desktop foundation"
   for item in "${DESKTOP_GRAPHICS_PACKAGES[@]}"; do
     if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
-
-  printf 'Desktop audio:\n'
   for item in "${DESKTOP_AUDIO_PACKAGES[@]}"; do
     if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
-
-  printf 'Desktop Bluetooth:\n'
   for item in "${DESKTOP_BLUETOOTH_PACKAGES[@]}"; do
     if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
   if systemctl is-enabled bluetooth.service >/dev/null 2>&1; then
-    printf '  [enabled] bluetooth.service\n'
+    report ok 'bluetooth.service'
   else
-    printf '  [disabled] bluetooth.service\n'
+    report missing 'bluetooth.service (disabled)'
   fi
+  for item in "${DESKTOP_SECURITY_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      report ok "$item"
+    else
+      report missing "$item"
+    fi
+  done
+  for item in "${DESKTOP_PORTAL_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      report ok "$item"
+    else
+      report missing "$item"
+    fi
+  done
+  for item in "${DESKTOP_UTILITY_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      report ok "$item"
+    else
+      report missing "$item"
+    fi
+  done
+  for item in "${DESKTOP_APPLICATION_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      report ok "$item"
+    else
+      report missing "$item"
+    fi
+  done
+  for item in "${DESKTOP_COMPATIBILITY_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      report ok "$item"
+    else
+      report missing "$item"
+    fi
+  done
+
+  section "Niri session"
+  for item in "${DESKTOP_SESSION_PACKAGES[@]}"; do
+    if package_installed "$item"; then
+      report ok "$item"
+    else
+      report missing "$item"
+    fi
+  done
+  for item in swaync.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service voxtype.service vicinae.service; do
+    if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$item" ]]; then
+      report ok "$item attached"
+    else
+      report missing "$item detached"
+    fi
+  done
 
   show_device_controls_status
 
@@ -157,101 +203,40 @@ show_status() {
 
   show_vicinae_status
 
-  printf 'Desktop authorization and secrets:\n'
-  for item in "${DESKTOP_SECURITY_PACKAGES[@]}"; do
-    if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
-    else
-      printf '  [missing] %s\n' "$item"
-    fi
-  done
-
-  printf 'Desktop portals:\n'
-  for item in "${DESKTOP_PORTAL_PACKAGES[@]}"; do
-    if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
-    else
-      printf '  [missing] %s\n' "$item"
-    fi
-  done
-
-  printf 'Desktop utilities:\n'
-  for item in "${DESKTOP_UTILITY_PACKAGES[@]}"; do
-    if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
-    else
-      printf '  [missing] %s\n' "$item"
-    fi
-  done
-
-  printf 'Bare-niri session:\n'
-  for item in "${DESKTOP_SESSION_PACKAGES[@]}"; do
-    if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
-    else
-      printf '  [missing] %s\n' "$item"
-    fi
-  done
-  for item in swaync.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service voxtype.service vicinae.service; do
-    if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$item" ]]; then
-      printf '  [attached] %s\n' "$item"
-    else
-      printf '  [detached] %s\n' "$item"
-    fi
-  done
-
-  printf 'Desktop applications:\n'
-  for item in "${DESKTOP_APPLICATION_PACKAGES[@]}"; do
-    if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
-    else
-      printf '  [missing] %s\n' "$item"
-    fi
-  done
-
-  printf 'Desktop compatibility:\n'
-  for item in "${DESKTOP_COMPATIBILITY_PACKAGES[@]}"; do
-    if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
-    else
-      printf '  [missing] %s\n' "$item"
-    fi
-  done
-
-  printf 'Desktop shell:\n'
+  section "Desktop shell"
   for item in niri fuzzel; do
     if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
 
-  printf 'Screenshot tools:\n'
+  section Screenshots
   for item in "${SCREENSHOT_PACKAGES[@]}"; do
     if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
   if tensaku_installed; then
-    printf '  [pinned]  Tensaku %s\n' "$TENSAKU_VERSION"
+    report pinned "Tensaku $TENSAKU_VERSION"
   else
-    printf '  [missing] Tensaku %s\n' "$TENSAKU_VERSION"
+    report missing "Tensaku $TENSAKU_VERSION"
   fi
   if tensaku_bundle_valid; then
-    printf '  [verified] %s\n' "$TENSAKU_BUNDLE"
+    report ok "$TENSAKU_BUNDLE"
   else
-    printf '  [invalid]  %s\n' "$TENSAKU_BUNDLE"
+    report missing "$TENSAKU_BUNDLE (invalid)"
   fi
 
-  printf 'Quickshell:\n'
+  section Quickshell
   for item in "${QUICKSHELL_PACKAGES[@]}"; do
     if package_installed "$item"; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
   local quickshell_target="$HOME/.config/quickshell"
@@ -261,47 +246,47 @@ show_status() {
     quickshell_resolved="$(readlink -f -- "$quickshell_target" 2>/dev/null || true)"
   fi
   if [[ "$quickshell_resolved" == "$quickshell_source" && -r "$quickshell_target/shell.qml" ]]; then
-    printf '  [managed] %s\n' "$quickshell_target"
+    report linked "$quickshell_target"
   elif [[ -L "$quickshell_target" && -z "$quickshell_resolved" ]]; then
-    printf '  [broken]  %s\n' "$quickshell_target"
+    report broken "$quickshell_target"
   elif [[ -L "$quickshell_target" ]]; then
-    printf '  [wrong]   %s -> %s\n' "$quickshell_target" "$quickshell_resolved"
+    report wrong "$quickshell_target -> $quickshell_resolved"
   elif [[ -e "$quickshell_target" ]]; then
-    printf '  [local]   %s\n' "$quickshell_target"
+    report local "$quickshell_target"
   else
-    printf '  [missing] %s\n' "$quickshell_target"
+    report missing "$quickshell_target"
   fi
   if [[ -L "$HOME/.config/systemd/user/niri.service.wants/quickshell.service" ]]; then
-    printf '  [attached] quickshell.service\n'
+    report ok 'quickshell.service attached'
   else
-    printf '  [detached] quickshell.service\n'
+    report missing 'quickshell.service detached'
   fi
   if systemctl --user is-active quickshell.service >/dev/null 2>&1; then
-    printf '  [active]   quickshell.service\n'
+    report ok 'quickshell.service active'
   else
-    printf '  [inactive] quickshell.service\n'
+    report local 'quickshell.service (inactive)'
   fi
 
-  printf 'Keyboard remapping:\n'
+  section Keyd
   if package_installed keyd; then
-    printf '  [ok]      keyd\n'
+    report ok keyd
   else
-    printf '  [missing] keyd\n'
+    report missing keyd
   fi
   if [[ -r "$KEYD_CONFIG_TARGET" ]] && cmp -s "$KEYD_CONFIG_SOURCE" "$KEYD_CONFIG_TARGET"; then
-    printf '  [managed] %s\n' "$KEYD_CONFIG_TARGET"
+    report ok "$KEYD_CONFIG_TARGET"
   else
-    printf '  [local]   %s\n' "$KEYD_CONFIG_TARGET"
+    report local "$KEYD_CONFIG_TARGET"
   fi
 
   show_font_status
 
-  printf 'Flatpak applications:\n'
+  section Flatpaks
   for item in "${FLATPAK_APPS[@]}"; do
     if command -v flatpak >/dev/null 2>&1 && flatpak info "$item" >/dev/null 2>&1; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
 
@@ -311,27 +296,26 @@ show_status() {
 
   show_nvim_status
 
-  printf 'Homebrew formulae:\n'
+  section Homebrew
   local brew
   brew="$(brew_path || true)"
-
   for item in "${BREW_FORMULAE[@]}"; do
     if [[ -n "$brew" ]] && "$brew" list --formula "$item" >/dev/null 2>&1; then
-      printf '  [ok]      %s\n' "$item"
+      report ok "$item"
     else
-      printf '  [missing] %s\n' "$item"
+      report missing "$item"
     fi
   done
 
-  printf 'Zsh plugins:\n'
+  section "Zsh plugins"
   local plugin revision destination
   while read -r plugin revision; do
     destination="$ZSH_PLUGIN_ROOT/$plugin"
     if [[ -d "$destination/.git" ]] &&
       [[ "$(git -C "$destination" rev-parse HEAD 2>/dev/null || true)" == "$revision" ]]; then
-      printf '  [pinned]  %s @ %s\n' "$plugin" "${revision:0:7}"
+      report pinned "$plugin @ ${revision:0:7}"
     else
-      printf '  [missing] %s @ %s\n' "$plugin" "${revision:0:7}"
+      report missing "$plugin @ ${revision:0:7}"
     fi
   done <<EOF
 zsh-autosuggestions $AUTOSUGGESTIONS_REVISION
@@ -340,42 +324,45 @@ fzf-tab $FZF_TAB_REVISION
 zsh-history-substring-search $HISTORY_SUBSTRING_SEARCH_REVISION
 EOF
 
-  printf 'Configuration:\n'
+  section Configuration
   local target
   for target in \
-    "$HOME/.config/alacritty/alacritty.toml" \
     "$HOME/.zshenv" \
     "$HOME/.config/zsh/.zshenv" \
     "$HOME/.config/zsh/.zshrc" \
     "$HOME/.config/zsh/aliases.zsh" \
     "$HOME/.config/zsh/completion.zsh" \
+    "$HOME/.config/zsh/cursor.zsh" \
     "$HOME/.config/zsh/integrations.zsh" \
     "$HOME/.config/zsh/options.zsh" \
     "$HOME/.config/zsh/plugins.zsh" \
+    "$HOME/.config/alacritty/alacritty.toml" \
+    "$HOME/.config/alacritty/themes/vesper.toml" \
     "$HOME/.config/atuin/config.toml" \
     "$HOME/.config/mise/config.toml" \
     "$HOME/.config/tmux/tmux.conf" \
     "$HOME/.config/tmux/status.conf" \
     "$HOME/.config/sesh/sesh.toml" \
     "$HOME/.config/sesh/scripts/control-panel.sh" \
-    "$HOME/.pi/agent/settings.json" \
-    "$HOME/.pi/agent/extensions/statusline.ts" \
-    "$HOME/.codex/dotfiles.config.toml" \
-    "$HOME/.config/opencode/opencode.jsonc" \
-    "$HOME/.config/opencode/tui.jsonc" \
     "$HOME/.config/starship.toml" \
     "$HOME/.config/bat/config" \
     "$HOME/.config/fastfetch/config.jsonc" \
     "$HOME/.config/herdr/config.toml" \
+    "$HOME/.config/fontconfig/fonts.conf" \
     "$HOME/.config/swaync/config.json" \
     "$HOME/.config/swaync/style.css" \
     "$HOME/.config/tensaku/config.toml" \
-    "$HOME/.config/fontconfig/fonts.conf" \
     "$HOME/.config/gtklock/config.ini" \
     "$HOME/.config/gtklock/layout.ui" \
     "$HOME/.config/gtklock/style.css" \
     "$HOME/.config/niri/config.kdl" \
-    "$HOME/.config/quickshell" \
+    "$HOME/.config/systemd/user/swaybg.service" \
+    "$HOME/.config/systemd/user/swayidle.service" \
+    "$HOME/.config/systemd/user/lxqt-policykit-agent.service" \
+    "$HOME/.config/systemd/user/quickshell.service" \
+    "$HOME/.config/systemd/user/voxtype.service" \
+    "$HOME/.local/bin/fedora-update" \
+    "$HOME/.local/bin/fedora-sync" \
     "$HOME/.local/bin/lock-screen" \
     "$HOME/.local/bin/preview-lock-screen" \
     "$HOME/.local/bin/session-wallpaper" \
@@ -384,14 +371,15 @@ EOF
     "$HOME/.local/bin/fuzzel-toggle" \
     "$HOME/.local/bin/control-panel" \
     "$HOME/.local/bin/island-power" \
-    "$HOME/.config/systemd/user/swaybg.service" \
-    "$HOME/.config/systemd/user/swayidle.service" \
-    "$HOME/.config/systemd/user/lxqt-policykit-agent.service" \
-    "$HOME/.config/systemd/user/quickshell.service"; do
-    if [[ -L "$target" && "$(readlink -f -- "$target")" == "$REPO_ROOT"/* ]]; then
-      printf '  [linked]  %s\n' "$target"
+    "$HOME/.pi/agent/settings.json" \
+    "$HOME/.pi/agent/extensions/statusline.ts" \
+    "$HOME/.codex/dotfiles.config.toml" \
+    "$HOME/.config/opencode/opencode.jsonc" \
+    "$HOME/.config/opencode/tui.jsonc"; do
+    if [[ -L "$target" && "$(readlink -f -- "$target" 2>/dev/null || true)" == "$REPO_ROOT"/* ]]; then
+      report linked "$target"
     else
-      printf '  [local]   %s\n' "$target"
+      report local "$target"
     fi
   done
 }

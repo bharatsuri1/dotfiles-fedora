@@ -19,6 +19,7 @@ readonly OLLAMA_BINARY="/usr/local/bin/ollama"
 # ### End manual uninstall commands ###
 
 install_ollama() {
+  section Ollama
   if [[ -x "$OLLAMA_BINARY" ]] || command -v ollama >/dev/null 2>&1; then
     log "Ollama already installed at $(command -v ollama 2>/dev/null || printf '%s' "$OLLAMA_BINARY")"
     return

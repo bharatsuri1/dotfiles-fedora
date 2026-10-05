@@ -55,6 +55,7 @@ install_tensaku() {
 }
 
 install_screenshots() {
+  section Screenshots
   local -a missing=()
   local package
 

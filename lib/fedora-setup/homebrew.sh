@@ -7,6 +7,7 @@ brew_path() {
 }
 
 install_homebrew() {
+  section Homebrew
   local brew
   brew="$(brew_path || true)"
 

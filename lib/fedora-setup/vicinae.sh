@@ -14,6 +14,7 @@ vicinae_service_linked() {
 }
 
 install_vicinae() {
+  section Vicinae
   if vicinae_installed; then
     log "Vicinae already installed at $VICINAE_BINARY"
   else
@@ -75,31 +76,45 @@ install_vicinae_service() {
 }
 
 show_vicinae_status() {
-  printf 'Vicinae:\n'
+  section Vicinae
 
   if vicinae_installed; then
-    printf '  [ok]      %s\n' "$VICINAE_BINARY"
+    report ok "$VICINAE_BINARY"
   else
-    printf '  [missing] %s\n' "$VICINAE_BINARY"
+    report missing "$VICINAE_BINARY"
   fi
 
   if vicinae_service_linked; then
-    printf '  [linked]  %s\n' "$VICINAE_SERVICE_NAME"
+    report linked "$VICINAE_SERVICE_NAME"
   elif [[ -f "$VICINAE_SERVICE_INSTALLED" ]]; then
-    printf '  [local]   %s (installer path, not linked to systemd user dir)\n' "$VICINAE_SERVICE_INSTALLED"
+    report local "$VICINAE_SERVICE_INSTALLED (installer path, not linked to systemd user dir)"
   else
-    printf '  [missing] %s\n' "$VICINAE_SERVICE_NAME"
+    report missing "$VICINAE_SERVICE_NAME"
+  fi
+
+  local vicinae_settings_target="$HOME/.config/vicinae/settings.json"
+  local vicinae_settings_source="$REPO_ROOT/config/vicinae/settings.json"
+  local vicinae_settings_resolved=""
+  if [[ -L "$vicinae_settings_target" ]]; then
+    vicinae_settings_resolved="$(readlink -f -- "$vicinae_settings_target" 2>/dev/null || true)"
+  fi
+  if [[ "$vicinae_settings_resolved" == "$(readlink -f -- "$vicinae_settings_source" 2>/dev/null || true)" ]]; then
+    report linked "$vicinae_settings_target"
+  elif [[ -e "$vicinae_settings_target" ]]; then
+    report local "$vicinae_settings_target"
+  else
+    report missing "$vicinae_settings_target"
   fi
 
   if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$VICINAE_SERVICE_NAME" ]]; then
-    printf '  [attached] %s\n' "$VICINAE_SERVICE_NAME"
+    report ok "$VICINAE_SERVICE_NAME attached to the niri session"
   else
-    printf '  [detached] %s\n' "$VICINAE_SERVICE_NAME"
+    report missing "$VICINAE_SERVICE_NAME detached from the niri session"
   fi
 
   if systemctl --user is-active "$VICINAE_SERVICE_NAME" >/dev/null 2>&1; then
-    printf '  [active]   %s\n' "$VICINAE_SERVICE_NAME"
+    report ok "$VICINAE_SERVICE_NAME"
   else
-    printf '  [inactive] %s\n' "$VICINAE_SERVICE_NAME"
+    report local "$VICINAE_SERVICE_NAME (inactive)"
   fi
 }

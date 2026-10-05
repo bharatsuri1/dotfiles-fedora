@@ -32,6 +32,7 @@ install_zsh_plugin() {
 }
 
 install_shell_tools() {
+  section "Zsh plugins"
   command -v git >/dev/null 2>&1 || die 'Git is missing; run the packages phase first'
   log 'installing directly sourced Zsh plugins without a plugin manager'
   install_zsh_plugin zsh-autosuggestions "$AUTOSUGGESTIONS_REPOSITORY" "$AUTOSUGGESTIONS_REVISION"

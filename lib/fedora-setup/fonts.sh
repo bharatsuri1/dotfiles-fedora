@@ -12,13 +12,14 @@ font_family_installed() {
 }
 
 install_fonts() {
+  section Fonts
   install_jetbrains_mono_nerd_font
   install_ui_fonts
   install_noto_fonts
 }
 
 show_font_status() {
-  printf 'Fonts:\n'
+  section Fonts
   local family
   for family in \
     'JetBrainsMono Nerd Font' \
@@ -28,9 +29,9 @@ show_font_status() {
     'Noto Color Emoji' \
     'Noto Sans CJK'; do
     if font_family_installed "$family"; then
-      printf '  [available] %s\n' "$family"
+      report ok "$family"
     else
-      printf '  [missing]   %s\n' "$family"
+      report missing "$family"
     fi
   done
 }

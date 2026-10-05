@@ -2,6 +2,7 @@ readonly KEYD_CONFIG_SOURCE="$REPO_ROOT/config/keyd/default.conf"
 readonly KEYD_CONFIG_TARGET="/etc/keyd/default.conf"
 
 install_keyd() {
+  section Keyd
   enable_copr alternateved/keyd
 
   if package_installed keyd; then

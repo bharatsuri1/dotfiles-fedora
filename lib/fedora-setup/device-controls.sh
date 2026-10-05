@@ -158,51 +158,52 @@ install_bluetui() {
 }
 
 install_device_controls() {
+  section "Device controls"
   install_device_control_packages
   install_wlctl
   install_bluetui
 }
 
 show_device_controls_status() {
-  printf 'Standalone device controls:\n'
+  section "Device controls"
   local package
   for package in "${DEVICE_CONTROL_PACKAGES[@]}"; do
     if package_installed "$package"; then
-      printf '  [ok]       %s\n' "$package"
+      report ok "$package"
     else
-      printf '  [missing]  %s\n' "$package"
+      report missing "$package"
     fi
   done
 
   if wlctl_binary_valid; then
-    printf '  [pinned]   wlctl %s\n' "$WLCTL_VERSION"
+    report pinned "wlctl $WLCTL_VERSION"
   elif [[ -e "$WLCTL_BINARY" ]]; then
-    printf '  [local]    %s (not the pinned artifact)\n' "$WLCTL_BINARY"
+    report local "$WLCTL_BINARY (not the pinned artifact)"
   else
-    printf '  [missing]  wlctl %s\n' "$WLCTL_VERSION"
+    report missing "wlctl $WLCTL_VERSION"
   fi
 
   if bluetui_binary_valid; then
-    printf '  [pinned]   Bluetui %s\n' "$BLUETUI_VERSION"
+    report pinned "Bluetui $BLUETUI_VERSION"
   elif [[ -e "$BLUETUI_BINARY" ]]; then
-    printf '  [local]    %s (not the pinned artifact)\n' "$BLUETUI_BINARY"
+    report local "$BLUETUI_BINARY (not the pinned artifact)"
   else
-    printf '  [missing]  Bluetui %s\n' "$BLUETUI_VERSION"
+    report missing "Bluetui $BLUETUI_VERSION"
   fi
 
   local service
   for service in NetworkManager.service bluetooth.service; do
     if systemctl is-active "$service" >/dev/null 2>&1; then
-      printf '  [active]   %s\n' "$service"
+      report ok "$service"
     else
-      printf '  [inactive] %s\n' "$service"
+      report local "$service (inactive)"
     fi
   done
   for service in pipewire.service wireplumber.service; do
     if systemctl --user is-active "$service" >/dev/null 2>&1; then
-      printf '  [active]   %s\n' "$service"
+      report ok "$service (user)"
     else
-      printf '  [inactive] %s\n' "$service"
+      report local "$service (user, inactive)"
     fi
   done
 }

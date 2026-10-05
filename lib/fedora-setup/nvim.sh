@@ -10,6 +10,7 @@ link_nvim_config() {
 }
 
 install_nvim() {
+  section Neovim
   if ! nvim_installed && ! $DRY_RUN; then
     die "Neovim is missing; run the packages phase first"
   fi
@@ -21,11 +22,11 @@ install_nvim() {
 }
 
 show_nvim_status() {
-  printf 'Neovim:\n'
+  section Neovim
   if nvim_installed; then
-    printf '  [ok]      %s\n' "$(command -v nvim)"
+    report ok "$(command -v nvim)"
   else
-    printf '  [missing] nvim\n'
+    report missing nvim
   fi
 
   local resolved=""
@@ -33,21 +34,21 @@ show_nvim_status() {
     resolved="$(readlink -f -- "$NVIM_CONFIG_TARGET" 2>/dev/null || true)"
   fi
   if [[ "$resolved" == "$(readlink -f -- "$NVIM_CONFIG_SOURCE" 2>/dev/null || true)" ]]; then
-    printf '  [linked]  %s\n' "$NVIM_CONFIG_TARGET"
+    report linked "$NVIM_CONFIG_TARGET"
   elif [[ -L "$NVIM_CONFIG_TARGET" && -z "$resolved" ]]; then
-    printf '  [broken]  %s\n' "$NVIM_CONFIG_TARGET"
+    report broken "$NVIM_CONFIG_TARGET"
   elif [[ -L "$NVIM_CONFIG_TARGET" ]]; then
-    printf '  [wrong]   %s -> %s\n' "$NVIM_CONFIG_TARGET" "$resolved"
+    report wrong "$NVIM_CONFIG_TARGET -> $resolved"
   elif [[ -e "$NVIM_CONFIG_TARGET" ]]; then
-    printf '  [local]   %s\n' "$NVIM_CONFIG_TARGET"
+    report local "$NVIM_CONFIG_TARGET"
   else
-    printf '  [missing] %s\n' "$NVIM_CONFIG_TARGET"
+    report missing "$NVIM_CONFIG_TARGET"
   fi
 
   # Aliases are shell-config owned; report whether the managed alias file defines them.
   if grep -q "alias vim='nvim'" "$REPO_ROOT/config/zsh/aliases.zsh" 2>/dev/null; then
-    printf '  [alias]   v, vi, vim -> nvim\n'
+    report alias 'v, vi, vim -> nvim'
   else
-    printf '  [missing] v/vi/vim aliases in managed zsh aliases\n'
+    report missing 'v/vi/vim aliases in managed zsh aliases'
   fi
 }

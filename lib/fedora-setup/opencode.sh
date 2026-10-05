@@ -2,6 +2,7 @@ readonly OPENCODE_INSTALLER_URL="https://opencode.ai/v2/install"
 readonly OPENCODE_BINARY="$HOME/.opencode/bin/opencode"
 
 install_opencode() {
+  section OpenCode
   if [[ -x "$OPENCODE_BINARY" ]]; then
     log "OpenCode already installed at $OPENCODE_BINARY"
     return

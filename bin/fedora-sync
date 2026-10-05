@@ -5,15 +5,10 @@ set -Eeuo pipefail
 
 readonly INSTALL_ROOT="${DOTFILES_FEDORA_INSTALL_ROOT:-$HOME/.local/share/dotfiles-fedora}"
 
-log() {
-  printf '==> %s\n' "$*"
-}
+# shellcheck source=/dev/null
+source "$INSTALL_ROOT/lib/fedora-setup/output.sh"
 
-die() {
-  printf 'error: %s\n' "$*" >&2
-  exit 1
-}
-
+section Checkout
 if [[ -d "$INSTALL_ROOT/.git" ]]; then
   log "updating existing checkout at $INSTALL_ROOT"
   current_branch="$(git -C "$INSTALL_ROOT" symbolic-ref --quiet --short HEAD)" ||
@@ -25,17 +20,25 @@ else
   die "$INSTALL_ROOT is not a Git checkout; run fedora-update to clone and set up first"
 fi
 
+section Homebrew
 if command -v brew &>/dev/null; then
   log 'updating Homebrew packages'
   brew update && brew upgrade -y
+else
+  report local 'Homebrew is not installed; skipping'
 fi
 
+section Flatpaks
 if command -v flatpak &>/dev/null; then
   log 'updating Flatpak apps and runtimes'
   flatpak update --assumeyes
+else
+  report local 'Flatpak is not installed; skipping'
 fi
 
+section "Fedora packages"
 log 'updating Fedora packages with dnf'
 sudo dnf upgrade --refresh --assumeyes
 
 log 'all updates complete'
+output_summary

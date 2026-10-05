@@ -9,8 +9,8 @@ link_config() {
   local source="$1"
   local target="$2"
 
-  if [[ -L "$target" && "$(readlink -f -- "$target")" == "$(readlink -f -- "$source")" ]]; then
-    log "$target already linked"
+  if [[ -L "$target" && "$(readlink -f -- "$target" 2>/dev/null || true)" == "$(readlink -f -- "$source" 2>/dev/null || true)" ]]; then
+    report linked "$target"
     return
   fi
 
@@ -20,9 +20,10 @@ link_config() {
     local backup="$BACKUP_DIR/${target#"$HOME"/}"
     run mkdir -p "$(dirname -- "$backup")"
     run mv -- "$target" "$backup"
-    log "backed up $target to $backup"
+    report backup "$target -> $backup"
   fi
   run ln -s "$source" "$target"
+  report linked "$target"
 }
 
 # The opencode TUI plugin at ~/.config/opencode/herdr-tui-session.js is
@@ -146,6 +147,7 @@ configure_niri_services() {
 }
 
 install_config() {
+  section Config
   if ! $DRY_RUN; then
     sync_packaged_wallpapers "$REPO_ROOT/assets/wallpapers"
     initialize_wallpapers
