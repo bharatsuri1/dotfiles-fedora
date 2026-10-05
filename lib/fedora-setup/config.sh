@@ -25,6 +25,24 @@ link_config() {
   run ln -s "$source" "$target"
 }
 
+# The opencode TUI plugin at ~/.config/opencode/herdr-tui-session.js is
+# herdr's own integration artifact: herdr installs it and overwrites it on
+# integration updates (see its "managed by herdr" header). Earlier config
+# phases symlinked it into this repo, which no longer ships the file,
+# leaving a dangling link in herdr's way. Remove the link only when it
+# points into this checkout; never touch a real file herdr has written.
+remove_managed_herdr_plugin_link() {
+  local target="$HOME/.config/opencode/herdr-tui-session.js"
+  local link_target=''
+  if [[ -L "$target" ]]; then
+    link_target="$(readlink -- "$target")"
+  fi
+  if [[ "$link_target" == "$REPO_ROOT"/* ]]; then
+    run rm -- "$target"
+    log "removed repo-managed link $target; herdr owns its opencode integration"
+  fi
+}
+
 reload_tmux_config() {
   local config="$HOME/.config/tmux/tmux.conf"
 
@@ -163,7 +181,7 @@ install_config() {
   link_config "$REPO_ROOT/config/codex/dotfiles.config.toml" "$HOME/.codex/dotfiles.config.toml"
   link_config "$REPO_ROOT/config/opencode/opencode.jsonc" "$HOME/.config/opencode/opencode.jsonc"
   link_config "$REPO_ROOT/config/opencode/tui.jsonc" "$HOME/.config/opencode/tui.jsonc"
-  link_config "$REPO_ROOT/config/opencode/herdr-tui-session.js" "$HOME/.config/opencode/herdr-tui-session.js"
+  remove_managed_herdr_plugin_link
   link_config "$REPO_ROOT/config/starship.toml" "$HOME/.config/starship.toml"
   link_config "$REPO_ROOT/config/bat/config" "$HOME/.config/bat/config"
   link_config "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
