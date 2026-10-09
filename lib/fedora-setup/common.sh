@@ -23,6 +23,7 @@ readonly DNF_PACKAGES=(
   btop
   chromium
   curl
+  du-dust
   eza
   fastfetch
   fd-find
