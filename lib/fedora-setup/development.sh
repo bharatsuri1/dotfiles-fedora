@@ -53,3 +53,21 @@ install_development_tools() {
     die 'Mise installation did not produce a mise executable'
   fi
 }
+
+update_npm_global_tools() {
+  section "npm updates"
+  command -v mise >/dev/null 2>&1 || die 'Mise is missing; run the setup runtime phase first'
+  local tool
+  for tool in "${NPM_GLOBAL_PACKAGES[@]}"; do
+    if ! mise exec node@latest -- npm list --global --depth=0 "$tool" >/dev/null 2>&1; then
+      report missing "$tool is not installed; run setup to install managed npm tools"
+      continue
+    fi
+    log "updating managed npm tool $tool"
+    if [[ "$tool" == @earendil-works/pi-coding-agent ]]; then
+      run mise exec node@latest -- npm install --global --ignore-scripts "$tool@latest"
+    else
+      run mise exec node@latest -- npm install --global "$tool@latest"
+    fi
+  done
+}

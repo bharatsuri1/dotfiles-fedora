@@ -46,6 +46,10 @@ else
   report local 'Homebrew is not installed; skipping'
 fi
 
+# shellcheck source=/dev/null
+source "$INSTALL_ROOT/lib/fedora-setup/development.sh"
+update_npm_global_tools
+
 section Flatpaks
 if command -v flatpak &>/dev/null; then
   log 'updating Flatpak apps and runtimes'
