@@ -109,9 +109,10 @@ runtime and unknown keys. Existing settings are backed up before changes;
 legacy symlinks are detached so Pi cannot write into the checkout. The statusline
 extension remains linked. Node must be installed before running the config phase.
 
-The `cx` alias selects the managed Codex profile (`gpt-6.1-sol`, low reasoning,
-default service tier, hooks enabled, and remaining-context status).
-`sol` selects the same model; `luna` selects `gpt-6-luna` at xhigh effort.
+The `cx` alias uses the local Codex user configuration. The managed
+`config/codex/dotfiles.config.toml` is a reference for manually updating local
+settings; setup does not merge it into the user configuration.
+`sol` selects `gpt-6.1-sol` at low effort; `luna` selects `gpt-6-luna` at xhigh effort.
 
 ## Tmux and Sesh
 
@@ -204,7 +205,7 @@ OpenCode uses its official installer on Fedora, rather than npm.
 - `fd`, ripgrep, FZF, eza, Zoxide, Zsh, Starship, bat, btop, and fastfetch;
 - local-only Atuin history with automatic sync, update checks, and its daemon disabled;
 - Mise-managed Node.js with Pi and Codex, a managed Pi statusline extension,
-  and a portable Codex profile selected by the `cx` alias;
+  and a portable Codex reference config for manual local settings updates;
 - pinned, directly sourced `zsh-autosuggestions`,
   `fast-syntax-highlighting`, and `fzf-tab` checkouts with no shell framework
   or plugin manager, with `fzf-tab` rendering the completion menu as an
