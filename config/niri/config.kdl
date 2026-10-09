@@ -63,7 +63,7 @@ recent-windows {
         active-color "#ffc799"
         urgent-color "#f5a191"
         padding 16
-        corner-radius 14
+        corner-radius 20
     }
 }
 
