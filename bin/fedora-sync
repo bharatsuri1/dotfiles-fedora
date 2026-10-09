@@ -20,10 +20,14 @@ else
   die "$INSTALL_ROOT is not a Git checkout; run fedora-update to clone and set up first"
 fi
 
+# shellcheck source=/dev/null
+source "$INSTALL_ROOT/lib/fedora-setup/homebrew.sh"
+
 section Homebrew
-if command -v brew &>/dev/null; then
+brew="$(brew_path || true)"
+if [[ -n "$brew" ]]; then
   log 'updating Homebrew packages'
-  brew update && brew upgrade -y
+  "$brew" update && "$brew" upgrade -y
 else
   report local 'Homebrew is not installed; skipping'
 fi

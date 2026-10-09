@@ -34,10 +34,14 @@ section SDDM
 log 'updating SDDM from the repo'
 "$INSTALL_ROOT/bin/fedora-setup" --yes sddm
 
+# shellcheck source=/dev/null
+source "$INSTALL_ROOT/lib/fedora-setup/homebrew.sh"
+
 section Homebrew
-if command -v brew &>/dev/null; then
+brew="$(brew_path || true)"
+if [[ -n "$brew" ]]; then
   log 'updating Homebrew packages'
-  brew update && brew upgrade -y
+  "$brew" update && "$brew" upgrade -y
 else
   report local 'Homebrew is not installed; skipping'
 fi
