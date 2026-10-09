@@ -338,14 +338,7 @@ show_voxtype_status() {
     report missing 'Voxtype OSD wrapper'
   fi
 
-  if [[ -L "$VOXTYPE_CONFIG_TARGET" &&
-    "$(readlink -f -- "$VOXTYPE_CONFIG_TARGET")" == "$(readlink -f -- "$VOXTYPE_CONFIG_SOURCE")" ]]; then
-    report linked "$VOXTYPE_CONFIG_TARGET"
-  elif [[ -e "$VOXTYPE_CONFIG_TARGET" ]]; then
-    report local "$VOXTYPE_CONFIG_TARGET"
-  else
-    report missing "$VOXTYPE_CONFIG_TARGET"
-  fi
+  show_config_link_status "$VOXTYPE_CONFIG_SOURCE" "$VOXTYPE_CONFIG_TARGET"
 
   if voxtype_model_valid; then
     report pinned "model $VOXTYPE_MODEL"
@@ -355,14 +348,7 @@ show_voxtype_status() {
     report missing "model $VOXTYPE_MODEL"
   fi
 
-  if [[ -L "$VOXTYPE_SERVICE_TARGET" &&
-    "$(readlink -f -- "$VOXTYPE_SERVICE_TARGET")" == "$(readlink -f -- "$VOXTYPE_SERVICE_SOURCE")" ]]; then
-    report linked "$VOXTYPE_SERVICE_NAME"
-  elif [[ -e "$VOXTYPE_SERVICE_TARGET" ]]; then
-    report local "$VOXTYPE_SERVICE_TARGET"
-  else
-    report missing "$VOXTYPE_SERVICE_NAME"
-  fi
+  show_config_link_status "$VOXTYPE_SERVICE_SOURCE" "$VOXTYPE_SERVICE_TARGET"
 
   if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$VOXTYPE_SERVICE_NAME" ]]; then
     report ok "$VOXTYPE_SERVICE_NAME attached to the niri session"

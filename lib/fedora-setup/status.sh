@@ -93,12 +93,7 @@ show_status() {
     report missing "$OPENCODE_BINARY"
   fi
 
-  section Herdr
-  if [[ -x "$HERDR_BINARY" ]]; then
-    report ok "$HERDR_BINARY"
-  else
-    report missing "$HERDR_BINARY"
-  fi
+  show_herdr_status
 
   section Ollama
   if command -v ollama >/dev/null 2>&1 || [[ -x "$OLLAMA_BINARY" ]]; then
@@ -187,7 +182,7 @@ show_status() {
       report missing "$item"
     fi
   done
-  for item in swaync.service swaybg.service swayidle.service lxqt-policykit-agent.service quickshell.service voxtype.service vicinae.service; do
+  for item in swaync.service swaybg.service swayidle.service lxqt-policykit-agent.service; do
     if [[ -L "$HOME/.config/systemd/user/niri.service.wants/$item" ]]; then
       report ok "$item attached"
     else
@@ -204,13 +199,11 @@ show_status() {
   show_vicinae_status
 
   section "Desktop shell"
-  for item in niri fuzzel; do
-    if package_installed "$item"; then
-      report ok "$item"
-    else
-      report missing "$item"
-    fi
-  done
+  if package_installed niri; then
+    report ok niri
+  else
+    report missing niri
+  fi
 
   section Screenshots
   for item in "${SCREENSHOT_PACKAGES[@]}"; do
@@ -333,61 +326,60 @@ EOF
       report missing "$hook_path (managed pre-commit hook)"
     fi
   fi
-  local target
-  for target in \
-    "$HOME/.zshenv" \
-    "$HOME/.config/zsh/.zshenv" \
-    "$HOME/.config/zsh/.zshrc" \
-    "$HOME/.config/zsh/aliases.zsh" \
-    "$HOME/.config/zsh/completion.zsh" \
-    "$HOME/.config/zsh/cursor.zsh" \
-    "$HOME/.config/zsh/integrations.zsh" \
-    "$HOME/.config/zsh/options.zsh" \
-    "$HOME/.config/zsh/plugins.zsh" \
-    "$HOME/.config/alacritty/alacritty.toml" \
-    "$HOME/.config/alacritty/themes/vesper.toml" \
-    "$HOME/.config/atuin/config.toml" \
-    "$HOME/.config/mise/config.toml" \
-    "$HOME/.config/tmux/tmux.conf" \
-    "$HOME/.config/tmux/status.conf" \
-    "$HOME/.config/sesh/sesh.toml" \
-    "$HOME/.config/sesh/scripts/control-panel.sh" \
-    "$HOME/.config/starship.toml" \
-    "$HOME/.config/bat/config" \
-    "$HOME/.config/fastfetch/config.jsonc" \
-    "$HOME/.config/herdr/config.toml" \
-    "$HOME/.config/fontconfig/fonts.conf" \
-    "$HOME/.config/swaync/config.json" \
-    "$HOME/.config/swaync/style.css" \
-    "$HOME/.config/tensaku/config.toml" \
-    "$HOME/.config/gtklock/config.ini" \
-    "$HOME/.config/gtklock/layout.ui" \
-    "$HOME/.config/gtklock/style.css" \
-    "$HOME/.config/niri/config.kdl" \
-    "$HOME/.config/systemd/user/swaybg.service" \
-    "$HOME/.config/systemd/user/swayidle.service" \
-    "$HOME/.config/systemd/user/lxqt-policykit-agent.service" \
-    "$HOME/.config/systemd/user/quickshell.service" \
-    "$HOME/.config/systemd/user/voxtype.service" \
-    "$HOME/.local/bin/fedora-update" \
-    "$HOME/.local/bin/fedora-sync" \
-    "$HOME/.local/bin/lock-screen" \
-    "$HOME/.local/bin/preview-lock-screen" \
-    "$HOME/.local/bin/session-wallpaper" \
-    "$HOME/.local/bin/wallpaper-picker" \
-    "$HOME/.local/bin/take-screenshot" \
-    "$HOME/.local/bin/fuzzel-toggle" \
-    "$HOME/.local/bin/control-panel" \
-    "$HOME/.local/bin/island-power" \
-    "$HOME/.pi/agent/settings.json" \
-    "$HOME/.pi/agent/extensions/statusline.ts" \
-    "$HOME/.codex/dotfiles.config.toml" \
-    "$HOME/.config/opencode/opencode.jsonc" \
-    "$HOME/.config/opencode/tui.jsonc"; do
-    if [[ -L "$target" && "$(readlink -f -- "$target" 2>/dev/null || true)" == "$REPO_ROOT"/* ]]; then
-      report linked "$target"
-    else
-      report local "$target"
-    fi
+  local source target
+  local -a config_links=(
+    "$REPO_ROOT/config/zsh/zshenv" "$HOME/.zshenv"
+    "$REPO_ROOT/config/zsh/zshenv" "$HOME/.config/zsh/.zshenv"
+    "$REPO_ROOT/config/zsh/zshrc" "$HOME/.config/zsh/.zshrc"
+    "$REPO_ROOT/config/zsh/aliases.zsh" "$HOME/.config/zsh/aliases.zsh"
+    "$REPO_ROOT/config/zsh/completion.zsh" "$HOME/.config/zsh/completion.zsh"
+    "$REPO_ROOT/config/zsh/cursor.zsh" "$HOME/.config/zsh/cursor.zsh"
+    "$REPO_ROOT/config/zsh/integrations.zsh" "$HOME/.config/zsh/integrations.zsh"
+    "$REPO_ROOT/config/zsh/options.zsh" "$HOME/.config/zsh/options.zsh"
+    "$REPO_ROOT/config/zsh/plugins.zsh" "$HOME/.config/zsh/plugins.zsh"
+    "$REPO_ROOT/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
+    "$REPO_ROOT/config/alacritty/themes/vesper.toml" "$HOME/.config/alacritty/themes/vesper.toml"
+    "$REPO_ROOT/config/atuin/config.toml" "$HOME/.config/atuin/config.toml"
+    "$REPO_ROOT/config/mise/config.toml" "$HOME/.config/mise/config.toml"
+    "$REPO_ROOT/config/tmux/tmux.conf" "$HOME/.config/tmux/tmux.conf"
+    "$REPO_ROOT/config/tmux/status.conf" "$HOME/.config/tmux/status.conf"
+    "$REPO_ROOT/config/sesh/sesh.toml" "$HOME/.config/sesh/sesh.toml"
+    "$REPO_ROOT/config/sesh/scripts/control-panel.sh" "$HOME/.config/sesh/scripts/control-panel.sh"
+    "$REPO_ROOT/config/starship.toml" "$HOME/.config/starship.toml"
+    "$REPO_ROOT/config/bat/config" "$HOME/.config/bat/config"
+    "$REPO_ROOT/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+    "$REPO_ROOT/config/fontconfig/fonts.conf" "$HOME/.config/fontconfig/fonts.conf"
+    "$REPO_ROOT/config/swaync/config.json" "$HOME/.config/swaync/config.json"
+    "$REPO_ROOT/config/swaync/style.css" "$HOME/.config/swaync/style.css"
+    "$REPO_ROOT/config/tensaku/config.toml" "$HOME/.config/tensaku/config.toml"
+    "$REPO_ROOT/config/gtklock/config.ini" "$HOME/.config/gtklock/config.ini"
+    "$REPO_ROOT/config/gtklock/layout.ui" "$HOME/.config/gtklock/layout.ui"
+    "$REPO_ROOT/config/gtklock/style.css" "$HOME/.config/gtklock/style.css"
+    "$REPO_ROOT/config/niri/config.kdl" "$HOME/.config/niri/config.kdl"
+    "$REPO_ROOT/config/systemd/user/swaybg.service" "$HOME/.config/systemd/user/swaybg.service"
+    "$REPO_ROOT/config/systemd/user/swayidle.service" "$HOME/.config/systemd/user/swayidle.service"
+    "$REPO_ROOT/config/systemd/user/lxqt-policykit-agent.service" "$HOME/.config/systemd/user/lxqt-policykit-agent.service"
+    "$REPO_ROOT/config/systemd/user/quickshell.service" "$HOME/.config/systemd/user/quickshell.service"
+    "$REPO_ROOT/bin/fedora-update" "$HOME/.local/bin/fedora-update"
+    "$REPO_ROOT/bin/fedora-sync" "$HOME/.local/bin/fedora-sync"
+    "$REPO_ROOT/bin/lock-screen" "$HOME/.local/bin/lock-screen"
+    "$REPO_ROOT/bin/preview-lock-screen" "$HOME/.local/bin/preview-lock-screen"
+    "$REPO_ROOT/bin/session-wallpaper" "$HOME/.local/bin/session-wallpaper"
+    "$REPO_ROOT/bin/wallpaper-picker" "$HOME/.local/bin/wallpaper-picker"
+    "$REPO_ROOT/bin/take-screenshot" "$HOME/.local/bin/take-screenshot"
+    "$REPO_ROOT/bin/fuzzel-toggle" "$HOME/.local/bin/fuzzel-toggle"
+    "$REPO_ROOT/bin/control-panel" "$HOME/.local/bin/control-panel"
+    "$REPO_ROOT/bin/island-power" "$HOME/.local/bin/island-power"
+    "$REPO_ROOT/config/pi/settings.json" "$HOME/.pi/agent/settings.json"
+    "$REPO_ROOT/config/pi/extensions/statusline.ts" "$HOME/.pi/agent/extensions/statusline.ts"
+    "$REPO_ROOT/config/codex/dotfiles.config.toml" "$HOME/.codex/dotfiles.config.toml"
+    "$REPO_ROOT/config/opencode/opencode.jsonc" "$HOME/.config/opencode/opencode.jsonc"
+    "$REPO_ROOT/config/opencode/tui.jsonc" "$HOME/.config/opencode/tui.jsonc"
+  )
+  local index
+  for ((index = 0; index < ${#config_links[@]}; index += 2)); do
+    source="${config_links[index]}"
+    target="${config_links[index + 1]}"
+    show_config_link_status "$source" "$target"
   done
 }

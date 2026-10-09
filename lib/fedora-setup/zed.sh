@@ -163,4 +163,8 @@ show_zed_status() {
   else
     report missing "$ZED_DESKTOP_FILE"
   fi
+  show_config_link_status "$ZED_SETTINGS_SOURCE" "$ZED_SETTINGS_TARGET"
+  show_config_link_status "$ZED_THEME_SOURCE" "$ZED_THEME_TARGET"
+  show_config_link_status "$ZED_KEYMAP_SOURCE" "$ZED_KEYMAP_TARGET"
+
 }

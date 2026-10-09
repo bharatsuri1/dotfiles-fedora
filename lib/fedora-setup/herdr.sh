@@ -29,3 +29,13 @@ install_herdr() {
   rm -f -- "$installer"
   [[ -x "$HERDR_BINARY" ]] || die 'Herdr installer did not produce ~/.local/bin/herdr'
 }
+
+show_herdr_status() {
+  section Herdr
+  if [[ -x "$HERDR_BINARY" ]]; then
+    report ok "$HERDR_BINARY"
+  else
+    report missing "$HERDR_BINARY"
+  fi
+  show_config_link_status "$REPO_ROOT/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+}
