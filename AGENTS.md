@@ -13,8 +13,8 @@ There is no build step. Validate changes from the repository root:
 - `./bin/fedora-setup --help` checks CLI loading and command documentation.
 - `./bin/fedora-setup status` reports current managed state.
 - `./bin/fedora-setup --dry-run apply` previews setup without mutation (Fedora required).
-- `shellcheck bootstrap.sh bin/fedora-setup lib/fedora-setup/*.sh lib/fedora-setup/fonts/*.sh` performs static Bash analysis when ShellCheck is installed.
-- `bash -n bootstrap.sh bin/fedora-setup lib/fedora-setup/*.sh lib/fedora-setup/fonts/*.sh` checks shell syntax.
+- `./hooks/pre-commit` checks Bash syntax for each file and runs ShellCheck over `bootstrap.sh`, `bin/fedora-setup`, `bin/fedora-update`, `bin/fedora-sync`, the hook itself, `lib/fedora-setup/*.sh`, and `lib/fedora-setup/fonts/*.sh`. The development phase installs ShellCheck.
+- The config phase links this hook into the checkout's Git hooks directory, including linked worktrees. Existing hooks are backed up before replacement. Desktop helper scripts and `lib/wallpaper.sh` remain outside this setup/update check.
 
 Run a focused dry-run command, such as `./bin/fedora-setup --dry-run fonts`, for the phase you changed.
 

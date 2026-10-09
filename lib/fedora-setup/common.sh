@@ -1,3 +1,6 @@
+# shellcheck shell=bash
+# Shared constants and state are consumed by separately sourced phase modules.
+# shellcheck disable=SC2034
 readonly STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles-fedora"
 readonly BACKUP_ROOT="$STATE_DIR/backups"
 readonly NIRI_SESSION_FILE="/usr/share/wayland-sessions/niri.desktop"

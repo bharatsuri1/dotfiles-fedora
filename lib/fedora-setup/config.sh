@@ -146,6 +146,25 @@ configure_niri_services() {
   run systemctl --user try-restart vicinae.service
 }
 
+repo_hook_path() {
+  [[ -e "$REPO_ROOT/.git" ]] || return 1
+  local hook_path
+  hook_path="$(git -C "$REPO_ROOT" rev-parse --git-path hooks/pre-commit)" || return 1
+  if [[ "$hook_path" != /* ]]; then
+    hook_path="$REPO_ROOT/$hook_path"
+  fi
+  printf '%s\n' "$hook_path"
+}
+
+install_repo_hook() {
+  local hook_path
+  if ! hook_path="$(repo_hook_path)"; then
+    report local 'skipping pre-commit hook; this checkout has no Git metadata'
+    return
+  fi
+  link_config "$REPO_ROOT/hooks/pre-commit" "$hook_path"
+}
+
 install_config() {
   section Config
   if ! $DRY_RUN; then
@@ -204,4 +223,5 @@ install_config() {
   validate_niri_config
   link_config "$REPO_ROOT/config/niri/config.kdl" "$HOME/.config/niri/config.kdl"
   configure_niri_services
+  install_repo_hook
 }

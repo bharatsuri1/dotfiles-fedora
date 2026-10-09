@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+root="$(git rev-parse --show-toplevel)"
+cd "$root"
+
+if ! checker="$(command -v shellcheck)"; then
+  printf 'error: shellcheck is missing; run ./bin/fedora-setup development\n' >&2
+  exit 1
+fi
+
+# Check setup and update scripts plus this hook. Desktop helpers are outside
+# this setup/update validation scope.
+shell_files=(
+  bootstrap.sh
+  bin/fedora-setup
+  bin/fedora-update
+  bin/fedora-sync
+  hooks/pre-commit
+  lib/fedora-setup/*.sh
+  lib/fedora-setup/fonts/*.sh
+)
+
+for shell_file in "${shell_files[@]}"; do
+  bash -n "$shell_file"
+done
+"$checker" --shell=bash "${shell_files[@]}"

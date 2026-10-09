@@ -325,6 +325,14 @@ zsh-history-substring-search $HISTORY_SUBSTRING_SEARCH_REVISION
 EOF
 
   section Configuration
+  local hook_path
+  if hook_path="$(repo_hook_path)"; then
+    if [[ -L "$hook_path" && "$(readlink -f -- "$hook_path" 2>/dev/null || true)" == "$REPO_ROOT/hooks/pre-commit" ]]; then
+      report linked "$hook_path"
+    else
+      report missing "$hook_path (managed pre-commit hook)"
+    fi
+  fi
   local target
   for target in \
     "$HOME/.zshenv" \

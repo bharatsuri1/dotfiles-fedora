@@ -2,8 +2,10 @@
 
 set -Eeuo pipefail
 
-readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-readonly REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPT_DIR
+REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+readonly REPO_ROOT
 readonly LIB_DIR="$REPO_ROOT/lib/fedora-setup"
 
 for module in \
@@ -86,6 +88,8 @@ USAGE
 
 main() {
   while (($#)); do
+    # These flags are consumed by sourced phase modules.
+    # shellcheck disable=SC2034
     case "$1" in
       --dry-run) DRY_RUN=true; shift ;;
       --yes|-y) ASSUME_YES=true; shift ;;

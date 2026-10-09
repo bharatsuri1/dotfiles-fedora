@@ -4,7 +4,8 @@ readonly SDDM_THEME_TARGET="/usr/share/sddm/themes/$SDDM_THEME_NAME"
 readonly SDDM_CONFIG_SOURCE="$REPO_ROOT/config/sddm/10-dotfiles-fedora.conf"
 readonly SDDM_CONFIG_TARGET="/etc/sddm.conf.d/10-dotfiles-fedora.conf"
 readonly SDDM_AVATAR_SOURCE="$REPO_ROOT/assets/user-pictures/user_compress.jpeg"
-readonly SDDM_AVATAR_TARGET="/usr/share/sddm/faces/$(id -un).face.icon"
+SDDM_AVATAR_TARGET="/usr/share/sddm/faces/$(id -un).face.icon"
+readonly SDDM_AVATAR_TARGET
 readonly SDDM_THEME_AVATAR_TARGET="$SDDM_THEME_TARGET/avatar.jpg"
 readonly SDDM_BACKGROUND_TARGET="$SDDM_THEME_TARGET/background.png"
 readonly SDDM_PACKAGES=(sddm sddm-wayland-generic)
