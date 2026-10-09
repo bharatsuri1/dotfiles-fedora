@@ -313,6 +313,7 @@ zsh-history-substring-search $HISTORY_SUBSTRING_SEARCH_REVISION
 EOF
 
   section Configuration
+  show_pi_settings_status
   local hook_path
   if hook_path="$(repo_hook_path)"; then
     if [[ -L "$hook_path" && "$(readlink -f -- "$hook_path" 2>/dev/null || true)" == "$REPO_ROOT/hooks/pre-commit" ]]; then
@@ -365,7 +366,6 @@ EOF
     "$REPO_ROOT/bin/fuzzel-toggle" "$HOME/.local/bin/fuzzel-toggle"
     "$REPO_ROOT/bin/control-panel" "$HOME/.local/bin/control-panel"
     "$REPO_ROOT/bin/island-power" "$HOME/.local/bin/island-power"
-    "$REPO_ROOT/config/pi/settings.json" "$HOME/.pi/agent/settings.json"
     "$REPO_ROOT/config/pi/extensions/statusline.ts" "$HOME/.pi/agent/extensions/statusline.ts"
     "$REPO_ROOT/config/codex/dotfiles.config.toml" "$HOME/.codex/dotfiles.config.toml"
     "$REPO_ROOT/config/opencode/opencode.jsonc" "$HOME/.config/opencode/opencode.jsonc"

@@ -197,7 +197,7 @@ install_config() {
   reload_tmux_config
   link_config "$REPO_ROOT/config/sesh/sesh.toml" "$HOME/.config/sesh/sesh.toml"
   link_config "$REPO_ROOT/config/sesh/scripts/control-panel.sh" "$HOME/.config/sesh/scripts/control-panel.sh"
-  link_config "$REPO_ROOT/config/pi/settings.json" "$HOME/.pi/agent/settings.json"
+  install_pi_settings
   link_config "$REPO_ROOT/config/pi/extensions/statusline.ts" "$HOME/.pi/agent/extensions/statusline.ts"
   link_config "$REPO_ROOT/config/codex/dotfiles.config.toml" "$HOME/.codex/dotfiles.config.toml"
   link_config "$REPO_ROOT/config/opencode/opencode.jsonc" "$HOME/.config/opencode/opencode.jsonc"
@@ -224,4 +224,46 @@ install_config() {
   link_config "$REPO_ROOT/config/niri/config.kdl" "$HOME/.config/niri/config.kdl"
   configure_niri_services
   install_repo_hook
+}
+
+pi_node_path() {
+  if command -v node >/dev/null 2>&1; then
+    command -v node
+  elif command -v mise >/dev/null 2>&1; then
+    mise which node@latest 2>/dev/null
+  else
+    return 1
+  fi
+}
+
+install_pi_settings() {
+  local node_bin
+  node_bin="$(pi_node_path || true)"
+  if [[ -z "$node_bin" ]]; then
+    if $DRY_RUN; then
+      node_bin=node
+    else
+      die 'Node is missing; run the setup runtime phase before deploying Pi settings'
+    fi
+  fi
+  run "$node_bin" "$REPO_ROOT/lib/pi-settings.mjs" deploy \
+    "$REPO_ROOT/config/pi/settings.json" "$HOME/.pi/agent/settings.json" "$BACKUP_ROOT"
+}
+
+show_pi_settings_status() {
+  local target="$HOME/.pi/agent/settings.json"
+  local node_bin
+  if [[ -L "$target" ]]; then
+    report wrong "$target (legacy symlink; run the config phase)"
+  elif [[ ! -e "$target" ]]; then
+    report missing "$target"
+  else
+    node_bin="$(pi_node_path || true)"
+    if [[ -n "$node_bin" ]] && "$node_bin" "$REPO_ROOT/lib/pi-settings.mjs" check \
+      "$REPO_ROOT/config/pi/settings.json" "$target" >/dev/null 2>&1; then
+      report ok "$target (managed preferences, local runtime state)"
+    else
+      report local "$target (preferences unverified or changed; run the config phase)"
+    fi
+  fi
 }
