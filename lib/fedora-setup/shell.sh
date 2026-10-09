@@ -1,5 +1,12 @@
 set_shell() {
   section Shell
+  if [[ ! -r "$ZSH_PLUGIN_ROOT/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] ||
+    [[ ! -r "$ZSH_PLUGIN_ROOT/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]] ||
+    [[ ! -r "$ZSH_PLUGIN_ROOT/fzf-tab/fzf-tab.plugin.zsh" ]] ||
+    [[ ! -r "$ZSH_PLUGIN_ROOT/zsh-history-substring-search/zsh-history-substring-search.zsh" ]]; then
+    report missing 'pinned Zsh plugins are not installed; run the shell-tools phase first'
+  fi
+
   local zsh_path
   zsh_path="$(command -v zsh || true)"
   if [[ -z "$zsh_path" ]]; then
