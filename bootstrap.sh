@@ -8,17 +8,38 @@ readonly INSTALL_ROOT="${DOTFILES_FEDORA_INSTALL_ROOT:-$HOME/.local/share/dotfil
 readonly GIT_NAME="${DOTFILES_GIT_NAME:-Bharat Suri}"
 readonly GIT_EMAIL="${DOTFILES_GIT_EMAIL:-bharatsuri.us@gmail.com}"
 
+DRY_RUN=false
+setup_args=()
+while (($#)); do
+  case "$1" in
+    --dry-run) DRY_RUN=true; setup_args+=("$1"); shift ;;
+    --) shift; setup_args+=("$@"); break ;;
+    *) setup_args+=("$1"); shift ;;
+  esac
+done
+
 # Prefer the managed output helpers when the bootstrap runs from inside a
 # checkout. The piped `curl | bash` flow has no repository yet, so define
 # plain equivalents instead.
-_bootstrap_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)" || _bootstrap_dir=""
+_bootstrap_dir=""
+if [[ -n "${BASH_SOURCE[0]:-}" ]]; then
+  _bootstrap_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)" || _bootstrap_dir=""
+fi
 if [[ -n "${_bootstrap_dir:-}" && -r "${_bootstrap_dir}/lib/fedora-setup/output.sh" ]]; then
   # shellcheck source=/dev/null
   source "${_bootstrap_dir}/lib/fedora-setup/output.sh"
 else
   log() { printf '==> %s\n' "$*"; }
   die() { printf 'error: %s\n' "$*" >&2; exit 1; }
-  run() { "$@"; }
+  run() {
+    if $DRY_RUN; then
+      printf '  + '
+      printf '%q ' "$@"
+      printf '\n'
+    else
+      "$@"
+    fi
+  }
   section() { printf '── %s ──────────────────────────\n' "$*"; }
   output_summary() { :; }
 fi
@@ -69,9 +90,19 @@ run git config --global push.autoSetupRemote true
 run git config --global core.editor nvim
 
 section Setup
+if $DRY_RUN && [[ ! -d "$INSTALL_ROOT/.git" ]]; then
+  log 'would start fedora-setup after the checkout exists'
+  if ((${#setup_args[@]})); then
+    run "$INSTALL_ROOT/bin/fedora-setup" "${setup_args[@]}"
+  else
+    run "$INSTALL_ROOT/bin/fedora-setup" apply
+  fi
+  exit 0
+fi
+
 log 'starting the guided Fedora setup'
-if (($#)); then
-  exec "$INSTALL_ROOT/bin/fedora-setup" "$@"
+if ((${#setup_args[@]})); then
+  exec "$INSTALL_ROOT/bin/fedora-setup" "${setup_args[@]}"
 else
   exec "$INSTALL_ROOT/bin/fedora-setup" apply
 fi

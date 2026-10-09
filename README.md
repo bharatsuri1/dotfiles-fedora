@@ -41,6 +41,11 @@ curl -fsSL https://raw.githubusercontent.com/bharatsuri1/dotfiles-fedora/main/bo
   | bash -s -- --dry-run apply
 ```
 
+Dry-run previews prerequisite installation, checkout updates, and Git defaults.
+If the checkout exists, it also previews the requested setup command. For a
+fresh installation, it prints the setup command and exits without creating
+the checkout.
+
 ## CLI
 
 After bootstrapping, run or rerun the complete setup with:
