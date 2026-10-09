@@ -57,6 +57,16 @@ input {
     focus-follows-mouse max-scroll-amount="0%"
 }
 
+// Match the rounded desktop and Vesper accents in the Alt-Tab switcher.
+recent-windows {
+    highlight {
+        active-color "#ffc799"
+        urgent-color "#f5a191"
+        padding 12
+        corner-radius 14
+    }
+}
+
 gestures {
     hot-corners {
         off
