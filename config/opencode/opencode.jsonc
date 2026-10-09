@@ -3,7 +3,7 @@
   "permission": "allow",
   // Never share sessions to opencode.ai
   "share": "disabled",
-  // Update via npm/fedora-update instead of self-updating
+  // Updates belong to the platform setup/update workflow
   "autoupdate": false,
   // Skip noisy directories in the file watcher
   "watcher": {

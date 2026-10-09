@@ -103,6 +103,16 @@ review; setup preserves their configuration. Diagnose startup failures with
 To undo service enablement and stop it, run
 `sudo systemctl disable --now ollama.service`; downloaded models remain intact.
 
+Pi preferences are an exception to symlink deployment: setup merges
+`config/pi/settings.json` into the local `~/.pi/agent/settings.json`, preserving
+runtime and unknown keys. Existing settings are backed up before changes;
+legacy symlinks are detached so Pi cannot write into the checkout. The statusline
+extension remains linked. Node must be installed before running the config phase.
+
+The `cx` alias selects the managed Codex profile (`gpt-6.1-sol`, low reasoning,
+default service tier, hooks enabled, and remaining-context status).
+`sol` selects the same model; `luna` selects `gpt-6-luna` at xhigh effort.
+
 ## Tmux and Sesh
 
 Tmux uses `Ctrl+Space` as its prefix and a modular Vesper status bar. Press the
@@ -181,6 +191,11 @@ user systemd unit attached to the niri session, a niri-owned `Hyper+S` toggle,
 and state-aware `Escape` cancellation in Voxtype. Audio stays on-device by
 default. Ownership, privacy, model locations, and rollback are documented in
 [`docs/voxtype.md`](docs/voxtype.md).
+
+`fedora-update` and `fedora-sync` upgrade installed managed npm tools to their
+latest releases through Mise-managed Node, preserving Pi’s `--ignore-scripts`
+policy. Sync skips absent npm tools; use the development phase to install them.
+OpenCode uses its official installer on Fedora, rather than npm.
 
 ## First-draft scope
 
