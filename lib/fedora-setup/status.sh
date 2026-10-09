@@ -95,12 +95,7 @@ show_status() {
 
   show_herdr_status
 
-  section Ollama
-  if command -v ollama >/dev/null 2>&1 || [[ -x "$OLLAMA_BINARY" ]]; then
-    report ok "$(command -v ollama 2>/dev/null || printf '%s' "$OLLAMA_BINARY")"
-  else
-    report missing "$OLLAMA_BINARY"
-  fi
+  show_ollama_status
 
   section Docker
   for item in "${DOCKER_PACKAGES[@]}"; do

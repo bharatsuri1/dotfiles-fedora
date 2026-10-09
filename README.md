@@ -95,6 +95,14 @@ Configuration deployment uses symlinks back into this checkout. An existing
 target is moved first to a timestamped directory under
 `~/.local/state/dotfiles-fedora/backups/`; it is never silently overwritten.
 
+The `ollama` phase also enables and starts the official installer's
+`ollama.service`, even when the binary is already installed. Status reports
+the unit, enablement, and activity. Masked or missing units require manual
+review; setup preserves their configuration. Diagnose startup failures with
+`systemctl status ollama.service` and `journalctl -u ollama.service`.
+To undo service enablement and stop it, run
+`sudo systemctl disable --now ollama.service`; downloaded models remain intact.
+
 ## Tmux and Sesh
 
 Tmux uses `Ctrl+Space` as its prefix and a modular Vesper status bar. Press the
