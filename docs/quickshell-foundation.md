@@ -1,8 +1,8 @@
 # Quickshell foundation
 
 Status: foundation complete (Ticket 6). The repository owns one Quickshell
-process per session. A clock-and-battery center alcove with hover controls and volume/brightness
-OSDs is implemented on top of it; see
+process per session. A clock-and-battery center alcove with hover controls and
+volume/brightness OSDs is implemented on top of it; see
 [`quickshell-island.md`](quickshell-island.md). Vicinae owns application
 launching independently of Quickshell.
 
@@ -112,8 +112,11 @@ the service attachment, and the active/inactive state.
 - A top bar is cosmetic. If Quickshell fails, the rest of the bare-niri session
   (niri, swaync, swayidle, gtklock, polkit, portals) keeps working unchanged.
 - To force a clean reload: `systemctl --user restart quickshell.service`.
-- To roll back: `systemctl --user disable --now quickshell.service`,
-  `fedora-setup` re-link is idempotent; remove the symlink to revert to no bar.
+- To stop the bar: `systemctl --user stop quickshell.service`. To keep it out
+  of future niri sessions, remove
+  `~/.config/systemd/user/niri.service.wants/quickshell.service` and run
+  `systemctl --user daemon-reload`. The config phase restores this attachment
+  when reapplied.
 
 ## Provider inventory
 
@@ -157,4 +160,5 @@ From a TTY-started niri session, after `fedora-setup apply`:
 6. Vicinae still launches on `Mod+Space` and survives a Quickshell restart;
    `fuzzel` also launches from a terminal.
 7. `systemctl --user stop quickshell.service` stops the bar without disturbing
-   the session, and `Restart` restores it after recompose.
+   the session. An explicit stop does not trigger `Restart=on-failure`; use
+   `systemctl --user start quickshell.service` to restore it.

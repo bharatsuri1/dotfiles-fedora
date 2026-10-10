@@ -21,7 +21,7 @@ Primary references:
 - [Geist upstream](https://github.com/vercel/geist-font) and the [Fedora Geist package](https://packages.fedoraproject.org/pkgs/vercel-geist-fonts/vercel-geist-fonts/)
 - [Noto usage guidance](https://notofonts.github.io/noto-docs/website/use/) and the [Fedora Noto Sans package](https://packages.fedoraproject.org/pkgs/google-noto-fonts/google-noto-sans-fonts/)
 
-The static `rsms-inter-fonts` package is intentional. GTK, Qt/SDDM, Mako, and
+The static `rsms-inter-fonts` package is intentional. GTK, Qt/SDDM, SwayNC, and
 fontconfig all need predictable named weights; the variable package offers no
 material advantage for these surfaces and has more toolkit-dependent behavior.
 
@@ -31,7 +31,7 @@ material advantage for these surfaces and has more toolkit-dependent behavior.
   the generic `sans-serif` family.
 - GNOME/GTK's interface-font setting is set to `Inter 11` during the
   `desktop-defaults` phase.
-- gtklock, Mako, SDDM, and the Quickshell UI token name Inter explicitly.
+- gtklock, SwayNC, SDDM, and the Quickshell UI token name Inter explicitly.
 - Alacritty retains JetBrains Mono Nerd Font; the current Quickshell island uses
   Inter for its clock and battery percentage. Noto Sans, Noto Sans CJK, and
   Noto Color Emoji remain installed.
