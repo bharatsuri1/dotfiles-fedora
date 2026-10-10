@@ -20,9 +20,9 @@ Run a focused dry-run command, such as `./bin/fedora-setup --dry-run fonts`, for
 
 ## Work Tracking
 
-Use [GitHub Issues](https://github.com/bharatsuri1/dotfiles-fedora/issues) as the authoritative repository tracker; do not maintain a parallel backlog in repository files or leave deferred work only in code comments. Use the `gh issue` CLI to list, view, create, update, and close tickets. Before starting tracked work, review the relevant open issue and keep its scope and acceptance criteria current.
+Use [GitHub Issues](https://github.com/bharatsuri1/dotfiles-fedora/issues) for roadmap items and reminders about work that cannot be done right away. Work can proceed without an issue or issue reference. Do not create issues for small ad hoc tasks unless the user asks. Check existing issues when useful to identify overlapping work, dependencies, or related decisions; an issue is not a prerequisite for implementation.
 
-Create issues with an outcome-oriented title and actionable checkboxes. Record dependencies, validation, and rollback work when relevant. Keep plans and designs in issues or PRs. Documentation should cover installation, troubleshooting, permissions, data preservation, and recovery; do not duplicate settings, shortcuts, versions, hashes, or implementation details available in config/code. Link implementation work to its issue, and close the issue only after recording the completed outcome and validation. Historical backlogs belong in Git history, not repository files.
+When an issue is requested, give it an outcome-oriented title and actionable scope. Use the `gh issue` CLI to manage issues. When work addresses an existing issue, update or close it as appropriate and record the outcome and relevant validation. Avoid parallel backlogs in repository files. Documentation should cover installation, troubleshooting, permissions, data preservation, and recovery; do not duplicate settings, shortcuts, versions, hashes, or implementation details available in config/code. Historical backlogs belong in Git history, not repository files.
 
 ## Coding Style & Naming Conventions
 
@@ -36,4 +36,4 @@ No automated test framework or coverage threshold is currently configured. At mi
 
 Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification): `<type>[optional scope]: <description>`. Use lowercase, imperative descriptions and focused commits; for example, `feat(ghostty): add managed configuration`, `fix(homebrew): handle absent brew`, `docs: clarify recovery steps`, or `chore: update defaults`. Use `feat` for new functionality and `fix` for bug fixes. Mark incompatible changes with `!` (for example, `feat!: remove legacy phase`) or a `BREAKING CHANGE:` footer, and explain non-obvious safety decisions in the body.
 
-Pull requests should summarize changes, link the relevant issue, list validation, identify affected Fedora profiles, and include screenshots for visible changes. Never commit secrets, history, browser profiles, caches, or runtime state.
+Pull requests should summarize changes, list validation, identify affected Fedora profiles, and include screenshots for visible changes. Link an existing issue when relevant; an issue reference is optional. Never commit secrets, history, browser profiles, caches, or runtime state.
