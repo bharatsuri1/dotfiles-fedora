@@ -1,9 +1,10 @@
 # Quickshell foundation
 
 Status: foundation complete (Ticket 6). The repository owns one Quickshell
-process per session. A static clock-and-battery center alcove is implemented
-on top of it; see [`quickshell-island.md`](quickshell-island.md). Motion,
-richer island states, and the launcher remain follow-up work.
+process per session. A clock-and-battery center alcove with hover controls and volume/brightness
+OSDs is implemented on top of it; see
+[`quickshell-island.md`](quickshell-island.md). Vicinae owns application
+launching independently of Quickshell.
 
 ## Package source
 
@@ -105,10 +106,9 @@ the service attachment, and the active/inactive state.
 
 ## Fallback
 
-- Fuzzel remains the launcher fallback. niri binds `Mod+Space` to `fuzzel`
-  independently of Quickshell, so a Quickshell crash never removes app
-  launching. The launcher built on Quickshell later (Ticket 6 follow-up) will
-  bind to a separate key and coexist with Fuzzel.
+- Vicinae launches on `Mod+Space` independently of Quickshell. If the launcher
+  fails, run `fuzzel` from a terminal. A Quickshell crash does not remove
+  application launching.
 - A top bar is cosmetic. If Quickshell fails, the rest of the bare-niri session
   (niri, swaync, swayidle, gtklock, polkit, portals) keeps working unchanged.
 - To force a clean reload: `systemctl --user restart quickshell.service`.
@@ -154,6 +154,7 @@ From a TTY-started niri session, after `fedora-setup apply`:
    Quickshell directory link, and `[active] quickshell.service`.
 4. `pgrep -x quickshell` returns exactly one process.
 5. `journalctl --user -u quickshell.service` shows no Qt/Wayland errors.
-6. Fuzzel still launches on `Mod+Space` and survives a Quickshell restart.
+6. Vicinae still launches on `Mod+Space` and survives a Quickshell restart;
+   `fuzzel` also launches from a terminal.
 7. `systemctl --user stop quickshell.service` stops the bar without disturbing
    the session, and `Restart` restores it after recompose.

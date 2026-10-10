@@ -29,9 +29,8 @@ authentication state; the repository stores no browser credentials.
 | Binding | Action | Command |
 | --- | --- | --- |
 | `Super+T` | Open Alacritty | `alacritty` |
-| `Super+Ctrl+T` | Open a Herdr client in Alacritty | `alacritty … -e herdr` |
 | `Super+Ctrl+Return` | Attach to the tmux `home` session (sesh) | `alacritty … -e sesh connect home` |
-| `Super+Space` | Open the Fuzzel launcher | `fuzzel` |
+| `Super+Space` | Toggle Vicinae | `vicinae toggle` |
 | `Super+B` | Open Chromium | `chromium-browser` |
 | `Super+Ctrl+C` | Open ChatGPT (Chromium app mode) | `chromium-browser --app=https://chatgpt.com/` |
 | `Super+Ctrl+Y` | Open YouTube (Chromium app mode) | `chromium-browser --app=https://youtube.com/` |
