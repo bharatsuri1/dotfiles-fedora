@@ -7,9 +7,7 @@ does not own disk layout, encryption secrets, or Anaconda automation.
 **Where each section runs** is marked. Destructive disk steps require you to
 verify the target disk and backup state yourself.
 
-Ongoing updates, removal, and rollback stay out of this guide (see issue
-[#37](https://github.com/bharatsuri1/dotfiles-fedora/issues/37)). Desktop
-session details live in the [README](../README.md).
+Desktop recovery and ongoing commands are in the [README](../README.md).
 
 ## 1. Download and verify the ISO
 
@@ -277,8 +275,7 @@ are safe: phases detect completed work. Full CLI behavior is in the
 
 Session layout, keybindings, device TUIs, and greeter rollback:
 
-- [README — Desktop session](../README.md#desktop-session)
-- [`docs/niri-input-and-keybindings.md`](niri-input-and-keybindings.md)
+- [README — Desktop recovery](../README.md#desktop-recovery)
 - [`docs/device-controls.md`](device-controls.md)
 
 ## Recovery quick reference

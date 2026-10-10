@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This repository provides an idempotent Fedora laptop setup CLI. `bootstrap.sh` bootstraps the checkout. `bin/fedora-setup` dispatches setup phases in `lib/fedora-setup/*.sh`; shared helpers and constants belong in `common.sh`. Managed settings live under `config/`, static images in `assets/`, and plans in `docs/`.
+This repository provides an idempotent Fedora laptop setup CLI. `bootstrap.sh` bootstraps the checkout. `bin/fedora-setup` dispatches setup phases in `lib/fedora-setup/*.sh`; shared helpers and constants belong in `common.sh`. Managed settings live under `config/`, static images in `assets/`, and operational guides in `docs/`.
 
 When adding a phase, define an `install_<name>` function in a focused module, source it from `bin/fedora-setup`, add its command to `usage()` and `main()`, and place it correctly in the `apply` dependency order.
 
@@ -22,7 +22,7 @@ Run a focused dry-run command, such as `./bin/fedora-setup --dry-run fonts`, for
 
 Use [GitHub Issues](https://github.com/bharatsuri1/dotfiles-fedora/issues) as the authoritative repository tracker; do not maintain a parallel backlog in repository files or leave deferred work only in code comments. Use the `gh issue` CLI to list, view, create, update, and close tickets. Before starting tracked work, review the relevant open issue and keep its scope and acceptance criteria current.
 
-Create issues with an outcome-oriented title and actionable checkboxes. Record dependencies, validation, and rollback work when relevant. Put lengthy designs in `docs/` and link them from the issue. Link implementation work to its issue, and close the issue only after recording the completed outcome and validation. Historical backlogs belong in Git history, not repository files.
+Create issues with an outcome-oriented title and actionable checkboxes. Record dependencies, validation, and rollback work when relevant. Keep plans and designs in issues or PRs. Documentation should cover installation, troubleshooting, permissions, data preservation, and recovery; do not duplicate settings, shortcuts, versions, hashes, or implementation details available in config/code. Link implementation work to its issue, and close the issue only after recording the completed outcome and validation. Historical backlogs belong in Git history, not repository files.
 
 ## Coding Style & Naming Conventions
 
