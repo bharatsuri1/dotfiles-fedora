@@ -280,7 +280,6 @@ Session layout, keybindings, device TUIs, and greeter rollback:
 - [README — Desktop session](../README.md#desktop-session)
 - [`docs/niri-input-and-keybindings.md`](niri-input-and-keybindings.md)
 - [`docs/device-controls.md`](device-controls.md)
-- [`docs/dms-removal-plan.md`](dms-removal-plan.md)
 
 ## Recovery quick reference
 

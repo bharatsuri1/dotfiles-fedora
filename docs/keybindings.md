@@ -28,18 +28,24 @@ authentication state; the repository stores no browser credentials.
 
 | Binding | Action | Command |
 | --- | --- | --- |
-| `Super+T` | Open Alacritty | `alacritty` |
-| `Super+Ctrl+T` | Open a Herdr client in Alacritty | `alacritty … -e herdr` |
+| `Super+Return` | Open Alacritty | `alacritty` |
+| `Super+T` | Open half-width Alacritty | `alacritty --class TerminalHalf` |
 | `Super+Ctrl+Return` | Attach to the tmux `home` session (sesh) | `alacritty … -e sesh connect home` |
-| `Super+Space` | Open the Fuzzel launcher | `fuzzel` |
+| `Super+Space` | Toggle Vicinae | `vicinae toggle` |
+| `Super+Shift+F23` (Copilot key) | Toggle Vicinae | `vicinae toggle` |
 | `Super+B` | Open Chromium | `chromium-browser` |
 | `Super+Ctrl+C` | Open ChatGPT (Chromium app mode) | `chromium-browser --app=https://chatgpt.com/` |
+| `Super+Ctrl+M` | Open YouTube Music | `chromium-browser --app=https://music.youtube.com/` |
+| `Super+Ctrl+I` | Open Gemini | `chromium-browser --app=https://gemini.google.com/` |
 | `Super+Ctrl+Y` | Open YouTube (Chromium app mode) | `chromium-browser --app=https://youtube.com/` |
 | `Super+Ctrl+G` | Open GitHub (Chromium app mode) | `chromium-browser --app=https://github.com/` |
 | `Super+E` | Open Files | `nautilus --new-window` |
+| `Super+Ctrl+Z` | Open Zed | `zed` |
 | `Super+Ctrl+V` | Open Visual Studio Code | `code` |
 | `Super+Ctrl+S` | Open LocalSend | `flatpak run org.localsend.localsend_app` |
 | `Super+Shift+C` | Toggle system control panel (Tmux) | `control-panel` |
+| `Super+Shift+P` | Open power menu | `alacritty … -e island-power` |
+| `Super+Shift+W` | Pick wallpaper | `wallpaper-picker` |
 | `Super+Ctrl+,` | Toggle notification center | `swaync-client -t` |
 | `Super+Ctrl+Shift+,` | Dismiss all notifications | `swaync-client -C` |
 | `Hyper+S` | Toggle local dictation (Voxtype) | `voxtype record toggle` |
@@ -62,22 +68,23 @@ to the workspace when the column edge is reached).
 | `Super+Right` / `Super+L` | Focus column or monitor to the right |
 | `Super+Down` / `Super+J` | Focus window down (arrows fall through to workspace) |
 | `Super+Up` / `Super+K` | Focus window up (arrows fall through to workspace) |
-| `Super+Page Down` | Focus workspace down |
-| `Super+Page Up` | Focus workspace up |
 | `Super+1` … `Super+9` | Focus workspace 1–9 |
 
 ## Move windows & columns / workspaces
 
-Repeatable. Movement follows the same arrow/HJKL scheme as focus.
+Repeatable. Left/Right arrows move columns within the current monitor; H/L can also
+move columns across monitors.
 
 | Binding | Action |
 | --- | --- |
-| `Super+Ctrl+Left` / `Super+Ctrl+H` | Move column left or to the left monitor |
-| `Super+Ctrl+Right` / `Super+Ctrl+L` | Move column right or to the right monitor |
+| `Super+Ctrl+Left` | Move column left |
+| `Super+Ctrl+H` | Move column left or to the left monitor |
+| `Super+Ctrl+Right` | Move column right |
+| `Super+Ctrl+L` | Move column right or to the right monitor |
 | `Super+Ctrl+Down` / `Super+Ctrl+J` | Move window down |
 | `Super+Ctrl+Up` / `Super+Ctrl+K` | Move window up |
-| `Super+Ctrl+Page Down` | Send column to workspace down |
-| `Super+Ctrl+Page Up` | Send column to workspace up |
+| `Super+Ctrl+]` | Send column to workspace down |
+| `Super+Ctrl+[` | Send column to workspace up |
 | `Super+Ctrl+1` … `Super+Ctrl+9` | Send column to workspace 1–9 |
 
 ## Resize, column layout & window state
@@ -90,6 +97,8 @@ All non-repeat unless noted. Width/height adjustments are repeatable.
 | `Super+=` | yes | Grow column width by 10% |
 | `Super+Shift+-` | yes | Shrink window height by 10% |
 | `Super+Shift+=` | yes | Grow window height by 10% |
+| `Super+Shift+,` | yes | Shrink window width by 10% |
+| `Super+Shift+.` | yes | Grow window width by 10% |
 | `Super+R` | no | Cycle preset column width |
 | `Super+Shift+R` | no | Cycle preset column width (reverse) |
 | `Super+Ctrl+R` | no | Reset window height |
@@ -117,7 +126,6 @@ All non-repeat.
 | `Super+Escape` | no-inhibit | Toggle keyboard-shortcut inhibition |
 | `Super+Shift+E` | — | Quit niri |
 | `Ctrl+Alt+Delete` | — | Quit niri |
-| `Super+Shift+P` | — | Power off monitors |
 
 ## Screenshots
 

@@ -6,12 +6,11 @@ Server, and Minimal—while safely detecting and preserving work already done on
 the machine. It does not depend on a particular preinstalled desktop and does
 not own OS installation, disk layout, secrets, or application state.
 
-The package and ownership choices are derived from the adjacent
-`dotfiles-omarchy` decision ledger. Fedora/DNF owns native tools and Chromium;
+Fedora/DNF owns native tools, Chromium, and Visual Studio Code;
 Flatpak owns 1Password, LocalSend, Signal, Proton VPN, Whisp, and AppFlowy;
 the official Zed archive owns Zed;
-Homebrew owns Starship and `jless`; and Nerd Fonts owns the pinned
-JetBrains Mono archive.
+Homebrew owns Starship, `jless`, Lazygit, Lazydocker, Sesh, and `xh`; and the
+pinned JetBrains Mono archive supplies Nerd Font glyphs.
 
 ## Installation from ISO
 
@@ -67,7 +66,7 @@ Preview all missing work without changing the machine:
 ./bin/fedora-setup --dry-run apply
 ```
 
-Apply the complete first-draft setup interactively:
+Apply the complete setup interactively:
 
 ```bash
 ./bin/fedora-setup apply
@@ -140,10 +139,11 @@ Use `tl` to open the Sesh picker and `tk` to stop the entire tmux server.
 
 The managed baseline installs niri from Fedora repositories and keeps it usable
 with a lightweight, repository-owned Quickshell top bar layered on the
-independent session. Start `niri-session` from a TTY; `Mod+Space` launches
-Fuzzel as the recovery-capable application launcher, and `Mod+Shift+L` locks the
-session. Mako owns notifications, Swayidle owns idle and lock-before-sleep
-behavior, gtklock owns authentication, and LXQt PolicyKit supplies graphical
+independent session. Start `niri-session` from a TTY; `Mod+Space` toggles
+Vicinae, with Fuzzel available from a terminal as a recovery launcher.
+`Mod+Shift+L` locks the session. SwayNC owns notifications and the notification
+center, Swayidle owns idle and lock-before-sleep behavior, gtklock owns
+authentication, and LXQt PolicyKit supplies graphical
 authorization prompts. Quickshell runs as one systemd user service attached to
 `niri.service` and renders the minimal top bar via the Wayland layer-shell
 protocol; it is optional and can be stopped without disturbing the session.
@@ -169,13 +169,8 @@ different enabled display manager, and switches the next boot to
 restore console boot with
 `sudo systemctl set-default multi-user.target`.
 
-The staged transition from an existing DMS installation, including TTY recovery
-and greeter rollback instructions, is documented in
-[`docs/dms-removal-plan.md`](docs/dms-removal-plan.md). The Quickshell
-foundation, package source, lifecycle, and fallback model are documented in
-[`docs/quickshell-foundation.md`](docs/quickshell-foundation.md). Do not remove
-an active greeter or DMS packages until the independent niri session has been
-tested.
+The Quickshell package source, lifecycle, and fallback model are documented in
+[`docs/quickshell-foundation.md`](docs/quickshell-foundation.md).
 
 The managed keyboard repeat, touchpad profile, application shortcuts, repeat
 policy, validation, customization, and TTY rollback are documented in
@@ -198,7 +193,7 @@ latest releases through Mise-managed Node, preserving Pi’s `--ignore-scripts`
 policy. Sync skips absent npm tools; use the development phase to install them.
 OpenCode uses its official installer on Fedora, rather than npm.
 
-## First-draft scope
+## Managed scope
 
 - Inter for system UI, Noto for broad fallback, and JetBrainsMono Nerd Font for
   Alacritty and code/data roles, all within the Vesper palette;
@@ -224,8 +219,8 @@ OpenCode uses its official installer on Fedora, rather than npm.
 - Herdr from its official verified installer;
 - Ollama from its official installer;
 - Voxtype for local push-to-toggle dictation under niri;
-- niri with Fuzzel as its independent baseline launcher; and
-- a minimal, repository-owned Quickshell top bar layered on the session.
+- niri with Vicinae as its primary launcher and Fuzzel as a recovery fallback;
+- a minimal, repository-owned Quickshell top bar layered on the session; and
 - managed Zsh, Starship, tmux, Sesh, bat, and fastfetch defaults.
 
 Authentication, browser profiles, 1Password data, shell history, SSH keys,

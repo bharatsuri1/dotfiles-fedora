@@ -208,7 +208,6 @@ binds {
 
     Mod+Return repeat=false hotkey-overlay-title="Open Alacritty" { spawn "alacritty"; }
     Mod+T repeat=false hotkey-overlay-title="Open Alacritty (Half Width)" { spawn "alacritty" "--class" "TerminalHalf"; }
-    Mod+Ctrl+T repeat=false hotkey-overlay-title="Open Herdr" { spawn "alacritty" "--class" "Herdr" "--title" "Herdr" "-e" "herdr"; }
     // Attach to the default tmux session (sesh "home", rooted at ~); creates it if missing.
     // Absolute brew path: niri's spawn PATH lacks /home/linuxbrew so bare "sesh" fails silently.
     Mod+Ctrl+Return repeat=false hotkey-overlay-title="Open Tmux (home)" { spawn "alacritty" "--class" "Tmux" "--title" "Tmux" "-e" "/home/linuxbrew/.linuxbrew/bin/sesh" "connect" "home"; }

@@ -14,29 +14,11 @@ repeatable. Launchers, toggles, media transport, screenshots, lock, quit, and
 display-power actions use `repeat=false` so holding a key cannot trigger them
 repeatedly.
 
-## Application and utility bindings
+## Keybinding reference
 
-In a normal niri session, `Mod` is the Super key.
-
-| Binding | Action |
-| --- | --- |
-| `Super+T` | Open Alacritty |
-| `Super+Ctrl+T` | Open or attach to the default Herdr session in Alacritty |
-| `Super+Space` | Open the recovery-capable Fuzzel launcher |
-| `Super+B` | Open Chromium |
-| `Super+Ctrl+C` | Open ChatGPT in Chromium app mode |
-| `Super+Ctrl+Y` | Open YouTube in Chromium app mode |
-| `Super+Ctrl+G` | Open GitHub in Chromium app mode |
-| `Super+E` | Open Files |
-| `Super+Ctrl+V` | Open Visual Studio Code |
-| `Super+Ctrl+S` | Open LocalSend |
-| `Super+Shift+C` | Toggle the system control panel (floating Tmux session) |
-| `Super+Ctrl+,` | Dismiss all Mako notifications |
-
-The Herdr binding always opens a new terminal client. Herdr remains responsible
-for the persistent default session, worktrees, agent state, and restoration.
-Chromium app-mode bindings use the normal Chromium profile and authentication
-state; the repository does not store browser credentials.
+See [keybindings.md](keybindings.md) for the complete application, utility,
+window, workspace, and media bindings. In a normal niri session, `Mod` is the
+Super key.
 
 ## Validation and customization
 
